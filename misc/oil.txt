@@ -1,0 +1,11 @@
+﻿1.Translation concept
+2.Theme management concept
+3.Clear button
+4.Tag concept → for beta?
+5.Undo for inputs
+6.Quick mode → do we need this?
+7.Picture in cards
+8.Look and delete of the cards
+9.RegIn page and logIn page
+10.Tag Cloud control → 12 max, then if each get more then 10 items. - idea
+11.Banner show instead of ajax loaders – idea.

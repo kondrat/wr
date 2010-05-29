@@ -1,0 +1,23 @@
+* About to connect() to translate.google.com port 80 (#0)
+*   Trying 209.85.129.139... * connected
+* Connected to translate.google.com (209.85.129.139) port 80 (#0)
+> POST /translate_a/t? HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.2.1) Gecko/20021204
+Host: translate.google.com
+Accept: */*
+Content-Length: 33
+Content-Type: application/x-www-form-urlencoded
+
+< HTTP/1.1 200 OK
+< Date: Sun, 14 Mar 2010 14:27:38 GMT
+< Expires: Sun, 14 Mar 2010 14:27:38 GMT
+< Cache-Control: private, max-age=86400
+< Content-Type: text/plain; charset=UTF-8
+< Content-Language: ru
+< Set-Cookie: PREF=ID=fa26520ad49768f6:TM=1268576858:LM=1268576858:S=6qqmS6f6Bx51W0xp; expires=Tue, 13-Mar-2012 14:27:38 GMT; path=/; domain=.google.com
+< Server: translation
+< X-XSS-Protection: 0
+< Transfer-Encoding: chunked
+< 
+* Connection #0 to host translate.google.com left intact
+* Closing connection #0

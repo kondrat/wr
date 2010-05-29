@@ -1,0 +1,16 @@
+config/database.php
+config/core.php
+tmp/cache/*
+tmp/cache/models/*
+tmp/cache/persistent/*
+tmp/cache/views/*
+tmp/tests/*
+tmp/sessions/*
+tmp/logs/*
+plugins/*
+webroot/files/**/*
+webroot/img/gallery1/*
+webroot/img/demo/*
+!empty
+!.gitignore
+*~

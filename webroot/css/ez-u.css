@@ -1,0 +1,270 @@
+/*reg - get started*/
+.signUpNow {
+  /*
+	-moz-border-radius-bottomleft:5px;
+	-moz-border-radius-bottomright:5px;
+	-moz-box-shadow:0 1px 4px darkGray;
+	text-shadow:0 1px 0 #FFFFFF;
+	*/
+	float:left;
+	margin:0.5em 1.8em 0.5em 0;
+	background-color:#FF9900;
+	-moz-border-radius: 5px;
+			
+}
+.signUpNow a {
+	color:white;
+	font-weight:bold;
+	font-size:110%;
+	padding:0.3em 1em;
+	display:block;
+	-moz-border-radius: 5px;
+}
+.signUpNow a:hover {
+	/*color: #db605d;
+	text-shadow:1px 1px 1px #fff;
+	*/
+	color:white;
+	background-color:#777;
+			
+}
+
+/* ---------------cur work----------------------*/
+
+.reg {
+	/*width:10em;*/
+}
+.reg a {
+	display:block;
+	border: 1px solid burlyWood;
+	
+	padding: 3px 10px;
+	text-align:center;
+	
+	font-size: 2em;
+	text-decoration:none;
+	font-weight: bold;
+	background-color: #97CD39;
+	color: gray;
+	text-shadow:-1px 1px 0 #eee;
+	background:transparent url(../img/pic/reg.png) repeat-x scroll 0 0;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+}
+.reg a:hover {
+	color: gray;
+	text-shadow:-1px 1px 0 #fff;
+	background-position: 0 -5px;
+}
+/*quick Login Calss*/
+.quickLiginSubmit {
+	margin: 3px 0;
+}
+#UserAutoLogin{
+	top: 0.15em;
+	margin: 0 5px;
+}
+.autoLogin label {
+	color:gray;
+}
+.quickLoginCheckbox label{
+	margin: 4px;
+}
+.quickLoginInner {
+	background-color:#9AE4E8;
+	border:3px solid silver;
+	margin:0 auto;
+	padding:5px 10px 5px 30px;
+	width:224px;
+}
+
+p.quickLoginForPas {
+	margin-bottom: 0;
+}
+
+
+
+/*form classes*/
+
+.inner_page {
+	border:4px solid #CCCCCC;
+	float:left;
+	height:1%;
+	margin:1em 0 0 1em;
+	padding:10px;
+	position:relative;
+	background:transparent url(../img/pic/form_bg.png) repeat-x scroll 0 bottom;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	
+}
+
+.error-message {
+	color:#8A1F11;
+	font-weight:bold;
+	/*margin-left:12em;*/
+	position:absolute;
+	top:20px;
+	left:10px;
+}
+#UserUsername, #UserPassword, #UserPassword1, #UserPassword2,#UserEmail,#UserEmailReset {
+	width: 200px;
+	margin: 0 0 5px;
+	padding: 5px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	float:left;
+}
+
+#UserLoginForm fieldset {
+	width: 212px;
+}
+#UserGroupId {
+	margin: 0;
+} 
+.formWrap label {
+	margin: 0.1em 10px 0 0;
+	float: left;
+	width: 9em;
+	text-align: right;
+	font-size: 16px; 
+	color:gray;
+}
+div.formWrap  {
+	/*background-color: inherit;*/
+	margin: 0;
+	padding: 0 0 1em 0;
+	position:relative;
+	height:1%;
+}
+
+
+div.error {
+	border:none;
+	background:none;
+}
+
+div.formWrap input.form-error {
+	background-color: #FBC2C4;
+}
+
+#checkName {
+	padding: 0 6px;
+	height: 15px;
+	float:left;
+	color:gray;
+}
+#chName img {
+	float:left;
+	margin-right:5px;
+}
+#nameFormTip {
+	padding:5px;
+	float:left;
+	padding:0 0 0 5px;
+	width:255px;
+	color:#ccc;
+}
+
+.greenMessage{
+	margin: 0 0 0 12em;
+	padding: 0;
+	height: 15px;
+}
+
+/*login*/
+
+.signup {
+	z-index: 10;
+	border: 1px solid #ccc;
+	background-color: #efe;	
+	margin: 20px 0 0 0;
+	background-color: #4A4A4A;
+	border: 7px solid #ccc;
+	/*opacity: 0.8;*/
+	/*filter:progid:DXImageTransform.Microsoft.Alpha(opacity=80);*/
+	cursor: move; 
+	height: 70px;
+}
+.innerSignup {
+	background-color:#000000;
+	padding:10px 10px 10px 10px;
+	text-align:center;
+}
+.innerSignup a{
+	/*color:#FF8080;*/
+	color:red;
+	font-weight: bold;
+	text-align: center;
+	text-decoration:none;
+}
+
+.innerSignup a:hover{
+	color:red;
+	text-decoration:underline;
+}  
+
+#UserCaptcha {
+	width: 120px;	
+	margin:0;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	padding:5px;
+}
+
+.capReset {
+	position:relative;
+}
+.capReset img {
+	position:absolute;
+	top:2px;
+}
+.capReset span {
+	cursor:pointer;
+	border-bottom:1px dashed;
+	margin-left:18px;
+}
+
+#capImg {
+	cursor: pointer;
+}
+.capPlace {
+	background-color: #eee;
+	border: 1px solid #7f9db9;
+	width: 142px;
+	height: 60px;
+	float: left;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	padding:2px;
+}
+#logSubmit, #regSubmit {
+	padding: 0 1.3em;
+}
+
+/*flash message*/
+#flashMessage {
+	border-bottom:2px solid #ddd;
+	background-color:bisque;
+	font-size:12pt;
+	font-weight:bold;
+	line-height:2.5em;
+	margin:0px 0 0;
+	overflow:hidden;
+	position:absolute;
+	text-align:center;
+	width:100%;
+	z-index:100;
+	height:0;
+}
+div.fler {
+	color:red;
+}
+div.flok {
+	color:green;
+}
+.fl {	
+	z-index:100;	
+	position:relative;
+}
+
