@@ -1,7 +1,7 @@
 <?php
-class CardsController extends AppController {
+class ItemsController extends AppController {
 
-	var $name = 'Cards';
+	var $name = 'Items';
 	var $publicActions = array('getTransl','saveCard' );
 
 
@@ -10,7 +10,7 @@ class CardsController extends AppController {
   function beforeFilter() {
 
   			//default title
-  			$this->set('title_for_layout', __('Cards',true) );
+  			$this->set('title_for_layout', __('Items',true) );
   			//allowed actions
         $this->Auth->allow('index','view','getTransl','saveCard','add','printset');
 
@@ -79,27 +79,6 @@ class CardsController extends AppController {
                     //$this->debugRes("error","curl_exec failed");
                 }
                
-					/*
-					      //http://www.google.com/dictionary/json?callback=dict_api.callbacks.id100&q=table&sl=en&tl=ru&restrict=pr%2Cde&client=te
-					      
-                curl_close ($ch);
-								
-								$ch1 = curl_init();
-								curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-								curl_setopt($ch1, CURLOPT_URL, "http://www.gstatic.com/dictionary/static/sounds/de/0/".$str);
-                curl_setopt($ch, CURLOPT_HEADER, 0);
-                curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-                curl_setopt($ch, CURLOPT_USERAGENT, $userAgent);
-                curl_setopt($ch, CURLOPT_TIMEOUT, 4);
-								$file = curl_exec($ch1);
-								curl_close ($ch1);
-						 		if($file) {
-									$listen = 0;
-								} else {
-									$listen = 1;
-								}               
-					*/
 				} else {
 					//http://mabp.kiev.ua/2008/08/28/google_translate/comment-page-2/#comments
 
@@ -146,7 +125,7 @@ class CardsController extends AppController {
 	}
 
 		//----------------------------------------------------------------
-			
+/*			
 	function saveCard() {
 		
 		$auth = false;
@@ -173,18 +152,7 @@ class CardsController extends AppController {
 					if ( $authUserId !== null ) {
 						
 						$auth = true;
-					
-						//current theme fetching
-						/*
-						$currentThemeId = $this->Card->Theme->find('first',array(
-								'conditions'=> array('Theme.user_id' => $authUserId ),
-								'fields' => array('Theme.id'),
-								'order' => array('Theme.current_theme DESC'),
-								'contain' => false
-							)							
-						);
-						*/
-						//if( $currentThemeId == array() || $currentThemeId['Theme']['id'] == null ) {
+				
 									
 									$this->data['Theme']['id'] = $this->data['Theme']['id'];
 									
@@ -282,6 +250,7 @@ class CardsController extends AppController {
 			
 					
 	}
+*/
 				//blackhole redirection
 				//-----------------------------
 				function gotov() {	
@@ -289,43 +258,7 @@ class CardsController extends AppController {
 				}	
 //--------------------------------------------------------------------
 	function index() {
-		
-		$lastCards = array();
-		$curTheme = array();
-		$authUserId = $this->Auth->user('id');
-		
-		
-	
-		if ( $authUserId != null ) {
-
-			$curTheme = $this->Card->Theme->find('all', array(
-					'conditions' => array('Theme.user_id' => $this->Auth->user('id') ),
-					'fields' => array('Theme.theme'),
-					'order' => array('Theme.current_theme DESC'),
-					'limit' => 1,
-					'contain' => array('Card' => array(
-																							'fields' => array('Card.word'),
-																							'limit'=> 10,
-																							'order'=>'Card.id DESC'
-																						)
-														)
-				)			
-			);
-		
-		}
-
-		$allThemes = $this->Card->Theme->find('list', array(
-					'conditions' => array('Theme.user_id' => $this->Auth->user('id') ),
-					'fields' => array('Theme.id','Theme.theme'),
-					'order' => array('Theme.id DESC'),
-					'contain' => false
-			)
-		);
-
-		$this->set('curTheme', $curTheme);
-		
-		$this->set('allThemes',$allThemes);
-		
+    
 		
 	}
 //--------------------------------------------------------------------

@@ -82,6 +82,7 @@ class User extends AppModel {
   );
   
 	var $hasMany = array(
+	/*
 		'Theme' => array(
 			'className' => 'Theme',
 			'foreignKey' => 'user_id',
@@ -97,6 +98,7 @@ class User extends AppModel {
 			'foreignKey' => 'user_id',
 			'dependent' => false
 		)
+		*/
 	);  
 
 /*

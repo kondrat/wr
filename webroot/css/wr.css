@@ -1,0 +1,82 @@
+/*header*/
+.pageheader{
+	border-bottom:3px solid #ddd;
+	background:#FCFCFC url(../img/pic/header_bg.png) repeat-x scroll 0 100%;
+	min-width:75em;
+	position: relative;
+
+}
+
+.contentWrapper{
+	padding-bottom:1em;
+	position:relative;
+	min-height:450px;
+}
+
+
+/*footer*/
+.pagefooter {
+	background:#BBCCD9 url(../img/pic/footer_bg.png) repeat-x scroll 0 0;
+	color:#CCCCCC;
+	height:808px;
+	overflow:hidden;
+}
+.footerNote{
+	margin-top:1em;
+}
+.footerNote a{
+	color:inherit;
+}
+/*main part*/
+#newItem{
+  padding:1em 0 2em 1em;
+}
+.newItem {
+  -moz-border-radius:10px;
+  background-color:AntiqueWhite;
+  border:2px solid;
+  color:red;
+  font-size:20pt;
+  text-align:center;
+  width:70px;
+  line-height:1.2em;
+  padding:0 0.3em;
+}
+.targetItem{
+  background-color:lightgray;
+  text-align:center;
+}
+.textItem{
+  background-color:lightyellow;
+  border-bottom:1px dashed;
+  padding:0 0 0 1em;
+}
+.typeItem{
+  background-color:AntiqueWhite;
+  border:2px solid SaddleBrown;
+  color:SaddleBrown;
+  text-align:center;
+}
+.statusItem {
+  color:blue;
+  font-style:italic;
+}
+.newItemForm {
+  margin-bottom:2em;
+}
+#newItemForm{
+  background-color:AliceBlue;
+  border:1px solid;
+  padding:1em;
+}
+#item {
+  width:450px;
+}
+
+
+
+
+
+
+
+

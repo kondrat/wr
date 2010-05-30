@@ -10,12 +10,12 @@
 
 	
 		echo $html->meta('icon');
-		echo $html->css(array('ez','ez-u','screen'));
+		echo $html->css(array('wr','wr-u','screen'));
 
 		//echo $html->css('print');
 		echo '<!--[if IE]>';
 		echo $html->css('ie');
-		echo $html->css('ez-ie');
+		echo $html->css('wr-ie');
 		echo '<![endif]-->';
 		$userReg = ($this->Session->read('Auth.User.id'))? 1:0;
 		echo $html->scriptBlock(
@@ -57,9 +57,7 @@
 						<div class="span-16 ">
 							<div style="float:left;margin:0.8em 0 0 2em;">
 								<?php echo $html->link($html->image(
-																										'pic/ez-logo-24-dev.png'
-																										//'pic/ez-logo-50-w.png'
-																										//'pic/ez-logo-50-3.png'
+																										'pic/wr-logo-24-dev.png'
 																										), array('controller'=>'cards','action'=>'index'),array('escape'=>false) );?> 
 							</div>
 						</div>
@@ -77,15 +75,7 @@
 											<?php echo $html->link(__('LogOut now',true), array('controller'=>'users','action'=>'logout') );?>
 										<?php endif ?>
 									</div>	
-									<div style="color:gray;margin:.1em;position:absolute;top:10px;left:-270px;background-color:lightgrey;padding:0 .5em;">
-										<?php echo $html->link(__('tempLogOut',true), array('controller'=>'users','action'=>'logout'),array('class'=>'tempLogOut','style'=>'background-color:#fff') );?>
-										&nbsp;
-										<?php echo $html->link('fill_1',array(),array('id'=>'fill_1','onclick'=>'return false','style'=>'background-color:#fff') );?>
-										<?php echo $html->link('fill_2',array(),array('id'=>'fill_2','onclick'=>'return false','style'=>'background-color:#fff') );?>
-										<?php echo $html->link('fill_3',array(),array('id'=>'fill_3','onclick'=>'return false','style'=>'background-color:#fff') );?>
-										<?php echo $html->link('clean',array(),array('id'=>'fill_clean','onclick'=>'return false','style'=>'background-color:#fff') );?>
-										<?php echo $html->link('cardEditor',array(),array('id'=>'show_card_table','onclick'=>'return false','style'=>'background-color:#fff') );?>
-									</div>
+
 							</div>
 						</div>
 					</div>
@@ -115,7 +105,7 @@
 					
 			    <div class="span-24">
 			    	<div class="footerNote">
-		      	 <?php echo $html->link('www.englishCARDS.ru',array('controller'=>'cards','action'=>'index'));?> &copy;<?php echo date('Y');?>
+		      	 <?php echo $html->link('www.workroll.ru',array('controller'=>'cards','action'=>'index'));?> &copy;<?php echo date('Y');?>
 		      	</div>
 		   		</div>
 		   		
