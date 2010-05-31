@@ -1,10 +1,13 @@
 <div id="newItem" class="span-24">
-  <div class="span-4">
-    <div class="newItem">New</div>
-   </div>
-   <div class="span-10">My project</div>
+  	<div class="span-4">
+    	<div class="newItem">New<span>task</span></div>
+   	</div>
+		<div class="span-10">My project</div>
+		<div class="span-10 last">
+   		<?php __('today');?>:&nbsp;<?php echo Date('d-m-Y');?>&nbsp;|&nbsp;<?php __('Week');?>:&nbsp;<?php echo Date('W');?>
+		</div>
 </div>
-<div class="newItemForm span-24">
+<div class="newItemForm span-24 hide">
   <div id="newItemForm">
     <div style="border-bottom:1px solid #CCCCCC;margin-bottom:1em;padding:0.5em;">
       <?php echo $form->dateTime('target','DMY', 'none',null, array('empty' => false) );?>

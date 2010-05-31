@@ -38,9 +38,14 @@
   color:red;
   font-size:20pt;
   text-align:center;
-  width:70px;
+  width:85px;
   line-height:1.2em;
   padding:0 0.3em;
+}
+.newItem span{
+	font-size:small;
+	vertical-align:top;
+	margin-left:0.5em;
 }
 .targetItem{
   background-color:lightgray;

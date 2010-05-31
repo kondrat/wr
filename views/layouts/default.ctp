@@ -3,7 +3,7 @@
 <head>
 	<?php echo $html->charset(); ?>
 	<title>
-		<?php __('Ez.go:'); ?>
+		<?php __('Wr.go:'); ?>
 		<?php echo $title_for_layout; ?>
 	</title>
 	<?php
@@ -29,20 +29,15 @@
 															'jquery/jquery.ui.core.min',
 															'jquery/jquery.ui.widget.min',
 															//'jquery/jquery.ui.tabs.min',
-															'jquery/jquery.ui.mouse.min.js',
-															'jquery/jquery.ui.draggable.min',
+															//'jquery/jquery.ui.mouse.min.js',
+															//'jquery/jquery.ui.draggable.min',
 															'dev/jquery.coloranim',
 															'dev/func',
 															'dev/common1',
-															'dev/common2',
-															'dev/common3',
-															'dev/print',
+															//'dev/common2',
+															//'dev/common3',
 															'dev/reg',
-															'dev/tempToDel',
-															'localization/messages_ru',
-															//'sound/soundmanager2',
-															'sound/soundmanager2-nodebug-jsmin',
-															'sound/sound'
+															'localization/messages_ru'
 															));
 
 		echo $scripts_for_layout;
@@ -58,7 +53,7 @@
 							<div style="float:left;margin:0.8em 0 0 2em;">
 								<?php echo $html->link($html->image(
 																										'pic/wr-logo-24-dev.png'
-																										), array('controller'=>'cards','action'=>'index'),array('escape'=>false) );?> 
+																										), array('controller'=>'items','action'=>'index'),array('escape'=>false) );?> 
 							</div>
 						</div>
 						<div class="span-8 last" style="position:relative;" >
@@ -105,7 +100,7 @@
 					
 			    <div class="span-24">
 			    	<div class="footerNote">
-		      	 <?php echo $html->link('www.workroll.ru',array('controller'=>'cards','action'=>'index'));?> &copy;<?php echo date('Y');?>
+		      	 <?php echo $html->link('www.workroll.ru',array('controller'=>'items','action'=>'index'));?> &copy;<?php echo date('Y');?>
 		      	</div>
 		   		</div>
 		   		
