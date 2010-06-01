@@ -1,19 +1,19 @@
 <?php 
 	$items = array(
-	__('Type in word or phrase',true) => array('controller'=>'cards','action'=>'index'),
-	__('Upload text and select',true) => array('controller'=>'texts','action'=>'add'),
-	__('Print out your set',true) => array('controller'=>'cards','action'=>'printset'),
+	__('Diary',true) => array('controller'=>'items','action'=>'diary'),
+	__('ToDo',true) => array('controller'=>'items','action'=>'todo'),
+	__('Notes',true) => array('controller'=>'items','action'=>'note'),
 	); 
 	$here = Router::url(substr($this->here, strlen($this->webroot)-1)); 
 ?>                    
 
-<div class="prepend-4 span-20 last threeWays">
+<div id="threeWays" class="span-8">
 	<?php foreach ($items as $name => $link): ?>
-		<div class="topT">
+		<div class="span-2">
 			<?php if (Router::url($link) == $here): ?>
-				<?php echo $html->link($name,$link,array('class'=>'threeWaysHere','style'=>'color:red;cursor:text;','onclick' => 'return false') );?>
+				<?php echo $html->link($name,$link,array('id'=>'threeWaysHere','onclick' => 'return false') );?>
 			<?php else: ?>
-				<span style="font-style:italic;"><?php __('or');?></span>&nbsp;&nbsp;
+				
 				<?php echo $html->link($name,$link,array('class'=>'threeWaysOne') );?>
 			<?php endif ?>
 		</div>

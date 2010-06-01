@@ -1,6 +1,6 @@
-<div class="inner_page">
+<div class="inner_page span-16">
 	
-		<h3 style="color:#db605d;"><?php __('Sign in to englishCARDS.ru');?></h3>
+		<h3 style="color:#db605d;"><span style="color:gray;font-size:small;"><?php __('Sign in to');?></span> workroll.ru</h3>
 		
 		<?php echo $form->create('User', array('action' => 'login' ) ); ?>
 		

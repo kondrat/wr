@@ -49,15 +49,15 @@
 
 			<div class="container">
 				<div class="span-24">
-						<div class="span-16 ">
+						<div class="span-12 prepend-1">
 							<div style="float:left;margin:0.8em 0 0 2em;">
 								<?php echo $html->link($html->image(
 																										'pic/wr-logo-24-dev.png'
 																										), array('controller'=>'items','action'=>'index'),array('escape'=>false) );?> 
 							</div>
 						</div>
-						<div class="span-8 last" style="position:relative;" >
-							<div class="topSearch" style="margin-top:0px;">
+						<div class="span-5" style="position:relative;" >
+							
 									<div class="signUpNow">
 										<?php if(!$this->Session->read('Auth.User.id')|| $this->Session->read('Auth.User.group_id') == 2 ): ?>
 											<?php echo $html->link(__('SignUp now',true), array('controller'=>'users','action'=>'reg') );?>
@@ -71,7 +71,7 @@
 										<?php endif ?>
 									</div>	
 
-							</div>
+							
 						</div>
 					</div>
 
@@ -88,7 +88,7 @@
 				  <?php echo $session->flash();?>
 			  </div>
 		
-		    <div class="span-24 contentWrapper" style="">
+		    <div class="span-23 prepend-1 last contentWrapper" style="">
 		    			<?php echo $this->element('noscript/noscript');?>	        
 							<?php echo $content_for_layout; ?>		        
 		    </div>

@@ -2,7 +2,7 @@
 class ItemsController extends AppController {
 
 	var $name = 'Items';
-	var $publicActions = array('getTransl','saveCard' );
+	var $publicActions = array('saveItem' );
 
 
 //--------------------------------------------------------------------
@@ -31,108 +31,16 @@ class ItemsController extends AppController {
 
 //--------------------------------------------------------------------
 	//ajax staff
-		//----------------------------------------------------------------
-
-	function getTransl() {
-			Configure::write('debug', 0);
-			$this->autoLayout = false;
-			$this->autoRender = false;
-			
-			if ( $this->RequestHandler->isAjax() ){
-
-				if (strpos(env('HTTP_REFERER'), trim(env('HTTP_HOST'), '/')) === false) {
-					$this->Security->blackHoleCallback = 'gotov';
-				}
-				//main staff
-				
-				
-						$str= urlencode($this->data['Card']['ext']);
-					 	$from=urlencode($this->data['Card']['langFrom']);
-					 	$to=urlencode($this->data['Card']['langTo']);
-				    $userAgent = "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.2.1) Gecko/20021204";
-         		 
-        //$fpEr = fopen(dirname(__FILE__).'/errorlog.txt', 'w'); 
-         
-				if (@function_exists("curl_init")) {
-				
-                // allways use curl if available for performance issues
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_VERBOSE, 0);
-                curl_setopt($ch, CURLOPT_URL, "http://translate.google.com/translate_a/t?");
-                curl_setopt($ch, CURLOPT_HEADER, 0);
-                curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-
-                curl_setopt($ch, CURLOPT_USERAGENT, $userAgent);
-                curl_setopt($ch, CURLOPT_TIMEOUT, 4);
-                
-                curl_setopt($ch, CURLOPT_POST, 1);  
-                curl_setopt($ch, CURLOPT_POSTFIELDS, "client=t&sl=".$from."&tl=".$to."&text=".$str );
-               
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                
-                //curl_setopt($ch, CURLOPT_STDERR, $fpEr); 
-                
-                if (!($contents = trim(@curl_exec($ch)))) {
-                  echo 'ploho';
-                  exit;
-                    //$this->debugRes("error","curl_exec failed");
-                }
-               
-				} else {
-					//http://mabp.kiev.ua/2008/08/28/google_translate/comment-page-2/#comments
-
-					$fp = fsockopen("www.google.com", 80, $errno, $errstr, 30);
-					if (!$fp) {
-						trigger_error("$errstr ($errno) \n", E_USER_WARNING);
-						return "";
-					} else {
-						$text = "text=".urlencode($str);
-						$out = "POST /translate_a/t?client=t&sl=".$from."&tl=".$to." HTTP/1.1\r\n";
-						$out .= "Host: www.google.com\r\n";
-						$out .= "User-Agent: {$userAgent}\r\n";
-						$out .= "Accept-Encoding: deflate\r\n";
-						$out .= "Content-length: ".strlen($text)."\r\n";
-						$out .= "Connection: Close\r\n\r\n";
-						$out .= $text;
-				
-				
-						fputs($fp, $out);
-						$res = "";
-						while (!feof($fp)) {
-							$res .=  fgets($fp, 1024);
-						}
-						fclose($fp);
-					}
-				  				  
-					$res = explode("\r\n\r\n",$res);
-					$res = explode("\r\n",$res[1]);	
-			
-					$contents =  $res[0];
-
-				}				
-	
-					$this->header('Content-Type: application/json');				
-					return ($contents);
-					
-								
-			} else {				
-				$this->Security->blackHoleCallback = 'gotov';		
-			}
-			
-			
-					
-	}
 
 		//----------------------------------------------------------------
-/*			
-	function saveCard() {
+			
+	function saveItem() {
 		
 		$auth = false;
 		$currentThemeId = array();
 		$newThemeId = null;
 		$authUserId = null;
-		$contents['theme'] = 0;
+		$contents['proj'] = 0;
 		
 		//ajax preparation
 		Configure::write('debug', 0);
@@ -152,32 +60,27 @@ class ItemsController extends AppController {
 					if ( $authUserId !== null ) {
 						
 						$auth = true;
-				
+
+									$this->data['Item']['item'];
+									$this->data['Item']['status'];
 									
-									$this->data['Theme']['id'] = $this->data['Theme']['id'];
 									
-									$this->data['Theme']['theme'] = $this->data['Theme']['theme'];
 									
-									$this->data['Theme']['user_id'] = $authUserId;
-												
-									//creating of the first theme
-									if( $this->Card->Theme->save($this->data) ) {									
-										$newThemeId = $this->Card->Theme->id;
-										$this->data["Card"]["theme_id"] = $newThemeId;										
+									$this->data['Item']['hour'];
+									$this->data['Item']['min'];									
+									$this->data['Item']['user_id'] = $authUserId;
+									$this->data['Item']['target'] = $this->data['Item']['year'].'-'.$this->data['Item']['month'].'-'.$this->data['Item']['day'];
+										
+								//toDel		
+									//creating of the first proj
+									/*
+									if( $this->Item->save($this->data) ) {									
+										$newProjId = $this->Card->Theme->id;
+										$this->data["Card"]["theme_id"] = $newProjId;										
 									}else{
 										//report server problem
-									}							
-						
-					//	} else {
-					//		$this->data['Card']['theme_id'] = $currentThemeId['Theme']['id'];
-					//	}
-						
-						
-						
-						$this->data["Card"]["user_id"] = $authUserId;
-						
-
-						
+									}		
+									*/					
 					}
 					
 
@@ -193,7 +96,7 @@ class ItemsController extends AppController {
 							$this->data['User']['group_id'] = 2;
 							$this->data['User']['password'] = 1234;
 							
-							
+							/*
 							if ( $this->Card->User->save($this->data, array('validate' => false) ) ) {
 								
 									$a = $this->Card->User->read(array('id','username','password'));
@@ -221,7 +124,7 @@ class ItemsController extends AppController {
 							} else {
 								//report server problem
 							}						
-						
+							*/
 					} 
 
 				
@@ -230,9 +133,9 @@ class ItemsController extends AppController {
 									
 				
 
-					if( $this->Card->save($this->data) ) {
+					if( $this->Item->save($this->data) ) {
 						$contents['stat'] = 1;
-						$contents['word'] = $this->data["Card"]["word"];
+						$contents['word'] = $this->data["Item"]["item"];
 					} else {
 						$contents['stat'] = 0;
 					}
@@ -250,7 +153,7 @@ class ItemsController extends AppController {
 			
 					
 	}
-*/
+
 				//blackhole redirection
 				//-----------------------------
 				function gotov() {	
@@ -262,12 +165,34 @@ class ItemsController extends AppController {
 		
 	}
 //--------------------------------------------------------------------
-	function printset() {
+	function todo() {
+		$todos = array();
+		$authUserId = $this->Auth->user('id');
+		
+		$todos = $this->Item->find('all', array(
+																					'conditions'=>array('Item.user_id'=> $authUserId ),
+																					'order'=> array('Item.target' => 'DESC'),
+																					'contain'=>false) 
+															);
+		
+		$this->set('todos',$todos);
+		/*
+		if ($todos !== array()){
+			
+		} else {
+			$return
+		}
+		*/
+	}
+//--------------------------------------------------------------------
+	function diary() {
 
 	}
 //--------------------------------------------------------------------
+	function note() {
 
-
+	}
+//--------------------------------------------------------------------
 
 
 
