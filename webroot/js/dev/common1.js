@@ -6,7 +6,10 @@ jQuery(document).ready(function(){
 			targetMonth: $("#targetMonth"),
 			targetYear: $("#targetYear"),
 			hourHour: $("#hourHour"),
-			minuteMin: $("#minuteMin")
+			minuteMin: $("#minuteMin"),
+			newPrj: $("#newPr"),
+			curPrjId: 0,
+			curPrj: $("#curPrj")
 		};
 
 		  
@@ -28,6 +31,7 @@ jQuery(document).ready(function(){
 	    var itemObj = {
 	    								"data[Item][item]": com1.item.val(),
 	    								"data[Item][status]" : com1.statusItem.val(),
+	    								"data[Item][project_id]" : com1.curPrjId,
 	    								"data[Item][day]" : com1.targetDay.val(),
 	    								"data[Item][month]" : com1.targetMonth.val(),
 	    								"data[Item][year]" : com1.targetYear.val(),
@@ -56,6 +60,7 @@ jQuery(document).ready(function(){
         },
         error: function(){
             $('.tempTest').html('Problem with the server. Try again later.');
+            alert('Problem with the server. Try again later.');
         }
       });
     }); 
@@ -71,6 +76,69 @@ jQuery(document).ready(function(){
 	});
 	$("#timeToggle").click(function(){
 		$(this).next().toggle();
+		
 	}); 
+
+	$("#newProject").click(function(){
+		$("#projectEditor").toggle('fast');
+		return false;
+	});
+
+
+  $("#newPrSave").click(function(){
+		
+ 	
+    var prjObj = {
+    								"data[Prj][name]": com1.newPrj.val()
+    							};
+  							
+    $.ajax({
+      type: "POST",
+      url: path+"/projects/savePrj",
+      dataType: "json",
+      data: prjObj,
+      success: function(data) {
+				
+      	if ( data.stat === 1 ) {        		
+					com1.curPrjId = data.prj.id;
+					com1.curPrj.text(data.prj.name);
+        	flash_message('saved','flok');
+        	
+        } else {
+        	flash_message('not saved','fler');
+        }
+        
+        
+      },
+      error: function(){
+          $('.tempTest').html('Problem with the server. Try again later.');
+          alert('Problem with the server. Try again later.');
+      }
+    });
+  }); 
+
+
+	$("#newPrCancel").click(function(){
+		com1.newPrj.val('');
+		$("#projectEditor").toggle('fast');
+	});
+
+
+
+
+  
+  //more decorations
+	  $(".item").live("mouseover mouseout", function(event){
+				  if (event.type == 'mouseover') {
+				    $(this).addClass("activeItem");
+				  } else if (event.type == 'mouseout' ) {
+				    $(this).removeClass("activeItem");
+				  }	
+		});
+ 
+ 
+ 
+ 
+ 
   
 });

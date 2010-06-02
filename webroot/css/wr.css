@@ -90,7 +90,6 @@
 }
 #threeWays{
 	font-size:large;
-	margin-top:1em;
 }
 #threeWays a{
 	text-decoration:none;
@@ -99,13 +98,35 @@
 .item{
 	margin-bottom:0.4em;
 	padding:3px 0 3px 10px;
+	border:1px solid #eee;
+}
+.activeItem{
+	border-color:#eee;
+	background-color:#eee
 }
 a#threeWaysHere{
 	border:none;
 	color:brown;
 	cursor:text;
 }
-
+.newProject{
+	position:relative;
+}
+#projectEditor{
+	-moz-border-radius:10px 10px 10px 10px;
+	-moz-box-shadow:0 0 7px gray;
+	background-color:SeaShell;
+	border:1px solid #EEEEEE;
+	left:80px;
+	padding:1em;
+	position:absolute;
+	top:10px;
+}
+#newPr{
+	-moz-border-radius:5px;
+	padding:5px;
+}
+	
 
 
 

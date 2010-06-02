@@ -98,7 +98,7 @@
 			<div class="container">
 				<div class="span-24">
 					
-			    <div class="span-24">
+			    <div class="span-22 prepend-1">
 			    	<div class="footerNote">
 		      	 <?php echo $html->link('www.workroll.ru',array('controller'=>'items','action'=>'index'));?> &copy;<?php echo date('Y');?>
 		      	</div>

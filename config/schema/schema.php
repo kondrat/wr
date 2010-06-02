@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* App schema generated on: 2010-06-01 21:06:44 : 1275415124*/
+/* App schema generated on: 2010-06-02 22:06:58 : 1275502378*/
 class AppSchema extends CakeSchema {
 	var $name = 'App';
 
@@ -25,6 +25,17 @@ class AppSchema extends CakeSchema {
 		'task' => array('type' => 'string', 'null' => true, 'default' => '0'),
 		'status' => array('type' => 'string', 'null' => true, 'default' => '0'),
 		'target' => array('type' => 'date', 'null' => true, 'default' => NULL),
+		'pos' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+	);
+	var $projects = array(
+		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
+		'user_id' => array('type' => 'integer', 'null' => true, 'default' => '0'),
+		'name' => array('type' => 'string', 'null' => true, 'default' => '0'),
+		'current' => array('type' => 'integer', 'null' => true, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),

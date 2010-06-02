@@ -1,8 +1,8 @@
 <?php
-class ItemsController extends AppController {
+class ProjectsController extends AppController {
 
-	var $name = 'Items';
-	var $publicActions = array('saveItem' );
+	var $name = 'Projects';
+	var $publicActions = array('savePrj');
 
 
 //--------------------------------------------------------------------
@@ -10,9 +10,9 @@ class ItemsController extends AppController {
   function beforeFilter() {
 
   			//default title
-  			$this->set('title_for_layout', __('Items',true) );
+  			$this->set('title_for_layout', __('Projects',true) );
   			//allowed actions
-        $this->Auth->allow('index','view','getTransl');
+        $this->Auth->allow('index');
 
         parent::beforeFilter(); 
         $this->Auth->autoRedirect = false;
@@ -34,16 +34,10 @@ class ItemsController extends AppController {
 
 		//----------------------------------------------------------------
 			
-	function saveItem() {
-		
-		$auth = false;
-		$currentThemeId = array();
-		$newThemeId = null;
-		$authUserId = null;
-		$contents['proj'] = 0;
+	function savePrj() {
 		
 		//ajax preparation
-		//Configure::write('debug', 0);
+		Configure::write('debug', 0);
 		$this->autoLayout = false;
 		$this->autoRender = false;
 			
@@ -57,85 +51,17 @@ class ItemsController extends AppController {
 				//main staff
 					$authUserId = $this->Auth->user('id');
 					
-					if ( $authUserId !== null ) {
-						
-						$auth = true;
-
-									$this->data['Item']['item'];
-									$this->data['Item']['status'];
-									
-									
-									
-									$this->data['Item']['hour'];
-									$this->data['Item']['min'];									
-									$this->data['Item']['user_id'] = $authUserId;
-									$this->data['Item']['target'] = $this->data['Item']['year'].'-'.$this->data['Item']['month'].'-'.$this->data['Item']['day'];
-										
-								//toDel		
-									//creating of the first proj
-									/*
-									if( $this->Item->save($this->data) ) {									
-										$newProjId = $this->Card->Theme->id;
-										$this->data["Card"]["theme_id"] = $newProjId;										
-									}else{
-										//report server problem
-									}		
-									*/					
+					if ( $authUserId !== null ) {						
+						$this->data['Project']['name']= trim($this->data['Prj']['name']);		
+						$this->data['Project']['current'] = time();			
+						$this->data['Project']['user_id'] = $authUserId;
 					}
 					
 
-					//not reg yet.
-					if( !$auth  ) {
-						
-							//no data about user in db. So we reg it in.
-							$key = 'guest_'.md5(uniqid(rand(), true));
-							//$this->Cookie->write('guestKey',$key, false, '360 days');	
-							
-							//we reg the guest as a temp user
-							$this->data['User']['username'] = $key;
-							$this->data['User']['group_id'] = 2;
-							$this->data['User']['password'] = 1234;
-							
-							/*
-							if ( $this->Card->User->save($this->data, array('validate' => false) ) ) {
-								
-									$a = $this->Card->User->read(array('id','username','password'));
-									//$a['User']['auto_login'] = 1;
-																	
-									$this->Auth->login($a);	
-	
-									$this->data["Card"]["user_id"] = $a['User']['id'];
-															
-									$this->data['Theme']['theme'] = $this->data['Theme']['theme'];
-									$this->data['Theme']['user_id'] = $a['User']['id'];
-									$this->data['Theme']['current_theme'] = time();
-									
-									//creating of the first theme
-									if( $this->Card->Theme->save($this->data) ) {									
-										$newThemeId = $this->Card->Theme->id;
-										$this->data["Card"]["theme_id"] = $newThemeId;
-										$contents['theme'] = 1;	
-										$contents['themeName'] = $this->data['Theme']['theme'];
-										$contents['themeId'] = $newThemeId;									
-									}else{
-										//report server problem
-									}	
-																					
-							} else {
-								//report server problem
-							}						
-							*/
-					} 
-
-				
-				
-
-									
-				
-
-					if( $this->Item->save($this->data) ) {
+					if( $this->Project->save($this->data) ) {
 						$contents['stat'] = 1;
-						$contents['word'] = $this->data["Item"]["item"];
+						$contents['prj']['name'] = $this->data['Project']['name'];
+						$contents['prj']['id'] = $this->Project->id;
 					} else {
 						$contents['stat'] = 0;
 					}
@@ -162,39 +88,6 @@ class ItemsController extends AppController {
 //--------------------------------------------------------------------
 	function index() {
 		
-    if ($authUserId = $this->Auth->user('id') ) {
-    	//$this->redirect(array('controller'=>'items','aciotn'=>'todo'));
-    	$this->redirect(array('action' => 'todo'));
-    }
-		
-	}
-//--------------------------------------------------------------------
-	function todo() {
-		$todos = array();
-		$authUserId = $this->Auth->user('id');
-		
-		$todos = $this->Item->find('all', array(
-																					'conditions'=>array('Item.user_id'=> $authUserId ),
-																					'order'=> array('Item.target' => 'DESC'),
-																					'contain'=>false) 
-															);
-		
-		$this->set('todos',$todos);
-		/*
-		if ($todos !== array()){
-			
-		} else {
-			$return
-		}
-		*/
-	}
-//--------------------------------------------------------------------
-	function diary() {
-
-	}
-//--------------------------------------------------------------------
-	function note() {
-
 	}
 //--------------------------------------------------------------------
 
