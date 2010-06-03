@@ -1,13 +1,14 @@
 /*reg - get started*/
 .signUpNow {
 	float:left;
-	margin:0.5em 1.8em 0.5em 0.7em;		
+	margin:0.5em 1em 0.5em 0;		
 }
 .signUpNow a {
 
 	font-size:110%;
 	color:gray;
 	display:block;
+	padding:0 0.4em;
 
 }
 .signUpNow a:hover {

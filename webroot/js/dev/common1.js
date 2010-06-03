@@ -136,7 +136,7 @@ jQuery(document).ready(function(){
 			
 				$("#itemPages").html(data);
 				},
-				 url:"\/wr.go\/items\/todo\/page:1"
+				 url: path+"\/items\/todo\/page:1"
 		});
 		return false;
 	});
@@ -150,7 +150,7 @@ jQuery(document).ready(function(){
 
 				$("#itemPages").html(data);
 				},
-				 url:"\/wr.go\/items\/todo\/prj:"+pObj.prjId+"\/page:1"
+				 url: path+"\/items\/todo\/prj:"+pObj.prjId+"\/page:1"
 		});
 		return false;
 	});
