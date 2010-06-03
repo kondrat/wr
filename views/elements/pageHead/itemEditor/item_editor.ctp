@@ -1,5 +1,5 @@
 <div id="newItemForm" class="newItemForm span-17 hide">  
-    <div style="border-bottom:1px solid #CCCCCC;margin-bottom:1em;padding:0.5em;">
+    <div style="">
       <div class="span-8 append-6">
       	<?php echo $form->dateTime('target','DMY', 'none',null, array('empty' => false) );?>
       	<span id="timeToggle"><?php echo $html->image('icons/alert.png',array("style"=>"vertical-align:text-bottom"));?></span>

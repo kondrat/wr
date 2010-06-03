@@ -125,6 +125,37 @@ jQuery(document).ready(function(){
 
 
 
+	$("#allItems").bind("click", function (event) {
+		
+		$("#curPrj").removeClass("activePrj");
+		$("#allPrj").addClass("activePrj");
+		
+		$.ajax({
+			dataType:"html",
+			success:function (data, textStatus) {
+			
+				$("#itemPages").html(data);
+				},
+				 url:"\/wr.go\/items\/todo\/page:1"
+		});
+		return false;
+	});
+	
+	$("#prjItems").bind("click", function (event) {
+				$("#allPrj").removeClass("activePrj");
+				$("#curPrj").addClass("activePrj");
+		$.ajax({
+			dataType:"html",
+			success:function (data, textStatus) {
+
+				$("#itemPages").html(data);
+				},
+				 url:"\/wr.go\/items\/todo\/prj:"+pObj.prjId+"\/page:1"
+		});
+		return false;
+	});
+
+
 
   
   //more decorations

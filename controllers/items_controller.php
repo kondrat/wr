@@ -170,23 +170,41 @@ class ItemsController extends AppController {
 	}
 //--------------------------------------------------------------------
 	function todo() {
+
 		$todos = array();
 		$authUserId = $this->Auth->user('id');
-		
-		$todos = $this->Item->find('all', array(
-																					'conditions'=>array('Item.user_id'=> $authUserId ),
-																					'order'=> array('Item.target' => 'DESC'),
-																					'contain'=>false) 
-															);
-		
-		$this->set('todos',$todos);
-		/*
-		if ($todos !== array()){
-			
+		$pagItemCond = array();
+
+				
+		$this->paginate['limit'] = 5;
+		$this->paginate['contain'] = false;
+
+		if ( isset($this->params['named']['prj']) && (int)$this->params['named']['prj'] != 0 ) {
+			$pagItemCond = array('Item.user_id'=> $authUserId , 'Item.project_id'=> $this->params['named']['prj'] );
 		} else {
-			$return
+			$pagItemCond = array('Item.user_id'=> $authUserId );
 		}
-		*/
+		$this->paginate['conditions'] = $pagItemCond;
+
+		
+		$this->set('todos',$this->paginate('Item') );
+
+		if( $this->RequestHandler->isAjax() && isset($this->params['named']['page'])  ) {
+			Configure::write('debug', 0);
+			$this->autoLayout = false;
+			$this->render('ajax_item');
+			return;
+		}
+		
+		
+		$curPrj = $this->Item->Project->find('first', array(
+																												'conditions'=> array('Project.user_id'=> $authUserId ),
+																												'fields'=> array('id','name'),
+																												'order'=> array('current'=>'DESC'),
+																												'contain'=>false)
+																				);		
+		$this->set('curPrj',$curPrj);
+
 	}
 //--------------------------------------------------------------------
 	function diary() {

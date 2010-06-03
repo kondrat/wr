@@ -50,7 +50,7 @@
 			<div class="container">
 				<div class="span-24">
 						<div class="span-12 prepend-1">
-							<div style="float:left;margin:0.8em 0 0 2em;">
+							<div style="float:left;margin:5px 0 5px 1em;">
 								<?php echo $html->link($html->image(
 																										'pic/wr-logo-24-dev.png'
 																										), array('controller'=>'items','action'=>'index'),array('escape'=>false) );?> 
