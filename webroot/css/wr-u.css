@@ -1,6 +1,4 @@
-
-/* ---------------cur work----------------------*/
-
+/*signUp button in login form*/
 .reg {
 	/*width:10em;*/
 }
@@ -26,6 +24,7 @@
 	text-shadow:-1px 1px 0 #fff;
 	background-position: 0 -5px;
 }
+
 /*quick Login Calss*/
 .quickLiginSubmit {
 	margin: 3px 0;
@@ -74,11 +73,8 @@ p.quickLoginForPas {
 .error-message {
 	color:#8A1F11;
 	font-weight:bold;
-	/*margin-left:12em;*/
-	position:absolute;
-	top:20px;
-	left:10px;
 }
+
 #UserUsername, #UserPassword, #UserPassword1, #UserPassword2,#UserEmail,#UserEmailReset {
 	width: 200px;
 	margin: 0 0 5px;

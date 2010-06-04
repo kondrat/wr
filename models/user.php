@@ -15,36 +15,36 @@ class User extends AppModel {
 												'alphaNumeric' => array( 
 																							'rule' => 'alphaNumeric',
 																							'required' => true,
-																							'message' => 'Usernames must only contain letters and numbers.'
+																							//'message' => 'Usernames must only contain letters and numbers.'
 																							),
 												
 												'betweenRus' => array(
 																							'rule' => array( 'betweenRus', 2, 15, 'username'),
-																							'message' => 'Username must be between 2 and 15 characters long.',
+																							//'message' => 'Username must be between 2 and 15 characters. long.',
 																							'last' => true
 																							),
 												'checkUnique' => array( 
 																							'rule' =>  array('checkUnique', 'username'),
-																							'message' => 'This username has already been taken',
+																							//'message' => 'This username has already been taken1',
 																							
 																							),
 															),
 																						
 							'password1' => array( 'betweenRus' => array(
 																													'rule' => array( 'betweenRus', 4, 10,'password1'),
-																													'message' => 'Username must be between 4 and 10 characters long'
+																													//'message' => 'Username must be between 4 and 10 characters long'
 																													)
 																	),
 							'password2' => array( 'passidentity' => array(
 																													'rule' => array( 'passidentity', '$this->data' ),
-																													'message' => 'Please verify your password again'
+																													//'message' => 'Please verify your password again'
 																													)
 																	),
 							
 																																							
 							'email' => array( 'email' => array( 
 																								'rule' => array( 'email', false), //check the validity of the host. to set true.
-																								'message' => 'Your email address does not appear to be valid',
+																								//'message' => 'Your email address does not appear to be valid',
 																								),
 																								//Don't forget to switch on!!
 																								/*
@@ -56,7 +56,7 @@ class User extends AppModel {
 															),
 							'captcha' => array( 'notEmpty' => array(
 																										'rule' => 'notEmpty',
-																										'message' => 'This field cannot be left blank',
+																										//'message' => 'This field cannot be left blank',
 																										'last'=>true,
 																	),
 																	'alphaNumeric' => array(
@@ -65,7 +65,7 @@ class User extends AppModel {
 																	),
 																	'equalCaptcha' => array(
         																						'rule' => array('equalCaptcha','$this->data'),  
-        																						'message' => 'Please, type in correct the code'
+        																						//'message' => 'Please, correct the code'
     															),
 
 											),
