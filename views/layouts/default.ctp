@@ -60,17 +60,16 @@
 							
 									<div class="signUpNow">
 										<?php if(!$this->Session->read('Auth.User.id')|| $this->Session->read('Auth.User.group_id') == 2 ): ?>
-											<?php echo $html->link(__('SignUp now',true), array('controller'=>'users','action'=>'reg') );?>
-										<?php endif ?>
-									</div>
-									<div class="signUpNow">
-										<?php if(!$this->Session->read('Auth.User.id')|| $this->Session->read('Auth.User.group_id') == 2 ): ?>
 											<?php echo $html->link(__('LogIn now',true), array('controller'=>'users','action'=>'login') );?>
 										<?php else: ?>
 											<?php echo $html->link(__('LogOut now',true), array('controller'=>'users','action'=>'logout') );?>
 										<?php endif ?>
 									</div>	
-
+									<div class="signUpNow">
+										<?php if(!$this->Session->read('Auth.User.id')|| $this->Session->read('Auth.User.group_id') == 2 ): ?>
+											<?php echo $html->link(__('SignUp now',true), array('controller'=>'users','action'=>'reg') );?>
+										<?php endif ?>
+									</div>
 							
 						</div>
 					</div>

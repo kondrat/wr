@@ -1,7 +1,12 @@
 jQuery(document).ready( function(){
-
+	
+	var reg = {
+	}
+	
 	var passToCheck = null;
 	var options = null;
+	
+	
 	var settings = {
 							required: "This field cannot be left blank",
 							betweenRus: "Username must be between 4 and 10 characters long",
@@ -11,20 +16,33 @@ jQuery(document).ready( function(){
 		 };
 	
 	//if we have localization file in heading
-	if( jQuery().messages ) {
-		var options = $().messages();
-	}
+		if( jQuery().messages ) {
+			var options = $().messages();
+		}
 
-	var local = $.extend(settings, options);
+		var local = $.extend(settings, options);
+
+
 
 	//getting new captcha
 		$('.capReset span, #capImg').click( function() {
 				var Stamp = new Date();
-				$('#capImg').attr( {src: path+"/users/kcaptcha/"+Stamp.getTime()});
+				$('#capImg').attr( {src: path+"/users/kcaptcha/"+Stamp.getTime() } );
 			}
 		)
 		
 		
+
+	$("#UserUsername").focus(function(){
+		$("#UserRegForm .activeFormTip").removeClass("activeFormTip");
+		$("#nameFormTip").addClass("activeFormTip");
+	});
+	$("#UserPassword1").focus(function(){
+		$("#UserRegForm .activeFormTip").removeClass("activeFormTip");
+		$("#passFormTip").addClass("activeFormTip");
+	});
+
+
 
 	
 	
