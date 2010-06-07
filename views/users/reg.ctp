@@ -32,9 +32,13 @@
 																	 'alphanumeric' => __('Only alphabets and numbers allowed', true),
 																	 'equalCaptcha' => __('Please, correct the code.',true),
 										  				)	
-									    		)					
-		 
+									    		);					
+
+
+          $errorsObj = $js->object($errors);	
+				  echo $html->scriptBlock('var rErr = '.$errorsObj.';',array('inline'=>false));			 
 		 ?>
+
 	
 					<div class="inputFormWrap">
 							<div class="formWrapLabel">
