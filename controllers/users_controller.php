@@ -64,6 +64,11 @@ class UsersController extends AppController {
 //ajax staff
 	//----------------------------------------------------------------
 		function userNameCheck() {
+			
+			//$contents['stat'] = 1;
+			$contents = array();
+			
+			
 			Configure::write('debug', 0);
 			$this->autoLayout = false;
 			$this->autoRender = false;
@@ -77,29 +82,42 @@ class UsersController extends AppController {
 
 				
 				$errors = array();
-				$this->header('Content-Type: application/json');
+				
 			
 				//don't foreget about santization and trimm
 				if (!empty($this->data) && $this->data['User']['username'] != null) {
 
 						$this->User->set( $this->data );
 						$errors = $this->User->invalidFields();
-						if($errors == array()) {
-							$type = 1;
-							$errors['username'] = __('Login is free',true);
+						
+						if( $errors == array() ) {
+							$contents['stat'] = 1;
+							$contents['username'] = __('Login is free',true);
 						} else {
-							$type = 0;
+							$contents['stat'] = 0;
+							$contents['error'] = $errors;
 						}
 						
+						/*
 						echo json_encode(array('ok'=> __($errors['username'],true), 'er'=> $type));
 					 	exit();
+					 	*/
 					 									
 						
 
 				} else {
-						echo json_encode(array('hi'=> __('This field cannot be left blank',true), 'er'=> 0));
-						exit();	
+						//echo json_encode(array('hi'=> __('This field cannot be left blank',true), 'er'=> 0));
+						$contents['error'] = 'notEmpty';
+						$contents['stat'] = 0;
 				}		
+
+
+	      $contents = json_encode($contents);
+				$this->header('Content-Type: application/json');				
+				return ($contents);			
+			
+			
+			
 			} else {				
 				$this->Security->blackHoleCallback = 'gotov';	
 				$this->Security->blackHole($this, 'You are not authorized to process this request!');			

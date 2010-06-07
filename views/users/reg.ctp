@@ -16,6 +16,7 @@
 		                          
 		     	$errors = array(
 		       	                'username' => array(
+		       	                		'login' => __('Only latin letters and integers, min 3 characters',true),
 													      'notEmpty' => __('This field cannot be left blank',true),
 													      'alphanumeric' => __('Only alphabets and numbers allowed', true),
 													      'betweenRus' => __('Username must be between 4 and 10 chars', true),
@@ -23,7 +24,7 @@
 													   ),
 													   'password1' => array( 'betweenRus' => __('Password must be between 4 and 15 chars', true) ),
 													   'password2' => array( 'passidentity' => __('Please verify your password',true) ),
-													   	'email' => array(
+													   'email' => array(
 																 'email' => __('Should look like an email address', true),
 																 'checkUnique' => __('This Email has already been taken',true),
 									    			  ),
@@ -45,12 +46,7 @@
 								<?php echo $form->label(__('Username',true));?>
 							</div>
 							<div class="formWrapIn">
-								<?php echo $form->input('username', array( 'div'=>array("id"=>"usernameWrap"),'error'=>false) );?>
-								 								
-								<div id="checkName" style="display:none;">
-								  <?php echo $html->image("icons/ajax-loader1.gif");?><?php __('Checking availability...');?>
-								</div>
-								
+								<?php echo $form->input('username', array( 'div'=>array("id"=>"usernameWrap"),'error'=>false) );?>								
 							</div>
 							
 							<div class="formWrapTip">
@@ -61,8 +57,14 @@
 									  <?php echo $form->error('username', $errors['username'] );?>									
 									<?php else: ?>								
 									  <span><?php __('Only letters and numbers, 16 char max.');?></span>								  
-									<?php endif ?>									
+									<?php endif ?>
+																		
 								</div>
+								
+								<div id="checkName" style="display:none;">
+								  	<?php echo $html->image("icons/ajax-loader1.gif");?><?php __('Checking availability...');?>
+								</div>
+								
 							</div>
 					</div>
 	

@@ -3,10 +3,12 @@ jQuery(document).ready( function(){
 	var reg = {
 	}
 	
+	//alert(rErr.toSource());
+	
 	var passToCheck = null;
 	var options = null;
 	
-	
+		
 	var settings = {
 							required: "This field cannot be left blank",
 							betweenRus: "Username must be between 4 and 10 characters long",
@@ -32,40 +34,73 @@ jQuery(document).ready( function(){
 		)
 		
 		
-
-	$("#UserUsername").focus(function(){
+	$("#UserRegForm input").focus(function(){
 		$("#UserRegForm .activeFormTip").removeClass("activeFormTip");
-		$("#nameFormTip").addClass("activeFormTip");
+		$(this).parents(".inputFormWrap").children(".formWrapTip").addClass("activeFormTip");
 	});
-	$("#UserPassword1").focus(function(){
-		$("#UserRegForm .activeFormTip").removeClass("activeFormTip");
-		$("#passFormTip").addClass("activeFormTip");
-	});
-
-
+	
 
 	
-	
-	$('#UserUsername').keypress( function(e) {
+	var inpStrTimer;
+	$('#UserUsername').keyup( function(e) {
 		//alert(e.which);
+		/*
 	  var chr = (String.fromCharCode(e.which));
 	  rexp = /([^a-zA-Z0-9])/; 
 	  if( rexp.test(chr) && e.which !== 8 ) {
 	    return false;
 	  } 
-
-		//alert(document.createTextNode(c));
-		/*
+	  */
+		
+		var InputStr = $(this).val();
+		
 		$('#nameFormTip').hide();	
 		$('#checkName').show();
-		
+		/*
 		$('#usernameWrap .error-message').remove();
 		$('#usernameWrap input').removeClass('form-error');				
 		$('#response').remove();
 		$('#usernameWrap').removeClass("error");
 		*/
-		
+		window.clearInterval(inpStrTimer);
+		inpStrTimer = window.setInterval( function() {
+				
+					$.ajax({
+									type: "POST",
+									url: path+"/users/userNameCheck/",
+									data: {"data[User][username]": InputStr },
+									dataType: "json",
+									
+									success: function (data) {
+										  if (data.stat == 1) {
+										  	// Success!
+										  	$('#checkName').hide();
+										  	console.log('ok');
+										  	/*
+										  	$('#nameFormTip span').text(data.ok).css({"color":"green"}).parent().show();
+										  	$('#nameFormTip img').show();
+										  	*/
+										  	
+										  } else {
+										  	$('#checkName').hide();
+										  	console.log('not OK');
+										  	/*
+										  	$('#nameFormTip span').text(data.ok).css({"color":"red"}).parent().show();
+										  	$('#yourUrl span').css({"color":"red"});
+										  	$('#nameFormTip img').hide();
+										  	*/
+										  	
+										  }
+									},
+									error: function(response, status) {
+			              //alert('An unexpected error has occurred! ');
+		              }
 
+									
+					});
+				window.clearInterval(inpStrTimer);
+			}, 1000
+		);
 		
 		
 						/*

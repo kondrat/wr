@@ -114,16 +114,18 @@ div.formWrapIn{
 	width:217px;
 }
 div.formWrapTip{
+	border:1px solid transparent;
+	color:#CCCCCC;
+	
 	float:left;
 	width:265px;
 }
 .formTip{
-	background-color:white;
-	border:1px solid transparent;
-	color:#CCCCCC;
+	
 	padding:5px 5px;
+	
 }
-.activeFormTip{
+div.activeFormTip{
 	border:1px solid #eee;
 	color:gray;
 	background-color:Cornsilk;
@@ -140,13 +142,11 @@ div.inputFormWrap input.form-error {
 }
 
 #checkName {
-	padding: 0 6px;
-	height: 15px;
-	float:left;
+	padding: 6px;
 	color:gray;
 }
 #chName img {
-	float:left;
+	
 	margin-right:5px;
 }
 #nameFormTip {
