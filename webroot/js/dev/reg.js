@@ -1,7 +1,10 @@
 jQuery(document).ready( function(){
 	
 	var reg = {
+		username: $("#UserUsername")
 	}
+	
+
 	
 	//alert(rErr.toSource());
 	
@@ -33,16 +36,29 @@ jQuery(document).ready( function(){
 			}
 		)
 		
+
+	$("#UserRegForm input").blur(function(){
+		$(".rTip").hide();
+	});
+
 		
 	$("#UserRegForm input").focus(function(){
-		$("#UserRegForm .activeFormTip").removeClass("activeFormTip");
+		//$("#UserRegForm .activeFormTip").removeClass("activeFormTip");
 		$(this).parents(".inputFormWrap").children(".formWrapTip").addClass("activeFormTip");
+		
+		
+//very temp
+		
+		if( reg.username.val().length === 0 ) {
+			$(this).parents(".inputFormWrap").find(".formWrapTip div:first").show();
+		}
 	});
 	
 
 	
 	var inpStrTimer;
-	$('#UserUsername').keyup( function(e) {
+	$("#UserUsername").keyup( function(e) {
+		
 		//alert(e.which);
 		/*
 	  var chr = (String.fromCharCode(e.which));
@@ -54,17 +70,22 @@ jQuery(document).ready( function(){
 		
 		var InputStr = $(this).val();
 		
-		$('#nameFormTip').hide();	
-		$('#checkName').show();
-		/*
+		$("#rName div").hide();	
+		$("#rNameCheck").show();
+		
+		//preparation
+		/*		
 		$('#usernameWrap .error-message').remove();
 		$('#usernameWrap input').removeClass('form-error');				
 		$('#response').remove();
 		$('#usernameWrap').removeClass("error");
 		*/
+		
+		
 		window.clearInterval(inpStrTimer);
 		inpStrTimer = window.setInterval( function() {
-				
+			
+				if( InputStr.length > 0 ){
 					$.ajax({
 									type: "POST",
 									url: path+"/users/userNameCheck/",
@@ -74,87 +95,39 @@ jQuery(document).ready( function(){
 									success: function (data) {
 										  if (data.stat == 1) {
 										  	// Success!
-										  	$('#checkName').hide();
-										  	console.log('ok');
-										  	/*
-										  	$('#nameFormTip span').text(data.ok).css({"color":"green"}).parent().show();
-										  	$('#nameFormTip img').show();
-										  	*/
-										  	
+										  	$('#rName div').hide();
+										  	$("#rNameOk").show();
 										  } else {
-										  	$('#checkName').hide();
-										  	console.log('not OK');
-										  	/*
-										  	$('#nameFormTip span').text(data.ok).css({"color":"red"}).parent().show();
-										  	$('#yourUrl span').css({"color":"red"});
-										  	$('#nameFormTip img').hide();
-										  	*/
+										  	$('#rName div').hide();
+										  	$("#rNameError").show();
+												$.each(rErr.username , function(key,value){
+													if( key === data.error.username ) {
+														$("#rNameError").text(value);
+													}
+												});
 										  	
 										  }
 									},
 									error: function(response, status) {
-			              //alert('An unexpected error has occurred! ');
+			              alert('An unexpected error has occurred! ');
+			              //$('.tempTest').html('Problem with the server. Try again later.');
 		              }
 
 									
 					});
+					
+				} else {
+					$("#rNameCheck").hide();
+					$("#rNameTip").show();
+				}
+					
 				window.clearInterval(inpStrTimer);
 			}, 1000
 		);
 		
-		
-						/*
-						$.post(
-							"/users/userNameCheck",
-							{"data[User][username]": $(this).attr('value') },
-					    	function(data){
-									//$('#usernameWrap').append('<div id="response">'+data.hi+'</div>');
-											if( data.typ == 0 ) {
-												$('#usernameWrap').addClass("error");
-												$('#response').addClass('error-message');
-												$('#usernameWrap input').addClass('form-error');
-												
-											} else {
-												$('#response').addClass('greenMessage');
-												$('#response').css({'color':'green','font-weight':'bold'});
-												//alert(data.typ+'2');
-											}					
-									$('#ajimg').remove();
-					      },
-					      "json"
-          	);
-          	*/
-          	  /*
-							$.ajax({
-									type: "POST",
-									url: path+"/users/userNameCheck/",
-									data: {"data[User][username]": $(this).attr('value') },
-									dataType: "json",
-									
-									success: function (data) {
-										  if (data.er == true) {
-										  	// Success!
-										  	$('#checkName').hide();
-										  	$('#nameFormTip span').text(data.ok).css({"color":"green"}).parent().show();
-										  	$('#nameFormTip img').show();
-										  	
-										  } else {
-										  	$('#checkName').hide();
-										  	$('#nameFormTip span').text(data.ok).css({"color":"red"}).parent().show();
-										  	$('#yourUrl span').css({"color":"red"});
-										  	$('#nameFormTip img').hide();
-										  	
-										  }
-									},
-									error: function(response, status) {
-			              //alert('An unexpected error has occurred! ');
-		              }
 
-									
-							});
-							*/
 
-        });
+	});
 
 
 

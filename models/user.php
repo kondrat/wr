@@ -8,7 +8,7 @@ class User extends AppModel {
 							'username' => array(
 							    			'login' => array(
 																	        'rule' => '/^[a-z0-9]+$/i',  
-																	        //'message' => 'Only latin letters and integers, min 3 characters'
+																	        //'message' => 'Only latin letters and integers'
 																	   		 ),
 
 												

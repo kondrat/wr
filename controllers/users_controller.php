@@ -64,10 +64,9 @@ class UsersController extends AppController {
 //ajax staff
 	//----------------------------------------------------------------
 		function userNameCheck() {
-			
-			//$contents['stat'] = 1;
+
 			$contents = array();
-			
+			$errors = array();
 			
 			Configure::write('debug', 0);
 			$this->autoLayout = false;
@@ -81,7 +80,7 @@ class UsersController extends AppController {
 
 
 				
-				$errors = array();
+				
 				
 			
 				//don't foreget about santization and trimm
@@ -92,21 +91,13 @@ class UsersController extends AppController {
 						
 						if( $errors == array() ) {
 							$contents['stat'] = 1;
-							$contents['username'] = __('Login is free',true);
+							//$contents['uname'] = __('Login is free',true);
 						} else {
 							$contents['stat'] = 0;
 							$contents['error'] = $errors;
 						}
-						
-						/*
-						echo json_encode(array('ok'=> __($errors['username'],true), 'er'=> $type));
-					 	exit();
-					 	*/
-					 									
-						
 
 				} else {
-						//echo json_encode(array('hi'=> __('This field cannot be left blank',true), 'er'=> 0));
 						$contents['error'] = 'notEmpty';
 						$contents['stat'] = 0;
 				}		

@@ -16,11 +16,11 @@
 		                          
 		     	$errors = array(
 		       	                'username' => array(
-		       	                		'login' => __('Only latin letters and integers, min 3 characters',true),
+		       	                		'login' => __('Only latin letters and integers',true),
 													      'notEmpty' => __('This field cannot be left blank',true),
-													      'alphanumeric' => __('Only alphabets and numbers allowed', true),
+													      'alphaNumeric' => __('Only alphabets and numbers allowed', true),
 													      'betweenRus' => __('Username must be between 4 and 10 chars', true),
-													      'checkUnique' => __('This username has already been taken...',true)
+													      'checkUnique' => __('This username has already been taken',true)
 													   ),
 													   'password1' => array( 'betweenRus' => __('Password must be between 4 and 15 chars', true) ),
 													   'password2' => array( 'passidentity' => __('Please verify your password',true) ),
@@ -42,47 +42,79 @@
 
 	
 					<div class="inputFormWrap">
+						
 							<div class="formWrapLabel">
 								<?php echo $form->label(__('Username',true));?>
 							</div>
 							<div class="formWrapIn">
-								<?php echo $form->input('username', array( 'div'=>array("id"=>"usernameWrap"),'error'=>false) );?>								
+								<?php echo $form->input('username', array( 'div'=>array("id"=>"usernameWrap"),'error'=> false, 'class'=> false ) );?>								
 							</div>
 							
-							<div class="formWrapTip">
-								<div class="formTip" id="nameFormTip">
-									<?php //echo $html->image("icons/check_mark_green.png",array("style"=>"display:none;"));?>
+							<div id="rName" class="formWrapTip">
+									<?php  
+										$errClass = 'hide';
+										if( isset($this->validationErrors['User']['username'] ) ) {
+											$errClass = '';
+										} 
+									?>
 									
-									<?php  if( isset($this->validationErrors['User']['username'] ) ): ?>								
-									  <?php echo $form->error('username', $errors['username'] );?>									
-									<?php else: ?>								
-									  <span><?php __('Only letters and numbers, 16 char max.');?></span>								  
-									<?php endif ?>
-																		
-								</div>
-								
-								<div id="checkName" style="display:none;">
-								  	<?php echo $html->image("icons/ajax-loader1.gif");?><?php __('Checking availability...');?>
-								</div>
-								
+									<div id="rNameTip" class="rTip hide">																	
+										  <?php __('Only letters and numbers, 16 char max.');?>							  																	
+									</div>
+									
+									<div id="rNameCheck" class="rCheck hide">
+									  	<?php echo $html->image("icons/ajax-loader1.gif");?><?php __('Checking availability...');?>
+									</div>
+									
+									<div id="rNameError" class="rError <?php echo $errClass;?>">
+										<?php echo $form->error('username',$errors['username'],array('wrap'=>null));?>
+									</div>
+	
+									<div id="rNameOk" class="rOk hide">
+											<?php echo $html->image("icons/check_mark_green.png",array());?>
+											<?php __('Login is free');?>
+									</div>
+																	
 							</div>
+							
 					</div>
 	
 					<div class="inputFormWrap">
+						
 							<div class="formWrapLabel">
 								<?php echo $form->label(__('Password',true));?>
 							</div>
+							
 							<div class="formWrapIn">
-								<?php echo $form->input('password1' , array('type' => 'password','div'=>array("id"=>"passWrap"),'error'=>false) );?>
+								<?php echo $form->input('password1', array('type' => 'password','div'=>array("id"=>"passWrap"),'error'=>false) );?>
 							</div>
-							<div class="formWrapTip">							
-								<div class="formTip" id="passFormTip">
-									<?php  if( isset($this->validationErrors['User']['password1'] ) ): ?>								
-									  <?php echo $form->error('password1', $errors['password1'] );?>									
-									<?php else: ?>								
-									  <span><?php __('6 characters or more');?></span>								  
-									<?php endif ?>																	
-								</div>
+							
+							<div id="rPass1" class="formWrapTip">	
+								
+									<?php  
+										$errClass = 'hide';
+										if( isset($this->validationErrors['User']['password1'] ) ) {
+											$errClass = '';
+										} 
+									?>
+									
+									<div id="rPass1Tip" class="rTip hide">																	
+										  <?php __('6 characters or more');?>								  																	
+									</div>
+									
+									<div id="rPass1Check" class="rCheck hide">
+									  	<?php echo $html->image("icons/ajax-loader1.gif");?><?php __('Checking availability...');?>
+									</div>
+									
+									<div id="rPass1Error" class="rError <?php echo $errClass;?>">
+										<?php echo $form->error('password1', $errors['password1'],array('wrap'=>null));?>
+									</div>
+	
+									<div id="rPass1Ok" class="rOk hide">
+											<?php echo $html->image("icons/check_mark_green.png",array());?>
+											<?php __('Password OK');?>
+									</div>								
+								
 							</div>
 					</div>	
 					

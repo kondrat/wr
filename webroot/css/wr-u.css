@@ -56,7 +56,6 @@ p.quickLoginForPas {
 /*form classes*/
 
 .formPage {
-	/*border:4px solid #CCCCCC;*/
 	float:left;
 	border:4px solid #ccc;
 	border:4px solid rgba(204, 204, 204 , 0.5);
@@ -70,10 +69,7 @@ p.quickLoginForPas {
 	
 }
 
-.error-message {
-	color:#8A1F11;
-	font-weight:bold;
-}
+
 
 #UserUsername, #UserPassword, #UserPassword1, #UserPassword2,#UserEmail,#UserEmailReset {
 	width: 200px;
@@ -86,8 +82,7 @@ p.quickLoginForPas {
 
 
 
-.inputFormWrap  {
-	/*background-color: inherit;*/
+.inputFormWrap{
 	margin: 0;
 	padding: 0 0 1em 0;
 	position:relative;
@@ -95,7 +90,6 @@ p.quickLoginForPas {
 	float:left;
 	width:662px;
 }
-
 div.formWrapLabel{
 	float:left;
 	width:165px;
@@ -113,51 +107,96 @@ div.formWrapIn{
 	margin-top:1px;
 	width:217px;
 }
-div.formWrapTip{
-	border:1px solid transparent;
-	color:#CCCCCC;
-	
+div.formWrapTip{	
 	float:left;
 	width:265px;
 }
-.formTip{
-	
-	padding:5px 5px;
-	
+div.formWrapTip div{
+	-moz-border-radius:5px;
+	min-height:27px;
+	padding: 2px 0 0 4px;
 }
+div.formWrapTip div img{
+	margin-right: 3px;
+}
+
+/*
 div.activeFormTip{
 	border:1px solid #eee;
 	color:gray;
 	background-color:Cornsilk;
 }
+*/
 
+/*error block*/
+
+
+.error-message {
+	color:#8A1F11;
+	font-weight:bold;
+}
 
 div.error {
 	border:none;
 	background:none;
 }
 
+
 div.inputFormWrap input.form-error {
-	background-color: #FBC2C4;
+	background-color: #eee;
 }
 
-#checkName {
-	padding: 6px;
-	color:gray;
+/*error block*/
+
+.formTip{	
+	padding:5px 5px;	
 }
+
+
+#rNameCheck{
+}
+#rNameError{
+}
+
 #chName img {
 	
 	margin-right:5px;
 }
-#nameFormTip {
 
+.rTip, .rCheck{
+	border:1px solid #eee;
+	color:gray;
+	background-color:Cornsilk;	
 }
+.rError{
+	background-color:#FBE3E4;
+	color:#8A1F11;	
+	border:1px solid #FBC2C4
+}
+.rOk{
+	border:1px solid transparent;
+}
+
+
+
+
+
+
+
 
 .greenMessage{
 	margin: 0 0 0 12em;
 	padding: 0;
 	height: 15px;
 }
+
+
+
+
+
+
+
+
 
 /*login*/
 
