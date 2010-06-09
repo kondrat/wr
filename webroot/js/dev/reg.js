@@ -3,8 +3,41 @@ jQuery(document).ready( function(){
 	var reg = {
 		username: $("#UserUsername")
 	}
+	//console.log(reg.username.val().length);
 	
-
+/*	
+									function D(L,O){
+										console.log('hi: '+O.length);
+										var K="";
+										for( var N=0; N < O.length; N++ ){
+											
+											var P=true;
+											for( var M=0; M<L&&(M+N+L) < O.length; M++ ){
+												P=P&&(O.charAt(M+N)==O.charAt(M+N+L))
+											}
+												
+											if(M<L){P=false}
+											
+											if(P){
+												
+												N+=L-1;
+												P=false
+												
+											}else{
+												
+												K+=O.charAt(N)}
+												
+											}
+											console.log(K+' and length: '+ K.length);
+											return K
+											
+									}
+		var L = reg.username.val();
+		D(1,L);
+		D(2,L);
+		D(3,L);
+		D(4,L);
+*/		
 	
 	//alert(rErr.toSource());
 	

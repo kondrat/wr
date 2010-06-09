@@ -1,45 +1,53 @@
 // decompression: http://jsutility.pjoneil.net/
 
-function isBlank(A)
-   {return A.replace(/\s+/g, "").length == 0;
-   }
-(function(B)
-   {
-   function A()
-       {var F = jQuery("#signup-form");
-        var E = F.find("input, password");
-        var D = F.hasClass("validated-by-backend");
-        F.find("#user_name").isSignupFormField(
-        {validateWith: function(G)
-           {return isBlank(G) ? _("Should be a first and last name"): true;
-           }
-       });
-        F.find("#user_screen_name").isScreenNameField();
-        F.find("#user_email").isEmailField();
-        F.find("#user_user_password").isSignupFormField(        {allowInput:/[^\s]/}).focus(function()
-           {           B(this).trigger("show-password-meter");
-           }).isPasswordStrengthField(".password-meter", 
-        {username: function()
-           {return F.find("#user_screen_name").val();
-           }
-       });
-        if (D)
-           {E.trigger("align-validation");
-           }
-        var C = F.find(".fieldWithErrors:eq(0) input");
-        if (C.length > 0)
-           {C.focus();
-           }
-        else 
-           {F.find("#user_name").focus();
-           }
-       }
-    B(document).ready(A);
-   })(jQuery);
-(function(A)
-   {
-   A.fn.isEmailField = function()
-       {return this.each(function()
+function isBlank(A){
+	return A.replace(/\s+/g, "").length == 0;
+}
+(function(B) {
+	   function A(){
+	   			var F = jQuery("#signup-form");
+	        var E = F.find("input, password");
+	        var D = F.hasClass("validated-by-backend");
+	        F.find("#user_name").isSignupFormField(
+											        	{
+											        		validateWith: function(G) {
+											        			return isBlank(G) ? _("Should be a first and last name"): true;
+											           }
+	       	});
+	       	
+	        F.find("#user_screen_name").isScreenNameField();
+	        
+	        F.find("#user_email").isEmailField();
+	        
+	        F.find("#user_user_password").isSignupFormField(
+	        						{allowInput:/[^\s]/}).focus(
+	        																	function() {          
+	        																		 B(this).trigger("show-password-meter");
+	       }).isPasswordStrengthField(".password-meter", 
+	        		{
+	        			username: function(){return F.find("#user_screen_name").val();}
+	       			}
+	       );
+	       
+	       if (D){
+	       	E.trigger("align-validation");
+	       }
+	       
+	       var C = F.find(".fieldWithErrors:eq(0) input");
+	       if (C.length > 0){
+	       		C.focus();
+	       } else {
+	       		F.find("#user_name").focus();
+	       }
+	  }
+	  
+		B(document).ready(A);
+		
+})(jQuery);
+   
+(function(A){
+   A.fn.isEmailField = function() {
+   		return this.each(function()
            {var C =/.+@.+\..+/;
             var F = A(this);
             var D = A("#email_info");
@@ -108,10 +116,9 @@ function isBlank(A)
             F.bind("value-changed", B);
             F.bind("custom-validate", B);
            });
-       };
-   })(jQuery);
-(function(A)
-   {
+   };
+})(jQuery);
+(function(A) {
    A.fn.isScreenNameField = function()
        {return this.each(function()
            {var M = A(this);
@@ -208,9 +215,8 @@ function isBlank(A)
             M.bind("custom-validate", P);
            });
        };
-   })(jQuery);
-(function(A)
-   {
+})(jQuery);
+(function(A) {
    A.fn.isSignupFormField = function(B)
        {return this.each(function()
            {var K = A(this);
@@ -330,4 +336,4 @@ function isBlank(A)
             F.hide();
            });
        };
-   })(jQuery);
+})(jQuery);
