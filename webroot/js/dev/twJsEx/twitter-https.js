@@ -1489,13 +1489,22 @@ twttr.augmentObject(
 								A[C]=function(){A[C].uber.constructor.apply(this,arguments)};
 								twttr.extend(A[C],D);
 								return A[C]
-							}
-							,auxo:function(C,D,B){var A=twttr.is.object(B)?B:twttr;return twttr.augmentAndExtend(A,C,D)},
+							},
+							auxo:function(C,D,B){
+								var A=twttr.is.object(B)?B:twttr;
+								return twttr.augmentAndExtend(A,C,D)
+							},
 							augmentString:function(C,A){var B=window;C.split(".").forEach(function(F,E,D){B=B[F]=B[F]||(twttr.is.def(D[E+1])?{}:A)});return B},
 							magic:function(B,A){if(twttr.is.string(B)){return twttr.augmentString(B,A)}else{return twttr.augmentObject(B,A)}},
 							inspect:function(B){console.clear();var C=$(B);var H=C.data("events");var A=0;var G=0;var E=[];var D=[];for(key in H){E.push(key);A++;D.push("\n*******************\n");D.push("Events for "+key+"\n\n");for(fn in H[key]){var F=H[key][fn];G++;D.push(F.toString()+"\n")}}console.log("************* Summary *************");console.log("for target",C);console.log(A+" types of events",E);console.log(G,"Total Event Listeners");console.log("Event listeners assigned to target");console.log(D.join(" "))},is:{bool:function(A){return typeof A==="boolean"},nil:function(A){return A===null},def:function(A){return !(typeof A==="undefined")},number:function(A){return typeof A==="number"&&isFinite(A)},fn:function(A){return typeof A==="function"},array:function(A){return A?this.number(A.length)&&this.fn(A.splice):false},string:function(A){return typeof A==="string"},blank:function(A){return A===""},falsy:function(A){return A===false||A===null||A===undefined},object:function(A){return(A&&(typeof A==="object"||this.fn(A)))||false}},widget:function(A){A.prototype.bind=function(C,B){this.$element.bind(C,B)}}});
 							
-							if(!window.console){var names=["log","debug","info","warn","error","assert","dir","dirxml","group","groupEnd","time","timeEnd","count","trace","profile","profileEnd"];window.console={};for(var i=0;i<names.length;++i){window.console[names[i]]=function(){}}}
+							if(!window.console){
+								var names=["log","debug","info","warn","error","assert","dir","dirxml","group","groupEnd","time","timeEnd","count","trace","profile","profileEnd"];
+								window.console={};
+								for(var i=0;i<names.length;++i){
+									window.console[names[i]]=function(){}
+								}
+							}
 							function setupTranslationCallback(){if(!twttr.i18n_missing_interval){twttr.i18n_missing_interval=window.setInterval(function(){if(twttr.i18n_missing&&twttr.i18n_missing.length>0){$.ajax({type:"POST",data:$.param({authenticity_token:twttr.form_authenticity_token,location:window.location.href,"strings[]":twttr.i18n_missing}),url:"/translate/untranslated_javascript"});twttr.i18n_missing=new Array()}},10000)}}
 							function recordUntranslatedString(A){if(!twttr.i18n_missing){twttr.i18n_missing=new Array()}if(!twttr.i18n_missing_reported){twttr.i18n_missing_reported={}}if(!twttr.i18n_missing_reported[A]){twttr.i18n_missing.push(encodeURIComponent(A));twttr.i18n_missing_reported[A]=true}}
 							function _(C,A){if(twttr.i18n){var B=twttr.i18n[C];if(B){C=B}else{recordUntranslatedString(C)}}return replaceParams(C,A)}

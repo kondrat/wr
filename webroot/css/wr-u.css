@@ -163,12 +163,16 @@ div.inputFormWrap input.form-error {
 	margin-right:5px;
 }
 
-.rTip, .rCheck{
+.rTip{
 	border:1px solid #eee;
 	color:gray;
 	background-color:Cornsilk;	
 }
-.rError{
+.rCheck{
+	border:1px solid transparent;
+	color:gray;
+}
+.rError,.notOkPass{
 	background-color:#FBE3E4;
 	color:#8A1F11;	
 	border:1px solid #FBC2C4
@@ -176,7 +180,20 @@ div.inputFormWrap input.form-error {
 .rOk{
 	border:1px solid transparent;
 }
-
+.weakPass{
+	color: orange;
+}
+.goodPass{
+	color:blue;
+}
+.strongPass{
+	color:green;
+}
+.bestPass{
+	color:green;
+}
+.notOkPass{
+}
 
 
 

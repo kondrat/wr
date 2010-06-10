@@ -52,10 +52,15 @@
 							
 							<div id="rName" class="formWrapTip">
 									<?php  
-										$errClass = 'hide';
-										if( isset($this->validationErrors['User']['username'] ) ) {
-											$errClass = '';
-										} 
+										$errNameClass = 'hide';
+										$okNameClass = 'hide';
+										if( isset( $this->validationErrors['User']['username'] ) ) {
+											$errNameClass = '';
+										}else{										
+											if( isset($this->data['User']['username']) ) {
+												$okNameClass = '';
+											}
+										}
 									?>
 									
 									<div id="rNameTip" class="rTip hide">																	
@@ -66,11 +71,11 @@
 									  	<?php echo $html->image("icons/ajax-loader1.gif");?><?php __('Checking availability...');?>
 									</div>
 									
-									<div id="rNameError" class="rError <?php echo $errClass;?>">
+									<div id="rNameError" class="rError <?php echo $errNameClass;?>">
 										<?php echo $form->error('username',$errors['username'],array('wrap'=>null));?>
 									</div>
 	
-									<div id="rNameOk" class="rOk hide">
+									<div id="rNameOk" class="rOk <?php echo $okNameClass;?>">
 											<?php echo $html->image("icons/check_mark_green.png",array());?>
 											<?php __('Login is free');?>
 									</div>
@@ -92,9 +97,9 @@
 							<div id="rPass1" class="formWrapTip">	
 								
 									<?php  
-										$errClass = 'hide';
+										$errPass1Class = 'hide';
 										if( isset($this->validationErrors['User']['password1'] ) ) {
-											$errClass = '';
+											$errPass1Class = '';
 										} 
 									?>
 									
@@ -103,10 +108,10 @@
 									</div>
 									
 									<div id="rPass1Check" class="rCheck hide">
-									  	<?php echo $html->image("icons/ajax-loader1.gif");?><?php __('Checking availability...');?>
+									  	<?php __('Checking password');?>
 									</div>
 									
-									<div id="rPass1Error" class="rError <?php echo $errClass;?>">
+									<div id="rPass1Error" class="rError <?php echo $errPass1Class;?>">
 										<?php echo $form->error('password1', $errors['password1'],array('wrap'=>null));?>
 									</div>
 	
@@ -125,12 +130,33 @@
 							<div class="formWrapIn">
 								<?php echo $form->input('password2' , array('type' => 'password','div'=>array("id"=>"pass2Wrap"),'error'=>false) );?>
 							</div>
-							<div class="formWrapTip">
-								<div class="formTip">
-									<?php  if( isset($this->validationErrors['User']['password2'] ) ): ?>								
-									  <?php echo $form->error('password2', $errors['password2'] );?>													  
-									<?php endif ?>											
-								</div>
+							
+							<div id="rPass2" class="formWrapTip">
+								
+									<?php  
+										$errPass2Class = 'hide';
+										if( isset($this->validationErrors['User']['password2'] ) ) {
+											$errPass2Class = '';
+										} 
+									?>	
+																							
+									<div id="rPass2Tip" class="rTip hide">																	
+										<?php __('Passwords must be equal');?>								  																	
+									</div>							
+
+									<div id="rPass2Check" class="rCheck hide">
+									  	<?php __('Checking password');?>
+									</div>
+									
+									<div id="rPass2Error" class="rError <?php echo $errPass2Class;?>">
+										<?php echo $form->error('password2', $errors['password2'],array('wrap'=>null));?>
+									</div>
+	
+									<div id="rPass2Ok" class="rOk hide">
+											<?php echo $html->image("icons/check_mark_green.png",array());?>
+											<?php __('OK');?>
+									</div>								
+								
 							</div>
 					</div>	
 					
@@ -141,12 +167,32 @@
 							<div class="formWrapIn">
 								<?php echo $form->input('email' , array('div'=>array("id"=>"emailWrap"),"class"=>"email required",'error'=>false) );?>	
 							</div>
-							<div class="formWrapTip">
-								<div class="formTip">
-									<?php  if( isset($this->validationErrors['User']['email'] ) ): ?>					
-									  <?php echo $form->error('email', $errors['email'] );?>													  
-									<?php endif ?>	
-								</div>
+							<div id="rEmailTip" class="formWrapTip">
+								
+									<?php  
+										$errEmailClass = 'hide';
+										if( isset($this->validationErrors['User']['email'] ) ) {
+											$errEmailClass = '';
+										} 
+									?>	
+																							
+									<div id="rEmailTip" class="rTip hide">																	
+										<?php __('Enter valid Email');?>								  																	
+									</div>							
+
+									<div id="rEmailCheck" class="rCheck hide">
+									  	<?php __('Checking Email');?>
+									</div>
+									
+									<div id="rEmailError" class="rError <?php echo $errEmailClass;?>">
+										<?php echo $form->error('email', $errors['email'],array('wrap'=>null));?>
+									</div>
+	
+									<div id="rEmailOk" class="rOk hide">
+											<?php echo $html->image("icons/check_mark_green.png",array());?>
+											<?php __('OK');?>
+									</div>	
+								
 							</div>					
 					</div>		
 

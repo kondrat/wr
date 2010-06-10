@@ -19,9 +19,7 @@ function isBlank(A){
 	        
 	        F.find("#user_email").isEmailField();
 	        
-	        F.find("#user_user_password").isSignupFormField(
-	        						{allowInput:/[^\s]/}).focus(
-	        																	function() {          
+	        F.find("#user_user_password").isSignupFormField( {allowInput:/[^\s]/}).focus( function() {          
 	        																		 B(this).trigger("show-password-meter");
 	       }).isPasswordStrengthField(".password-meter", 
 	        		{

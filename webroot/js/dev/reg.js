@@ -3,43 +3,7 @@ jQuery(document).ready( function(){
 	var reg = {
 		username: $("#UserUsername")
 	}
-	//console.log(reg.username.val().length);
-	
-/*	
-									function D(L,O){
-										console.log('hi: '+O.length);
-										var K="";
-										for( var N=0; N < O.length; N++ ){
-											
-											var P=true;
-											for( var M=0; M<L&&(M+N+L) < O.length; M++ ){
-												P=P&&(O.charAt(M+N)==O.charAt(M+N+L))
-											}
-												
-											if(M<L){P=false}
-											
-											if(P){
-												
-												N+=L-1;
-												P=false
-												
-											}else{
-												
-												K+=O.charAt(N)}
-												
-											}
-											console.log(K+' and length: '+ K.length);
-											return K
-											
-									}
-		var L = reg.username.val();
-		D(1,L);
-		D(2,L);
-		D(3,L);
-		D(4,L);
-*/		
-	
-	//alert(rErr.toSource());
+
 	
 	var passToCheck = null;
 	var options = null;
@@ -68,23 +32,20 @@ jQuery(document).ready( function(){
 				$('#capImg').attr( {src: path+"/users/kcaptcha/"+Stamp.getTime() } );
 			}
 		)
-		
 
+//add if $this->data isset or not		
+	//$("#UserRegForm input").val('');
+	
 	$("#UserRegForm input").blur(function(){
-		$(".rTip").hide();
-	});
-
-		
-	$("#UserRegForm input").focus(function(){
-		//$("#UserRegForm .activeFormTip").removeClass("activeFormTip");
-		$(this).parents(".inputFormWrap").children(".formWrapTip").addClass("activeFormTip");
-		
-		
-//very temp
-		
-		if( reg.username.val().length === 0 ) {
-			$(this).parents(".inputFormWrap").find(".formWrapTip div:first").show();
+		if( $(this).val().length === 0 ) {
+			$(this).parents(".inputFormWrap").find(".formWrapTip div").hide();
 		}
+	});		
+	$("#UserRegForm input").focus(function(){	
+		if( $(this).val().length === 0 ) {
+			$(this).parents(".inputFormWrap").find(".formWrapTip div").hide();
+			$(this).parents(".inputFormWrap").find(".formWrapTip div:first").show();
+		}	
 	});
 	
 
@@ -183,56 +144,18 @@ jQuery(document).ready( function(){
 
 
 
-	$('#UserPassword1').keyup( function() {
-		
-		$('#passWrap .error-message').remove();
-		$('#passWrap').removeClass("error");
-		$('#passWrap input').removeClass('form-error');	
-			
-			if( $('#UserPassword1').val() == 0 ) {
-					passToCheck = null
-					$('#passWrap').append('<div id="passerror" class="error-message">'+local['required']+'</div>');
-					$('#passWrap').addClass("error");
-					$('#passWrap input').addClass('form-error');
-					if( $('#UserPassword2').val() != 0 ) {
-						tt();
-					}
-			} else if( $('#UserPassword1').val().length <= 3 || $('#UserPassword1').val().length >= 10 ) {
-					passToCheck = null
-					$('#passWrap').append('<div id="passerror" class="error-message">'+local['betweenRus']+'</div>');
-					$('#passWrap').addClass("error");
-					$('#passWrap input').addClass('form-error');
-					if( $('#UserPassword2').val() != 0 ) {
-						tt();
-					}
-			} else {
-					passToCheck = $('#UserPassword1').val();
-					if( $('#UserPassword2').val() != 0 ) {
-						tt();
-					}
-						
-			}
-
-		}
-	)
+	$('#UserPassword1').passStrengthCheck(
+																					"#rPass1Check",															        		
+																        	{
+															        			username: function(){return $("#UserUsername").val();},
+															        			minlength: 4,
+															        			maxlength: 10
+															       			}																				
+																				);
 
 
 
 
-
-
-
-	function tt() {
-			$('#pass2Wrap .error-message').remove();
-			$('#pass2Wrap').removeClass("error");
-			$('#pass2Wrap input').removeClass('form-error');
-			//alert(passToCheck);
-			if( $('#UserPassword1').val() != $('#UserPassword2').val() ) {
-				$('#pass2Wrap').append('<div id="passerror" class="error-message">'+local['passidentity']+'</div>');
-				$('#pass2Wrap').addClass("error");
-				$('#pass2Wrap input').addClass('form-error');
-			}		
-	}
 
 
 
@@ -245,6 +168,18 @@ jQuery(document).ready( function(){
 		}
 	)
 
+	function tt() {
+			$('#pass2Wrap .error-message').remove();
+			$('#pass2Wrap').removeClass("error");
+			$('#pass2Wrap input').removeClass('form-error');
+			//alert(passToCheck);
+			if( $('#UserPassword1').val() != $('#UserPassword2').val() ) {
+				//$('#pass2Wrap').append('<div id="passerror" class="error-message">'+local['passidentity']+'</div>');
+				//$('#pass2Wrap').addClass("error");
+				//$('#pass2Wrap input').addClass('form-error');
+			}		
+	}
+
 
 
 	$('#UserEmail').blur( function() {
@@ -253,9 +188,9 @@ jQuery(document).ready( function(){
 			$('#emailWrap input').removeClass('form-error');
 			
 			if( $('#UserEmail').val() == 0 ) {
-					$('#emailWrap').append('<div id="emailerror" class="error-message">'+local['required']+'</div>');
-					$('#emailWrap').addClass("error");
-					$('#emailWrap input').addClass('form-error');
+					//$('#emailWrap').append('<div id="emailerror" class="error-message">'+local['required']+'</div>');
+					//$('#emailWrap').addClass("error");
+					//$('#emailWrap input').addClass('form-error');
 
 			} else {
 					if ( /^[a-z0-9!#$%&\'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9][-a-z0-9]*\.)*(?:[a-z0-9][-a-z0-9]{0,62})\.(?:(?:[a-z]{2}\.)?[a-z]{2,4}|museum|travel)$/i.test($('#UserEmail').val()) ) {
@@ -263,9 +198,9 @@ jQuery(document).ready( function(){
 						$('#emailWrap').removeClass("error");
 						$('#emailWrap input').removeClass('form-error');
 					} else {
-						$('#emailWrap').append('<div id="emailerror" class="error-message">'+local['email']+'</div>');
-						$('#emailWrap').addClass("error");
-						$('#emailWrap input').addClass('form-error');
+						//$('#emailWrap').append('<div id="emailerror" class="error-message">'+local['email']+'</div>');
+						//$('#emailWrap').addClass("error");
+						//$('#emailWrap input').addClass('form-error');
 					}
 			}
 		}
@@ -277,14 +212,16 @@ jQuery(document).ready( function(){
 	
 
 			$("form").submit(function() {
+				/*
 				$('#captchaWrap .error-message').remove();
 				$('#captchaWrap').removeClass("error");
 				$('#captchaWrap input').removeClass('form-error');
+				*/
 			  if ($("#UserCaptcha").val() == 0) {
 			  	
 						$('#captchaWrap').append('<div id="emailerror" class="error-message">'+local['required']+'</div>');
-						$('#captchaWrap').addClass("error");
-						$('#captchaWrap input').addClass('form-error');
+						//$('#captchaWrap').addClass("error");
+						//$('#captchaWrap input').addClass('form-error');
 					
 					return false;
 			  } else {
@@ -293,7 +230,7 @@ jQuery(document).ready( function(){
 			 	}
 			});
 
-
+//???????????????????
 		$("img").error(function(){
 		  $(this).hide();
 		});
