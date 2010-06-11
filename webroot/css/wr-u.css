@@ -148,19 +148,20 @@ div.inputFormWrap input.form-error {
 
 /*error block*/
 
-.formTip{	
-	padding:5px 5px;	
-}
-
 
 #rNameCheck{
 }
+span.markCheck{
+	background: transparent url("../img/icons/ajax-loader1.gif") no-repeat scroll;
+	height:16px;
+	width:16px;
+	display:block;
+	float:left;
+	margin-right:4px;
+}
 #rNameError{
 }
-
-#chName img {
-	
-	margin-right:5px;
+#rNameOk{
 }
 
 .rTip{
@@ -172,7 +173,7 @@ div.inputFormWrap input.form-error {
 	border:1px solid transparent;
 	color:gray;
 }
-.rError,.notOkPass{
+.rError{
 	background-color:#FBE3E4;
 	color:#8A1F11;	
 	border:1px solid #FBC2C4
@@ -180,19 +181,50 @@ div.inputFormWrap input.form-error {
 .rOk{
 	border:1px solid transparent;
 }
+.rOk span.mark{
+	background-position: 0 -60px;
+}
+span.mark{
+	background: transparent url("../img/icons/check_marks.png") no-repeat scroll;	
+	height:16px;
+	width:16px;
+	display:block;
+	float:left;
+	margin-right:4px;
+}
 .weakPass{
-	color: orange;
+	color: #80461B;
+	border-color:#E5BDA3;
+	background-color:#FFE2CF;
+}
+.weakPass span.mark{
+	background-position: 0 0;	
 }
 .goodPass{
-	color:blue;
+	color:#80621B;
+}
+.goodPass span.mark{
+	background-position: 0 -20px;
 }
 .strongPass{
-	color:green;
+	color:#78801B;
+}
+.strongPass span.mark{
+	background-position: 0 -40px;
 }
 .bestPass{
-	color:green;
+	color:#2A801B;
+}
+.bestPass span.mark{
+	background-position: 0 -60px;
 }
 .notOkPass{
+	color: gray;
+	border-color:#DBDBDB;
+	background-color:#F2F2F2;
+}
+.notOkPass span.mark{
+	background-position: 0 -80px;
 }
 
 

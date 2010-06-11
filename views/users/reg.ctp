@@ -23,7 +23,7 @@
 													      'checkUnique' => __('This username has already been taken',true)
 													   ),
 													   'password1' => array( 'betweenRus' => __('Password must be between 4 and 15 chars', true) ),
-													   'password2' => array( 'passidentity' => __('Please verify your password',true) ),
+													   'password2' => array( 'passidentity' => __('Please verify your password again',true) ),
 													   'email' => array(
 																 'email' => __('Should look like an email address', true),
 																 'checkUnique' => __('This Email has already been taken',true),
@@ -68,7 +68,8 @@
 									</div>
 									
 									<div id="rNameCheck" class="rCheck hide">
-									  	<?php echo $html->image("icons/ajax-loader1.gif");?><?php __('Checking availability...');?>
+									  	<span class="markCheck"></span>
+									  	<span><?php __('Checking availability...');?></span>
 									</div>
 									
 									<div id="rNameError" class="rError <?php echo $errNameClass;?>">
@@ -76,7 +77,7 @@
 									</div>
 	
 									<div id="rNameOk" class="rOk <?php echo $okNameClass;?>">
-											<?php echo $html->image("icons/check_mark_green.png",array());?>
+											<span class="mark"></span>
 											<?php __('Login is free');?>
 									</div>
 																	
@@ -108,18 +109,14 @@
 									</div>
 									
 									<div id="rPass1Check" class="rCheck hide">
-									  	<?php __('Checking password');?>
+										<span class="mark"></span>
+									  <span><?php __('Checking password');?></span>
 									</div>
 									
 									<div id="rPass1Error" class="rError <?php echo $errPass1Class;?>">
 										<?php echo $form->error('password1', $errors['password1'],array('wrap'=>null));?>
 									</div>
-	
-									<div id="rPass1Ok" class="rOk hide">
-											<?php echo $html->image("icons/check_mark_green.png",array());?>
-											<?php __('Password OK');?>
-									</div>								
-								
+									
 							</div>
 					</div>	
 					
@@ -145,16 +142,18 @@
 									</div>							
 
 									<div id="rPass2Check" class="rCheck hide">
+										
 									  	<?php __('Checking password');?>
 									</div>
 									
 									<div id="rPass2Error" class="rError <?php echo $errPass2Class;?>">
-										<?php echo $form->error('password2', $errors['password2'],array('wrap'=>null));?>
+										<?php //echo $form->error('password2', $errors['password2'],array('wrap'=>null));?>
+										<?php echo $errors['password2']['passidentity'];?>
 									</div>
 	
 									<div id="rPass2Ok" class="rOk hide">
-											<?php echo $html->image("icons/check_mark_green.png",array());?>
-											<?php __('OK');?>
+											<span class="mark"></span>
+											<span><?php __('Ok');?></span>
 									</div>								
 								
 							</div>

@@ -187,7 +187,7 @@ $.fn.passStrengthCheck = function(strDiv,optionsObj){
 					//getting information about pass strength from checker
 					var passCheckObj = strengthChecker( passStr );
 					//adding message returned from checker
-					passStatusDomElem.html(passCheckObj.message);				
+					passStatusDomElem.find("span:last").html(passCheckObj.message);				
 					//adding class to dom element corresponding to the pass strength if needed
 					if( removeStatusClass( passCheckObj.className ) ){
 						passStatusDomElem.addClass(passCheckObj.className)
@@ -216,29 +216,51 @@ $.fn.passStrengthCheck = function(strDiv,optionsObj){
 };    			
 
 
-$.fn.passIdentityCheck = function(strDiv,optionsObj){
-	return this.each(function(){
+$.fn.passIdentCheck = function( passType ){
 	
-		if(!strDiv){
-			return;
-		}		
-		if(!optionsObj){optionsObj={}}
+	return this.each(function(){
+			
+			if(!passType){ passType = 2; }
+			
+			var timer;
 		
-		var passInput=$(this);		
-		var passStatusDomElem = $(strDiv);
+			$(this).blur( function() {tt(passType,1);})
+			$(this).keyup( function() {tt(passType,2);})
+		
+			function tt(passType,eventType) {
 
-		function passCheck(){
-			var passStr = passInput.val();
-		}
-
-
-		
-		if( passInput.val() ){			
-				passCheck();
-				//passStatusDomElem.show().next().hide();
-		}
-		
-		
-	});	
-};		
+					window.clearInterval(timer);
+					
+					if( $("#UserPassword2").val().length > 0 ) {						
+						if(  $("#UserPassword1").val() === $("#UserPassword2").val() ) {														
+							$("#rPass2 div").hide();
+							$("#rPass2Ok").show();							
+						} else {							
+							if( passType !== 1 ) {
+								$("#rPass2 div").hide();
+								$("#rPass2Check").show();									
+								timer = window.setInterval( function() { 															
+									$("#rPass2 div").hide();
+									$("#rPass2Error").show();	
+									window.clearInterval(timer);	
+									}, 1000
+								)									
+							} else {
+								$("#rPass2 div").hide();
+								$("#rPass2Error").show();	
+							}														
+						}						
+					} else {
+						$("#rPass2 div").hide();
+						if(eventType === 2 && passType === 2){
+							$("#rPass2Tip").show();
+						} else {
+							//$("#rPass2Tip").hide();
+						}
+					}
+					
+			}		
+	});
+	
+};
 

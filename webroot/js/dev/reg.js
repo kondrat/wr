@@ -5,7 +5,7 @@ jQuery(document).ready( function(){
 	}
 
 	
-	var passToCheck = null;
+	//var passToCheck = null;
 	var options = null;
 	
 		
@@ -149,36 +149,46 @@ jQuery(document).ready( function(){
 																        	{
 															        			username: function(){return $("#UserUsername").val();},
 															        			minlength: 4,
-															        			maxlength: 10
+															        			maxlength: 16
 															       			}																				
-																				);
+																				).passIdentCheck(1);
 
 
 
 
 
 
+	$('#UserPassword2').passIdentCheck(2);
+
+
+
+/*
+	var pass2 = $("#UserPassword2").val();
 
 	$('#UserPassword2').blur( function() {
-		tt();			
+			pass2 = $(this).val();
+			tt(pass2);			
 		}
 	)
 	$('#UserPassword2').keyup( function() {
-		tt();			
+			pass2 = $(this).val();
+			tt(pass2);			
 		}
 	)
 
-	function tt() {
-			$('#pass2Wrap .error-message').remove();
-			$('#pass2Wrap').removeClass("error");
-			$('#pass2Wrap input').removeClass('form-error');
-			//alert(passToCheck);
-			if( $('#UserPassword1').val() != $('#UserPassword2').val() ) {
-				//$('#pass2Wrap').append('<div id="passerror" class="error-message">'+local['passidentity']+'</div>');
-				//$('#pass2Wrap').addClass("error");
-				//$('#pass2Wrap input').addClass('form-error');
-			}		
+	function tt(pass2) {
+
+			if( (pass2.length > 0) && ( $("#UserPassword1").val() !== pass2 )  ) {
+				$("#rPass2 div").hide();
+				$("#rPass2Error").show();
+			}	else if( (pass2.length > 0) && ( $("#UserPassword1").val() === pass2 ) ) {
+				$("#rPass2 div").hide();
+				$("#rPass2Ok").show();				
+			}	
 	}
+*/
+
+
 
 
 
