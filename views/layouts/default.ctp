@@ -36,8 +36,7 @@
 															'dev/common1',
 															//'dev/common2',
 															//'dev/common3',
-															'dev/reg',
-															'localization/messages_ru'
+															'dev/reg'
 															));
 
 		echo $scripts_for_layout;

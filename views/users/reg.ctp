@@ -16,22 +16,23 @@
 		                          
 		     	$errors = array(
 		       	                'username' => array(
-		       	                		'login' => __('Only latin letters and integers',true),
-													      'notEmpty' => __('This field cannot be left blank',true),
-													      'alphaNumeric' => __('Only alphabets and numbers allowed', true),
-													      'betweenRus' => __('Username must be between 4 and 10 chars', true),
-													      'checkUnique' => __('This username has already been taken',true)
+		       	                			'login' => __('Only latin letters and integers',true),
+													      	'notEmpty' => __('This field cannot be left blank',true),
+													      	'alphaNumeric' => __('Only alphabets and numbers allowed', true),
+													      	'betweenRus' => __('Username must be between 4 and 10 chars', true),
+													      	'checkUnique' => __('This username has already been taken',true)
 													   ),
 													   'password1' => array( 'betweenRus' => __('Password must be between 4 and 15 chars', true) ),
 													   'password2' => array( 'passidentity' => __('Please verify your password again',true) ),
 													   'email' => array(
-																 'email' => __('Should look like an email address', true),
-																 'checkUnique' => __('This Email has already been taken',true),
+													   			'notEmpty' => __('This field cannot be left blank',true),
+																 	'email' => __('Should look like an email address', true),
+																 	'checkUnique' => __('This Email has already been taken1',true),
 									    			  ),
 									    			  'captcha' => array(
 																  'notEmpty' => __('This field cannot be left blank',true),
-																	 'alphanumeric' => __('Only alphabets and numbers allowed', true),
-																	 'equalCaptcha' => __('Please, correct the code.',true),
+																	'alphanumeric' => __('Only alphabets and numbers allowed', true),
+																	'equalCaptcha' => __('Please, correct the code.',true),
 										  				)	
 									    		);					
 
@@ -166,7 +167,7 @@
 							<div class="formWrapIn">
 								<?php echo $form->input('email' , array('div'=>array("id"=>"emailWrap"),"class"=>"email required",'error'=>false) );?>	
 							</div>
-							<div id="rEmailTip" class="formWrapTip">
+							<div id="rEmail" class="formWrapTip">
 								
 									<?php  
 										$errEmailClass = 'hide';
@@ -174,7 +175,20 @@
 											$errEmailClass = '';
 										} 
 									?>	
-																							
+										
+									<?php  
+										$errEmailClass = 'hide';
+										$okEmailClass = 'hide';
+										if( isset( $this->validationErrors['User']['email'] ) ) {
+											$errEmailClass = '';
+										}else{										
+											if( isset($this->data['User']['email']) ) {
+												$okEmailClass = '';
+											}
+										}
+									?>
+									
+																						
 									<div id="rEmailTip" class="rTip hide">																	
 										<?php __('Enter valid Email');?>								  																	
 									</div>							
@@ -187,9 +201,9 @@
 										<?php echo $form->error('email', $errors['email'],array('wrap'=>null));?>
 									</div>
 	
-									<div id="rEmailOk" class="rOk hide">
+									<div id="rEmailOk" class="rOk <?php echo $okEmailClass;?>">
 											<?php echo $html->image("icons/check_mark_green.png",array());?>
-											<?php __('OK');?>
+											<?php __('Ok');?>
 									</div>	
 								
 							</div>					

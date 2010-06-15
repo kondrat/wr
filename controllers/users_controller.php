@@ -63,9 +63,11 @@ class UsersController extends AppController {
 //--------------------------------------------------------------------	
 //ajax staff
 	//----------------------------------------------------------------
-		function userDataCheck() {
+		function userNameCheck() {
 
 			$contents = array();
+			$token = '';
+			$type = '';
 			$errors = array();
 			
 			Configure::write('debug', 0);
@@ -79,28 +81,38 @@ class UsersController extends AppController {
 				}
 
 
-				
+				if( !isset($this->data['_Token']['key']) || ( $this->data['_Token']['key'] !== $this->params['_Token']['key'] )  ) {
+					$this->Security->blackHole($this, 'Invalid referrer detected for this request!');
+				}
 				
 				
 			
 				//don't foreget about santization and trimm
-				if (!empty($this->data) && $this->data['User']['username'] != null) {
+				if( isset($this->data['User']['username']) && $this->data['User']['username'] != null ) {
+					$type = 'username';
+				} else if( isset($this->data['User']['email']) && $this->data['User']['email'] != null ) {
+					$type = 'email';
+				} else {
+					$this->Security->blackHole($this, 'Invalid referrer detected for this request!');
+				}
+				
+				
 
 						$this->User->set( $this->data );
-						$errors = $this->User->invalidFields();
 						
-						if( $errors == array() ) {
+
+						$errors = $this->User->invalidFields();
+
+										
+						if( !isset($errors[$type]) ) {
 							$contents['stat'] = 1;
-							//$contents['uname'] = __('Login is free',true);
+							
 						} else {
 							$contents['stat'] = 0;
-							$contents['error'] = $errors;
+							$contents['error'] = $errors[$type];
 						}
 
-				} else {
-						$contents['error'] = 'notEmpty';
-						$contents['stat'] = 0;
-				}		
+
 
 
 	      $contents = json_encode($contents);

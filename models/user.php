@@ -24,7 +24,7 @@ class User extends AppModel {
 																							),
 												
 												'betweenRus' => array(
-																							'rule' => array( 'betweenRus', 2, 15, 'username'),
+																							'rule' => array( 'betweenRus', 4, 15, 'username'),
 																							//'message' => 'Username must be between 2 and 15 characters. long.',
 																							'last' => true
 																							),
@@ -47,17 +47,27 @@ class User extends AppModel {
 																	),
 							
 																																							
-							'email' => array( 'email' => array( 
+							'email' => array(
+							
+							 																	
+												'notEmpty' => array(
+																						'rule' => 'notEmpty',
+																						//'message' => 'This field cannot be left blank!!!',
+																						'required' => true,
+																						'last' => true
+																						),
+																						
+												'email' => array( 
 																								'rule' => array( 'email', false), //check the validity of the host. to set true.
-																								//'message' => 'Your email address does not appear to be valid',
+																								//'message' => 'Your email address does not appear to be valid!!!',
 																								),
-																								//Don't forget to switch on!!
-																								/*
-																								'checkUnique' => array(           
-																														'rule' =>  array('checkUnique', 'email'),
-																														'message' => 'This Email has already been taken'
-																														),
-																								*/
+																																															
+												'checkUnique' => array(           
+																								'rule' =>  array('checkUnique', 'email'),
+																								//'message' => 'This Email has already been taken!!!',
+																								
+																								),
+																								
 															),
 							'captcha' => array( 'notEmpty' => array(
 																										'rule' => 'notEmpty',
@@ -90,16 +100,6 @@ class User extends AppModel {
 	/*
 		'Theme' => array(
 			'className' => 'Theme',
-			'foreignKey' => 'user_id',
-			'dependent' => false
-		),
-		'Card' => array(
-			'className' => 'Card',
-			'foreignKey' => 'user_id',
-			'dependent' => false
-		),
-		'Text' => array(
-			'className' => 'Text',
 			'foreignKey' => 'user_id',
 			'dependent' => false
 		)
