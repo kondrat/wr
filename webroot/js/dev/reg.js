@@ -82,7 +82,7 @@ jQuery(document).ready( function(){
 				if( InputStr.length > 0 ){
 					$.ajax({
 									type: "POST",
-									url: path+"/users/userNameCheck/",
+									url: path+"/users/userDataCheck/",
 									data: {"data[User][username]": InputStr },
 									dataType: "json",
 									
@@ -159,34 +159,6 @@ jQuery(document).ready( function(){
 
 
 	$('#UserPassword2').passIdentCheck(2);
-
-
-
-/*
-	var pass2 = $("#UserPassword2").val();
-
-	$('#UserPassword2').blur( function() {
-			pass2 = $(this).val();
-			tt(pass2);			
-		}
-	)
-	$('#UserPassword2').keyup( function() {
-			pass2 = $(this).val();
-			tt(pass2);			
-		}
-	)
-
-	function tt(pass2) {
-
-			if( (pass2.length > 0) && ( $("#UserPassword1").val() !== pass2 )  ) {
-				$("#rPass2 div").hide();
-				$("#rPass2Error").show();
-			}	else if( (pass2.length > 0) && ( $("#UserPassword1").val() === pass2 ) ) {
-				$("#rPass2 div").hide();
-				$("#rPass2Ok").show();				
-			}	
-	}
-*/
 
 
 

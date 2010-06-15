@@ -63,7 +63,7 @@ class UsersController extends AppController {
 //--------------------------------------------------------------------	
 //ajax staff
 	//----------------------------------------------------------------
-		function userNameCheck() {
+		function userDataCheck() {
 
 			$contents = array();
 			$errors = array();
