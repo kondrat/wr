@@ -10,7 +10,10 @@ class User extends AppModel {
 																	        'rule' => '/^[a-z0-9]+$/i',  
 																	        //'message' => 'Only latin letters and integers'
 																	   		 ),
-
+							    			'stopWords' => array(
+																	        'rule' => array('stopWords','$this->data'),  
+																	        //'message' => 'This username has already been taken'
+																	   		 ),
 												
 												'notEmpty' => array(
 																						'rule' => 'notEmpty',
@@ -30,7 +33,7 @@ class User extends AppModel {
 																							),
 												'checkUnique' => array( 
 																							'rule' =>  array('checkUnique', 'username'),
-																							//'message' => 'This username has already been taken1',
+																							//'message' => 'This username has already been taken',
 																							
 																							),
 															),
@@ -38,7 +41,11 @@ class User extends AppModel {
 							'password1' => array( 'betweenRus' => array(
 																													'rule' => array( 'betweenRus', 4, 10,'password1'),
 																													//'message' => 'Username must be between 4 and 10 characters long'
-																													)
+																													),
+																		'obvious' => array(
+																												'rule' => array('obvious','$this->data'),
+																												//'message' => 'Too obvious'
+																											),
 																	),
 							'password2' => array( 'passidentity' => array(
 																													'rule' => array( 'passidentity', '$this->data' ),
@@ -145,6 +152,14 @@ class User extends AppModel {
      	}
         return $valid;
    }
+//--------------------------------------------------------------------
+	function obvious($data){
+		return true;
+	}
+//--------------------------------------------------------------------
+	function stopWords($data){
+		return true;
+	}
 //--------------------------------------------------------------------														
 	function passidentity($data) {
  		if ( $this->data['User']['password1'] != $this->data['User']['password2'] ) {		

@@ -13,7 +13,8 @@ class UsersController extends AppController {
   			//default title
   			$this->set('title_for_layout', __('Users data',true) );
   			//allowed actions
-        $this->Auth->allow( 'logout','login', 'reg','kcaptcha', 'reset', 'userNameCheck','index','view'
+        $this->Auth->allow( 'logout','login', 'reg','kcaptcha', 'reset', 'userNameCheck'
+        										//'index','view'
         										//'acoset','aroset','permset','buildAcl'
         										);
 
@@ -137,12 +138,14 @@ class UsersController extends AppController {
     function kcaptcha() {
         $this->kcaptcha->render(); 
     } 
+    /*
     function kcaptchaReset() {
     	Configure::write('debug', 0);
     	$this->autoRender = false;
      	$this->kcaptcha->render(); 
      	exit();
     } 
+    */
 //--------------------------------------------------------------------
 	function login() {
 		

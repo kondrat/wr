@@ -182,7 +182,7 @@ jQuery(document).ready( function(){
 				$('#captchaWrap').removeClass("error");
 				$('#captchaWrap input').removeClass('form-error');
 				*/
-			  if ($("#UserCaptcha").val() == 0) {
+			  if ($("#UserCaptcha").val() === '') {
 			  	
 						
 						//$('#captchaWrap').addClass("error");
