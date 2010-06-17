@@ -130,14 +130,18 @@
 							</div>
 							
 							<div id="rPass2" class="formWrapTip">
-								
 									<?php  
 										$errPass2Class = 'hide';
-										if( isset($this->validationErrors['User']['password2'] ) ) {
+										$okPass2Class = 'hide';
+										if( isset( $this->validationErrors['User']['password2'] ) ) {
 											$errPass2Class = '';
-										} 
-									?>	
-																							
+										}else{										
+											if( isset($this->data['User']['password2']) ) {
+												$okPass2Class = '';
+											}
+										}
+									?>
+																																
 									<div id="rPass2Tip" class="rTip hide">																	
 										<?php __('Passwords must be equal');?>								  																	
 									</div>							
@@ -148,11 +152,10 @@
 									</div>
 									
 									<div id="rPass2Error" class="rError <?php echo $errPass2Class;?>">
-										<?php //echo $form->error('password2', $errors['password2'],array('wrap'=>null));?>
 										<?php echo $errors['password2']['passidentity'];?>
 									</div>
 	
-									<div id="rPass2Ok" class="rOk hide">
+									<div id="rPass2Ok" class="rOk <?php echo $okPass2Class;?>">
 											<span class="mark"></span>
 											<span><?php __('Ok');?></span>
 									</div>								
@@ -171,13 +174,6 @@
 								
 									<?php  
 										$errEmailClass = 'hide';
-										if( isset($this->validationErrors['User']['email'] ) ) {
-											$errEmailClass = '';
-										} 
-									?>	
-										
-									<?php  
-										$errEmailClass = 'hide';
 										$okEmailClass = 'hide';
 										if( isset( $this->validationErrors['User']['email'] ) ) {
 											$errEmailClass = '';
@@ -187,8 +183,7 @@
 											}
 										}
 									?>
-									
-																						
+																														
 									<div id="rEmailTip" class="rTip hide">																	
 										<?php __('Enter valid Email');?>								  																	
 									</div>							
