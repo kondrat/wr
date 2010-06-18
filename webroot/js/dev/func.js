@@ -216,32 +216,39 @@ $.fn.passStrengthCheck = function(strDiv,optionsObj){
 };    			
 
 
-$.fn.passIdentCheck = function( passType ){
+$.fn.passIdentCheck = function( passType, optionsObj ){
 	
 	return this.each(function(){
 			
 			if(!passType){ passType = 2; }
+			if(!optionsObj){optionsObj={}}
 			
 			var timer;
 		
 			$(this).blur( function() {tt(passType,1);})
 			$(this).keyup( function() {tt(passType,2);})
+
 		
 			function tt(passType,eventType) {
 
 					window.clearInterval(timer);
 					
-					if( $("#UserPassword2").val().length > 0 ) {						
-						if(  $("#UserPassword1").val() === $("#UserPassword2").val() ) {														
+					if( optionsObj.pass2.val().length > 0 ) {						
+						if(  optionsObj.pass1.val() === optionsObj.pass2.val() ) {	
+							//pass are equal, so OK.													
 							$("#rPass2 div").hide();
 							$("#rPass2Ok").show();							
-						} else {							
-							if( passType !== 1 ) {
+						} else {		
+							//only for field pass2					
+							if( passType === 2 ) {
 								$("#rPass2 div").hide();
 								$("#rPass2Check").show();									
-								timer = window.setInterval( function() { 															
-									$("#rPass2 div").hide();
-									$("#rPass2Error").show();	
+								timer = window.setInterval( function() { 
+									//for interval period val may be changed
+									if(  optionsObj.pass1.val() !== optionsObj.pass2.val() ) {															
+										$("#rPass2 div").hide();
+										$("#rPass2Error").show();	
+									}
 									window.clearInterval(timer);	
 									}, 1000
 								)									
@@ -252,11 +259,10 @@ $.fn.passIdentCheck = function( passType ){
 						}						
 					} else {
 						$("#rPass2 div").hide();
+						//we show tip only for keyup, not for blur
 						if(eventType === 2 && passType === 2){
 							$("#rPass2Tip").show();
-						} else {
-							//$("#rPass2Tip").hide();
-						}
+						} 
 					}
 					
 			}		

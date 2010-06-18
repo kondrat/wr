@@ -7,7 +7,9 @@ class AppController extends Controller {
 	var $publicControllers = array('pages', 'test');
 //--------------------------------------------------------------------
 	function beforeFilter() {
-	
+		
+		Configure::load('vars');
+
 
 		/*
 		

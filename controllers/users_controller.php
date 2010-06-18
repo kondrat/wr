@@ -34,8 +34,9 @@ class UsersController extends AppController {
 //--------------------------------------------------------------------
 //--------------------------------------------------------------------	
 	function reg() {
-
-
+		
+		$stopWord = '';
+		
 		$this->set('title_for_layout', __('SignUp',true) );
 		
 		if($this->Auth->user('id') && $this->Auth->user('group_id') != 2 ) {
@@ -53,6 +54,13 @@ class UsersController extends AppController {
 				$this->Session->setFlash(__('New user\'s accout has been created',true), 'default', array('class' => 'flok'));
 				$this->redirect(array('controller' => 'cards','action'=>'index'),null,true);
       } else {
+      	
+      	$errors = $this->User->invalidFields();
+				if( isset( $errors['username']['stopWords'] ) ) {
+					$stopWord = $this->_stopWordsCheck( $this->data['User']['username'] );
+					$this->set( 'stopWord', $stopWord );
+				}
+				
 				$this->data['User']['captcha'] = null;
 				$this->Session->setFlash(__('New user\'s accout hasn\'t been created',true) , 'default', array('class' => 'fler') );
 			}
@@ -63,6 +71,7 @@ class UsersController extends AppController {
 	}	
 //--------------------------------------------------------------------	
 //ajax staff
+
 	//----------------------------------------------------------------
 		function userNameCheck() {
 
@@ -70,6 +79,7 @@ class UsersController extends AppController {
 			$token = '';
 			$type = '';
 			$errors = array();
+			$toCheck = '';
 			
 			Configure::write('debug', 0);
 			$this->autoLayout = false;
@@ -111,6 +121,9 @@ class UsersController extends AppController {
 						} else {
 							$contents['stat'] = 0;
 							$contents['error'] = $errors[$type];
+							if( isset( $errors['username']['stopWords'] ) ) {
+								$contents['stW'] = $this->_stopWordsCheck( $this->data['User']['username'] );
+							} 
 						}
 
 
@@ -126,26 +139,34 @@ class UsersController extends AppController {
 				$this->Security->blackHoleCallback = 'gotov';	
 				$this->Security->blackHole($this, 'You are not authorized to process this request!');			
 			}
-			
+		
 		}
 				//blackhole redirection
 				//-----------------------------
 				function gotov() {
 					$this->redirect(null, 404, true);
 				}	
+				//stopWords checking
+				//----------------------------
+				function _stopWordsCheck($username = null ) {					
+					$toCheck = strtolower($username);				
+					if ( $a = Configure::read('stopWords') ){					
+						foreach( $a as $k => $v ) {
+							$res = str_replace($v, "", $toCheck ); 
+							if( $res !== $toCheck ){
+								return $v;
+							}
+						}
+					}
+					return false;			
+				}
+				
 		//kcaptcha stuff
 		//----------------------------------------------------------------
     function kcaptcha() {
         $this->kcaptcha->render(); 
     } 
-    /*
-    function kcaptchaReset() {
-    	Configure::write('debug', 0);
-    	$this->autoRender = false;
-     	$this->kcaptcha->render(); 
-     	exit();
-    } 
-    */
+
 //--------------------------------------------------------------------
 	function login() {
 		

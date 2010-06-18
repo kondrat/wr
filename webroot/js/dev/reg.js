@@ -4,7 +4,12 @@ jQuery(document).ready( function(){
 		username: $("#UserUsername"),
 		email: $("#UserEmail"),
 		token: $("input[id^='Token']"),
-		validEmail: ''
+		validEmail: '',
+		usercaptcha: $("#UserCaptcha"),
+		userpass: {
+								pass1: $("#UserPassword1"),
+								pass2: $("#UserPassword2")
+							}
 	}
 
 
@@ -17,8 +22,7 @@ jQuery(document).ready( function(){
 			}
 		)
 
-//add if $this->data isset or not		
-	//$("#UserRegForm input").val('');
+
 	
 	$("#UserRegForm input").blur(function(){
 		if( $(this).val().length === 0 ) {
@@ -71,7 +75,11 @@ jQuery(document).ready( function(){
 										  	$("#rNameError").show();
 												$.each(rErr.username , function(key,value){
 													if( key === data.error ) {
-														$("#rNameError").text(value);
+														var ret = value;
+														if ( data.stW ) {
+															ret = value+' "'+data.stW+'"';
+														}
+														$("#rNameError").text(ret);
 													}
 												});
 										  	
@@ -105,18 +113,19 @@ jQuery(document).ready( function(){
 	$('#UserPassword1').passStrengthCheck(
 																					"#rPass1Check",															        		
 																        	{
-															        			username: function(){return $("#UserUsername").val();},
+															        			username: function(){return reg.username.val();},
 															        			minlength: 4,
 															        			maxlength: 16
 															       			}																				
-																				).passIdentCheck(1);
+																				).passIdentCheck(1,reg.userpass);
 
 
 
 
 
 
-	$('#UserPassword2').passIdentCheck(2);
+	$('#UserPassword2').passIdentCheck(2,reg.userpass);
+																        	
 
 
 
@@ -177,20 +186,14 @@ jQuery(document).ready( function(){
 	
 
 			$("form").submit(function() {
-				/*
-				$('#captchaWrap .error-message').remove();
-				$('#captchaWrap').removeClass("error");
-				$('#captchaWrap input').removeClass('form-error');
-				*/
-			  if ($("#UserCaptcha").val() === '') {
-			  	
-						
-						//$('#captchaWrap').addClass("error");
-						//$('#captchaWrap input').addClass('form-error');
+
+			  if ( reg.usercaptcha.val() === '' || reg.usercaptcha.val().length < 5 ) {
+			  		$("#rCap div").hide();
+						$("#rCapError").show();
 					
 					return false;
 			  } else {
-					//alert($("#UserUsername").val());
+			  	$("#rCap div").hide();
 			 		return true;
 			 	}
 			});

@@ -1,5 +1,6 @@
 jQuery(document).ready(function(){
 		var com1 = {
+			alertMessage: $('#flashMessage'),
 			item: $("#item"),
 			statusItem: $("#status"),
 			targetDay: $("#targetDay"),
@@ -11,6 +12,23 @@ jQuery(document).ready(function(){
 			curPrjId: 0,
 			curPrj: $("#curPrj")
 		};
+
+
+
+		//flash alert message 	  
+
+		if(com1.alertMessage.length) {
+				var alerttimer = window.setTimeout(function () {
+					com1.alertMessage.trigger('click');
+				}, 4500);
+				com1.alertMessage.animate({height: [com1.alertMessage.css("line-height") || '52', 'swing']}, 400).click(function () {
+					window.clearTimeout(alerttimer);
+					com1.alertMessage.animate({height: '0'}, 400);
+					com1.alertMessage.css({'border':'none'});
+				});
+		}
+
+
 
 		  
   $("#newItem div div:first").click(function(){
