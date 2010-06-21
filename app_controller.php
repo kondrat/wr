@@ -1,6 +1,10 @@
 <?php
 class AppController extends Controller {
-	var $components = array( 'Security','Cookie','Session','Auth','AutoLogin', 'RequestHandler', 'Email',
+	var $components = array( 
+				'Security',
+				'Cookie','Session','Auth',
+				'AutoLogin',
+				'RequestHandler', 'Email',
 				'DebugKit.Toolbar'
 			);
 	var $helpers = array('Session','Js','Html', 'Form', 'Cache');
@@ -45,7 +49,7 @@ class AppController extends Controller {
                 }
             }
             $this->Auth->loginAction = array('admin' => false, 'controller' => 'users', 'action' => 'login');
-
+						
         } 
 				
 	}

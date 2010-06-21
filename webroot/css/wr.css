@@ -16,20 +16,65 @@
 /*reg - login*/
 .signUpNow {
 	float:left;
-	margin:0.5em 1em 0.5em 0;		
+	margin:0.5em 1em 0.5em 0;	
+	padding-right:3px;	
+	position:relative;
 }
 .signUpNow a {
-
+	float:left;
 	font-size:110%;
 	color:gray;
 	display:block;
 	padding:0 0.4em;
-
 }
-.signUpNow a:hover {
-	color:white;
+.signUpNow:hover{
 	background-color:#777;			
 }
+.signUpNow:hover a {
+	color:white;
+}
+.upDownSmallArrow{
+	background:url("../img/icons/up_down_arrow_small.png") repeat-x scroll 0 -19px transparent;
+	display:block;
+	float:left;
+	height:16px;
+	margin-top:4px;
+	width:16px;
+}
+.logInActive .upDownSmallArrow{
+	background-position: 0 -57px;
+}
+
+
+#quickLogin{
+	position:absolute;
+	top:20px;
+	right:0;
+	z-index:1000;
+}
+.quickLoginInner {
+	float:left;
+	background-color:#9AE4E8;
+	border:3px solid silver;
+	margin:0 auto;
+	padding:5px 10px 5px 30px;
+	width:224px;
+}
+.quickLoginSubmit {
+	margin: 3px 0;
+}
+
+
+.quickLoginCheckbox label{
+	margin: 4px;
+}
+
+
+p.quickLoginForPas {
+	margin-bottom: 0;
+}
+
+
 
 
 /*footer*/

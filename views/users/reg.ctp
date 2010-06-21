@@ -1,3 +1,6 @@
+<?php echo $html->script('dev/reg',array('inline'=>false)); ?> 
+
+
 <div class="span-17">
 	<div class="formPage">
 
@@ -245,7 +248,7 @@
 						
 					</div>
 					
-					<div class="span-12" style="margin:0 -100px 1.5em 175px;">			
+					<div class="" style="float:left;margin:0 0 1.5em 175px;">			
 								<span><?php echo $form->button( __('Submit',true), array('type'=>'submit', 'id'=>'regSubmit') ); ?></span>
 					</div>
 		

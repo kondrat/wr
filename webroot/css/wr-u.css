@@ -26,32 +26,14 @@
 }
 
 /*quick Login Calss*/
-.quickLiginSubmit {
-	margin: 3px 0;
-}
-#UserAutoLogin{
-	top: 0.15em;
-	margin: 0 5px;
-}
 .autoLogin label {
 	color:gray;
+	font-weight:normal;
+	vertical-align:sub;
 }
-.quickLoginCheckbox label{
-	margin: 4px;
+.autoLogin input {
+	margin: 0 3px 0 0;
 }
-.quickLoginInner {
-	background-color:#9AE4E8;
-	border:3px solid silver;
-	margin:0 auto;
-	padding:5px 10px 5px 30px;
-	width:224px;
-}
-
-p.quickLoginForPas {
-	margin-bottom: 0;
-}
-
-
 
 /*form classes*/
 

@@ -13,16 +13,29 @@ class UsersController extends AppController {
   			//default title
   			$this->set('title_for_layout', __('Users data',true) );
   			//allowed actions
-        $this->Auth->allow( 'logout','login', 'reg','kcaptcha', 'reset', 'userNameCheck'
+  			
+        $this->Auth->allow(  'reg','kcaptcha', 'reset', 'userNameCheck'
         										//'index','view'
         										//'acoset','aroset','permset','buildAcl'
         										);
 
         parent::beforeFilter(); 
         $this->Auth->autoRedirect = false;
-        
-        // swiching off Security component for ajax call
-        
+
+ 
+		 		if( $this->action == 'login' && !empty($this->data) ) {	
+		       	if( isset($this->data['User']['username']) && strpos($this->data['User']['username'],'@')!== false ){	       		
+		       		$user = $this->User->find('first',array( 'conditions'=> array('User.email' => $this->data['User']['username']), 'contain' => false ) );
+		       		if($user != array() ){
+		       			$this->data['User']['username'] = $user['User']['username'];
+		       		}
+						}						
+				}       
+
+
+				
+				
+        // swiching off Security component for ajax call				
 				if( $this->RequestHandler->isAjax() && $this->action == 'userNameCheck' ) { 
 		   			$this->Security->validatePost = false;
 		   	}
@@ -52,7 +65,7 @@ class UsersController extends AppController {
 				$a = $this->User->read();
 				$this->Auth->login($a);
 				$this->Session->setFlash(__('New user\'s accout has been created',true), 'default', array('class' => 'flok'));
-				$this->redirect(array('controller' => 'cards','action'=>'index'),null,true);
+				$this->redirect(array('controller' => 'items','action'=>'todo'),null,true);
       } else {
       	
       	$errors = $this->User->invalidFields();
@@ -121,7 +134,8 @@ class UsersController extends AppController {
 						} else {
 							$contents['stat'] = 0;
 							$contents['error'] = $errors[$type];
-							if( isset( $errors['username']['stopWords'] ) ) {
+
+							if( $type === 'username' && isset($errors[$type]['stopWords']) ) {
 								$contents['stW'] = $this->_stopWordsCheck( $this->data['User']['username'] );
 							} 
 						}
@@ -169,13 +183,13 @@ class UsersController extends AppController {
 
 //--------------------------------------------------------------------
 	function login() {
-		
+		$user = array();
 		$this->set('title_for_layout', __('Login',true) );
 
 //add logic for group_id == 2 here
 		if( !empty($this->data) ) {
-
-			if( $this->Auth->login() ) {
+										
+			if( $this->Auth->login($this->data) ) {
 						$this->redirect( $this->Auth->redirect() );			
 			} else {
 				$this->data['User']['password'] = null;
@@ -206,7 +220,63 @@ class UsersController extends AppController {
         $this->redirect( '/',null,true);        
     }
 //--------------------------------------------------------------------	
+    function reset() { 
+ 
+ 
+    	
+    	
+    	if( empty($this->data) ) {
+    		return;    		
+    	}
 
+		// Check email is correct
+		$user = $this->User->find( 'first', array( 'conditions' => array('User.email' => $this->data['User']['email'] ), 'fields' => array('id', 'username', 'email'), 'contain' => false ) ) ;
+
+		if(!$user) {
+			$this->User->invalidate('email', 'Этот E-mail не зарегистрирован' );
+			return;
+		}
+		
+		// Generate new password
+		$password = $this->userReg->createPassword();
+		//debug ($user);
+		$data['User']['password'] = $this->Auth->password($password);
+		$this->User->id = $user['User']['id'];
+		if(!$this->User->saveField('password', $this->Auth->password($password) ) ) {
+			return;
+		}
+		
+			// Send email
+			if(!$this->__sendNewPasswordEmail( $user, $password) ) {
+				$this->Session->setFlash('Ошибка при отправке Email','default', array('class'=>'fler'));
+			}
+			else {
+				$this->flash('Новый пароль выслан на  '.$user['User']['email'].'. Please login', '/users/login', 10);
+			}
+			
+					      
+    }
+    
+    /**
+     * Send out an password reset email to the user email
+     * 	@param Array $user User's details.
+     *  @param Int $password new password.
+     *  @return Boolean indicates success
+    */
+    function __sendNewPasswordEmail($user, $password) {
+
+        // Set data for the "view" of the Email
+        $this->set('password', $password );
+        $this->set( 'username', $user['User']['username'] );
+       
+        $this->Email->to = $user['User']['username'].'<'.$user['User']['email'].'>';
+        $this->Email->subject = env('SERVER_NAME') . ' - New password';
+        $this->Email->from = 'noreply@' . env('SERVER_NAME');
+        $this->Email->template = 'user_password_reset';
+        $this->Email->sendAs = 'text';   // you probably want to use both :)   
+        return $this->Email->send();
+	}     
+//--------------------------------------------------------------------	
 
 
 	function index() {

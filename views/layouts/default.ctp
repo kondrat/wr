@@ -36,7 +36,7 @@
 															'dev/common1',
 															//'dev/common2',
 															//'dev/common3',
-															'dev/reg'
+															
 															));
 
 		echo $scripts_for_layout;
@@ -47,6 +47,7 @@
 	<div class="pageheader">
 
 			<div class="container">
+				
 				<div class="span-24">
 						<div class="span-12 prepend-1">
 							<div style="float:left;margin:5px 0 5px 1em;">
@@ -55,27 +56,26 @@
 																										), array('controller'=>'items','action'=>'index'),array('escape'=>false) );?> 
 							</div>
 						</div>
-						<div class="span-5" style="position:relative;" >
-							
-									<div class="signUpNow">
-										<?php if(!$this->Session->read('Auth.User.id')|| $this->Session->read('Auth.User.group_id') == 2 ): ?>
+						<div class="span-6" style="position:relative;" >							
+								<?php if(!$this->Session->read('Auth.User.id')|| $this->Session->read('Auth.User.group_id') == 2 ): ?>								
+										<div class="signUpNow">										
 											<?php echo $html->link(__('LogIn now',true), array('controller'=>'users','action'=>'login') );?>
-										<?php else: ?>
-											<?php echo $html->link(__('LogOut now',true), array('controller'=>'users','action'=>'logout') );?>
-										<?php endif ?>
-									</div>	
-									<div class="signUpNow">
-										<?php if(!$this->Session->read('Auth.User.id')|| $this->Session->read('Auth.User.group_id') == 2 ): ?>
+											<span class="upDownSmallArrow"></span>
+											<?php echo $this->element('pageHead/quickLogin/quick_login');?>
+										</div>
+										<div class="signUpNow">										
 											<?php echo $html->link(__('SignUp now',true), array('controller'=>'users','action'=>'reg') );?>
-										<?php endif ?>
+										</div>
+								<?php else: ?>	
+									<div class="signUpNow">
+											<?php echo $html->link(__('LogOut now',true), array('controller'=>'users','action'=>'logout') );?>
 									</div>
-							
+								<?php endif ?>
 						</div>
-					</div>
-
-
+						
+				</div>
 	
-		</div>					
+			</div>					
 			
 	</div>
 

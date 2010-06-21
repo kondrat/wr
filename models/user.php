@@ -5,6 +5,7 @@ class User extends AppModel {
 	var $actsAs = array('Containable');
 //--------------------------------------------------------------------
 	var $validate = array(
+							
 							'username' => array(
 							    			'login' => array(
 																	        'rule' => '/^[a-z0-9]+$/i',  
@@ -37,7 +38,7 @@ class User extends AppModel {
 																							
 																							),
 															),
-																						
+																					
 							'password1' => array( 'betweenRus' => array(
 																													'rule' => array( 'betweenRus', 4, 10,'password1'),
 																													//'message' => 'Username must be between 4 and 10 characters long'

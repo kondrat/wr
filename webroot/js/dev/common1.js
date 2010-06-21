@@ -184,8 +184,21 @@ jQuery(document).ready(function(){
 				    $(this).removeClass("activeItem");
 				  }	
 		});
- 
- 
+//top menu decoration and control
+	$(".signUpNow").hover(function(){
+			$(this).addClass("logInActive");
+		},
+		function(){
+			$(this).removeClass("logInActive");
+		}
+	).click(function(){
+		$("#quickLogin").show();
+		
+	});
+ 	
+ 	$(".signUpNow a").click(function(){
+ 		return false;
+ 	});
  
  
  
