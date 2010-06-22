@@ -21,7 +21,8 @@ class UsersController extends AppController {
 
         parent::beforeFilter(); 
         $this->Auth->autoRedirect = false;
-
+        
+				//$this->Security->validatePost = false;
  
 		 		if( $this->action == 'login' && !empty($this->data) ) {	
 		       	if( isset($this->data['User']['username']) && strpos($this->data['User']['username'],'@')!== false ){	       		
@@ -183,6 +184,8 @@ class UsersController extends AppController {
 
 //--------------------------------------------------------------------
 	function login() {
+
+
 		$user = array();
 		$this->set('title_for_layout', __('Login',true) );
 

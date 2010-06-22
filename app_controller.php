@@ -1,7 +1,7 @@
 <?php
 class AppController extends Controller {
 	var $components = array( 
-				'Security',
+				//'Security',
 				'Cookie','Session','Auth',
 				'AutoLogin',
 				'RequestHandler', 'Email',
@@ -48,7 +48,7 @@ class AppController extends Controller {
                 	$this->Auth->deny('pages/admin_index');
                 }
             }
-            $this->Auth->loginAction = array('admin' => false, 'controller' => 'users', 'action' => 'login');
+            //$this->Auth->loginAction = array('admin' => false, 'controller' => 'users', 'action' => 'login');
 						
         } 
 				

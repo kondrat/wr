@@ -12,7 +12,7 @@ class ItemsController extends AppController {
   			//default title
   			$this->set('title_for_layout', __('Items',true) );
   			//allowed actions
-        $this->Auth->allow('index','view','getTransl');
+        $this->Auth->allow('index','view','getTransl','qlogin');
 
         parent::beforeFilter(); 
         $this->Auth->autoRedirect = false;
@@ -22,12 +22,33 @@ class ItemsController extends AppController {
 				if( $this->RequestHandler->isAjax() && in_array( $this->action, $this->publicActions) ) { 
 		   			$this->Security->validatePost = false;
 		   	}
-
+				//$this->Auth->loginAction = array('admin' => false, 'controller' => 'items', 'action' => 'qlogin');
   }
 
 //--------------------------------------------------------------------
 //--------------------------------------------------------------------
+	function qlogin() {
+		$user = array();
+		//$this->set('title_for_layout', __('Login',true) );
 
+//add logic for group_id == 2 here
+		if( !empty($this->data) ) {
+										
+			if( $this->Auth->login($this->data) ) {
+						$this->redirect( $this->Auth->redirect() );			
+			} else {
+				//$this->data['Item']['password'] = null;
+				$this->Session->setFlash(__('Check your login and password',true),'default', array('class' => 'fler'));
+			}
+			
+		} else {
+
+			if( !is_null( $this->Session->read('Auth.User.username') ) && $this->Session->read('Auth.User.group_id') != 2 ){
+				$this->redirect( $this->Auth->redirect() );			
+			} 
+		}
+		
+	}
 
 //--------------------------------------------------------------------
 	//ajax staff
