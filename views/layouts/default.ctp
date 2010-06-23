@@ -44,7 +44,7 @@
 
 </head>
 <body>
-	<div class="pageheader">
+	<div class="pageheader" style="z-index:2; position:relative;">
 
 			<div class="container">
 				
@@ -56,21 +56,8 @@
 																										), array('controller'=>'items','action'=>'index'),array('escape'=>false) );?> 
 							</div>
 						</div>
-						<div class="span-6" style="position:relative;" >							
-								<?php if(!$this->Session->read('Auth.User.id')|| $this->Session->read('Auth.User.group_id') == 2 ): ?>								
-										<div class="signUpNow">										
-											<?php echo $html->link(__('LogIn now',true), array('controller'=>'users','action'=>'login') );?>
-											<span class="upDownSmallArrow"></span>
-											<?php echo $this->element('pageHead/quickLogin/quick_login');?>
-										</div>
-										<div class="signUpNow">										
-											<?php echo $html->link(__('SignUp now',true), array('controller'=>'users','action'=>'reg') );?>
-										</div>
-								<?php else: ?>	
-									<div class="signUpNow">
-											<?php echo $html->link(__('LogOut now',true), array('controller'=>'users','action'=>'logout') );?>
-									</div>
-								<?php endif ?>
+						<div class="span-6" style="position:relative;">							
+							<?php echo $this->element('pageHead/topMenu/top_menu');?>
 						</div>
 						
 				</div>
@@ -81,8 +68,8 @@
 
 
 		
-	<div class="container showgrid.">    
-			  <div class="fl" style="">
+	<div class="container showgrid." style="z-index:1; position:relative;">    
+			  <div class="span-19 fl" style="">
 				  <?php echo $session->flash();?>
 			  </div>
 		
@@ -92,6 +79,7 @@
 		    </div>
 	
 	</div>
+	
 	<div class="pagefooter" style="">
 			<div class="container">
 				<div class="span-24">

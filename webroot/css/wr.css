@@ -14,31 +14,33 @@
 }
 
 /*reg - login*/
-.signUpNow {
+.signUpNow,.logInNow, .logOutNow{
 	float:left;
-	margin:0.5em 1em 0.5em 0;	
-	padding-right:3px;	
+	margin:0.5em 0;		
 	position:relative;
 }
-.signUpNow a {
+.signUpNow a , .logInNow a , .logOutNow a{
 	float:left;
 	font-size:110%;
 	color:gray;
 	display:block;
 	padding:0 0.4em;
+	outline : none;
 }
-.signUpNow:hover{
-	background-color:#777;			
+.signUpNow a span {
+	float:left;
 }
-.signUpNow:hover a {
+.signUpNow:hover, .logInNow:hover, .logOutNow:hover{
+	background-color:silver;			
+}
+.signUpNow:hover a, .logInNow:hover a, .logOutNow:hover a {
 	color:white;
 }
 .upDownSmallArrow{
 	background:url("../img/icons/up_down_arrow_small.png") repeat-x scroll 0 -19px transparent;
 	display:block;
-	float:left;
 	height:16px;
-	margin-top:4px;
+	margin:4px 0 0 5px;
 	width:16px;
 }
 .logInActive .upDownSmallArrow{
@@ -48,16 +50,18 @@
 
 #quickLogin{
 	position:absolute;
-	top:20px;
-	right:0;
+	top:30px;
+	right:140px;
 	z-index:1000;
 }
 .quickLoginInner {
+	-moz-border-radius:7px;
+	-moz-box-shadow:0 0 6px silver;
 	float:left;
-	background-color:#9AE4E8;
+	background-color:#eee;
 	border:3px solid silver;
 	margin:0 auto;
-	padding:5px 10px 5px 30px;
+	padding:5px 10px 5px 24px;
 	width:224px;
 }
 .quickLoginSubmit {

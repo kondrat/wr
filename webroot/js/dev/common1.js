@@ -184,6 +184,7 @@ jQuery(document).ready(function(){
 				    $(this).removeClass("activeItem");
 				  }	
 		});
+		
 //top menu decoration and control
 	$(".signUpNow").hover(function(){
 			$(this).addClass("logInActive");
@@ -192,15 +193,15 @@ jQuery(document).ready(function(){
 			$(this).removeClass("logInActive");
 		}
 	).click(function(){
-		$("#quickLogin").show();
-		
+		$("#quickLogin").toggle();
+		return false;
 	});
  	
  	$(".signUpNow a").click(function(){
- 		return false;
+ 		
  	});
  
- 
+	 
  
   
 });

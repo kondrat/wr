@@ -21,16 +21,35 @@ class UsersController extends AppController {
 
         parent::beforeFilter(); 
         $this->Auth->autoRedirect = false;
-        
-				//$this->Security->validatePost = false;
+
+			
  
-		 		if( $this->action == 'login' && !empty($this->data) ) {	
-		       	if( isset($this->data['User']['username']) && strpos($this->data['User']['username'],'@')!== false ){	       		
-		       		$user = $this->User->find('first',array( 'conditions'=> array('User.email' => $this->data['User']['username']), 'contain' => false ) );
+		 		if( $this->action == 'login' && !empty($this->data) ) {
+		 				$data = $this->data;	
+		       	if( isset($data['User']['username']) && strpos($data['User']['username'],'@')!== false ){	       		
+		       		$user = $this->User->find('first',array( 'conditions'=> array('User.email' => $data['User']['username']), 'contain' => false ) );
 		       		if($user != array() ){
 		       			$this->data['User']['username'] = $user['User']['username'];
 		       		}
-						}						
+						}
+						
+						
+						if($this->referer() === '/' || $this->referer() === 'items/index'){
+ 
+							if (!isset($data['_Token']) || !isset($data['_Token']['fields']) || !isset($data['_Token']['key'])) {
+						 		return false;
+						 	}
+						 	$token = $data['_Token']['key'];					 	 
+						 	if ($this->Session->check('_Token')) {
+								$tokenData = unserialize($this->Session->read('_Token'));						 	 
+						 		if ($tokenData['expires'] < time() || $tokenData['key'] !== $token) {
+						 			return false;
+						 		}
+							}						
+					
+							$this->Security->validatePost = false;						
+						}
+									
 				}       
 
 
@@ -185,7 +204,8 @@ class UsersController extends AppController {
 //--------------------------------------------------------------------
 	function login() {
 
-
+			
+		
 		$user = array();
 		$this->set('title_for_layout', __('Login',true) );
 

@@ -1,7 +1,7 @@
 <?php
 class AppController extends Controller {
 	var $components = array( 
-				//'Security',
+				'Security',
 				'Cookie','Session','Auth',
 				'AutoLogin',
 				'RequestHandler', 'Email',

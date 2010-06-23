@@ -12,7 +12,7 @@ class ItemsController extends AppController {
   			//default title
   			$this->set('title_for_layout', __('Items',true) );
   			//allowed actions
-        $this->Auth->allow('index','view','getTransl','qlogin');
+        $this->Auth->allow('index','view','getTransl');
 
         parent::beforeFilter(); 
         $this->Auth->autoRedirect = false;
@@ -23,32 +23,13 @@ class ItemsController extends AppController {
 		   			$this->Security->validatePost = false;
 		   	}
 				//$this->Auth->loginAction = array('admin' => false, 'controller' => 'items', 'action' => 'qlogin');
+				//$this->Security->allowedControllers = array('users');
+				//$this->Security->allowedActions = array('login');
   }
 
 //--------------------------------------------------------------------
 //--------------------------------------------------------------------
-	function qlogin() {
-		$user = array();
-		//$this->set('title_for_layout', __('Login',true) );
 
-//add logic for group_id == 2 here
-		if( !empty($this->data) ) {
-										
-			if( $this->Auth->login($this->data) ) {
-						$this->redirect( $this->Auth->redirect() );			
-			} else {
-				//$this->data['Item']['password'] = null;
-				$this->Session->setFlash(__('Check your login and password',true),'default', array('class' => 'fler'));
-			}
-			
-		} else {
-
-			if( !is_null( $this->Session->read('Auth.User.username') ) && $this->Session->read('Auth.User.group_id') != 2 ){
-				$this->redirect( $this->Auth->redirect() );			
-			} 
-		}
-		
-	}
 
 //--------------------------------------------------------------------
 	//ajax staff
@@ -96,8 +77,8 @@ class ItemsController extends AppController {
 									//creating of the first proj
 									/*
 									if( $this->Item->save($this->data) ) {									
-										$newProjId = $this->Card->Theme->id;
-										$this->data["Card"]["theme_id"] = $newProjId;										
+										$newProjId = $this->Item->Theme->id;
+										$this->data["Item"]["theme_id"] = $newProjId;										
 									}else{
 										//report server problem
 									}		
@@ -118,23 +99,23 @@ class ItemsController extends AppController {
 							$this->data['User']['password'] = 1234;
 							
 							/*
-							if ( $this->Card->User->save($this->data, array('validate' => false) ) ) {
+							if ( $this->Item->User->save($this->data, array('validate' => false) ) ) {
 								
-									$a = $this->Card->User->read(array('id','username','password'));
+									$a = $this->Item->User->read(array('id','username','password'));
 									//$a['User']['auto_login'] = 1;
 																	
 									$this->Auth->login($a);	
 	
-									$this->data["Card"]["user_id"] = $a['User']['id'];
+									$this->data["Item"]["user_id"] = $a['User']['id'];
 															
 									$this->data['Theme']['theme'] = $this->data['Theme']['theme'];
 									$this->data['Theme']['user_id'] = $a['User']['id'];
 									$this->data['Theme']['current_theme'] = time();
 									
 									//creating of the first theme
-									if( $this->Card->Theme->save($this->data) ) {									
-										$newThemeId = $this->Card->Theme->id;
-										$this->data["Card"]["theme_id"] = $newThemeId;
+									if( $this->Item->Theme->save($this->data) ) {									
+										$newThemeId = $this->Item->Theme->id;
+										$this->data["Item"]["theme_id"] = $newThemeId;
 										$contents['theme'] = 1;	
 										$contents['themeName'] = $this->data['Theme']['theme'];
 										$contents['themeId'] = $newThemeId;									
@@ -248,115 +229,115 @@ class ItemsController extends AppController {
 
 	function view($id = null) {
 		if (!$id) {
-			$this->Session->setFlash(__('Invalid card', true));
+			$this->Session->setFlash(__('Invalid Item', true));
 			$this->redirect(array('action' => 'index'));
 		}
-		$this->set('card', $this->Card->read(null, $id));
+		$this->set('Item', $this->Item->read(null, $id));
 	}
 
 	function add() {
 		if (!empty($this->data)) {
-			$this->Card->create();
-			if ($this->Card->save($this->data)) {
-				$this->Session->setFlash(__('The card has been saved', true));
+			$this->Item->create();
+			if ($this->Item->save($this->data)) {
+				$this->Session->setFlash(__('The Item has been saved', true));
 				$this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The card could not be saved. Please, try again.', true));
+				$this->Session->setFlash(__('The Item could not be saved. Please, try again.', true));
 			}
 		}
-		$users = $this->Card->User->find('list');
+		$users = $this->Item->User->find('list');
 		$this->set(compact('users'));
 	}
 
 	function edit($id = null) {
 		if (!$id && empty($this->data)) {
-			$this->Session->setFlash(__('Invalid card', true));
+			$this->Session->setFlash(__('Invalid Item', true));
 			$this->redirect(array('action' => 'index'));
 		}
 		if (!empty($this->data)) {
-			if ($this->Card->save($this->data)) {
-				$this->Session->setFlash(__('The card has been saved', true));
+			if ($this->Item->save($this->data)) {
+				$this->Session->setFlash(__('The Item has been saved', true));
 				$this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The card could not be saved. Please, try again.', true));
+				$this->Session->setFlash(__('The Item could not be saved. Please, try again.', true));
 			}
 		}
 		if (empty($this->data)) {
-			$this->data = $this->Card->read(null, $id);
+			$this->data = $this->Item->read(null, $id);
 		}
-		$users = $this->Card->User->find('list');
+		$users = $this->Item->User->find('list');
 		$this->set(compact('users'));
 	}
 
 	function delete($id = null) {
 		if (!$id) {
-			$this->Session->setFlash(__('Invalid id for card', true));
+			$this->Session->setFlash(__('Invalid id for Item', true));
 			$this->redirect(array('action'=>'index'));
 		}
-		if ($this->Card->delete($id)) {
-			$this->Session->setFlash(__('Card deleted', true));
+		if ($this->Item->delete($id)) {
+			$this->Session->setFlash(__('Item deleted', true));
 			$this->redirect(array('action'=>'index'));
 		}
-		$this->Session->setFlash(__('Card was not deleted', true));
+		$this->Session->setFlash(__('Item was not deleted', true));
 		$this->redirect(array('action' => 'index'));
 	}
 	function admin_index() {
-		$this->Card->recursive = 0;
-		$this->set('cards', $this->paginate());
+		$this->Item->recursive = 0;
+		$this->set('Items', $this->paginate());
 	}
 
 	function admin_view($id = null) {
 		if (!$id) {
-			$this->Session->setFlash(__('Invalid card', true));
+			$this->Session->setFlash(__('Invalid Item', true));
 			$this->redirect(array('action' => 'index'));
 		}
-		$this->set('card', $this->Card->read(null, $id));
+		$this->set('Item', $this->Item->read(null, $id));
 	}
 
 	function admin_add() {
 		if (!empty($this->data)) {
-			$this->Card->create();
-			if ($this->Card->save($this->data)) {
-				$this->Session->setFlash(__('The card has been saved', true));
+			$this->Item->create();
+			if ($this->Item->save($this->data)) {
+				$this->Session->setFlash(__('The Item has been saved', true));
 				$this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The card could not be saved. Please, try again.', true));
+				$this->Session->setFlash(__('The Item could not be saved. Please, try again.', true));
 			}
 		}
-		$users = $this->Card->User->find('list');
+		$users = $this->Item->User->find('list');
 		$this->set(compact('users'));
 	}
 
 	function admin_edit($id = null) {
 		if (!$id && empty($this->data)) {
-			$this->Session->setFlash(__('Invalid card', true));
+			$this->Session->setFlash(__('Invalid Item', true));
 			$this->redirect(array('action' => 'index'));
 		}
 		if (!empty($this->data)) {
-			if ($this->Card->save($this->data)) {
-				$this->Session->setFlash(__('The card has been saved', true));
+			if ($this->Item->save($this->data)) {
+				$this->Session->setFlash(__('The Item has been saved', true));
 				$this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The card could not be saved. Please, try again.', true));
+				$this->Session->setFlash(__('The Item could not be saved. Please, try again.', true));
 			}
 		}
 		if (empty($this->data)) {
-			$this->data = $this->Card->read(null, $id);
+			$this->data = $this->Item->read(null, $id);
 		}
-		$users = $this->Card->User->find('list');
+		$users = $this->Item->User->find('list');
 		$this->set(compact('users'));
 	}
 
 	function admin_delete($id = null) {
 		if (!$id) {
-			$this->Session->setFlash(__('Invalid id for card', true));
+			$this->Session->setFlash(__('Invalid id for Item', true));
 			$this->redirect(array('action'=>'index'));
 		}
-		if ($this->Card->delete($id)) {
-			$this->Session->setFlash(__('Card deleted', true));
+		if ($this->Item->delete($id)) {
+			$this->Session->setFlash(__('Item deleted', true));
 			$this->redirect(array('action'=>'index'));
 		}
-		$this->Session->setFlash(__('Card was not deleted', true));
+		$this->Session->setFlash(__('Item was not deleted', true));
 		$this->redirect(array('action' => 'index'));
 	}
 }
