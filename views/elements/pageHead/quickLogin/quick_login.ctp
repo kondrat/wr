@@ -42,7 +42,7 @@
 		
 			<div class="formWrapTip">
 				<div style="margin-top: 5px;">
-					<?php echo $html->link(__('Forgot password?',true), array('admin'=> false, 'action' => 'reset'), array('class' => '' ) ); ?>
+					<?php echo $html->link(__('Forgot password?',true), array('admin'=> false,'controller'=> 'users','action' => 'reset'), array('class' => '' ) ); ?>
 				</div>
 			</div>	
 

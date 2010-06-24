@@ -1,23 +1,27 @@
 /*signUp button in login form*/
 .reg {
-	/*width:10em;*/
+	position: absolute;
+	left: 480px;
+	top: 45px;
 }
 .reg a {
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
 	display:block;
 	border: 1px solid burlyWood;
 	
 	padding: 3px 10px;
 	text-align:center;
 	
-	font-size: 2em;
+	font-size: 1.2em;
 	text-decoration:none;
 	font-weight: bold;
 	background-color: #97CD39;
 	color: gray;
 	text-shadow:-1px 1px 0 #eee;
 	background:transparent url(../img/pic/reg.png) repeat-x scroll 0 0;
-	-moz-border-radius:8px;
-	-webkit-border-radius:8px;
+
 }
 .reg a:hover {
 	color: gray;

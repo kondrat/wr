@@ -71,6 +71,7 @@ class UsersController extends AppController {
 		$stopWord = '';
 		
 		$this->set('title_for_layout', __('SignUp',true) );
+		$this->set('menuType', 'reg');
 		
 		if($this->Auth->user('id') && $this->Auth->user('group_id') != 2 ) {
 			$this->redirect('/',null,true);
@@ -98,7 +99,6 @@ class UsersController extends AppController {
 				$this->Session->setFlash(__('New user\'s accout hasn\'t been created',true) , 'default', array('class' => 'fler') );
 			}
 		}
-		
 		
 
 	}	
@@ -202,12 +202,10 @@ class UsersController extends AppController {
     } 
 
 //--------------------------------------------------------------------
-	function login() {
-
-			
-		
+	function login() {		
 		$user = array();
 		$this->set('title_for_layout', __('Login',true) );
+		$this->set('menuType', 'login');
 
 //add logic for group_id == 2 here
 		if( !empty($this->data) ) {
@@ -244,9 +242,17 @@ class UsersController extends AppController {
     }
 //--------------------------------------------------------------------	
     function reset() { 
- 
- 
-    	
+/* 
+$to      = '4116457@mail.ru';
+$subject = 'the subject';
+$message = 'hello';
+$headers = 'From: mail.tehnoavia.ru' . "\r\n" .
+    'Reply-To: mail.tehnoavia.ru' . "\r\n" .
+    'X-Mailer: PHP/' . phpversion();
+
+mail($to, $subject, $message, $headers);
+*/
+   	
     	
     	if( empty($this->data) ) {
     		return;    		
@@ -288,16 +294,39 @@ class UsersController extends AppController {
     */
     function __sendNewPasswordEmail($user, $password) {
 
+
         // Set data for the "view" of the Email
         $this->set('password', $password );
         $this->set( 'username', $user['User']['username'] );
-       
-        $this->Email->to = $user['User']['username'].'<'.$user['User']['email'].'>';
+      
+        //$this->Email->to = $user['User']['username'].'<'.$user['User']['email'].'>';
+        $this->Email->to = $user['User']['username'].' <akv@tehnoavia.ru>';
+        //$this->Email->to = $user['User']['username'].' <4116457@mail.ru>';
         $this->Email->subject = env('SERVER_NAME') . ' - New password';
-        $this->Email->from = 'noreply@' . env('SERVER_NAME');
+        //$this->Email->from = 'noreply@' . env('SERVER_NAME');
+        $this->Email->from = 'mail.tehnoavia.ru';
         $this->Email->template = 'user_password_reset';
-        $this->Email->sendAs = 'text';   // you probably want to use both :)   
+        $this->Email->sendAs = 'text';   // you probably want to use both :) 
+ 
+			 /* SMTP Options */
+			 /*
+			   $this->Email->smtpOptions = array(
+			        'port'=>'465', 
+			        'timeout'=>'30',
+			        'host' => 'ssl://smtp.gmail.com',
+			        'username'=>'quoondo@gmail.com',
+			        'password'=>'Kondrat01',
+			   );
+       	
+        $this->Email->delivery = 'smtp';
+        */
+    		$this->set('smtp-errors', $this->Email->smtpError);
+               
+       //$this->Email->delivery = 'debug'; 
         return $this->Email->send();
+    		 
+
+
 	}     
 //--------------------------------------------------------------------	
 

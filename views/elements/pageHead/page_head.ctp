@@ -1,6 +1,7 @@
-<div id="newItem" class="span-24">
-  	<div class="span-4">
-    	<div class="newItem"><?php __('New');?><span><?php __('task');?></span></div>
+<div id="newItem" class="span-18">
+  	<div class="span-4 append-1" style="margin:.6em 0 0.2em 0;">
+  		<?php echo $html->link(__('New',true).'<span>'.__('task',true).'</span>', array('#'), array('onclick'=>'return false','class'=>'newItem','escape'=>false) );?>
+    	
     	<div class="newProject">
     		<?php //echo $html->link( __('New project',true),array('#') );?>
     		<div id="projectEditor" class="hide">
@@ -14,7 +15,7 @@
    	</div>
    	<?php echo $this->element('pageHead/threeWaysMenu/three_ways_menu');?>
 
-		<div class="span-10 last">
+		<div class="span-5 last" style="text-align:right;">
    		<?php __('today');?>:&nbsp;<?php echo Date('d-m-Y');?>&nbsp;|&nbsp;<?php __('Week');?>:&nbsp;<?php echo Date('W');?>
 		</div>
 </div>

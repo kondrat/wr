@@ -52,7 +52,7 @@
 
 
 		
-		<div class="reg" style="position:absolute; left:440px;top:40px;">
+		<div class="reg">
 			<?php echo $html->link(__('SignUp now',true), array('controller'=>'users','action'=>'reg') );?>
 		</div>
 		

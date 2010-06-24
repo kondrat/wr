@@ -31,7 +31,7 @@ jQuery(document).ready(function(){
 
 
 		  
-  $("#newItem div div:first").click(function(){
+  $("#newItem div a:first").click(function(){
     if ( $("#newItemForm").is(":visible") ) {
     	$("#newItemForm").fadeOut();
     }else{
@@ -186,20 +186,22 @@ jQuery(document).ready(function(){
 		});
 		
 //top menu decoration and control
-	$(".signUpNow").hover(function(){
-			$(this).addClass("logInActive");
+	$("#logInNow").hover(function(){
+			$(this).addClass("logInHov");
 		},
 		function(){
-			$(this).removeClass("logInActive");
+			$(this).removeClass("logInHov");
 		}
 	).click(function(){
+		if ( $("#quickLogin").is(":hidden") ) {
+			$(this).addClass("logInAct");
+		} else {
+			$(this).removeClass("logInAct");
+		}
 		$("#quickLogin").toggle();
 		return false;
 	});
  	
- 	$(".signUpNow a").click(function(){
- 		
- 	});
  
 	 
  

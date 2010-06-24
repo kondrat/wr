@@ -48,16 +48,21 @@
 
 			<div class="container">
 				
-				<div class="span-24">
-						<div class="span-12 prepend-1">
+				<div class="span-18">
+						<div class="span-5 prepend-1">
 							<div style="float:left;margin:5px 0 5px 1em;">
 								<?php echo $html->link($html->image(
 																										'pic/wr-logo-24-dev.png'
 																										), array('controller'=>'items','action'=>'index'),array('escape'=>false) );?> 
 							</div>
 						</div>
-						<div class="span-6" style="position:relative;">							
-							<?php echo $this->element('pageHead/topMenu/top_menu');?>
+						<div class="" style="position:relative; float:right;">						
+							<?php 
+								if( !isset($menuType) || !in_array($menuType, array('reg','login','index','todo'),true) ) {
+									$menuType = 'default';
+								}
+								echo $this->element('pageHead/topMenu/top_menu',array( 'menuType'=> $menuType  ) );
+							?>
 						</div>
 						
 				</div>
@@ -71,10 +76,11 @@
 	<div class="container showgrid." style="z-index:1; position:relative;">    
 			  <div class="span-19 fl" style="">
 				  <?php echo $session->flash();?>
+				  <?php echo $this->Session->flash('email'); ?>
 			  </div>
 		
-		    <div class="span-23 prepend-1 last contentWrapper" style="">
-		    			<?php echo $this->element('noscript/noscript');?>	        
+		    <div class="span-18 prepend-1 last contentWrapper" style="">
+		    			<?php echo $this->element('noscript/noscript', array('cache' => array('key' => 'first_use','time' => '+1 year') ) );?>	        
 							<?php echo $content_for_layout; ?>		        
 		    </div>
 	

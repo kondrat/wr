@@ -11,6 +11,8 @@ class ItemsController extends AppController {
 
   			//default title
   			$this->set('title_for_layout', __('Items',true) );
+  			//default menuType
+  			$this->set('menuType', 'todo');
   			//allowed actions
         $this->Auth->allow('index','view','getTransl');
 
@@ -22,9 +24,7 @@ class ItemsController extends AppController {
 				if( $this->RequestHandler->isAjax() && in_array( $this->action, $this->publicActions) ) { 
 		   			$this->Security->validatePost = false;
 		   	}
-				//$this->Auth->loginAction = array('admin' => false, 'controller' => 'items', 'action' => 'qlogin');
-				//$this->Security->allowedControllers = array('users');
-				//$this->Security->allowedActions = array('login');
+				
   }
 
 //--------------------------------------------------------------------
@@ -163,16 +163,17 @@ class ItemsController extends AppController {
 				}	
 //--------------------------------------------------------------------
 	function index() {
+		$this->set('title_for_layout', __('Main page',true) );		
+		$this->set('menuType', 'index');
 		
     if ($authUserId = $this->Auth->user('id') ) {
-    	//$this->redirect(array('controller'=>'items','aciotn'=>'todo'));
     	$this->redirect(array('action' => 'todo'));
-    }
+    } 
 		
 	}
 //--------------------------------------------------------------------
 	function todo() {
-
+		$this->set('menuType', 'todo');
 		$todos = array();
 		$authUserId = $this->Auth->user('id');
 		$pagItemCond = array();

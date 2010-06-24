@@ -14,48 +14,68 @@
 }
 
 /*reg - login*/
-.signUpNow,.logInNow, .logOutNow{
+.topMenu{
 	float:left;
-	margin:0.5em 0;		
-	position:relative;
+	margin:0.5em 3px .5em 0;
 }
-.signUpNow a , .logInNow a , .logOutNow a{
-	float:left;
+
+.topMenu a {
 	font-size:110%;
 	color:gray;
 	display:block;
 	padding:0 0.4em;
 	outline : none;
+	text-decoration:none;
 }
-.signUpNow a span {
-	float:left;
+.topMenu a:focus{
+	color:gray;
 }
-.signUpNow:hover, .logInNow:hover, .logOutNow:hover{
+.topMenu:hover{
 	background-color:silver;			
 }
-.signUpNow:hover a, .logInNow:hover a, .logOutNow:hover a {
+.topMenu:hover a {
 	color:white;
 }
+.upDownArr{
+	background:url("../img/icons/up_down_arrow_small.png") no-repeat scroll 100% -15px transparent;
+	padding:3px 20px 0 0;
+}
+.logInHov a span{
+	background-position: 100% -53px;
+}
+.logInAct {
+	background-color:silver;
+}
+.logInAct a,.logInAct a:focus{
+	color:white;
+}
+.logInAct a span{
+	background-position: 100% -34px;
+}
+/*
 .upDownSmallArrow{
 	background:url("../img/icons/up_down_arrow_small.png") repeat-x scroll 0 -19px transparent;
 	display:block;
 	height:16px;
 	margin:4px 0 0 5px;
 	width:16px;
+	float:right;
 }
 .logInActive .upDownSmallArrow{
 	background-position: 0 -57px;
 }
-
+*/
 
 #quickLogin{
 	position:absolute;
-	top:30px;
-	right:140px;
+	right:135px;
+	top:26px;
 	z-index:1000;
 }
 .quickLoginInner {
-	-moz-border-radius:7px;
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
 	-moz-box-shadow:0 0 6px silver;
 	float:left;
 	background-color:#eee;
@@ -118,25 +138,41 @@ span.activePrj a{
 		color:red;
 }
 #newItem{
-  padding:1em 0 1em 1em;
-  position:relative;
+
 }
 .newItem {
-  -moz-border-radius:10px;
-  background:-moz-linear-gradient(center top , AntiqueWhite, white 140%) repeat scroll 0 0 transparent;
-  background-color:AntiqueWhite;
-  border:2px solid;
-  color:brown;
-  font-size:20pt;
-  text-align:center;
-  width:85px;
-  line-height:1.2em;
-  padding:0 0.3em;
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+	display:block;
+	border: 1px solid burlyWood;
+	
+	padding: 3px 10px;
+	text-align:center;
+	
+	font-size: 1.2em;
+	text-decoration:none;
+	font-weight: bold;
+	background-color: #97CD39;
+	color: gray;
+	text-shadow:-1px 1px 0 #eee;
+	background:transparent url(../img/pic/reg.png) repeat-x scroll 0 0;
+	width: 85px;
+	outline:medium none;
 }
 .newItem span{
 	font-size:small;
 	vertical-align:top;
 	margin-left:0.5em;
+	font-weight:normal;
+}
+a.newItem:hover {
+	color: gray;
+	text-shadow:-1px 1px 0 #fff;
+	background-position: 0 -5px;
+}
+a.newItem:focus {
+	color: gray;
 }
 .targetItem{
   background-color:#eee;
@@ -180,6 +216,7 @@ span.activePrj a{
 }
 #threeWays{
 	font-size:large;
+	margin-top:0.2em;
 }
 #threeWays a{
 	text-decoration:none;
