@@ -32,6 +32,7 @@
 															//'jquery/jquery.ui.mouse.min.js',
 															//'jquery/jquery.ui.draggable.min',
 															'dev/jquery.coloranim',
+															'dev/jquery.ba-outside-events.min',
 															'dev/func',
 															'dev/common1',
 															//'dev/common2',

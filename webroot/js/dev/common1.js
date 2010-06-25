@@ -28,14 +28,70 @@ jQuery(document).ready(function(){
 				});
 		}
 
-
-
+/*		
+		$("#newItemForm").bind( "clickoutside", function(event){
+			
+			if(!$(this).is(":hidden") ) {
+				$(this).hide();
+			}
+		});
+*/
+	$("body").click(function(){
+		$(".opendW").hide().removeClass(".opendW");		
+	});
+	var text = '';
 		  
   $("#newItem div a:first").click(function(){
+  	/*
+    			$("#newItemForm").bind( "clickoutside", function(event){		
+    				var clicked_elem = $(event.target);
+    				
+					    var elem = $(this);
+					      target = $(event.target);
+					      
+					      // Update the text to reference the event.target element.
+					      text = 'Clicked: ' + target[0].tagName.toLowerCase()
+					        + ( target.attr('id') ? '#' + target.attr('id')
+					          : target.attr('class') ? '.' + target.attr('class').replace( / /g, '.' )
+					          : ' ' );
+								//alert(text); 
+								$("#newItemForm").hide();
+						});
+   						 	
+  		*/
+  	
+  	var mm = $(this);
+  	
     if ( $("#newItemForm").is(":visible") ) {
-    	$("#newItemForm").fadeOut();
+    	/*
+    	$("#newItemForm").unbind( "clickoutside");
+    	*/
+    	$("#newItemForm").fadeOut( function(){});
+    	
+    	
     }else{
-    	$("#newItemForm").show();
+    	/*
+    	$("#newItemForm").bind( "clickoutside", function(event){
+					      target = $(event.target);
+					      
+					      // Update the text to reference the event.target element.
+					     
+					      text = 'Clicked: ' + target[0].tagName.toLowerCase()
+					        + ( target.attr('id') ? '#' + target.attr('id')
+					          : target.attr('class') ? '.' + target.attr('class').replace( / /g, '.' )
+					          : ' ' );
+					         
+					      if ( target.attr('id') !== mm.attr('id') ) {
+									//alert(target.attr('id'));
+									$("#newItemForm").hide();
+								} 
+
+					
+    	//$("#newItemForm").hide();
+    	});
+    	*/
+    	$("#newItemForm").show().addClass("opendW");
+
     }
   });
  
@@ -199,6 +255,7 @@ jQuery(document).ready(function(){
 			$(this).removeClass("logInAct");
 		}
 		$("#quickLogin").toggle();
+		
 		return false;
 	});
  	

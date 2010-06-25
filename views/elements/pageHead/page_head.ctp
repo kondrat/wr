@@ -1,6 +1,6 @@
 <div id="newItem" class="span-18">
-  	<div class="span-4 append-1" style="margin:.6em 0 0.2em 0;">
-  		<?php echo $html->link(__('New',true).'<span>'.__('task',true).'</span>', array('#'), array('onclick'=>'return false','class'=>'newItem','escape'=>false) );?>
+  	<div  class="span-4 append-1" style="margin:.6em 0 0.2em 0;">
+  		<?php echo $html->link(__('New',true).'<span>'.__('task',true).'</span>', array('#'), array('onclick'=>'return false','class'=>'newItem','id'=>'nnnT','escape'=>false) );?>
     	
     	<div class="newProject">
     		<?php //echo $html->link( __('New project',true),array('#') );?>
