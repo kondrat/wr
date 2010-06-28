@@ -1,4 +1,5 @@
-<div id="newItemForm" class="newItemForm span-17 hide">  
+<div id="newItemForm" class="dropdown-menu newItemForm span-17 hide"> 
+	
     <div style="">
       <div class="span-8 append-6">
       	<?php echo $form->dateTime('target','DMY', 'none',null, array('empty' => false) );?>

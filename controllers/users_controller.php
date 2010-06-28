@@ -300,26 +300,27 @@ mail($to, $subject, $message, $headers);
         $this->set( 'username', $user['User']['username'] );
       
         //$this->Email->to = $user['User']['username'].'<'.$user['User']['email'].'>';
-        $this->Email->to = $user['User']['username'].' <akv@tehnoavia.ru>';
-        //$this->Email->to = $user['User']['username'].' <4116457@mail.ru>';
+        //$this->Email->to = $user['User']['username'].' <akv@tehnoavia.ru>';
+        $this->Email->to = $user['User']['username'].' <4116457@mail.ru>';
         $this->Email->subject = env('SERVER_NAME') . ' - New password';
         //$this->Email->from = 'noreply@' . env('SERVER_NAME');
-        $this->Email->from = 'mail.tehnoavia.ru';
+        $this->Email->from = 'akv@tehnoavia.ru';
         $this->Email->template = 'user_password_reset';
         $this->Email->sendAs = 'text';   // you probably want to use both :) 
  
 			 /* SMTP Options */
-			 /*
+			 
 			   $this->Email->smtpOptions = array(
-			        'port'=>'465', 
+			        'port'=>'25',//'465', 
 			        'timeout'=>'30',
-			        'host' => 'ssl://smtp.gmail.com',
-			        'username'=>'quoondo@gmail.com',
-			        'password'=>'Kondrat01',
+			        'host' => 'r1',//'ssl://smtp.gmail.com',
+			        'username'=>'akv',//'quoondo@gmail.com',
+			        'password'=>'Qaz1234',//'Kondrat01',
 			   );
        	
+       	
         $this->Email->delivery = 'smtp';
-        */
+        
     		$this->set('smtp-errors', $this->Email->smtpError);
                
        //$this->Email->delivery = 'debug'; 

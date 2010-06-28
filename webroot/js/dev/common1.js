@@ -35,14 +35,15 @@ jQuery(document).ready(function(){
 				$(this).hide();
 			}
 		});
-*/
+
 	$("body").click(function(){
 		$(".opendW").hide().removeClass(".opendW");		
 	});
+
 	var text = '';
 		  
   $("#newItem div a:first").click(function(){
-  	/*
+  	
     			$("#newItemForm").bind( "clickoutside", function(event){		
     				var clicked_elem = $(event.target);
     				
@@ -58,19 +59,19 @@ jQuery(document).ready(function(){
 								$("#newItemForm").hide();
 						});
    						 	
-  		*/
+  		
   	
   	var mm = $(this);
   	
     if ( $("#newItemForm").is(":visible") ) {
-    	/*
+    	
     	$("#newItemForm").unbind( "clickoutside");
-    	*/
+    	
     	$("#newItemForm").fadeOut( function(){});
     	
     	
     }else{
-    	/*
+    	
     	$("#newItemForm").bind( "clickoutside", function(event){
 					      target = $(event.target);
 					      
@@ -89,15 +90,94 @@ jQuery(document).ready(function(){
 					
     	//$("#newItemForm").hide();
     	});
-    	*/
+    	
     	$("#newItemForm").show().addClass("opendW");
 
     }
   });
- 
+
+
+*/
+
+  	$("a.newItem").click(function(){
+  		if( $(".newItemForm").is(":hidden") ) {
+  			$(".newItemForm").show();
+  		} else {
+  			$(".newItemForm").hide();
+  		}
+  	});
+
+		$("#newItemForm").bind( "clickoutside", function(event){
+			target = $(event.target);
+			//alert(target.attr('id'));
+			var idTest = target.attr('id');
+			//alert(idTest);
+			var arr = [ "nnnT", "nnnT2" ]; 		
+			//if( $.inArray( idTest, arr)  ) {
+			if( idTest != 'nnnT'  ){
+				console.log(idTest);
+				//alert(idTest+' : '+$.inArray( idTest, arr));
+				$(this).hide();
+			}
+			/*
+			 else if ( idTest != 'nnnT2') {
+				console.log(idTest);
+				$(this).hide();
+			}
+			*/
+		});
+
+/*		
+		// for keeping track of what's "open" 
+		var activeClass = 'dropdown-active', showingDropdown, showingMenu, showingParent;
+		// hides the current menu 
+		var hideMenu = function() {
+			if(showingDropdown) {
+				showingDropdown.removeClass(activeClass);
+				showingMenu.hide();
+			}
+		};
+	// recurse through dropdown menus 
+	$('.dropdown').each(function() {
+			// track elements: menu, parent 
+			var dropdown = $(this);
+			//var menu = dropdown.next('div.dropdown-menu'), parent = dropdown.parent();
+			var menu = $('.dropdown-menu'), parent = dropdown.parent();
+			// function that shows THIS menu 
+			var showMenu = function() {
+				hideMenu();
+				showingDropdown = dropdown.addClass('dropdown-active');
+				showingMenu = menu.show();
+				showingParent = parent;
+			};
+			// function to show menu when clicked 
+			dropdown.bind('click',function(e) {
+				if(e) e.stopPropagation();
+				if(e) e.preventDefault();
+				showMenu();
+			});
+			// function to show menu when someone tabs to the box 
+			dropdown.bind('focus',function() {
+				showMenu();
+			});
+	});
+	
+	// hide when clicked outside 
+	$(document.body).bind('click',function(e) {
+		if(showingParent) {
+			var parentElement = showingParent[0];
+			alert(parentElement.toSource());
+			if(!$.contains(parentElement,e.target) || !parentElement == e.target) {
+
+				hideMenu();
+			}
+		}
+	});
+*/	
+	
+	 
     //card Ajax save;
 
-    
     
     $("#saveItemMain").click(function(){
 			
@@ -248,7 +328,11 @@ jQuery(document).ready(function(){
 		function(){
 			$(this).removeClass("logInHov");
 		}
-	).click(function(){
+	).click(function(e){
+		
+				if(e) e.stopPropagation();
+				if(e) e.preventDefault();		
+		
 		if ( $("#quickLogin").is(":hidden") ) {
 			$(this).addClass("logInAct");
 		} else {
@@ -256,7 +340,7 @@ jQuery(document).ready(function(){
 		}
 		$("#quickLogin").toggle();
 		
-		return false;
+		//return false;
 	});
  	
  
