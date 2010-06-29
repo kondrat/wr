@@ -45,11 +45,12 @@
 
 </head>
 <body>
+	<div id="overlay" class="hide"></div>
 	<div class="pageheader" style="z-index:2; position:relative;">
 
 			<div class="container">
 				
-				<div class="span-18">
+				<div id="headWrap" class="span-18">
 						<div class="span-5 prepend-1">
 							<div style="float:left;margin:5px 0 5px 1em;">
 								<?php echo $html->link($html->image(
@@ -100,7 +101,7 @@
 			  </div>
 			</div>
 	</div>
-			
+		
 	<?php //echo $this->element('sql_dump'); ?>
 </body>
 </html>

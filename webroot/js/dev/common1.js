@@ -28,78 +28,11 @@ jQuery(document).ready(function(){
 				});
 		}
 
-/*		
-		$("#newItemForm").bind( "clickoutside", function(event){
-			
-			if(!$(this).is(":hidden") ) {
-				$(this).hide();
-			}
-		});
+		//New item controll
 
-	$("body").click(function(){
-		$(".opendW").hide().removeClass(".opendW");		
-	});
-
-	var text = '';
-		  
-  $("#newItem div a:first").click(function(){
-  	
-    			$("#newItemForm").bind( "clickoutside", function(event){		
-    				var clicked_elem = $(event.target);
-    				
-					    var elem = $(this);
-					      target = $(event.target);
-					      
-					      // Update the text to reference the event.target element.
-					      text = 'Clicked: ' + target[0].tagName.toLowerCase()
-					        + ( target.attr('id') ? '#' + target.attr('id')
-					          : target.attr('class') ? '.' + target.attr('class').replace( / /g, '.' )
-					          : ' ' );
-								//alert(text); 
-								$("#newItemForm").hide();
-						});
-   						 	
-  		
-  	
-  	var mm = $(this);
-  	
-    if ( $("#newItemForm").is(":visible") ) {
-    	
-    	$("#newItemForm").unbind( "clickoutside");
-    	
-    	$("#newItemForm").fadeOut( function(){});
-    	
-    	
-    }else{
-    	
-    	$("#newItemForm").bind( "clickoutside", function(event){
-					      target = $(event.target);
-					      
-					      // Update the text to reference the event.target element.
-					     
-					      text = 'Clicked: ' + target[0].tagName.toLowerCase()
-					        + ( target.attr('id') ? '#' + target.attr('id')
-					          : target.attr('class') ? '.' + target.attr('class').replace( / /g, '.' )
-					          : ' ' );
-					         
-					      if ( target.attr('id') !== mm.attr('id') ) {
-									//alert(target.attr('id'));
-									$("#newItemForm").hide();
-								} 
-
-					
-    	//$("#newItemForm").hide();
-    	});
-    	
-    	$("#newItemForm").show().addClass("opendW");
-
-    }
-  });
-
-
-*/
-
-  	$("a.newItem").click(function(){
+  	$("a.newItem").click(function(e){
+			if(e) e.stopPropagation();
+			if(e) e.preventDefault();		
   		if( $(".newItemForm").is(":hidden") ) {
   			$(".newItemForm").show();
   		} else {
@@ -108,72 +41,26 @@ jQuery(document).ready(function(){
   	});
 
 		$("#newItemForm").bind( "clickoutside", function(event){
+			
 			target = $(event.target);
-			//alert(target.attr('id'));
-			var idTest = target.attr('id');
-			//alert(idTest);
-			var arr = [ "nnnT", "nnnT2" ]; 		
-			//if( $.inArray( idTest, arr)  ) {
-			if( idTest != 'nnnT'  ){
-				console.log(idTest);
-				//alert(idTest+' : '+$.inArray( idTest, arr));
+			
+			var idTarg = target.attr('id');
+			
+			var qlog = $("#quickLogin");
+
+			if ( $.contains(qlog[0], event.target) ) {	
+				return;
+			}
+			//exclude some id
+			var arr = [ "overlay","headWrap" ]; 
+
+			if( $.inArray( idTarg, arr) === -1   ) {
 				$(this).hide();
 			}
-			/*
-			 else if ( idTest != 'nnnT2') {
-				console.log(idTest);
-				$(this).hide();
-			}
-			*/
+			
 		});
 
-/*		
-		// for keeping track of what's "open" 
-		var activeClass = 'dropdown-active', showingDropdown, showingMenu, showingParent;
-		// hides the current menu 
-		var hideMenu = function() {
-			if(showingDropdown) {
-				showingDropdown.removeClass(activeClass);
-				showingMenu.hide();
-			}
-		};
-	// recurse through dropdown menus 
-	$('.dropdown').each(function() {
-			// track elements: menu, parent 
-			var dropdown = $(this);
-			//var menu = dropdown.next('div.dropdown-menu'), parent = dropdown.parent();
-			var menu = $('.dropdown-menu'), parent = dropdown.parent();
-			// function that shows THIS menu 
-			var showMenu = function() {
-				hideMenu();
-				showingDropdown = dropdown.addClass('dropdown-active');
-				showingMenu = menu.show();
-				showingParent = parent;
-			};
-			// function to show menu when clicked 
-			dropdown.bind('click',function(e) {
-				if(e) e.stopPropagation();
-				if(e) e.preventDefault();
-				showMenu();
-			});
-			// function to show menu when someone tabs to the box 
-			dropdown.bind('focus',function() {
-				showMenu();
-			});
-	});
 	
-	// hide when clicked outside 
-	$(document.body).bind('click',function(e) {
-		if(showingParent) {
-			var parentElement = showingParent[0];
-			alert(parentElement.toSource());
-			if(!$.contains(parentElement,e.target) || !parentElement == e.target) {
-
-				hideMenu();
-			}
-		}
-	});
-*/	
 	
 	 
     //card Ajax save;
@@ -332,18 +219,26 @@ jQuery(document).ready(function(){
 		
 				if(e) e.stopPropagation();
 				if(e) e.preventDefault();		
-		
+			
 		if ( $("#quickLogin").is(":hidden") ) {
 			$(this).addClass("logInAct");
+				
+			$("#overlay").show();
 		} else {
+			$("#overlay").hide();
 			$(this).removeClass("logInAct");
 		}
 		$("#quickLogin").toggle();
+		$("#UserUsername").focus();
 		
 		//return false;
 	});
  	
- 
+ 	$("#quickLogin").bind('clickoutside', function(){
+ 		$("#logInNow").removeClass("logInAct");
+ 		$(this).hide();
+ 		$("#overlay").hide();
+ 	});
 	 
  
   
