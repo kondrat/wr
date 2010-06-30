@@ -1,26 +1,29 @@
-<div id="newItemForm" class="dropdown-menu newItemForm span-17 hide"> 
-	
-    <div style="">
-      <div class="span-8 append-6">
-      	<?php echo $form->dateTime('target','DMY', 'none',null, array('empty' => false) );?>
+<div id="newItemForm" class="span-17 hide"> 
+	<div class="newItemForm">	
+
+      <div class="" style="float:left;">
+      	<?php echo $form->input('datepicker', array('label'=>false,'div'=>false, 'id'=>'datepicker') );?>
       	<span id="timeToggle"><?php echo $html->image('icons/alert.png',array("style"=>"vertical-align:text-bottom"));?></span>
       	<span class="hide">
       		<?php echo $form->hour('hour');?>
       		<?php echo $form->minute('minute');?>
       	</span>
       </div>
-      <div class="span-1 last">
+
+      <div class="" style="float:right;">
       
       	<?php //echo $form->input( 'task',array('label'=>false,'div'=>false,'options'=>array(__('Diary',true),__('ToDo',true),__('Notes',true) ) ) );?>
       	<?php echo $form->input( 'status',array('label'=>false,'div'=>false,'options'=>array('opened','done','suspended','canceled') ) );?>
       
       </div>
-      <?php echo $form->input( 'item',array('label'=>false, 'div'=>false) );?>
+      <?php echo $form->input( 'item',array('label'=>false, 'div'=>true) );?>
 
-    </div>
-    <div>
-      <?php echo $form->button(__('save',true),array('id'=>'saveItemMain') ); ?>
-      <?php echo $form->button(__('cancel',true) ); ?>
-    </div>
-  
+
+	    <div class="" style="margin-bottom:5px;">
+	      <?php echo $form->button(__('save',true),array('id'=>'saveItemMain') ); ?>
+	      <?php echo $form->button(__('cancel',true) ); ?>
+	    </div>
+	    
+
+	</div>  
 </div>

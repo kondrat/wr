@@ -6,11 +6,12 @@
 		<?php __('Wr.go:'); ?>
 		<?php echo $title_for_layout; ?>
 	</title>
+	
 	<?php
 
 	
 		echo $html->meta('icon');
-		echo $html->css(array('wr','wr-u','screen'));
+		echo $html->css(array('wr','wr-u','screen','jqcss/css/smoothness/jquery-ui-1.8.2.custom'));
 
 		//echo $html->css('print');
 		echo '<!--[if IE]>';
@@ -28,6 +29,7 @@
 															//'jquery/jquery-ui-1.8.custom.min',
 															'jquery/jquery.ui.core.min',
 															'jquery/jquery.ui.widget.min',
+															'jquery/jquery.ui.datepicker.min',
 															//'jquery/jquery.ui.tabs.min',
 															//'jquery/jquery.ui.mouse.min.js',
 															//'jquery/jquery.ui.draggable.min',
@@ -75,7 +77,7 @@
 
 
 		
-	<div class="container showgrid." style="z-index:1; position:relative;">    
+	<div class="container showgrid." style="position:relative;">    
 			  <div class="span-19 fl" style="">
 				  <?php echo $session->flash();?>
 				  <?php echo $this->Session->flash('email'); ?>

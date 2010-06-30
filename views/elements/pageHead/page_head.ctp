@@ -19,7 +19,7 @@
    		<?php __('today');?>:&nbsp;<?php echo Date('d-m-Y');?>&nbsp;|&nbsp;<?php __('Week');?>:&nbsp;<?php echo Date('W');?>
 		</div>
 </div>
-<div class="span-23" style="margin-bottom:1em;">
+<div class="span-18" style="margin-bottom:1em;">
 	<span id="allPrj" style="">
 		<?php echo $html->link( __('All',true), array('controller'=>'items','action'=>'todo'),array('id'=>'allItems') );?>
 	</span>&nbsp;

@@ -45,7 +45,7 @@ class ItemsController extends AppController {
 		$contents['proj'] = 0;
 		
 		//ajax preparation
-		//Configure::write('debug', 0);
+		Configure::write('debug', 0);
 		$this->autoLayout = false;
 		$this->autoRender = false;
 			
@@ -179,7 +179,7 @@ class ItemsController extends AppController {
 		$pagItemCond = array();
 
 				
-		$this->paginate['limit'] = 5;
+		$this->paginate['limit'] = 12;
 		$this->paginate['contain'] = false;
 
 		if ( isset($this->params['named']['prj']) && (int)$this->params['named']['prj'] != 0 ) {

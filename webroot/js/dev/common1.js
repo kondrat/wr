@@ -10,7 +10,9 @@ jQuery(document).ready(function(){
 			minuteMin: $("#minuteMin"),
 			newPrj: $("#newPr"),
 			curPrjId: 0,
-			curPrj: $("#curPrj")
+			curPrj: $("#curPrj"),
+			newItemForm: $("#newItemForm"),
+			quickLogin: $("#quickLogin")
 		};
 
 
@@ -33,35 +35,52 @@ jQuery(document).ready(function(){
   	$("a.newItem").click(function(e){
 			if(e) e.stopPropagation();
 			if(e) e.preventDefault();		
-  		if( $(".newItemForm").is(":hidden") ) {
-  			$(".newItemForm").show();
+  		if( com1.newItemForm.is(":hidden") ) {
+  			com1.newItemForm.show();
   		} else {
-  			$(".newItemForm").hide();
+  			com1.newItemForm.hide();
   		}
   	});
 
-		$("#newItemForm").bind( "clickoutside", function(event){
-			
-			target = $(event.target);
-			
-			var idTarg = target.attr('id');
-			
-			var qlog = $("#quickLogin");
+		var nItFormClOutSide = function(event){	
+		
+			target = $(event.target);			
+			var idTarg = target.attr('id');			
+			var qlog = com1.quickLogin;
 
-			if ( $.contains(qlog[0], event.target) ) {	
+			if ( qlog[0] !== undefined && $.contains(qlog[0], event.target) ) {	
 				return;
 			}
-			//exclude some id
-			var arr = [ "overlay","headWrap" ]; 
-
-			if( $.inArray( idTarg, arr) === -1   ) {
-				$(this).hide();
+			
+			if (  $.contains( $("#ui-datepicker-div")[0], event.target) ) {	
+				return;
 			}
 			
-		});
+			
+			//exclude some id
+			var arr = [ "overlay","headWrap" ]; 
+			if( $.inArray( idTarg, arr) === -1   ) {
+				$(this).hide();
+			}			
+		};
 
-	
-	
+		com1.newItemForm.bind( "clickoutside", nItFormClOutSide );
+
+			$("#datepicker").datepicker({ 
+					beforeShow: function(input, inst) { com1.newItemForm.unbind( "clickoutside" ); },
+					dateFormat: 'dd.mm.yy',
+					buttonImage: "./img/icons/calendar.gif",
+					showOn: 'both', 
+					buttonImageOnly: true,
+					autoSize: true,
+					onClose: function(dateText, inst) { 
+						com1.newItemForm.bind( "clickoutside", nItFormClOutSide);
+						return false;
+					} 
+					
+			});
+
+
 	 
     //card Ajax save;
 
@@ -100,7 +119,6 @@ jQuery(document).ready(function(){
           
         },
         error: function(){
-            $('.tempTest').html('Problem with the server. Try again later.');
             alert('Problem with the server. Try again later.');
         }
       });
@@ -113,11 +131,10 @@ jQuery(document).ready(function(){
 	$("#saveItemMain").next().click(function(){
 		com1.item.val('');
 		com1.statusItem.val(0)
-		$("#newItemForm").fadeOut();
+		com1.newItemForm.hide();
 	});
 	$("#timeToggle").click(function(){
-		$(this).next().toggle();
-		
+		$(this).next().toggle();		
 	}); 
 
 	$("#newProject").click(function(){
@@ -220,7 +237,7 @@ jQuery(document).ready(function(){
 				if(e) e.stopPropagation();
 				if(e) e.preventDefault();		
 			
-		if ( $("#quickLogin").is(":hidden") ) {
+		if ( com1.quickLogin.is(":hidden") ) {
 			$(this).addClass("logInAct");
 				
 			$("#overlay").show();
@@ -228,13 +245,13 @@ jQuery(document).ready(function(){
 			$("#overlay").hide();
 			$(this).removeClass("logInAct");
 		}
-		$("#quickLogin").toggle();
+		com1.quickLogin.toggle();
 		$("#UserUsername").focus();
 		
 		//return false;
 	});
  	
- 	$("#quickLogin").bind('clickoutside', function(){
+ 	com1.quickLogin.bind('clickoutside', function(){
  		$("#logInNow").removeClass("logInAct");
  		$(this).hide();
  		$("#overlay").hide();

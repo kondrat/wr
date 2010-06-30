@@ -101,8 +101,8 @@ p.quickLoginForPas {
 #overlay{
 	background-color:#ccc;
 	/*display:none;*/
-	opacity:0.3;
-	filter:alpha(opacity=30);
+	opacity:0.5;
+	filter:alpha(opacity=50);
 	height:100%;
 	left:0;
 	position:fixed;
@@ -151,6 +151,19 @@ span.activePrj a{
 }
 #newItem{
 
+}
+#datepicker{
+	text-align:center;
+	margin-right:3px;
+}
+.ui-datepicker-trigger{
+	vertical-align:text-top;
+}
+#ui-datepicker-div {
+	font-size: 85%;
+}
+#ui-datepicker-div thead th{
+	background:none;
 }
 .newItem {
 	-webkit-border-radius: 7px;
@@ -207,23 +220,24 @@ a.newItem:focus {
   color:blue;
   font-style:italic;
 }
-.newItemForm {
-  margin-bottom:2em;
-}
-#newItemForm{
-  background-color:AliceBlue;
-  border:1px solid;
-  padding:1em;
+
+.newItemForm{
+  /*background-color:AliceBlue;*/
+
+  background:url("../img/pic/form_bg.png") repeat-x scroll 0 bottom transparent;
+  border:5px solid burlyWood;
+
   /*position:absolute;
   top:120px;
   left:40px;*/
 	-moz-border-radius:10px;
-	-moz-box-shadow:0 0 12px;
 	z-index:1000;
+	margin-bottom:2em;
+	padding:0 10px;
 }
 #item {
  	padding:5px 0;
-  width:648px;
+  width:100%;
   -moz-border-radius:5px
 }
 #threeWays{
@@ -236,7 +250,6 @@ a.newItem:focus {
 }
 .item{
 	margin-bottom:0.4em;
-	padding:3px 0 3px 10px;
 	border:1px solid #eee;
 }
 .activeItem{
