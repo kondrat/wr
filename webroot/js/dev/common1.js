@@ -12,10 +12,14 @@ jQuery(document).ready(function(){
 			curPrjId: 0,
 			curPrj: $("#curPrj"),
 			newItemForm: $("#newItemForm"),
-			quickLogin: $("#quickLogin")
+			newItem: $("#newItem"),
+			quickLogin: $("#quickLogin"),
+			datePicker: $("#datepicker"),
+			dataPickerTip: ''
+			
 		};
-
-
+		//alert(com1.dataPickerTip);
+		if( typeof(targetDay) !== "undefined") com1.dataPickerTip = targetDay;
 
 		//flash alert message 	  
 
@@ -32,16 +36,26 @@ jQuery(document).ready(function(){
 
 		//New item controll
 
-  	$("a.newItem").click(function(e){
+  	com1.newItem.click(function(e){
 			if(e) e.stopPropagation();
 			if(e) e.preventDefault();		
   		if( com1.newItemForm.is(":hidden") ) {
   			com1.newItemForm.show();
+  			com1.item.focus();
+  			$(this).addClass("newItemActive");
   		} else {
   			com1.newItemForm.hide();
+  			$(this).removeClass("newItemActive");
   		}
   	});
-
+  	
+  	$(".ui-state-default").hover(function(){
+  		$(this).addClass("ui-state-hover");
+  	},function(){
+  		$(this).removeClass("ui-state-hover");
+  	});
+		/*
+		//click outside canceled
 		var nItFormClOutSide = function(event){	
 		
 			target = $(event.target);			
@@ -63,40 +77,48 @@ jQuery(document).ready(function(){
 				$(this).hide();
 			}			
 		};
-
+		
 		com1.newItemForm.bind( "clickoutside", nItFormClOutSide );
-
-			$("#datepicker").datepicker({ 
-					beforeShow: function(input, inst) { com1.newItemForm.unbind( "clickoutside" ); },
+		*/
+			com1.datePicker.datepicker({ 
+					
 					dateFormat: 'dd.mm.yy',
-					buttonImage: "./img/icons/calendar.gif",
+
+					buttonImage: "../img/icons/cal.png",
 					showOn: 'both', 
 					buttonImageOnly: true,
+
 					autoSize: true,
-					onClose: function(dateText, inst) { 
-						com1.newItemForm.bind( "clickoutside", nItFormClOutSide);
-						return false;
-					} 
+					showAnim: ""
 					
 			});
 
 
-	 
+
+
     //card Ajax save;
 
     
     $("#saveItemMain").click(function(){
+    	
+			//alert(com1.datePicker.val());
+   		var parsedDate = $.datepicker.parseDate('dd.mm.yy', com1.datePicker.val() );
 			
-   	
+			
+   		var tosend = new Date(parsedDate);
+   		alert(tosend.getTime()+' '+(tosend.getMonth()+1)+' '+tosend.getFullYear()+' ');
+			
 	    var itemObj = {
-	    								"data[Item][item]": com1.item.val(),
-	    								"data[Item][status]" : com1.statusItem.val(),
-	    								"data[Item][project_id]" : com1.curPrjId,
-	    								"data[Item][day]" : com1.targetDay.val(),
-	    								"data[Item][month]" : com1.targetMonth.val(),
-	    								"data[Item][year]" : com1.targetYear.val(),
-	    								"data[Item][hour]" : com1.hourHour.val(),
-	    								"data[Item][min]" : com1.minuteMin.val()
+	    								//"data[Item][item]": com1.item.val(),
+	    								//"data[Item][project_id]" : com1.curPrjId,
+	    								"data[Item][epoch]" : parseInt(tosend.getTime()/1000)
+	    								/*
+	    								"data[Item][day]" : tosend.getDate(),
+	    								"data[Item][month]" : tosend.getMonth()+1,
+	    								"data[Item][year]" : tosend.getFullYear()
+											*/
+	    								//"data[Item][hour]" : com1.hourHour.val(),
+	    								//"data[Item][min]" : com1.minuteMin.val()
 	    							};
     							
       $.ajax({
@@ -130,7 +152,7 @@ jQuery(document).ready(function(){
 	//more controls
 	$("#saveItemMain").next().click(function(){
 		com1.item.val('');
-		com1.statusItem.val(0)
+		com1.datePicker.val(com1.dataPickerTip);
 		com1.newItemForm.hide();
 	});
 	$("#timeToggle").click(function(){

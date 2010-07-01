@@ -149,15 +149,19 @@ p.quickLoginForPas {
 span.activePrj a{
 		color:red;
 }
-#newItem{
 
-}
 #datepicker{
 	text-align:center;
 	margin-right:3px;
+	display:block;
+	float:left;
+	color:gray;
 }
+
 .ui-datepicker-trigger{
-	vertical-align:text-top;
+	display:block;
+	float:left;
+	margin-top:9px;
 }
 #ui-datepicker-div {
 	font-size: 85%;
@@ -199,6 +203,9 @@ a.newItem:hover {
 a.newItem:focus {
 	color: gray;
 }
+.newItemActive span.upDownArr{
+	background-position:100% 4px;
+}
 .targetItem{
   background-color:#eee;
   text-align:center;
@@ -208,6 +215,19 @@ a.newItem:focus {
   border-bottom:1px dashed;
   padding:0 0 0 1em;
 }
+ul#icons{
+	margin:0;
+	padding:0;
+}
+ul#icons li {
+cursor:pointer;
+float:left;
+list-style:none outside none;
+margin:2px;
+padding:4px;
+position:relative;
+}
+
 /*
 .typeItem{
   background-color:AntiqueWhite;
@@ -236,8 +256,8 @@ a.newItem:focus {
 	padding:0 10px;
 }
 #item {
- 	padding:5px 0;
-  width:100%;
+	padding:5px;
+	width:630px;
   -moz-border-radius:5px
 }
 #threeWays{

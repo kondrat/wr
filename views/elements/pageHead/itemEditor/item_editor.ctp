@@ -2,28 +2,39 @@
 	<div class="newItemForm">	
 
       <div class="" style="float:left;">
-      	<?php echo $form->input('datepicker', array('label'=>false,'div'=>false, 'id'=>'datepicker') );?>
-      	<span id="timeToggle"><?php echo $html->image('icons/alert.png',array("style"=>"vertical-align:text-bottom"));?></span>
+      	<?php 
+      		$targetDay = __('Target day',true);
+      		echo $html->scriptBlock(
+												'var targetDay = "'.$targetDay .'";' 
+													);
+				?>
+
+      		<?php	echo $form->input('datepicker', array('label'=>false,'div'=>false, 'id'=>'datepicker','default'=> $targetDay ) );?>
+
+					
+      	<!--
+      	<span id="timeToggle"><?php echo $html->image('icons/alert.png',array("style"=>"vertical-align:text-top"));?></span>
       	<span class="hide">
       		<?php echo $form->hour('hour');?>
       		<?php echo $form->minute('minute');?>
       	</span>
+      	-->
+      </div>
+      <div style="float: left; margin-left: 5px; margin-top: 8px;">
+      	+
+      	<?php echo $html->link(__("time",true), array('#'),array('onclick'=>'return false') );?>
+      </div>
+      <div style="float: left; margin-left: 5px; margin-top: 8px;">
+      	+
+      	<?php echo $html->link(__("more",true), array('#'),array('onclick'=>'return false') );?>
       </div>
 
-      <div class="" style="float:right;">
-      
-      	<?php //echo $form->input( 'task',array('label'=>false,'div'=>false,'options'=>array(__('Diary',true),__('ToDo',true),__('Notes',true) ) ) );?>
-      	<?php echo $form->input( 'status',array('label'=>false,'div'=>false,'options'=>array('opened','done','suspended','canceled') ) );?>
-      
+      <div class="" style="margin-top:4px;float:right;">
+   			<ul id="icons" class="ui-widget ui-helper-clearfix">
+   				<li id="saveItemMain" class="ui-state-default ui-corner-all"><span class="ui-icon ui-icon-plusthick"></span></li>
+   				<li  class="ui-state-default ui-corner-all"><span class="ui-icon ui-icon-closethick"></span></li>
+   			</ul>     
       </div>
       <?php echo $form->input( 'item',array('label'=>false, 'div'=>true) );?>
-
-
-	    <div class="" style="margin-bottom:5px;">
-	      <?php echo $form->button(__('save',true),array('id'=>'saveItemMain') ); ?>
-	      <?php echo $form->button(__('cancel',true) ); ?>
-	    </div>
-	    
-
 	</div>  
 </div>

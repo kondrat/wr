@@ -64,14 +64,22 @@ class ItemsController extends AppController {
 						$auth = true;
 
 									$this->data['Item']['item'];
-									$this->data['Item']['status'];
 									
+									$nw = $this->data['Item']['epoch'];
+									$contents['now'] = date('Y-M-d');
+									$contents['date'] = date('Y-M-d', $nw);
+									$contents['time'] = time();
 									
-									
+									/*
 									$this->data['Item']['hour'];
-									$this->data['Item']['min'];									
+									$this->data['Item']['min'];		
+									*/							
 									$this->data['Item']['user_id'] = $authUserId;
-									$this->data['Item']['target'] = $this->data['Item']['year'].'-'.$this->data['Item']['month'].'-'.$this->data['Item']['day'];
+									
+									
+									
+									//$this->data['Item']['target'] = $this->data['Item']['year'].'-'.$this->data['Item']['month'].'-'.$this->data['Item']['day'];
+									//$this->data['Item']['target'] = $this->data['Item']['year'].'-'.$this->data['Item']['month'].'-'.$this->data['Item']['day'];
 										
 								//toDel		
 									//creating of the first proj
