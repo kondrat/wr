@@ -207,12 +207,12 @@ a.newItem:focus {
 	background-position:100% 4px;
 }
 .targetItem{
-  background-color:#eee;
+  font-weight:bold;
   text-align:center;
+  float:left;
+  margin-right:5px;
 }
 .textItem{
-  background-color:lightyellow;
-  border-bottom:1px dashed;
   padding:0 0 0 1em;
 }
 ul#icons{
@@ -269,12 +269,12 @@ position:relative;
 	border-bottom:1px dashed;
 }
 .item{
-	margin-bottom:0.4em;
-	border:1px solid #eee;
+	margin-bottom:0.5em;
+	border-bottom:1px dashed #CCCCCC;
 }
 .activeItem{
-	border-color:#eee;
-	background-color:#eee
+	border-color:gray;
+	background-color:Ivory;
 }
 a#threeWaysHere{
 	border:none;
