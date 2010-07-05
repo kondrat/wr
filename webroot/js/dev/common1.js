@@ -160,10 +160,32 @@ jQuery(document).ready(function(){
 	}); 
 
 	$("#newProject").click(function(){
-		$("#projectEditor").toggle('fast');
+		if( $("#projectEditor").is(":hidden") ){
+			$("#projectEditor").show();
+			$(this).addClass("newProjectActive");
+		} else {
+			$("#projectEditor").hide();
+			$(this).removeClass("newProjectActive");
+		}
+		//$("#overlay").show();
 		return false;
 	});
-
+	
+/*
+//z-index for ie7
+$(function() {
+	var zIndexNumber = 1000;
+	$('div').each(function() {
+		$(this).css('zIndex', zIndexNumber);
+		zIndexNumber -= 10;
+	});
+});
+*/
+	
+	$("#projectEditor").bind("clickoutside",function(){
+		$(this).hide();
+		//return false;
+	});
 
   $("#newPrSave").click(function(){
 		
@@ -200,7 +222,7 @@ jQuery(document).ready(function(){
 
 	$("#newPrCancel").click(function(){
 		com1.newPrj.val('');
-		$("#projectEditor").toggle('fast');
+		$("#projectEditor").hide();
 	});
 
 
@@ -270,13 +292,14 @@ jQuery(document).ready(function(){
 		com1.quickLogin.toggle();
 		$("#UserUsername").focus();
 		
-		//return false;
+		return false;
 	});
  	
  	com1.quickLogin.bind('clickoutside', function(){
  		$("#logInNow").removeClass("logInAct");
  		$(this).hide();
  		$("#overlay").hide();
+ 		
  	});
 	 
  

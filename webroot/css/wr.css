@@ -71,7 +71,7 @@
 	position:absolute;
 	right:75px;
 	top:26px;
-	z-index:1000;
+	z-index:1005;
 }
 .quickLoginInner {
 	-webkit-border-radius: 7px;
@@ -108,7 +108,7 @@ p.quickLoginForPas {
 	position:fixed;
 	top:0;
 	width:100%;
-	z-index:2;
+	z-index:1000;
 }
 
 
@@ -129,6 +129,7 @@ p.quickLoginForPas {
 /*main part*/
 .itemsWrapper{
 	position:relative;
+	margin-bottom:1em;
 }
 .itemPagenator{
 	position:absolute;
@@ -213,7 +214,8 @@ a.newItem:focus {
   margin-right:5px;
 }
 .textItem{
-  padding:0 0 0 1em;
+  float:left;
+	width:580px;
 }
 ul#icons{
 	margin:0;
@@ -284,16 +286,34 @@ a#threeWaysHere{
 .newProject{
 	position:relative;
 }
+.newProjectActive{
+
+}
+.newProjectActive span.upDownArr {
+	background-position:100% 4px;
+		color:red;
+}
+#newProject{
+	text-decoration:none;
+}
 #projectEditor{
 	-moz-border-radius:10px 10px 10px 10px;
-	-moz-box-shadow:0 0 7px gray;
-	background-color:SeaShell;
-	border:1px solid #EEEEEE;
-	left:80px;
+	background-color:#EEEEEE;
+	border:5px solid #C0C0C0;
+	left:70px;
 	padding:1em;
 	position:absolute;
-	top:10px;
+	top:25px;
 	z-index:1000;
+}
+#projectEditor ul{
+	list-style-type:none;
+	margin:0 0 0.5em;
+}
+#projectEditor li a{
+	border-bottom: 1px dashed;
+	text-decoration:none;
+	outline:medium none;
 }
 #newPr{
 	-moz-border-radius:5px;

@@ -48,7 +48,7 @@
 </head>
 <body>
 	<div id="overlay" class="hide"></div>
-	<div class="pageheader" style="z-index:2; position:relative;">
+	<div class="pageheader" style="position:relative;">
 
 			<div class="container">
 				

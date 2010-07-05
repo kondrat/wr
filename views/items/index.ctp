@@ -3,8 +3,9 @@
 <div class="itemsWrapper span-17">
 	
   <div class="item span-17">
-    <div class="targetItem">12.10.2010</div>
+
     <div class="textItem">
+    	<span class="targetItem">12.10.2010</span>
     	<span style="background-color:#FFF6A9;">[My project]</span>
     	<span>my third item</span>
     	<span style="font-weight:bold;color:gray;font-size:smaller;">1 day ago</span>

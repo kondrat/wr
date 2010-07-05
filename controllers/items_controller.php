@@ -208,7 +208,7 @@ class ItemsController extends AppController {
 		}
 		
 		
-		$curPrj = $this->Item->Project->find('first', array(
+		$curPrj = $this->Item->Project->find('all', array(
 																												'conditions'=> array('Project.user_id'=> $authUserId ),
 																												'fields'=> array('id','name'),
 																												'order'=> array('current'=>'DESC'),
