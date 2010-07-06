@@ -108,7 +108,7 @@ p.quickLoginForPas {
 	position:fixed;
 	top:0;
 	width:100%;
-	z-index:1000;
+	z-index:1002;
 }
 
 
@@ -295,6 +295,10 @@ a#threeWaysHere{
 }
 #newProject{
 	text-decoration:none;
+	outline:medium none;
+}
+.activePrj{
+	background-color:lightGray;
 }
 #projectEditor{
 	-moz-border-radius:10px 10px 10px 10px;
@@ -305,15 +309,41 @@ a#threeWaysHere{
 	position:absolute;
 	top:25px;
 	z-index:1000;
+	width:162px;
 }
 #projectEditor ul{
 	list-style-type:none;
 	margin:0 0 0.5em;
 }
+#projectEditor ul li.prjList {
+	padding: 1px 3px;
+	position:relative;
+}
 #projectEditor li a{
 	border-bottom: 1px dashed;
 	text-decoration:none;
 	outline:medium none;
+}
+.prjControl{
+	position:absolute;
+	top:1px;
+	right:1px;
+}
+.prjUpDown{
+	cursor:n-resize;
+}
+.prjDel, .prjEdit{
+	cursor:pointer;
+}
+.prjList .prjControl{
+	display:none;
+}
+.activePrj .prjControl{
+	display:block;
+}
+
+.prjControl li{
+	float:left;
 }
 #newPr{
 	-moz-border-radius:5px;

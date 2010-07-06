@@ -1,5 +1,8 @@
-<?php echo $this->element('pageHead/page_head');?>
-
+<?php //echo $this->element('pageHead/page_head');?>
+<div style="margin-top:1em;">
+	<?php echo $html->image('pic/index-pic.png');?>
+</div>
+<!--
 <div class="itemsWrapper span-17">
 	
   <div class="item span-17">
@@ -27,4 +30,5 @@
 
 
 </div>
+-->
  

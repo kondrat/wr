@@ -184,7 +184,26 @@ $(function() {
 	
 	$("#projectEditor").bind("clickoutside",function(){
 		$(this).hide();
+		$("#newProject").removeClass("newProjectActive");
 		//return false;
+	});
+
+	$("#projectEditor li").hover(function(){
+		$(this).addClass("activePrj");
+	},function(){
+		$(this).removeClass("activePrj");
+	}
+	);
+	$(".prjDel").click(function(){
+		confirm('Are you sure?');
+	});
+
+	$("#prjNew").click(function(){
+		if( $("#prjNewInput").is(":hidden") ) {
+			$("#prjNewInput").show();
+		}else{
+			$("#prjNewInput").hide();
+		}
 	});
 
   $("#newPrSave").click(function(){

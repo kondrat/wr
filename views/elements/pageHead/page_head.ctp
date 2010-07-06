@@ -5,9 +5,7 @@
    	</div>
    	<?php echo $this->element('pageHead/threeWaysMenu/three_ways_menu');?>
 
-		<div class="span-5 last" style="text-align:right;">
-   		<?php __('today');?>:&nbsp;<?php echo Date('d-m-Y');?>&nbsp;|&nbsp;<?php __('Week');?>:&nbsp;<?php echo Date('W');?>
-		</div>
+
 </div>
 <div class="span-18" style="margin-bottom:1em;">
 	<span id="allPrj" style="">
