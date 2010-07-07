@@ -201,9 +201,13 @@ $(function() {
 	$("#prjNew").click(function(){
 		if( $("#prjNewInput").is(":hidden") ) {
 			$("#prjNewInput").show();
+			$(this).addClass("prjNewActive");
+			$("#newPr").focus();
 		}else{
 			$("#prjNewInput").hide();
+			$(this).removeClass("prjNewActive");
 		}
+		return false;
 	});
 
   $("#newPrSave").click(function(){
@@ -261,21 +265,44 @@ $(function() {
 		});
 		return false;
 	});
+
+
+
 	
 	$("#prjItems").bind("click", function (event) {
 				$("#allPrj").removeClass("activePrj");
 				$("#curPrj").addClass("activePrj");
 		$.ajax({
-			dataType:"html",
-			success:function (data, textStatus) {
+				dataType:"html",
+				success:function (data, textStatus) {
 
 				$("#itemPages").html(data);
 				},
-				 url: path+"\/items\/todo\/prj:"+pObj.prjId+"\/page:1"
+				url: path+"\/items\/todo\/prj:"+pObj.prjId+"\/page:1"
 		});
 		return false;
 	});
 
+
+
+	$(".prjList a").bind("click", function(){
+		
+		pObj.prjId = parseInt( $(this).attr("id").replace("prj_", "") );
+
+		var prjName = $(this).text();
+		$.ajax({
+				dataType:"html",
+				success:function (data, textStatus) {
+				$("#prjItems").text(prjName);
+				$("#itemPages").html(data);
+				$("#newProject").trigger("click");
+				},
+				url: path+"\/items\/todo\/prj:"+pObj.prjId+"\/page:1",
+				error:function(){
+					alert('er');
+				}
+		});
+	});
 
 
   

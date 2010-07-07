@@ -185,7 +185,25 @@ class ItemsController extends AppController {
 		$todos = array();
 		$authUserId = $this->Auth->user('id');
 		$pagItemCond = array();
-
+		$curPrj = array();
+		
+		$curPrj = $this->Item->Project->find('all', array(
+																												'conditions'=> array('Project.user_id'=> $authUserId ),
+																												'fields'=> array('id','name'),
+																												'order'=> array('current'=>'DESC'),
+																												'contain'=>false)
+																				);
+		//check if this user is new, or has current project he whorks on.																		
+		if($curPrj == array() ){
+			$this->data['Project']['user_id'] = $authUserId;
+			$this->data['Project']['name'] = __('Project 1',true);
+			$this->data['Project']['current'] = time();
+			$this->Item->Project->save($this->data);
+			$curPrj[0] = $this->Item->Project->read();
+		}		
+		
+		$this->set('curPrj',$curPrj);
+		
 				
 		$this->paginate['limit'] = 12;
 		$this->paginate['contain'] = false;
@@ -208,13 +226,7 @@ class ItemsController extends AppController {
 		}
 		
 		
-		$curPrj = $this->Item->Project->find('all', array(
-																												'conditions'=> array('Project.user_id'=> $authUserId ),
-																												'fields'=> array('id','name'),
-																												'order'=> array('current'=>'DESC'),
-																												'contain'=>false)
-																				);		
-		$this->set('curPrj',$curPrj);
+
 
 	}
 //--------------------------------------------------------------------

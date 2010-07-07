@@ -347,9 +347,19 @@ a#threeWaysHere{
 }
 #newPr{
 	-moz-border-radius:5px;
-	padding:5px;
+	padding:1px;
+	width:155px;
 }
+#prjNew	{
+	outline:medium none;
+	padding:1px 4px;
+	text-decoration:none;
+}
+
+.prjNewActive span.upDownArr {
+	background-position:100% 4px;
 	
+}
 
 
 
