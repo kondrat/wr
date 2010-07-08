@@ -250,10 +250,10 @@ $(function() {
 
 
 
-	$("#allItems").bind("click", function (event) {
+	$("#allPrj").bind("click", function (event) {
 		
-		$("#curPrj").removeClass("activePrj");
-		$("#allPrj").addClass("activePrj");
+		$("#curPrj").removeClass("actPrj");
+		$(this).addClass("actPrj");
 		
 		$.ajax({
 			dataType:"html",
@@ -261,7 +261,7 @@ $(function() {
 			
 				$("#itemPages").html(data);
 				},
-				 url: path+"\/items\/todo\/page:1"
+				 url: path+"\/items\/todo\/prj:all\/page:1"
 		});
 		return false;
 	});
@@ -269,9 +269,9 @@ $(function() {
 
 
 	
-	$("#prjItems").bind("click", function (event) {
-				$("#allPrj").removeClass("activePrj");
-				$("#curPrj").addClass("activePrj");
+	$("#curPrj").bind("click", function (event) {
+				$("#allPrj").removeClass("actPrj");
+				$(this).addClass("actPrj");
 		$.ajax({
 				dataType:"html",
 				success:function (data, textStatus) {
@@ -288,14 +288,19 @@ $(function() {
 	$(".prjList a").bind("click", function(){
 		
 		pObj.prjId = parseInt( $(this).attr("id").replace("prj_", "") );
-
+		var prjCur = $(this);
 		var prjName = $(this).text();
 		$.ajax({
 				dataType:"html",
+				//type: "POST",
+				data: {"cur":"1"},
 				success:function (data, textStatus) {
-				$("#prjItems").text(prjName);
-				$("#itemPages").html(data);
-				$("#newProject").trigger("click");
+					$("#prjItems").text(prjName);
+					$("#itemPages").html(data);
+					$("#newProject").trigger("click");
+					prjCur.parent().prependTo("#prjMainList");
+					$("#allPrj").removeClass("actPrj");
+					$("#curPrj").addClass("actPrj");
 				},
 				url: path+"\/items\/todo\/prj:"+pObj.prjId+"\/page:1",
 				error:function(){

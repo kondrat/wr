@@ -3,10 +3,11 @@
 
 <div class="newProject">
 	<div id="projectEditor" class="hide"> 
-		<ul>
+		<ul id="prjMainList">
 			<?php if( isset($curPrj) && $curPrj != array() ): ?>
-				<?php foreach($curPrj as $v):?>
-					<li class="prjList">
+				<?php foreach($curPrj as $k => $v):?>
+					<?php $active = ($k == 0)?"activePrj":null;?>
+					<li class="prjList <?php echo $active;?>">
 						<?php echo $html->link($v['Project']['name'], array('#'),array('id'=>'prj_'.$v['Project']['id'],'onclick'=>'return false') );?>
 						<ul class="prjControl ui-widget ui-helper-clearfix">
 							<li class="prjEdit ui-state-default ui-corner-all"><span class="ui-icon ui-icon-pencil"></span></li>

@@ -138,17 +138,18 @@ p.quickLoginForPas {
 }
 #allItems,#prjItems{
 	text-decoration:none;
+	outline:medium none;
 }
 #allPrj, #curPrj{
-	border-bottom:1px dashed ;
-	padding: 3px 3px 0 3px;
+	padding: 3px 7px;
 }
-#allPrj.activePrj, #curPrj.activePrj{
+#allPrj.actPrj, #curPrj.actPrj{
 	background-color: AntiqueWhite;
-	border-bottom:1px dashed red;
 }
-span.activePrj a{
-		color:red;
+span.actPrj a{
+	color:black;
+	font-weight:bold;
+		
 }
 
 #datepicker{
@@ -297,17 +298,23 @@ a#threeWaysHere{
 	text-decoration:none;
 	outline:medium none;
 }
+#newProject .upDownArr {
+	border-bottom:1px dashed;
+}
+
+
 .activePrj{
 	background-color:lightGray;
 }
 #projectEditor{
 	-moz-border-radius:10px 10px 10px 10px;
+	-moz-box-shadow:0 0 6px black;
 	background-color:#EEEEEE;
 	border:5px solid #C0C0C0;
 	left:70px;
 	padding:1em;
 	position:absolute;
-	top:25px;
+	top:35px;
 	z-index:1000;
 	width:162px;
 }

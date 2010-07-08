@@ -186,32 +186,50 @@ class ItemsController extends AppController {
 		$authUserId = $this->Auth->user('id');
 		$pagItemCond = array();
 		$curPrj = array();
-		
-		$curPrj = $this->Item->Project->find('all', array(
-																												'conditions'=> array('Project.user_id'=> $authUserId ),
-																												'fields'=> array('id','name'),
-																												'order'=> array('current'=>'DESC'),
-																												'contain'=>false)
-																				);
-		//check if this user is new, or has current project he whorks on.																		
-		if($curPrj == array() ){
-			$this->data['Project']['user_id'] = $authUserId;
-			$this->data['Project']['name'] = __('Project 1',true);
-			$this->data['Project']['current'] = time();
-			$this->Item->Project->save($this->data);
-			$curPrj[0] = $this->Item->Project->read();
-		}		
-		
-		$this->set('curPrj',$curPrj);
-		
+
 				
-		$this->paginate['limit'] = 12;
+		$this->paginate['limit'] = 6;
 		$this->paginate['contain'] = false;
+		
+		
 
 		if ( isset($this->params['named']['prj']) && (int)$this->params['named']['prj'] != 0 ) {
+			
 			$pagItemCond = array('Item.user_id'=> $authUserId , 'Item.project_id'=> $this->params['named']['prj'] );
+			//we selected new prj, so updade the cur time
+			if(isset($this->params['url']['cur'])&&$this->params['url']['cur']==="1"){
+				$prId = $this->Item->Project->find('first',array('conditions'=> array('Project.id' => $this->params['named']['prj']),'contain'=>false) );
+				if( $prId != array() ) {
+					$this->data['Project']['current'] = time();
+					$this->data['Project']['id'] = (int)$this->params['named']['prj'];
+					$this->Item->Project->save($this->data);
+				}
+			}
+			
+			
+		} else if( isset($this->params['named']['prj']) && $this->params['named']['prj'] === 'all'){
+			$pagItemCond = array('Item.user_id'=> $authUserId);
 		} else {
-			$pagItemCond = array('Item.user_id'=> $authUserId );
+
+			
+			$curPrj = $this->Item->Project->find('all', array(
+																													'conditions'=> array('Project.user_id'=> $authUserId ),
+																													'fields'=> array('id','name'),
+																													'order'=> array('current'=>'DESC'),
+																													'contain'=>false)
+																					);
+			//check if this user is new, or has current project he whorks on.																		
+			if($curPrj == array() ){
+				$this->data['Project']['user_id'] = $authUserId;
+				$this->data['Project']['name'] = __('Project 1',true);
+				$this->data['Project']['current'] = time();
+				$this->Item->Project->save($this->data);
+				$curPrj[0] = $this->Item->Project->read();
+			}					
+			
+						$pagItemCond = array('Item.user_id'=> $authUserId,'Item.project_id'=> $curPrj[0]['Project']['id'] );
+			
+			
 		}
 		$this->paginate['conditions'] = $pagItemCond;
 
@@ -221,11 +239,17 @@ class ItemsController extends AppController {
 		if( $this->RequestHandler->isAjax() && isset($this->params['named']['page'])  ) {
 			Configure::write('debug', 0);
 			$this->autoLayout = false;
+			
+			
+			
+			
 			$this->render('ajax_item');
 			return;
 		}
 		
+
 		
+		$this->set('curPrj',$curPrj);		
 
 
 	}
