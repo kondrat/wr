@@ -194,9 +194,7 @@ $(function() {
 		$(this).removeClass("activePrj");
 	}
 	);
-	$(".prjDel").click(function(){
-		confirm('Are you sure?');
-	});
+
 
 	$("#prjNew").click(function(){
 		if( $("#prjNewInput").is(":hidden") ) {
@@ -319,6 +317,24 @@ $(function() {
 				    $(this).removeClass("activeItem");
 				  }	
 		});
+	
+	
+	$(".prjDel").click(function(){
+		confirm('Are you sure?');
+	});		
+	
+	$(".prjEdit").click(function(){
+		$(this).parents(".prjList").css({"visibility":"hidden"}).append(
+			"<div style='position:absolute;top:2px;left:0;visibility:visible'>"+
+			"<input style='width:120px;margin:0;padding:0;' type='text' id='prjEditInput' name='data[editPrj]' />"+
+			"</div>"
+		);
+	});	
+	
+	
+	
+	
+	
 		
 //top menu decoration and control
 	$("#logInNow").hover(function(){
