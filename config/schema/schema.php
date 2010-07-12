@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* App schema generated on: 2010-06-02 22:06:58 : 1275502378*/
+/* App schema generated on: 2010-07-12 21:07:07 : 1278955567*/
 class AppSchema extends CakeSchema {
 	var $name = 'App';
 
@@ -36,10 +36,11 @@ class AppSchema extends CakeSchema {
 		'user_id' => array('type' => 'integer', 'null' => true, 'default' => '0'),
 		'name' => array('type' => 'string', 'null' => true, 'default' => '0'),
 		'current' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+		'active' => array('type' => 'integer', 'null' => true, 'default' => '1', 'length' => 10),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'MyISAM')
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 	var $users = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
@@ -48,13 +49,13 @@ class AppSchema extends CakeSchema {
 		'password' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 64),
 		'key' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 32, 'key' => 'unique'),
 		'type' => array('type' => 'string', 'null' => true, 'default' => 'guest', 'length' => 50),
-		'email' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100),
+		'email' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100, 'key' => 'unique'),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'item_count' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'project_count' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'username' => array('column' => 'username', 'unique' => 1), 'key' => array('column' => 'key', 'unique' => 1)),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'username' => array('column' => 'username', 'unique' => 1), 'key' => array('column' => 'key', 'unique' => 1), 'email' => array('column' => 'email', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 }

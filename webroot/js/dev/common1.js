@@ -8,9 +8,6 @@ jQuery(document).ready(function(){
 			targetYear: $("#targetYear"),
 			hourHour: $("#hourHour"),
 			minuteMin: $("#minuteMin"),
-			newPrj: $("#newPr"),
-			curPrjId: 0,
-			curPrj: $("#curPrj"),
 			newItemForm: $("#newItemForm"),
 			newItem: $("#newItem"),
 			quickLogin: $("#quickLogin"),
@@ -48,6 +45,7 @@ jQuery(document).ready(function(){
   			$(this).removeClass("newItemActive");
   		}
   	});
+
   	
   	$(".ui-state-default").hover(function(){
   		$(this).addClass("ui-state-hover");
@@ -159,17 +157,7 @@ jQuery(document).ready(function(){
 		$(this).next().toggle();		
 	}); 
 
-	$("#newProject").click(function(){
-		if( $("#projectEditor").is(":hidden") ){
-			$("#projectEditor").show();
-			$(this).addClass("newProjectActive");
-		} else {
-			$("#projectEditor").hide();
-			$(this).removeClass("newProjectActive");
-		}
-		//$("#overlay").show();
-		return false;
-	});
+
 	
 /*
 //z-index for ie7
@@ -182,131 +170,6 @@ $(function() {
 });
 */
 	
-	$("#projectEditor").bind("clickoutside",function(){
-		$(this).hide();
-		$("#newProject").removeClass("newProjectActive");
-		//return false;
-	});
-
-	$("#projectEditor li").hover(function(){
-		$(this).addClass("activePrj");
-	},function(){
-		$(this).removeClass("activePrj");
-	}
-	);
-
-
-	$("#prjNew").click(function(){
-		if( $("#prjNewInput").is(":hidden") ) {
-			$("#prjNewInput").show();
-			$(this).addClass("prjNewActive");
-			$("#newPr").focus();
-		}else{
-			$("#prjNewInput").hide();
-			$(this).removeClass("prjNewActive");
-		}
-		return false;
-	});
-
-  $("#newPrSave").click(function(){
-		
- 	
-    var prjObj = {
-    								"data[Prj][name]": com1.newPrj.val()
-    							};
-  							
-    $.ajax({
-      type: "POST",
-      url: path+"/projects/savePrj",
-      dataType: "json",
-      data: prjObj,
-      success: function(data) {
-				
-      	if ( data.stat === 1 ) {        		
-					com1.curPrjId = data.prj.id;
-					com1.curPrj.text(data.prj.name);
-        	flash_message('saved','flok');
-        	
-        } else {
-        	flash_message('not saved','fler');
-        }
-        
-        
-      },
-      error: function(){
-          $('.tempTest').html('Problem with the server. Try again later.');
-          alert('Problem with the server. Try again later.');
-      }
-    });
-  }); 
-
-
-	$("#newPrCancel").click(function(){
-		com1.newPrj.val('');
-		$("#projectEditor").hide();
-	});
-
-
-
-	$("#allPrj").bind("click", function (event) {
-		
-		$("#curPrj").removeClass("actPrj");
-		$(this).addClass("actPrj");
-		
-		$.ajax({
-			dataType:"html",
-			success:function (data, textStatus) {
-			
-				$("#itemPages").html(data);
-				},
-				 url: path+"\/items\/todo\/prj:all\/page:1"
-		});
-		return false;
-	});
-
-
-
-	
-	$("#curPrj").bind("click", function (event) {
-				$("#allPrj").removeClass("actPrj");
-				$(this).addClass("actPrj");
-		$.ajax({
-				dataType:"html",
-				success:function (data, textStatus) {
-
-				$("#itemPages").html(data);
-				},
-				url: path+"\/items\/todo\/prj:"+pObj.prjId+"\/page:1"
-		});
-		return false;
-	});
-
-
-
-	$(".prjList a").bind("click", function(){
-		
-		pObj.prjId = parseInt( $(this).attr("id").replace("prj_", "") );
-		var prjCur = $(this);
-		var prjName = $(this).text();
-		$.ajax({
-				dataType:"html",
-				//type: "POST",
-				data: {"cur":"1"},
-				success:function (data, textStatus) {
-					$("#prjItems").text(prjName);
-					$("#itemPages").html(data);
-					$("#newProject").trigger("click");
-					prjCur.parent().prependTo("#prjMainList");
-					$("#allPrj").removeClass("actPrj");
-					$("#curPrj").addClass("actPrj");
-				},
-				url: path+"\/items\/todo\/prj:"+pObj.prjId+"\/page:1",
-				error:function(){
-					alert('er');
-				}
-		});
-	});
-
 
   
   //more decorations
@@ -317,23 +180,6 @@ $(function() {
 				    $(this).removeClass("activeItem");
 				  }	
 		});
-	
-	
-	$(".prjDel").click(function(){
-		confirm('Are you sure?');
-	});		
-	
-	$(".prjEdit").click(function(){
-		$(this).parents(".prjList").css({"visibility":"hidden"}).append(
-			"<div style='position:absolute;top:2px;left:0;visibility:visible'>"+
-			"<input style='width:120px;margin:0;padding:0;' type='text' id='prjEditInput' name='data[editPrj]' />"+
-			"</div>"
-		);
-	});	
-	
-	
-	
-	
 	
 		
 //top menu decoration and control

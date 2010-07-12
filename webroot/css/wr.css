@@ -303,7 +303,7 @@ a#threeWaysHere{
 }
 
 
-.activePrj{
+.activePrj, .activePrjDel{
 	background-color:lightGray;
 }
 #projectEditor{
@@ -345,13 +345,17 @@ a#threeWaysHere{
 .prjList .prjControl{
 	display:none;
 }
-.activePrj .prjControl{
+.activePrj .prjControl, .activePrjDel .prjControl {
 	display:block;
 }
 
 .prjControl li{
 	float:left;
 }
+.prjSaveControl li{
+	float:left;
+}
+
 #newPr{
 	-moz-border-radius:5px;
 	padding:1px;
@@ -367,7 +371,14 @@ a#threeWaysHere{
 	background-position:100% 4px;
 	
 }
-
+.prjInlineEdit{
+	padding:0 42px 0 4px;
+}
+.prjSaveControl{
+	position:absolute;
+	right:3px;
+	top:0px;
+}
 
 
 

@@ -2,7 +2,7 @@
 class ProjectsController extends AppController {
 
 	var $name = 'Projects';
-	var $publicActions = array('savePrj');
+	var $publicActions = array('savePrj','delPrj');
 
 
 //--------------------------------------------------------------------
@@ -34,57 +34,113 @@ class ProjectsController extends AppController {
 
 		//----------------------------------------------------------------
 			
-	function savePrj() {
-		
-		//ajax preparation
-		Configure::write('debug', 0);
-		$this->autoLayout = false;
-		$this->autoRender = false;
+		function savePrj() {
 			
-			if ( $this->RequestHandler->isAjax() ){
+			//ajax preparation
+			Configure::write('debug', 0);
+			$this->autoLayout = false;
+			$this->autoRender = false;
 				
-						//our host only
-						if (strpos(env('HTTP_REFERER'), trim(env('HTTP_HOST'), '/')) === false) {
-							$this->Security->blackHoleCallback = 'gotov';
+				if ( $this->RequestHandler->isAjax() ){
+					
+							//our host only
+							if (strpos(env('HTTP_REFERER'), trim(env('HTTP_HOST'), '/')) === false) {
+								$this->Security->blackHoleCallback = 'gotov';
+							}
+					
+					//main staff
+						$authUserId = $this->Auth->user('id');
+						
+						if ( $authUserId !== null ) {						
+							$this->data['Project']['name']= trim($this->data['Prj']['name']);		
+							$this->data['Project']['current'] = time();			
+							$this->data['Project']['user_id'] = $authUserId;
 						}
+						
+	
+						if( $this->Project->save($this->data) ) {
+							$contents['stat'] = 1;
+							$contents['prj']['name'] = $this->data['Project']['name'];
+							$contents['prj']['id'] = $this->Project->id;
+						} else {
+							$contents['stat'] = 0;
+						}
+	
+	
+		        $contents = json_encode($contents);
+						$this->header('Content-Type: application/json');				
+						return ($contents);
+						
+									
+				} else {				
+					$this->Security->blackHoleCallback = 'gotov';		
+				}
 				
-				//main staff
-					$authUserId = $this->Auth->user('id');
-					
-					if ( $authUserId !== null ) {						
-						$this->data['Project']['name']= trim($this->data['Prj']['name']);		
-						$this->data['Project']['current'] = time();			
-						$this->data['Project']['user_id'] = $authUserId;
-					}
-					
-
-					if( $this->Project->save($this->data) ) {
-						$contents['stat'] = 1;
-						$contents['prj']['name'] = $this->data['Project']['name'];
-						$contents['prj']['id'] = $this->Project->id;
-					} else {
-						$contents['stat'] = 0;
-					}
-
-
-	        $contents = json_encode($contents);
-					$this->header('Content-Type: application/json');				
-					return ($contents);
-					
-								
-			} else {				
-				$this->Security->blackHoleCallback = 'gotov';		
-			}
-			
-			
-					
-	}
+				
+						
+		}
 
 				//blackhole redirection
 				//-----------------------------
 				function gotov() {	
 					$this->redirect(null, 404, true);
 				}	
+				
+		//----------------------------------------------------------------
+			
+		function delPrj() {
+			//ajax preparation
+			Configure::write('debug', 0);
+			$this->autoLayout = false;
+			$this->autoRender = false;
+				
+				if ( $this->RequestHandler->isAjax() ){
+					
+							//our host only
+							if (strpos(env('HTTP_REFERER'), trim(env('HTTP_HOST'), '/')) === false) {
+								$this->Security->blackHoleCallback = 'gotov';
+							}
+					
+					//main staff
+						$authUserId = $this->Auth->user('id');
+						
+						if ( $authUserId !== null ) {
+							$this->data['Project']['id']= (int)$this->data['Prj']['id'];		
+							$this->data['Project']['active'] = 0;		
+							//$this->data['Project']['user_id'] = $authUserId;							
+							$prjToDel = $this->Project->find('first', array( 'conditions' => array('Project.user_id' => $authUserId, 'Project.id' => $this->data['Project']['id'] ) ) );
+							if($prjToDel != array() ) {
+								
+								if( $this->Project->save($this->data) ) {
+									$contents['stat'] = 1;
+								} else {
+									$contents['stat'] = 0;
+								}
+																		
+							} else {
+								$contents['stat'] = 0;
+							}
+																			
+												
+						} else {
+							$contents['stat'] = 0;
+						}
+						
+	
+		        $contents = json_encode($contents);
+						$this->header('Content-Type: application/json');				
+						return ($contents);
+						
+									
+				} else {				
+					$this->Security->blackHoleCallback = 'gotov';		
+				}
+				
+							
+		}				
+				
+				
+				
 //--------------------------------------------------------------------
 	function index() {
 		

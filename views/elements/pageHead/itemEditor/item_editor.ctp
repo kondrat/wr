@@ -32,7 +32,7 @@
       <div class="" style="margin-top:4px;float:right;">
    			<ul id="icons" class="ui-widget ui-helper-clearfix">
    				<li id="saveItemMain" class="ui-state-default ui-corner-all"><span class="ui-icon ui-icon-plusthick"></span></li>
-   				<li  class="ui-state-default ui-corner-all"><span class="ui-icon ui-icon-closethick"></span></li>
+   				<li  class="ui-state-default ui-corner-all"><span class="ui-icon ui-icon-cancel"></span></li>
    			</ul>     
       </div>
       <?php echo $form->input( 'item',array('label'=>false, 'div'=>true) );?>
