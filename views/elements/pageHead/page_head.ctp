@@ -30,7 +30,7 @@
 		<?php endif ?>
 	</span>&nbsp;
 	
-	<?php echo $html->link('<span class="upDownArr">'.__('projects',true).'</span>',array('#'),array('id'=>'newProject','escape'=>false));?>
+	<?php echo $html->link('<span>'.__('projects',true).'</span><span class="upDownArr"></span>',array('#'),array('id'=>'newProject','escape'=>false));?>
 </div>
 
 

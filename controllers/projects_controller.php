@@ -1,4 +1,5 @@
 <?php
+App::import('Sanitize');
 class ProjectsController extends AppController {
 
 	var $name = 'Projects';
@@ -51,20 +52,41 @@ class ProjectsController extends AppController {
 					//main staff
 						$authUserId = $this->Auth->user('id');
 						
-						if ( $authUserId !== null ) {						
+						if ( $authUserId !== null ) {
+							
 							$this->data['Project']['name']= trim($this->data['Prj']['name']);		
 							$this->data['Project']['current'] = time();			
 							$this->data['Project']['user_id'] = $authUserId;
-						}
-						
-	
-						if( $this->Project->save($this->data) ) {
-							$contents['stat'] = 1;
-							$contents['prj']['name'] = $this->data['Project']['name'];
-							$contents['prj']['id'] = $this->Project->id;
+							
+							
+							if( isset($this->data['Prj']['id']) && (int)$this->data['Prj']['id'] != null){
+								$prjCheck = $this->Project->find('all',array('conditions'=>array('Project.id' => (int)$this->data['Prj']['id'], 'Project.user_id' => $authUserId ) ) );
+								if( $prjCheck != array() ) {
+									$this->data['Project']['id'] = (int)$this->data['Prj']['id'];
+								} else {
+									$contents['stat'] = 0;
+		        			$contents = json_encode($contents);
+									$this->header('Content-Type: application/json');				
+									return ($contents);
+								}		
+								unset($this->data['Project']['current']);					
+							}	
+												
+							$this->data = Sanitize::clean($this->data, array('encode' => true));
+							
+							if( $this->Project->save($this->data) ) {
+								$contents['stat'] = 1;
+								$contents['prj']['name'] = $this->data['Project']['name'];
+								$contents['prj']['id'] = $this->Project->id;
+							} else {
+								$contents['stat'] = 0;
+							}
+							
 						} else {
 							$contents['stat'] = 0;
 						}
+						
+
 	
 	
 		        $contents = json_encode($contents);

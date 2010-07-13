@@ -15,7 +15,7 @@ jQuery(document).ready(function(){
 			dataPickerTip: ''
 			
 		};
-		//alert(com1.dataPickerTip);
+
 		if( typeof(targetDay) !== "undefined") com1.dataPickerTip = targetDay;
 
 		//flash alert message 	  
@@ -104,11 +104,11 @@ jQuery(document).ready(function(){
 			
 			
    		var tosend = new Date(parsedDate);
-   		alert(tosend.getTime()+' '+(tosend.getMonth()+1)+' '+tosend.getFullYear()+' ');
+   		//alert(tosend.getTime()+' '+(tosend.getMonth()+1)+' '+tosend.getFullYear()+' ');
 			
 	    var itemObj = {
-	    								//"data[Item][item]": com1.item.val(),
-	    								//"data[Item][project_id]" : com1.curPrjId,
+	    								"data[Item][item]": com1.item.val(),
+	    								"data[Item][project_id]" : pObj.prjId,
 	    								"data[Item][epoch]" : parseInt(tosend.getTime()/1000)
 	    								/*
 	    								"data[Item][day]" : tosend.getDate(),

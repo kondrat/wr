@@ -63,38 +63,34 @@ class ItemsController extends AppController {
 						
 						$auth = true;
 
-									$this->data['Item']['item'];
+									if( !isset($this->data['Item']['item']) || $this->data['Item']['item'] == null ) {
+										$contents['stat'] = 0;
+						        $contents = json_encode($contents);
+										$this->header('Content-Type: application/json');				
+										return ($contents);
+									}
 									
 									$nw = $this->data['Item']['epoch'];
-									$contents['now'] = date('Y-M-d');
-									$contents['date'] = date('Y-M-d', $nw);
-									$contents['time'] = time();
+									
+									$contents['date'] = date('Y-m-d', $nw);
 									
 									/*
 									$this->data['Item']['hour'];
 									$this->data['Item']['min'];		
 									*/							
 									$this->data['Item']['user_id'] = $authUserId;
+									$this->data['Item']['target'] = $contents['date'];
 									
 									
 									
 									//$this->data['Item']['target'] = $this->data['Item']['year'].'-'.$this->data['Item']['month'].'-'.$this->data['Item']['day'];
 									//$this->data['Item']['target'] = $this->data['Item']['year'].'-'.$this->data['Item']['month'].'-'.$this->data['Item']['day'];
 										
-								//toDel		
-									//creating of the first proj
-									/*
-									if( $this->Item->save($this->data) ) {									
-										$newProjId = $this->Item->Theme->id;
-										$this->data["Item"]["theme_id"] = $newProjId;										
-									}else{
-										//report server problem
-									}		
-									*/					
+					
 					}
 					
 
-					//not reg yet.
+					//not reg yet. not work for a moment
 					if( !$auth  ) {
 						
 							//no data about user in db. So we reg it in.

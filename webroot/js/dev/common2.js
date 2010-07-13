@@ -2,13 +2,13 @@ jQuery(document).ready(function(){
 	
 		var com2 = {
 			newPrj: $("#newPr"),
-			curPrjId: 0,
 			curPrj: $("#curPrj"),
 			allPrj: $("#allPrj"),
 			projectEditor: $("#projectEditor"),
 			prjCancel: $(".prjCancel"),
 			prjEdit: $(".prjEdit"),
-			prjDel: $(".prjDel")
+			prjDel: $(".prjDel"),
+			prjSave: $(".prjSave")
 		};
 
 
@@ -106,7 +106,7 @@ jQuery(document).ready(function(){
       success: function(data) {
 				
       	if ( data.stat === 1 ) {        		
-					com2.curPrjId = data.prj.id;
+					pObj.prjId = data.prj.id;
 					com2.curPrj.text(data.prj.name);
         	flash_message('saved','flok');
         	
@@ -117,7 +117,7 @@ jQuery(document).ready(function(){
         
       },
       error: function(){
-          $('.tempTest').html('Problem with the server. Try again later.');
+          //$('.tempTest').html('Problem with the server. Try again later.');
           alert('Problem with the server. Try again later.');
       }
     });
@@ -204,7 +204,7 @@ jQuery(document).ready(function(){
 		var curPrjName = $(this).parents(".prjList").find("a").text();
 		$(this).parents(".prjList").css({"visibility":"hidden"}).append(
 			"<div class='prjInlineEdit' style='position:absolute;top:2px;left:0;visibility:visible;'>"+
-				"<input style='width:120px;margin:0;padding:0;' type='text' id='prjEditInput' name='data[editPrj]' />"+
+				"<input style='width:117px;margin:0;padding:0;' type='text' id='prjEditInput' name='data[editPrj]' />"+
 			
 				"<ul class='prjSaveControl ui-widget ui-helper-clearfix'>"+
 							"<li class='prjSave ui-state-default ui-corner-all'><span class='ui-icon ui-icon-check'></span></li>"+
@@ -236,6 +236,38 @@ jQuery(document).ready(function(){
 		//$(this).parents(".prjList").find(
 	});
  
- 
+	com2.prjSave.live("click",function(){
+		var thisClick = $(this);
+		var thisParent = thisClick.parents(".prjList");
+		var prjId = parseInt( thisParent.find("a").attr("id").replace("prj_", "") );
+		
+		var newName = $("#prjEditInput").val();
+		
+			
+	    $.ajax({
+	      type: "POST",
+	      url: path+"/projects/savePrj",
+	      dataType: "json",
+	      data: {"data[Prj][name]":newName, "data[Prj][id]":prjId},
+	      success: function(data) {
+					
+	      	if ( data.stat === 1 ) {
+	      		thisParent.css({"visibility":""}).find("a").text(data.prj.name);
+	      		thisParent.find(".prjInlineEdit").remove();    		
+						
+	        	flash_message('saved','flok');
+	        	
+	        } else {
+	        	flash_message('not saved','fler');
+	        }
+	        
+	        
+	      },
+	      error: function(){
+	          alert('Problem with the server. Try again later.');
+	      }
+	    });
+	  
+	});
   
 });

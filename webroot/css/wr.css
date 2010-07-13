@@ -290,7 +290,7 @@ a#threeWaysHere{
 .newProjectActive{
 
 }
-.newProjectActive span.upDownArr {
+.newProjectActive span {
 	background-position:100% 4px;
 		color:red;
 }
@@ -298,7 +298,7 @@ a#threeWaysHere{
 	text-decoration:none;
 	outline:medium none;
 }
-#newProject .upDownArr {
+#newProject span:first-child {
 	border-bottom:1px dashed;
 }
 
@@ -325,6 +325,7 @@ a#threeWaysHere{
 #projectEditor ul li.prjList {
 	padding: 1px 3px;
 	position:relative;
+	overflow:hidden;
 }
 #projectEditor li a{
 	border-bottom: 1px dashed;
