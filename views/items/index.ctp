@@ -1,6 +1,6 @@
 <?php //echo $this->element('pageHead/page_head');?>
 <div style="margin-top:1em;">
-	<?php echo $html->image('pic/index-pic.png');?>
+	<?php echo $html->link($html->image('pic/index-pic.png'),array('action'=>'todo'), array('escape'=>false));?>
 </div>
 <!--
 <div class="itemsWrapper span-17">

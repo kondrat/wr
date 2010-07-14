@@ -111,5 +111,12 @@
 	</div>
 		
 	<?php //echo $this->element('sql_dump'); ?>
+	<!-- Yandex.Metrika -->
+	<script src="//mc.yandex.ru/metrika/watch.js" type="text/javascript"></script>
+	<div style="display:none;"><script type="text/javascript">
+	try { var yaCounter1206877 = new Ya.Metrika(1206877); } catch(e){}
+	</script></div>
+	<noscript><div style="position:absolute"><img src="//mc.yandex.ru/watch/1206877" alt="" /></div></noscript>
+	<!-- /Yandex.Metrika -->
 </body>
 </html>
