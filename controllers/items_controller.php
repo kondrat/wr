@@ -3,6 +3,7 @@ class ItemsController extends AppController {
 
 	var $name = 'Items';
 	var $publicActions = array('saveItem' );
+	var $helpers = array('Time','Text');
 
 
 //--------------------------------------------------------------------
@@ -70,16 +71,20 @@ class ItemsController extends AppController {
 										return ($contents);
 									}
 									
-									$nw = $this->data['Item']['epoch'];
-									
-									$contents['date'] = date('Y-m-d', $nw);
+									if( isset($this->data['Item']['epoch']) && !empty($this->data['Item']['epoch']) ) {
+										echo $this->data['Item']['epoch'];
+										$nw = $this->data['Item']['epoch'];								
+										$contents['date'] = $this->data['Item']['target'] = date('Y-m-d', $nw);
+									} else {
+										//$contents['date'] = '0000-0-0';
+									}
 									
 									/*
 									$this->data['Item']['hour'];
 									$this->data['Item']['min'];		
 									*/							
 									$this->data['Item']['user_id'] = $authUserId;
-									$this->data['Item']['target'] = $contents['date'];
+									
 									
 									
 									
@@ -223,12 +228,15 @@ class ItemsController extends AppController {
 				$curPrj[0] = $this->Item->Project->read();
 			}					
 			
-						$pagItemCond = array('Item.user_id'=> $authUserId,'Item.project_id'=> $curPrj[0]['Project']['id'] );
+			$pagItemCond = array('Item.user_id'=> $authUserId,'Item.project_id'=> $curPrj[0]['Project']['id'] );
 			
 			
 		}
+		
+		
 		$this->paginate['conditions'] = $pagItemCond;
-
+		$pagItemOrder = array('Item.created' => 'DESC');
+		$this->paginate['order'] = $pagItemOrder;
 		
 		$this->set('todos',$this->paginate('Item') );
 

@@ -231,17 +231,18 @@ padding:4px;
 position:relative;
 }
 
-/*
-.typeItem{
-  background-color:AntiqueWhite;
-  border:2px solid SaddleBrown;
-  color:SaddleBrown;
-  text-align:center;
-}
-*/
+
 .statusItem {
-  color:blue;
   font-style:italic;
+}
+.opIt {
+	color:blue;
+}
+.clIt{
+	color:black;
+}
+.activeStatusItem{
+	background-color:#eee;
 }
 
 .newItemForm{
@@ -278,6 +279,11 @@ position:relative;
 .activeItem{
 	border-color:gray;
 	background-color:Ivory;
+}
+.itemCrated{
+	color:gray;
+	font-family:Georgia;
+	font-style:italic;
 }
 a#threeWaysHere{
 	border:none;
