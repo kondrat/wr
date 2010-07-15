@@ -88,7 +88,8 @@ jQuery(document).ready(function(){
 					buttonImageOnly: true,
 
 					autoSize: true,
-					showAnim: ""
+					showAnim: "",
+					showButtonPanel: true
 					
 			});
 
@@ -100,22 +101,21 @@ jQuery(document).ready(function(){
     
     $("#saveItemMain").click(function(){
     	
-			//alert(com1.datePicker.val());
+			var dateFromInput = com1.datePicker.val();
 			try{
-				var parsedDate = $.datepicker.parseDate('dd.mm.yy', com1.datePicker.val() );
-				return true;
+				var parsedDate = $.datepicker.parseDate('dd.mm.yy', dateFromInput );
+				//return true;
 			}
 			catch(e){
 				parsedDate = null;
 			}
 			
-   		//var parsedDate = $.datepicker.parseDate('dd.mm.yy', com1.datePicker.val() );
-			//alert(parsedDate);
 			if(parsedDate) {
    			var tosend = new Date(parsedDate);
    			var epoch =  parseInt(tosend.getTime()/1000);
    		} else {
    			var epoch = '';
+   			dateFromInput = 'No target';
    		}
    		//alert(tosend.getTime()+' '+(tosend.getMonth()+1)+' '+tosend.getFullYear()+' ');
    		
@@ -145,7 +145,7 @@ jQuery(document).ready(function(){
 						com1.itemPages.prepend(
 						
 						  '<div class="item span-17">'+						  	
-						    '<div class="span-2"><div class="targetItem">18-01-2010</div></div>'+						    
+						    '<div class="span-2"><div class="targetItem">'+dateFromInput+'</div></div>'+						    
 						    '<div class="span-14">'+
 						    	'<div class="textItem">'+
 										itemVal+
@@ -153,10 +153,11 @@ jQuery(document).ready(function(){
 							    	'<span class="itemCrated"> | 1 second ago</span>'+
 						    	'</div>'+
 						    '</div>'+					    
-						    '<div class="span-1 last"><div class="statusItem opendItem">opend</div></div>'+
-						  '</div>' 												
+						    '<div class="span-1 last"><div class="statusItem opIt">opend</div></div>'+
+						  '</div>'												
 						);
-						
+						com1.datePicker.val('No target');
+						com1.item.val('').focus();
           	//flash_message('saved','flok');
           	
           } else {
@@ -245,18 +246,50 @@ $(function() {
 	com1.itemPages.delegate(".statusItem","mouseenter",function(){
 		$(this).addClass("activeStatusItem");
 	}); 
+
 	com1.itemPages.delegate(".statusItem","mouseleave",function(){
 		$(this).removeClass("activeStatusItem");	
-	}); 
-		 
+	});
+
+
 	com1.itemPages.delegate(".statusItem","click",function(){
-		var thisIt = $(this);		
+		
+		var thisIt = $(this).parents(".item");
+		//getting item id
+		 var itId = parseInt( thisIt.attr("id").replace("item_","") );
+				
 		if ( thisIt.hasClass("opIt") ) {
-			thisIt.removeClass("opIt").addClass("clIt").text("closed").data({stat:1});
+			thisIt.removeClass("opIt").addClass("clIt").data({stat:1}).find(".statusItem").text("closed");
 		} else if (thisIt.hasClass("clIt")) {
-			thisIt.removeClass("clIt").addClass("opIt").text("opend").data({stat:0});
+			thisIt.removeClass("clIt").addClass("hlIt").data({stat:2}).find(".statusItem").text("hold");
+		} else if(thisIt.hasClass("hlIt")) {
+			thisIt.removeClass("hlIt").addClass("opIt").data({stat:0}).find(".statusItem").text("opend");
 		}
 		
+		clearTimeout(this.timeOut);
+		this.timeOut = setTimeout(function(){
+      $.ajax({
+        type: "POST",
+        url: path+"/items/status",
+        dataType: "json",
+        data: {"data[itSt]":thisIt.data("stat"),"data[itId]":itId},
+        success: function(data) {
+					
+        	if ( data.stat === 1 ) {        		
+
+          	
+          } else {
+          	flash_message('Status not saved','fler');
+          }
+          
+          
+        },
+        error: function(){
+            alert('Problem with the server. Try again later.');
+        }
+      });
+			
+		},3000);		
 		
 		
 		

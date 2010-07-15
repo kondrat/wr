@@ -240,6 +240,10 @@ position:relative;
 }
 .clIt{
 	color:black;
+	text-decoration:line-through;
+}
+.hlIt{
+	color:Sienna;
 }
 .activeStatusItem{
 	background-color:#eee;

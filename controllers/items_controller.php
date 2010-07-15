@@ -2,7 +2,7 @@
 class ItemsController extends AppController {
 
 	var $name = 'Items';
-	var $publicActions = array('saveItem' );
+	var $publicActions = array('saveItem','status' );
 	var $helpers = array('Time','Text');
 
 
@@ -15,7 +15,7 @@ class ItemsController extends AppController {
   			//default menuType
   			$this->set('menuType', 'todo');
   			//allowed actions
-        $this->Auth->allow('index','view','getTransl');
+        $this->Auth->allow('index','view');
 
         parent::beforeFilter(); 
         $this->Auth->autoRedirect = false;
@@ -40,8 +40,6 @@ class ItemsController extends AppController {
 	function saveItem() {
 		
 		$auth = false;
-		$currentThemeId = array();
-		$newThemeId = null;
 		$authUserId = null;
 		$contents['proj'] = 0;
 		
@@ -72,12 +70,9 @@ class ItemsController extends AppController {
 									}
 									
 									if( isset($this->data['Item']['epoch']) && !empty($this->data['Item']['epoch']) ) {
-										echo $this->data['Item']['epoch'];
 										$nw = $this->data['Item']['epoch'];								
 										$contents['date'] = $this->data['Item']['target'] = date('Y-m-d', $nw);
-									} else {
-										//$contents['date'] = '0000-0-0';
-									}
+									} 
 									
 									/*
 									$this->data['Item']['hour'];
@@ -108,29 +103,9 @@ class ItemsController extends AppController {
 							$this->data['User']['password'] = 1234;
 							
 							/*
-							if ( $this->Item->User->save($this->data, array('validate' => false) ) ) {
-								
-									$a = $this->Item->User->read(array('id','username','password'));
-									//$a['User']['auto_login'] = 1;
-																	
+							if ( $this->Item->User->save($this->data, array('validate' => false) ) ) {							
+									$a = $this->Item->User->read(array('id','username','password'));															
 									$this->Auth->login($a);	
-	
-									$this->data["Item"]["user_id"] = $a['User']['id'];
-															
-									$this->data['Theme']['theme'] = $this->data['Theme']['theme'];
-									$this->data['Theme']['user_id'] = $a['User']['id'];
-									$this->data['Theme']['current_theme'] = time();
-									
-									//creating of the first theme
-									if( $this->Item->Theme->save($this->data) ) {									
-										$newThemeId = $this->Item->Theme->id;
-										$this->data["Item"]["theme_id"] = $newThemeId;
-										$contents['theme'] = 1;	
-										$contents['themeName'] = $this->data['Theme']['theme'];
-										$contents['themeId'] = $newThemeId;									
-									}else{
-										//report server problem
-									}	
 																					
 							} else {
 								//report server problem
@@ -164,7 +139,72 @@ class ItemsController extends AppController {
 			
 					
 	}
+	
+	function status() {
+		
+		$authUserId = null;
+		
+		//ajax preparation
+		Configure::write('debug', 0);
+		$this->autoLayout = false;
+		$this->autoRender = false;
+			
+			if ( $this->RequestHandler->isAjax() ){
+				
+						//our host only
+						if (strpos(env('HTTP_REFERER'), trim(env('HTTP_HOST'), '/')) === false) {
+							$this->Security->blackHoleCallback = 'gotov';
+						}
+				
+				//main staff
+					$authUserId = $this->Auth->user('id');
+					
+					if ( $authUserId !== null ) {
+									$this->data['Item']['status'] = 0;
+									if( isset($this->data['itSt']) && in_array((int)$this->data['itSt'], array(0,1,2,3),true) ) {
+										$this->data['Item']['status'] = (int)$this->data['itSt'];
+									}
+						
 
+									if( isset($this->data['itId']) && (int)$this->data['itId'] !== null ) {
+										$this->data['Item']['id'] = (int)$this->data['itId'];
+										$curItem = $this->Item->find('all', array( 'conditions' => array( 'Item.id' => $this->data['Item']['id'], 'Item.user_id' => $authUserId), 'contain'=>false ) );
+										
+										if( $curItem != array() ) {
+											if( $this->Item->save($this->data) ) {
+												$contents['stat'] = 1;
+											} else {
+												$contents['stat'] = 0;
+											}												
+										}
+
+
+									} else {
+										$contents['stat'] = 0;
+						        $contents = json_encode($contents);
+										$this->header('Content-Type: application/json');				
+										return ($contents);
+									}
+									
+	
+
+					
+					} else {
+						$contents['stat'] = 0;
+					}
+
+	        $contents = json_encode($contents);
+					$this->header('Content-Type: application/json');				
+					return ($contents);
+					
+								
+			} else {				
+				$this->Security->blackHoleCallback = 'gotov';		
+			}
+			
+			
+					
+	}
 				//blackhole redirection
 				//-----------------------------
 				function gotov() {	

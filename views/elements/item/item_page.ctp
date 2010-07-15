@@ -17,7 +17,29 @@
 		
 		<?php if( $todos ): ?>
 			<?php foreach( $todos as $todo ): ?>
-		  <div id="item_<?php echo $todo["Item"]["id"];?>" class="item span-17">
+			
+				<?php
+						 switch($todo['Item']['status']) {
+								case 0: 
+									$statusClass = "opIt";
+									$statusText = "opend";
+									break;
+								case 1:
+									$statusClass = "clIt";
+									$statusText = "closed";
+									break;							
+								case 2:
+									$statusClass = "hlIt";
+									$statusText = "hold";
+									break;
+								default: 
+									$statusClass = "opIt";
+									$statusText = "opend";
+									break;
+								}
+					?>										
+			
+		  <div id="item_<?php echo $todo["Item"]["id"];?>" class="item span-17 <?php echo $statusClass;?>">
 		  	<?php 
 		  		if(!empty($todo["Item"]["target"])){
 		  			$date = new DateTime($todo["Item"]["target"]);
@@ -48,7 +70,7 @@
 		    	</div>
 		    </div>
 		    
-		    <div class="span-1 last"><div class="statusItem opIt">opend</div></div>
+		    <div class="span-1 last"><div class="statusItem"><?php echo $statusText;?></div></div>
 		  </div> 
 		  <?php endforeach ?>
 		<?php else: ?>
