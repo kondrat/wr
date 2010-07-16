@@ -49,10 +49,13 @@
 		  		}		  	
 		  	?>
 
-			  <div class="span-2"><div class="targetItem"><?php echo $formatedDate;?></div></div>
+			  <div class="span-2 last"><div class="targetItem"><?php echo $formatedDate;?></div></div>
+			  
 		    
 		    <div class="span-14">
+		    	
 		    	<div class="textItem">
+		    		<span class="itemType">Ticket</span>
 			    	<?php if( $todo["Item"]["item"] ):?>
 			    		<?php 
 			    			echo $text->truncate($todo["Item"]["item"],
