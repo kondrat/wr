@@ -37,8 +37,27 @@
 									$statusText = "opend";
 									break;
 								}
-					?>										
-			
+					?>	
+					<?php									
+						 switch($todo['Item']['task']) {
+								case 0: 
+									$taskClass = "itTypeTodo";
+									$taskText = "todo";
+									break;
+								case 1:
+									$taskClass = "itTypeTick";
+									$taskText = "ticket";
+									break;							
+								case 2:
+									$taskClass = "itTypeImpr";
+									$taskText = "impr";
+									break;
+								default: 
+									$taskClass = "itTypeIdea";
+									$taskText = "idea";
+									break;
+								}
+					?>			
 		  <div id="item_<?php echo $todo["Item"]["id"];?>" class="item span-17 <?php echo $statusClass;?>">
 		  	<?php 
 		  		if(!empty($todo["Item"]["target"])){
@@ -55,7 +74,7 @@
 		    <div class="span-14">
 		    	
 		    	<div class="textItem">
-		    		<span class="itemType itTypeTodo">Ticket</span>
+		    		<span class="itemType <?php echo $taskClass;?>"><?php echo $taskText;?></span>
 			    	<?php if( $todo["Item"]["item"] ):?>
 			    		<?php 
 			    			echo $text->truncate($todo["Item"]["item"],

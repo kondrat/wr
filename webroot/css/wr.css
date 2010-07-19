@@ -229,6 +229,7 @@ a.newItem:focus {
 	width:40px;
 	line-height:1.25em;
 }
+
 #itemTypeList .itemType,#itemPages .itemType{
 	margin-right:5px;
 }
@@ -244,7 +245,12 @@ a.newItem:focus {
 .itTypeIdea{
 	background-color:red;
 }
-
+#itemPages .clIt .itemType {
+	background-color:gray;
+}
+.clIt .textItem{
+  text-decoration:none;
+}
 
 
 

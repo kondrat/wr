@@ -74,6 +74,13 @@ class ItemsController extends AppController {
 										$contents['date'] = $this->data['Item']['target'] = date('Y-m-d', $nw);
 									} 
 									
+									
+									if( isset($this->data['Item']['type']) && in_array( (int)$this->data['Item']['type'], array(0,1,2,3), true) ) {
+										$this->data['Item']['task'] = (int)$this->data['Item']['type'];		
+									}	else {
+									  $this->data['Item']['task'] = 0;
+									}					
+										
 									/*
 									$this->data['Item']['hour'];
 									$this->data['Item']['min'];		
