@@ -162,13 +162,13 @@ class ItemsController extends AppController {
 					if ( $authUserId !== null ) {
 									$this->data['Item']['status'] = 0;
 									if( isset($this->data['itSt']) && in_array((int)$this->data['itSt'], array(0,1,2,3),true) ) {
-										$this->data['Item']['status'] = (int)$this->data['itSt'];
+										$itemSt = $this->data['Item']['status'] = (int)$this->data['itSt'];
 									}
 						
 
 									if( isset($this->data['itId']) && (int)$this->data['itId'] !== null ) {
-										$this->data['Item']['id'] = (int)$this->data['itId'];
-										$curItem = $this->Item->find('all', array( 'conditions' => array( 'Item.id' => $this->data['Item']['id'], 'Item.user_id' => $authUserId), 'contain'=>false ) );
+										$itemId = $this->data['Item']['id'] = (int)$this->data['itId'];
+										$curItem = $this->Item->find('first', array( 'conditions' => array( 'Item.id' => $this->data['Item']['id'], 'Item.user_id' => $authUserId), 'contain'=>false ) );
 										
 										if( $curItem != array() ) {
 											if( $this->Item->save($this->data) ) {
@@ -229,7 +229,7 @@ class ItemsController extends AppController {
 		$curPrj = array();
 
 				
-		$this->paginate['limit'] = 6;
+		$this->paginate['limit'] = 12;
 		$this->paginate['contain'] = false;
 		
 		

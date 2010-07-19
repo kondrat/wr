@@ -55,7 +55,7 @@
 		    <div class="span-14">
 		    	
 		    	<div class="textItem">
-		    		<span class="itemType">Ticket</span>
+		    		<span class="itemType itTypeTodo">Ticket</span>
 			    	<?php if( $todo["Item"]["item"] ):?>
 			    		<?php 
 			    			echo $text->truncate($todo["Item"]["item"],

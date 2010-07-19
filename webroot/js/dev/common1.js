@@ -121,11 +121,13 @@ jQuery(document).ready(function(){
    		
    		
 			var itemVal = com1.item.val();
+			var xx = $("#itemTypeControl").find("span:first").data("type");
 			
 	    var itemObj = {
 	    								"data[Item][item]": itemVal,
 	    								"data[Item][project_id]" : pObj.prjId,
-	    								"data[Item][epoch]" : epoch
+	    								"data[Item][epoch]" : epoch,
+	    								"data[Item][type]": xx
 
 	    								//"data[Item][hour]" : com1.hourHour.val(),
 	    								//"data[Item][min]" : com1.minuteMin.val()
@@ -144,7 +146,7 @@ jQuery(document).ready(function(){
 						
 						com1.itemPages.prepend(
 						
-						  '<div class="item span-17">'+						  	
+						  '<div class="item opIt span-17">'+						  	
 						    '<div class="span-2"><div class="targetItem">'+dateFromInput+'</div></div>'+						    
 						    '<div class="span-14">'+
 						    	'<div class="textItem">'+
@@ -257,13 +259,16 @@ $(function() {
 		var thisIt = $(this).parents(".item");
 		//getting item id
 		 var itId = parseInt( thisIt.attr("id").replace("item_","") );
-				
+		var statusIt = 0;		
 		if ( thisIt.hasClass("opIt") ) {
-			thisIt.removeClass("opIt").addClass("clIt").data({stat:1}).find(".statusItem").text("closed");
+			thisIt.removeClass("opIt").addClass("clIt").find(".statusItem").text("closed");
+			statusIt = 1;
 		} else if (thisIt.hasClass("clIt")) {
-			thisIt.removeClass("clIt").addClass("hlIt").data({stat:2}).find(".statusItem").text("hold");
+			thisIt.removeClass("clIt").addClass("hlIt").find(".statusItem").text("hold");
+			statusIt = 2;
 		} else if(thisIt.hasClass("hlIt")) {
-			thisIt.removeClass("hlIt").addClass("opIt").data({stat:0}).find(".statusItem").text("opend");
+			thisIt.removeClass("hlIt").addClass("opIt").find(".statusItem").text("opend");
+			statusIt = 0;
 		}
 		
 		clearTimeout(this.timeOut);
@@ -272,7 +277,7 @@ $(function() {
         type: "POST",
         url: path+"/items/status",
         dataType: "json",
-        data: {"data[itSt]":thisIt.data("stat"),"data[itId]":itId},
+        data: {"data[itSt]":statusIt,"data[itId]":itId},
         success: function(data) {
 					
         	if ( data.stat === 1 ) {        		
@@ -289,10 +294,34 @@ $(function() {
         }
       });
 			
-		},3000);		
+		},1000);		
 		
 		
 		
 	}); 
+ 
+	$("#itemTypeControl").click(function(){
+		var thisType = $(this);
+		var itemTypeList = $("#itemTypeList");
+		
+		if( itemTypeList.is(":hidden") ) {
+			itemTypeList.show();
+			thisType.addClass("newItemActive");
+		} else {
+			itemTypeList.hide();
+			thisType.removeClass("newItemActive");
+		}
+
+	});
+
+	$("#itemTypeList").delegate('span','click',function() {
+		var thisClass = $(this).attr("class");
+		var thisText = $(this).text();
+		var thisId = parseInt($(this).attr("id").replace("itType_",""));
+		
+		$("#itemTypeControl").children("span:first").attr("class", thisClass).text(thisText).data("type",thisId);
+	});
+ 
+ 
   
 });

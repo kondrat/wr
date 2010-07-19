@@ -222,10 +222,36 @@ a.newItem:focus {
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
 	border-radius: 4px;
-	background-color:brown;
 	color:white;
-	padding:0 4px;
+	display:block;
+	float:left;
+	text-align:center;
+	width:40px;
+	line-height:1.25em;
 }
+#itemTypeList .itemType,#itemPages .itemType{
+	margin-right:5px;
+}
+.itTypeTodo{
+	background-color:blue;
+}
+.itTypeTick{
+	background-color:brown;
+}
+.itTypeImpr{
+	background-color:green;
+}
+.itTypeIdea{
+	background-color:red;
+}
+
+
+
+
+
+
+
+
 ul#icons{
 	margin:0;
 	padding:0;
@@ -258,18 +284,13 @@ position:relative;
 }
 
 .newItemForm{
-  /*background-color:AliceBlue;*/
-
   background:url("../img/pic/form_bg.png") repeat-x scroll 0 bottom transparent;
   border:5px solid burlyWood;
-
-  /*position:absolute;
-  top:120px;
-  left:40px;*/
 	-moz-border-radius:10px;
 	z-index:1000;
 	margin-bottom:2em;
 	padding:0 10px;
+	float:left;
 }
 #item {
 	padding:5px;
