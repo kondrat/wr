@@ -2,7 +2,7 @@
 	<div class="newItemForm">	
 		<div id="newItemFormTop" style="float:left;width:100%;">
 			<div id="itemTypeControl" style="float:left;margin:8px 10px 0 0;">
-				<span class="itemType itTypeTodo">Todo</span><span class="upDownArr"></span>
+				<span class="itemType itT0"><?php echo $itemTasks[0]['t'];?></span><span class="upDownArr"></span>
 			</div>
       <div class="" style="float:left;">
       	<?php 
@@ -40,10 +40,10 @@
       </div>
     </div>
     <div id="itemTypeList" class="hide" style="float:left;background-color:#ddd;padding:5px;">
-      <span id="itType_0" class="itemType itTypeTodo">ToDo</span>
-      <span id="itType_1" class="itemType itTypeTick">Ticket</span>
-      <span id="itType_2" class="itemType itTypeImpr">Impr</span>
-      <span id="itType_3" class="itemType itTypeIdea">Idea</span>
+    	<?php foreach($itemTasks as $v ):?>
+	      <span id="itT_<?php echo $v['n'];?>" class="itemType itT<?php echo $v['n'];?>"><?php echo $v['t'];?></span>
+	    <?php endforeach ?>
+      
     </div>
     <div id="newItemFormBottom">
       <?php echo $form->input( 'item',array('label'=>false, 'div'=>true) );?>

@@ -41,7 +41,7 @@ class ItemsController extends AppController {
 		
 		$auth = false;
 		$authUserId = null;
-		$contents['proj'] = 0;
+		$contents['stat'] = 0;
 		
 		//ajax preparation
 		Configure::write('debug', 0);
@@ -129,6 +129,8 @@ class ItemsController extends AppController {
 					if( $this->Item->save($this->data) ) {
 						$contents['stat'] = 1;
 						$contents['word'] = $this->data["Item"]["item"];
+						$contents['type'] = $this->data["Item"]["task"];
+						$contents['id'] = $this->Item->id;
 					} else {
 						$contents['stat'] = 0;
 					}
@@ -150,6 +152,7 @@ class ItemsController extends AppController {
 	function status() {
 		
 		$authUserId = null;
+		$contents['stat'] = 0;
 		
 		//ajax preparation
 		Configure::write('debug', 0);
@@ -234,8 +237,12 @@ class ItemsController extends AppController {
 		$authUserId = $this->Auth->user('id');
 		$pagItemCond = array();
 		$curPrj = array();
-
-				
+		
+		$itemTasks = Configure::read('itemTasks');
+		$this->set('itemTasks',$itemTasks);
+		$itemStatuses = Configure::read('itemStatuses');
+		$this->set('itemStatuses',$itemStatuses);
+						
 		$this->paginate['limit'] = 12;
 		$this->paginate['contain'] = false;
 		

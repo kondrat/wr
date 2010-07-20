@@ -3,6 +3,10 @@
 	    	'update' => '#itemPages',
 	    	//'evalScripts' => true
 			));
+
+      $aObj = $js->object($itemTasks);
+      $bObj = $js->object($itemStatuses);
+			echo $html->scriptBlock('var itT = '.$aObj.';var itS = '.$bObj.';',array('inline'=>false));				
 		?>
 	<div id="itemPages" class="itemsWrapper span-17">
 		
@@ -19,44 +23,50 @@
 			<?php foreach( $todos as $todo ): ?>
 			
 				<?php
-						 switch($todo['Item']['status']) {
-								case 0: 
-									$statusClass = "opIt";
-									$statusText = "opend";
-									break;
-								case 1:
-									$statusClass = "clIt";
-									$statusText = "closed";
-									break;							
-								case 2:
-									$statusClass = "hlIt";
-									$statusText = "hold";
-									break;
-								default: 
-									$statusClass = "opIt";
-									$statusText = "opend";
-									break;
-								}
+				
+						$statusClass = "itS0";
+						$statusText = "opend";									
+						if ( $itemStatuses ) {	
+							foreach($itemStatuses as $v) {
+								if( $todo['Item']['status'] == $v['n'] ) {
+									$statusClass = "itS".$v['n'];
+									$statusText = $v['t'];
+								} 
+							}
+						}
+						
 					?>	
-					<?php									
+					<?php	
+						$taskClass = "itT0";
+						$taskText = "todo";							
+						if ( $itemTasks ) {	
+							foreach($itemTasks as $v) {
+								if( $todo['Item']['task'] == $v['n'] ) {
+									$taskClass = "itT".$v['n'];
+									$taskText = $v['t'];
+								} 
+							}
+						}
+						/*		
 						 switch($todo['Item']['task']) {
 								case 0: 
-									$taskClass = "itTypeTodo";
+									$taskClass = "itT0";
 									$taskText = "todo";
 									break;
 								case 1:
-									$taskClass = "itTypeTick";
+									$taskClass = "itT1";
 									$taskText = "ticket";
 									break;							
 								case 2:
-									$taskClass = "itTypeImpr";
+									$taskClass = "itT2";
 									$taskText = "impr";
 									break;
 								default: 
-									$taskClass = "itTypeIdea";
+									$taskClass = "itT3";
 									$taskText = "idea";
 									break;
 								}
+								*/
 					?>			
 		  <div id="item_<?php echo $todo["Item"]["id"];?>" class="item span-17 <?php echo $statusClass;?>">
 		  	<?php 

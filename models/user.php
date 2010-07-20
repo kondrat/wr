@@ -163,11 +163,7 @@ class User extends AppModel {
 //--------------------------------------------------------------------
 	function stopWords($data){
 		if ( $a = Configure::read('stopWords')  ) {
-			foreach( $a as $k => $v ){
-				//$vowels = array("a", "e", "i", "o", "u", "A", "E", "I", "O", "U");
-				//$res = str_replace($vowels, "", "Hello World of PHP");
-					
-			}
+
 			$toCheck = strtolower($this->data['User']['username']);
 			$res = str_replace($a, "", $toCheck );
 			if( $res !== $toCheck ) {			

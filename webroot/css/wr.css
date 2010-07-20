@@ -233,16 +233,16 @@ a.newItem:focus {
 #itemTypeList .itemType,#itemPages .itemType{
 	margin-right:5px;
 }
-.itTypeTodo{
+.itT0{
 	background-color:blue;
 }
-.itTypeTick{
+.itT1{
 	background-color:brown;
 }
-.itTypeImpr{
+.itT2{
 	background-color:green;
 }
-.itTypeIdea{
+.itT3{
 	background-color:red;
 }
 #itemPages .clIt .itemType {
@@ -275,16 +275,21 @@ position:relative;
 .statusItem {
   font-style:italic;
 }
-.opIt {
+.itS0 {
 	color:blue;
 }
-.clIt{
+.itS1{
 	color:black;
 	text-decoration:line-through;
 }
-.hlIt{
+.itS2{
 	color:Sienna;
 }
+.itS3{
+	color:red;
+	text-decoration:line-through;
+}
+
 .activeStatusItem{
 	background-color:#eee;
 }

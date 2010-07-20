@@ -13,12 +13,27 @@ jQuery(document).ready(function(){
 			newItem: $("#newItem"),
 			quickLogin: $("#quickLogin"),
 			datePicker: $("#datepicker"),
-			dataPickerTip: ''
+			dataPickerTip: '',
+			itemTypeControl: $("#itemTypeControl"),
+			itemTypeList: $("#itemTypeList"),
+			itT: '',
+			itS: '',
+			itSLenght: 0
 			
 		};
 
 		if( typeof(targetDay) !== "undefined") com1.dataPickerTip = targetDay;
-
+		
+		//getting item Task from view file.
+		if( typeof(itT) !== "undefined"){
+			com1.itT = itT;
+		}
+		//getting item Status from view file.
+		if( typeof(itS) !== "undefined"){
+			com1.itS = itS;
+			com1.itSLenght = itS.length;
+		}
+		
 		//flash alert message 	  
 
 		if(com1.alertMessage.length) {
@@ -100,7 +115,6 @@ jQuery(document).ready(function(){
 
     
     $("#saveItemMain").click(function(){
-    	
 			var dateFromInput = com1.datePicker.val();
 			try{
 				var parsedDate = $.datepicker.parseDate('dd.mm.yy', dateFromInput );
@@ -121,13 +135,13 @@ jQuery(document).ready(function(){
    		
    		
 			var itemVal = com1.item.val();
-			var xx = $("#itemTypeControl").find("span:first").data("type");
+			var itemTask = com1.itemTypeControl.find("span:first").data("type");
 			
 	    var itemObj = {
 	    								"data[Item][item]": itemVal,
 	    								"data[Item][project_id]" : pObj.prjId,
 	    								"data[Item][epoch]" : epoch,
-	    								"data[Item][type]": xx
+	    								"data[Item][type]": itemTask
 
 	    								//"data[Item][hour]" : com1.hourHour.val(),
 	    								//"data[Item][min]" : com1.minuteMin.val()
@@ -142,20 +156,40 @@ jQuery(document).ready(function(){
         	
 					userReg = 1;
 					
+					var itemTaskT = 'todo';
+					var itemTaskCl = 'itemType itT0';
+					var itemId = 0;
+
+					
         	if ( data.stat === 1 ) {        		
+
+						if( com1.itT !== '') {
+							$.each(com1.itT, function(i,v){
+								if( v.n == data.type ) { 
+									itemTaskT = v.t;
+									itemTaskCl = 'itemType itT'+data.type;
+									itemId = data.id;
+
+									return;
+								}
+							});	
+						} else {
+							itemTaskCl = com1.itemTypeControl.children("span:first").attr("class");
+							itemTaskT = com1.itemTypeControl.children("span:first").text();						
+						}	
+
 						
-						com1.itemPages.prepend(
-						
-						  '<div class="item opIt span-17">'+						  	
-						    '<div class="span-2"><div class="targetItem">'+dateFromInput+'</div></div>'+						    
+						com1.itemPages.prepend(						
+						  '<div id="item_'+itemId+'" class="item itS0 span-17">'+						  	
+						    '<div class="span-2 last"><div class="targetItem">'+dateFromInput+'</div></div>'+						    
 						    '<div class="span-14">'+
 						    	'<div class="textItem">'+
+						    		'<span class="'+itemTaskCl+'">'+itemTaskT+'</span>'+
 										itemVal+
-
 							    	'<span class="itemCrated"> | 1 second ago</span>'+
 						    	'</div>'+
 						    '</div>'+					    
-						    '<div class="span-1 last"><div class="statusItem opIt">opend</div></div>'+
+						    '<div class="span-1 last"><div class="statusItem">opend</div></div>'+
 						  '</div>'												
 						);
 						com1.datePicker.val('No target');
@@ -253,23 +287,44 @@ $(function() {
 		$(this).removeClass("activeStatusItem");	
 	});
 
-
 	com1.itemPages.delegate(".statusItem","click",function(){
 		
 		var thisIt = $(this).parents(".item");
 		//getting item id
-		 var itId = parseInt( thisIt.attr("id").replace("item_","") );
+		var itId = parseInt( thisIt.attr("id").replace("item_","") );
+		
+		
 		var statusIt = 0;		
-		if ( thisIt.hasClass("opIt") ) {
-			thisIt.removeClass("opIt").addClass("clIt").find(".statusItem").text("closed");
+		for ( var i=0; i <= com1.itSLenght; i++ ) {
+			var curClass = "itS"+i;
+			var newClass;
+			if(thisIt.hasClass(curClass) ) {
+				if( (1+i) < com1.itSLenght ){
+					statusIt = 1+i;					
+				} else {
+					statusIt = 0;
+				}
+				newClass = "itS"+statusIt;
+				thisIt.removeClass(curClass).addClass(newClass).find(".statusItem").text(com1.itS[statusIt].t);
+				break;
+			}		
+		}
+		
+		
+		
+		/*
+		if ( thisIt.hasClass("itS0") ) {
+			thisIt.removeClass("itS0").addClass("itS1").find(".statusItem").text("closed");
 			statusIt = 1;
-		} else if (thisIt.hasClass("clIt")) {
-			thisIt.removeClass("clIt").addClass("hlIt").find(".statusItem").text("hold");
+		} else if (thisIt.hasClass("itS1")) {
+			thisIt.removeClass("itS1").addClass("itS2").find(".statusItem").text("hold");
 			statusIt = 2;
-		} else if(thisIt.hasClass("hlIt")) {
-			thisIt.removeClass("hlIt").addClass("opIt").find(".statusItem").text("opend");
+		} else if(thisIt.hasClass("itS2")) {
+			thisIt.removeClass("itS2").addClass("itS0").find(".statusItem").text("opend");
 			statusIt = 0;
 		}
+		*/
+		
 		
 		clearTimeout(this.timeOut);
 		this.timeOut = setTimeout(function(){
@@ -300,26 +355,24 @@ $(function() {
 		
 	}); 
  
-	$("#itemTypeControl").click(function(){
-		var thisType = $(this);
-		var itemTypeList = $("#itemTypeList");
-		
-		if( itemTypeList.is(":hidden") ) {
-			itemTypeList.show();
+	com1.itemTypeControl.click(function(){
+		var thisType = $(this);		
+		if( com1.itemTypeList.is(":hidden") ) {
+			com1.itemTypeList.show();
 			thisType.addClass("newItemActive");
 		} else {
-			itemTypeList.hide();
+			com1.itemTypeList.hide();
 			thisType.removeClass("newItemActive");
 		}
 
 	});
 
-	$("#itemTypeList").delegate('span','click',function() {
-		var thisClass = $(this).attr("class");
-		var thisText = $(this).text();
-		var thisId = parseInt($(this).attr("id").replace("itType_",""));
-		
-		$("#itemTypeControl").children("span:first").attr("class", thisClass).text(thisText).data("type",thisId);
+	com1.itemTypeList.delegate('span','click',function() {
+		var thisP = $(this);
+		var thisClass = thisP.attr("class");
+		var thisText = thisP.text();
+		var thisTaskId = parseInt(thisP.attr("id").replace("itT_",""));		
+		com1.itemTypeControl.children("span:first").attr("class", thisClass).text(thisText).data("type",thisTaskId);
 	});
  
  
