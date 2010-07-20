@@ -35,8 +35,6 @@
 							}
 						}
 						
-					?>	
-					<?php	
 						$taskClass = "itT0";
 						$taskText = "todo";							
 						if ( $itemTasks ) {	
@@ -47,26 +45,7 @@
 								} 
 							}
 						}
-						/*		
-						 switch($todo['Item']['task']) {
-								case 0: 
-									$taskClass = "itT0";
-									$taskText = "todo";
-									break;
-								case 1:
-									$taskClass = "itT1";
-									$taskText = "ticket";
-									break;							
-								case 2:
-									$taskClass = "itT2";
-									$taskText = "impr";
-									break;
-								default: 
-									$taskClass = "itT3";
-									$taskText = "idea";
-									break;
-								}
-								*/
+
 					?>			
 		  <div id="item_<?php echo $todo["Item"]["id"];?>" class="item span-17 <?php echo $statusClass;?>">
 		  	<?php 
@@ -98,7 +77,7 @@
 			    	<?php else: ?>
 			    		<?php __('Empty task');?>
 			    	<?php endif ?>
-			    	<span class="itemCrated"><?php echo ' | '.$time->timeAgoInWords($todo["Item"]["created"], array('format' => 'd-m-Y','end' => "+1 day") );?></span>
+			    	<span class="itemCrated"><?php echo ' '.$timenomin->timeAgoInWords($todo["Item"]["created"], array('format' => 'd-m-Y','end' => "+1 day") );?></span>
 		    	</div>
 		    </div>
 		    

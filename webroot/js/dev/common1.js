@@ -186,7 +186,7 @@ jQuery(document).ready(function(){
 						    	'<div class="textItem">'+
 						    		'<span class="'+itemTaskCl+'">'+itemTaskT+'</span>'+
 										itemVal+
-							    	'<span class="itemCrated"> | 1 second ago</span>'+
+							    	'<span class="itemCrated"> 1 second ago</span>'+
 						    	'</div>'+
 						    '</div>'+					    
 						    '<div class="span-1 last"><div class="statusItem">opend</div></div>'+

@@ -3,7 +3,7 @@ class ItemsController extends AppController {
 
 	var $name = 'Items';
 	var $publicActions = array('saveItem','status' );
-	var $helpers = array('Time','Text');
+	var $helpers = array('Time','Timenomin','Text');
 
 
 //--------------------------------------------------------------------

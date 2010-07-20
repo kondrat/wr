@@ -245,10 +245,13 @@ a.newItem:focus {
 .itT3{
 	background-color:red;
 }
-#itemPages .clIt .itemType {
+.itS1  span.itemType{
 	background-color:gray;
 }
-.clIt .textItem{
+.itS3  span.itemType{
+	background-color:#ddd;
+}
+.itS1 .textItem{
   text-decoration:none;
 }
 
@@ -286,7 +289,7 @@ position:relative;
 	color:Sienna;
 }
 .itS3{
-	color:red;
+	color:#ddd;
 	text-decoration:line-through;
 }
 
