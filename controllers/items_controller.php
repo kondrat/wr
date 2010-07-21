@@ -2,7 +2,7 @@
 class ItemsController extends AppController {
 
 	var $name = 'Items';
-	var $publicActions = array('saveItem','status' );
+	var $publicActions = array('saveItem','status','delItem' );
 	var $helpers = array('Time','Timenomin','Text');
 
 
@@ -60,7 +60,7 @@ class ItemsController extends AppController {
 					
 					if ( $authUserId !== null ) {
 						
-						$auth = true;
+						
 
 									if( !isset($this->data['Item']['item']) || $this->data['Item']['item'] == null ) {
 										$contents['stat'] = 0;
@@ -178,7 +178,7 @@ class ItemsController extends AppController {
 
 									if( isset($this->data['itId']) && (int)$this->data['itId'] !== null ) {
 										$itemId = $this->data['Item']['id'] = (int)$this->data['itId'];
-										$curItem = $this->Item->find('first', array( 'conditions' => array( 'Item.id' => $this->data['Item']['id'], 'Item.user_id' => $authUserId), 'contain'=>false ) );
+										$curItem = $this->Item->find('first', array( 'conditions' => array( 'Item.id' => $this->data['Item']['id'], 'Item.user_id' => $authUserId,'Item.active' => 1), 'contain'=>false ) );
 										
 										if( $curItem != array() ) {
 											if( $this->Item->save($this->data) ) {
@@ -199,6 +199,65 @@ class ItemsController extends AppController {
 	
 
 					
+					} else {
+						$contents['stat'] = 0;
+					}
+
+	        $contents = json_encode($contents);
+					$this->header('Content-Type: application/json');				
+					return ($contents);
+					
+								
+			} else {				
+				$this->Security->blackHoleCallback = 'gotov';		
+			}
+			
+			
+					
+	}
+	
+	function delItem() {
+		
+		$authUserId = null;
+		$contents['stat'] = 0;
+		$idToDel = null;
+		$curItem = array();
+		
+		//ajax preparation
+		Configure::write('debug', 0);
+		$this->autoLayout = false;
+		$this->autoRender = false;
+			
+			if ( $this->RequestHandler->isAjax() ){
+				
+						//our host only
+						if (strpos(env('HTTP_REFERER'), trim(env('HTTP_HOST'), '/')) === false) {
+							$this->Security->blackHoleCallback = 'gotov';
+						}
+				
+				//main staff
+					$authUserId = $this->Auth->user('id');
+					
+					if ( $authUserId !== null ) {
+						
+									$this->data['Item']['active'] = 0;
+									
+									$idToDel = (int)$this->data['itId'];
+									if( isset($idToDel) && $idToDel != null ) {
+										$this->data['Item']['id'] = $idToDel;
+										$curItem = $this->Item->find('first', array( 'conditions' => array( 'Item.id' => $this->data['Item']['id'], 'Item.user_id' => $authUserId), 'contain'=>false ) );
+										
+										if( $curItem != array() ) {
+											if( $this->Item->save($this->data) ) {
+												$contents['stat'] = 1;
+											} else {
+												$contents['stat'] = 0;
+											}												
+										}	else {
+											$contents['stat'] = 0;
+										}																		
+									}
+						
 					} else {
 						$contents['stat'] = 0;
 					}
@@ -250,7 +309,7 @@ class ItemsController extends AppController {
 
 		if ( isset($this->params['named']['prj']) && (int)$this->params['named']['prj'] != 0 ) {
 			
-			$pagItemCond = array('Item.user_id'=> $authUserId , 'Item.project_id'=> $this->params['named']['prj'] );
+			$pagItemCond = array('Item.user_id'=> $authUserId , 'Item.project_id'=> $this->params['named']['prj'],'Item.active' => 1 );
 			//we selected new prj, so updade the cur time
 			if(isset($this->params['url']['cur'])&&$this->params['url']['cur']==="1"){
 				$prId = $this->Item->Project->find('first',array('conditions'=> array('Project.id' => $this->params['named']['prj']),'contain'=>false) );
@@ -263,7 +322,7 @@ class ItemsController extends AppController {
 			
 			
 		} else if( isset($this->params['named']['prj']) && $this->params['named']['prj'] === 'all'){
-			$pagItemCond = array('Item.user_id'=> $authUserId);
+			$pagItemCond = array('Item.user_id'=> $authUserId ,'Item.active' => 1);
 		} else {
 
 			
@@ -282,7 +341,7 @@ class ItemsController extends AppController {
 				$curPrj[0] = $this->Item->Project->read();
 			}					
 			
-			$pagItemCond = array('Item.user_id'=> $authUserId,'Item.project_id'=> $curPrj[0]['Project']['id'] );
+			$pagItemCond = array('Item.user_id'=> $authUserId,'Item.project_id'=> $curPrj[0]['Project']['id'],'Item.active' => 1 );
 			
 			
 		}

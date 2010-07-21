@@ -174,7 +174,9 @@ class TimenominHelper extends TimeHelper {
 		$diff = $futureTime - $pastTime;
 
 		if ($diff > abs($now - $this->fromString($end))) {
-			$relativeDate = sprintf(__('on %s',true), date($format, $inSeconds));
+			//original
+			//$relativeDate = sprintf(__('on %s',true), date($format, $inSeconds));
+			$relativeDate = sprintf(__('%s',true), date($format, $inSeconds));
 		} else {
 			if ($years > 0) {
 				// years and months and days

@@ -244,7 +244,85 @@ $(function() {
 				    $(this).removeClass("activeItem");
 				  }	
 		});
-	
+
+		com1.itemPages.delegate(".textItem","click",function(){
+			var topItem = $(this).parents(".item");
+			var thisItem = topItem.find("div.itemEditBlock");
+			
+			if(thisItem.is(":hidden")) {
+				$("div.itemEditBlock").hide();
+				$("div.item").removeClass("itemToEdit");
+				topItem.addClass("itemToEdit");				
+				thisItem.show();
+			} else {				
+				thisItem.hide();
+			}
+		});
+
+		com1.itemPages.delegate(".itemEdit","click",function(){
+
+			var thisItEd = $(this);
+			var toIns = '<textarea class="itemTextArea" name="data[itemText]" style="height: 10px;"></textarea>';
+			var toAppend = thisItEd.parents(".itemEditBlock").find(".itemEditText");
+			$(toIns).appendTo(toAppend);
+			$(".itemTextArea").elastic();
+			
+		});
+		
+		com1.itemPages.delegate(".itemDel","click",function(){		
+		
+				var parId = $(this).parents(".item");
+				
+		    if (confirm('Are you sure to delete?')) {	
+		    	var itId = parseInt( parId.attr("id").replace("item_", "") );
+		    	if( typeof(itId) !== "undefined" && itId !== "" ) {	    		
+							$.ajax({
+									dataType:"json",
+									type: "POST",
+									data: {"data[itId]":itId},
+									success:function (data, textStatus) {
+										if( data.stat === 1) {
+											parId.children().css({"background-color":"lightPink"}).end().fadeOut(600 ,function(){
+												$(this).remove();
+											});					
+										} else {
+											flash_message("Couldn't be deleted", "fler" );
+										}
+									},
+									url: path+"\/items\/delItem",
+									error:function(){
+										alert('Problem with the server. Try again later.');
+									}
+							});  						  		
+		    	}
+		    } 
+			
+		});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		
 //top menu decoration and control
 	$("#logInNow").hover(function(){
@@ -375,6 +453,9 @@ $(function() {
 		com1.itemTypeControl.children("span:first").attr("class", thisClass).text(thisText).data("type",thisTaskId);
 	});
  
- 
+	
+
+	
+
   
 });

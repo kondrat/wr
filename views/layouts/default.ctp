@@ -35,6 +35,7 @@
 															//'jquery/jquery.ui.draggable.min',
 															'dev/jquery.coloranim',
 															'dev/jquery.ba-outside-events.min',
+															'dev/jquery.elastic',
 															'dev/func',
 															'dev/common1',
 															'dev/common2',

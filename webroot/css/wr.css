@@ -208,14 +208,54 @@ a.newItem:focus {
 .newItemActive span.upDownArr{
 	background-position:100% 4px;
 }
+
+.item{
+	border-bottom:1px dashed #CCCCCC;
+}
+.activeItem{
+	border-color:gray;
+	background-color:Ivory;
+}
+.itemToEdit{
+	background-color:Ivory;
+	border-color:gray;
+}
+
+.itemCrated{
+	color:gray;
+	font-family:Georgia;
+	font-style:italic;
+	float:right;
+	margin-left:3px;
+}
+
+
+
+.itemHeadLine{
+	color:black;
+	float:left;
+	padding-top:5px;
+	position:relative;
+	width:100%;
+}
+.itemToEdit .itemHeadLine {
+	background-color:wheat;
+}
+
+
+
 .targetItem{
-  font-weight:bold;
-  text-align:center;
-  float:left;
-  margin-right:5px;
+	float:left;
+	font-weight:bold;
+	margin-right:7px;
+	text-align:center;
+	width:60px;
 }
 .textItem{
-  float:left;
+	float:left;
+	height:1.8em;
+	overflow:hidden;
+	width:550px;
 }
 .itemType{
 	margin-rigth:1em;
@@ -229,6 +269,43 @@ a.newItem:focus {
 	width:40px;
 	line-height:1.25em;
 }
+.itemHead {
+	color:DarkBlue;
+}
+
+.itemEditBlock{
+	color:black;
+	float:left;
+	padding:  0;
+	width:100%;
+}
+
+.itemEditControl{
+	position:relative;
+}
+ul.itEdButtons{
+	position:absolute;
+	list-style:none;
+	margin:0;
+	right:15px;
+	top:5px;
+}
+.itEdButtons li{
+	float:left;
+	margin-left:3px;
+}
+
+.itemEditText{
+	color:black;
+	margin:2em 1em 1em 1em;
+}
+.itemTextArea{
+	height: 0px;
+	padding:5px 0 0 0;
+	width:100%;
+}
+
+
 
 #itemTypeList .itemType,#itemPages .itemType{
 	margin-right:5px;
@@ -276,25 +353,29 @@ position:relative;
 
 
 .statusItem {
-  font-style:italic;
+	font-style:italic;
+	left:620px;
+	padding:1px 3px;
+	position:absolute;
 }
-.itS0 {
+.itS0 .statusItem {
 	color:blue;
 }
-.itS1{
+.itS1 .statusItem {
 	color:black;
-	text-decoration:line-through;
 }
-.itS2{
+.itS2 .statusItem {
 	color:Sienna;
 }
-.itS3{
-	color:#ddd;
+.itS3 .statusItem {
+	color:red;
+}
+.itS1 .itemHead {
+	color:gray;
 	text-decoration:line-through;
 }
-
 .activeStatusItem{
-	background-color:#eee;
+	background-color:#ddd;
 }
 
 .newItemForm{
@@ -319,19 +400,9 @@ position:relative;
 	text-decoration:none;
 	border-bottom:1px dashed;
 }
-.item{
-	margin-bottom:0.5em;
-	border-bottom:1px dashed #CCCCCC;
-}
-.activeItem{
-	border-color:gray;
-	background-color:Ivory;
-}
-.itemCrated{
-	color:gray;
-	font-family:Georgia;
-	font-style:italic;
-}
+
+
+
 a#threeWaysHere{
 	border:none;
 	color:brown;

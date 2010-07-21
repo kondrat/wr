@@ -22,8 +22,7 @@
 		<?php if( $todos ): ?>
 			<?php foreach( $todos as $todo ): ?>
 			
-				<?php
-				
+				<?php				
 						$statusClass = "itS0";
 						$statusText = "opend";									
 						if ( $itemStatuses ) {	
@@ -46,9 +45,6 @@
 							}
 						}
 
-					?>			
-		  <div id="item_<?php echo $todo["Item"]["id"];?>" class="item span-17 <?php echo $statusClass;?>">
-		  	<?php 
 		  		if(!empty($todo["Item"]["target"])){
 		  			$date = new DateTime($todo["Item"]["target"]);
 		  			$formatedDate = $date->format('d.m.Y');
@@ -56,32 +52,42 @@
 		  			$formatedDate = __('No target',true);
 		  		}		  	
 		  	?>
+		  	
+		  						
+		  <div id="item_<?php echo $todo["Item"]["id"];?>" class="item span-17 <?php echo $statusClass;?>">
 
-			  <div class="span-2 last"><div class="targetItem"><?php echo $formatedDate;?></div></div>
-			  
-		    
-		    <div class="span-14">
+				<div class="itemHeadLine">				
+					  	<div class="targetItem"><?php echo $formatedDate;?></div>		    	
+				    	<div class="textItem">			    		
+								<span class="itemType <?php echo $taskClass;?>"><?php echo $taskText;?></span>
+								<span class="itemCrated"><?php echo ' '.$timenomin->timeAgoInWords($todo["Item"]["created"], array('format' => 'd-m-Y','end' => "+1 day") );?></span>
+				    		<span class="itemHead">
+					    	<?php if( $todo["Item"]["item"] ){
+					    					$itemItem = $todo["Item"]["item"];		    	
+					    				}else{
+					    					$itemItem = __('Empty task',true);
+					    				}
+					    				echo $itemItem;
+					    	?>					    	
+					    	</span>    		
+				    	</div>			   			    
+				    	<div class="statusItem"><?php echo '['.$statusText.']';?></div>		    
+		  	</div>
+		  	
+		    <div class="itemEditBlock hide">
 		    	
-		    	<div class="textItem">
-		    		<span class="itemType <?php echo $taskClass;?>"><?php echo $taskText;?></span>
-			    	<?php if( $todo["Item"]["item"] ):?>
-			    		<?php 
-			    			echo $text->truncate($todo["Item"]["item"],
-			    					65,
-								    array(
-								        'ending' => '...',
-								        'exact' => false	    		
-					    			)
-			    			);
-			    		?>
-			    	<?php else: ?>
-			    		<?php __('Empty task');?>
-			    	<?php endif ?>
-			    	<span class="itemCrated"><?php echo ' '.$timenomin->timeAgoInWords($todo["Item"]["created"], array('format' => 'd-m-Y','end' => "+1 day") );?></span>
+		    	<div class="itemEditControl">
+		    		<ul class="itEdButtons ui-widget ui-helper-clearfix">
+							<li class="itemEdit ui-state-default ui-corner-all" style="cursor: pointer;"><span class="ui-icon ui-icon-pencil"></span></li>
+							<li class="itemDel ui-state-default ui-corner-all" style="cursor: pointer;"><span class="ui-icon ui-icon-trash"></span></li>
+						</ul>
+		    	</div>
+		    	<div class="itemEditText">
+		    		<span><?php 	echo $itemItem; ?></span>
+		    		<?php //echo $form->textarea('itemText', array("id" => false, "class" => "itemTextArea" ) );?>
 		    	</div>
 		    </div>
 		    
-		    <div class="span-1 last"><div class="statusItem"><?php echo $statusText;?></div></div>
 		  </div> 
 		  <?php endforeach ?>
 		<?php else: ?>
