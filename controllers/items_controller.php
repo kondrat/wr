@@ -249,6 +249,7 @@ class ItemsController extends AppController {
 										
 										if( $curItem != array() ) {
 											if( $this->Item->save($this->data) ) {
+											  $contents['dat'] = $this->data;
 												$contents['stat'] = 1;
 											} else {
 												$contents['stat'] = 0;
