@@ -278,6 +278,7 @@ a.newItem:focus {
 	float:left;
 	padding:  0;
 	width:100%;
+	position:relative;
 }
 
 .itemEditControl{
@@ -383,7 +384,7 @@ position:relative;
   border:5px solid burlyWood;
 	-moz-border-radius:10px;
 	z-index:1000;
-	margin-bottom:2em;
+	margin-bottom:0.5em;
 	padding:0 10px;
 	float:left;
 }
@@ -431,16 +432,18 @@ a#threeWaysHere{
 	background-color:lightGray;
 }
 #projectEditor{
-	-moz-border-radius:10px 10px 10px 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
 	-moz-box-shadow:0 0 6px black;
 	background-color:#EEEEEE;
 	border:5px solid #C0C0C0;
-	left:70px;
+	left:100px;
 	padding:1em;
 	position:absolute;
-	top:35px;
-	z-index:1000;
+	top:10px;
 	width:162px;
+	z-index:1000;
 }
 #projectEditor ul{
 	list-style-type:none;

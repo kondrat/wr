@@ -11,6 +11,7 @@ jQuery(document).ready(function(){
 			minuteMin: $("#minuteMin"),
 			newItemForm: $("#newItemForm"),
 			newItem: $("#newItem"),
+			saveItemMain: $("#saveItemMain"),
 			quickLogin: $("#quickLogin"),
 			datePicker: $("#datepicker"),
 			dataPickerTip: '',
@@ -114,7 +115,7 @@ jQuery(document).ready(function(){
     //card Ajax save;
 
     
-    $("#saveItemMain").click(function(){
+    com1.saveItemMain.click(function(){
 			var dateFromInput = com1.datePicker.val();
 			try{
 				var parsedDate = $.datepicker.parseDate('dd.mm.yy', dateFromInput );
@@ -212,7 +213,7 @@ jQuery(document).ready(function(){
 
 
 	//more controls
-	$("#saveItemMain").next().click(function(){
+	com1.saveItemMain.next().click(function(){
 		com1.item.val('');
 		com1.datePicker.val(com1.dataPickerTip);
 		com1.newItemForm.hide();
@@ -259,15 +260,52 @@ $(function() {
 			}
 		});
 
+
+
+
+
+
+
+
+
+
+
 		com1.itemPages.delegate(".itemEdit","click",function(){
 
 			var thisItEd = $(this);
-			var toIns = '<textarea class="itemTextArea" name="data[itemText]" style="height: 10px;"></textarea>';
-			var toAppend = thisItEd.parents(".itemEditBlock").find(".itemEditText");
+			//var thisPar = $(this).parents("div[id^='item_']");
+
+			var toIns = 
+			    		'<ul class="itEdButtons ui-widget ui-helper-clearfix">'+
+								'<li class="itemSubmit ui-state-default ui-corner-all" style="cursor: pointer;"><span class="ui-icon ui-icon-check"></span></li>'+
+								'<li class="itemCan ui-state-default ui-corner-all" style="cursor: pointer;"><span class="ui-icon ui-icon-cancel"></span></li>'+
+							'</ul>'+			
+							'<div style="padding:5px;margin-top:20px;"><textarea class="itemTextArea" name="data[itemText]" style="height: 10px;"></textarea><div><div>more</div>';
+			
+			
+			var toAppend = thisItEd.parents(".itemEditBlock");
+			
+			toAppend.children().hide();//css({"visibility":"hidden"});
+			
 			$(toIns).appendTo(toAppend);
-			$(".itemTextArea").elastic();
+			
+			var origText = toAppend.find(".origText").text();
+			toAppend.find(".origText").data("origText",origText).hide().end().find("textarea").val(origText).elastic();
+			//$(".itemTextArea").elastic();
 			
 		});
+
+
+
+
+
+
+
+
+
+
+
+
 		
 		com1.itemPages.delegate(".itemDel","click",function(){		
 		
@@ -298,26 +336,6 @@ $(function() {
 		    } 
 			
 		});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

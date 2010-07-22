@@ -83,7 +83,7 @@
 						</ul>
 		    	</div>
 		    	<div class="itemEditText">
-		    		<span><?php 	echo $itemItem; ?></span>
+		    		<span class="origText"><?php 	echo $itemItem; ?></span>
 		    		<?php //echo $form->textarea('itemText', array("id" => false, "class" => "itemTextArea" ) );?>
 		    	</div>
 		    </div>
