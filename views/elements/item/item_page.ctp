@@ -1,12 +1,7 @@
 		<?php 
 			$this->Paginator->options(array(
-	    	'update' => '#itemPages',
-	    	//'evalScripts' => true
-			));
-
-      $aObj = $js->object($itemTasks);
-      $bObj = $js->object($itemStatuses);
-			echo $html->scriptBlock('var itT = '.$aObj.';var itS = '.$bObj.';',array('inline'=>false));				
+	    	'update' => '#itemPages'
+			));			
 		?>
 	<div id="itemPages" class="itemsWrapper span-17">
 		
@@ -74,19 +69,7 @@
 				    	<div class="statusItem"><?php echo '['.$statusText.']';?></div>		    
 		  	</div>
 		  	
-		    <div class="itemEditBlock hide">
-		    	
-		    	<div class="itemEditControl">
-		    		<ul class="itEdButtons ui-widget ui-helper-clearfix">
-							<li class="itemEdit ui-state-default ui-corner-all" style="cursor: pointer;"><span class="ui-icon ui-icon-pencil"></span></li>
-							<li class="itemDel ui-state-default ui-corner-all" style="cursor: pointer;"><span class="ui-icon ui-icon-trash"></span></li>
-						</ul>
-		    	</div>
-		    	<div class="itemEditText">
-		    		<span class="origText"><?php 	echo $itemItem; ?></span>
-		    		<?php //echo $form->textarea('itemText', array("id" => false, "class" => "itemTextArea" ) );?>
-		    	</div>
-		    </div>
+
 		    
 		  </div> 
 		  <?php endforeach ?>

@@ -246,23 +246,58 @@ $(function() {
 				  }	
 		});
 
-		com1.itemPages.delegate(".textItem","click",function(){
-			var topItem = $(this).parents(".item");
-			var thisItem = topItem.find("div.itemEditBlock");
+
+		
+		com1.itemPages.delegate(".itemHeadLine","click",function(){
+			var thisIt = $(this);
+			var thisPar = thisIt.parent();
+			var thisItem = thisIt.next();//find("div.itemViewBlock");
+			var origText = $.trim(thisIt.find("span.itemHead").text() );
 			
-			if(thisItem.is(":hidden")) {
-				$("div.itemEditBlock").hide();
-				$("div.item").removeClass("itemToEdit");
-				topItem.addClass("itemToEdit");				
-				thisItem.show();
-			} else {				
-				thisItem.hide();
+			if( thisItem.length >= 1 ) {
+				
+				if(thisItem.is(":hidden")) {
+					com1.itemPages.find("div.itemViewBlock").hide();
+					com1.itemPages.find("div.item").removeClass("itemToEdit");
+					thisPar.addClass("itemToEdit");				
+					thisItem.show();
+				} else {				
+					thisItem.hide();
+					thisPar.removeClass("itemToEdit");
+				}	
+							
+			}else{
+				
+				com1.itemPages.find("div.itemViewBlock").hide();
+				com1.itemPages.find("div.item").removeClass("itemToEdit");
+				thisPar.addClass("itemToEdit");
+				thisIt.after(
+			    '<div class="itemViewBlock hide">'+
+			    	'<div class="itemDataBlock">'+
+				    	'<div class="itemEditControl">'+				    		
+				    		'<ul class="itEdButtons ui-widget ui-helper-clearfix">'+
+									'<li class="itemEdit ui-state-default ui-corner-all" style="cursor: pointer;"><span class="ui-icon ui-icon-pencil"></span></li>'+
+									'<li class="itemDel ui-state-default ui-corner-all" style="cursor: pointer;"><span class="ui-icon ui-icon-trash"></span></li>'+
+								'</ul>'+
+				    	'</div>'+
+				    	'<div class="itemEditText">'+
+				    		'<span class="origText">'+origText+'</span>'+
+				    	'</div>'+
+			    	'</div>'+
+			    	
+						'<div class="itemEditBlock hide">'+
+			    		'<ul class="itEdButtons ui-widget ui-helper-clearfix">'+
+								'<li class="itemSubmit ui-state-default ui-corner-all" style="cursor: pointer;"><span class="ui-icon ui-icon-check"></span></li>'+
+								'<li class="itemCan ui-state-default ui-corner-all" style="cursor: pointer;"><span class="ui-icon ui-icon-cancel"></span></li>'+
+							'</ul>'+			
+							'<div style="padding:5px;margin-top:20px;"><textarea class="itemTextArea" name="data[itemText]" style="height: 10px;"></textarea><div><div>more</div>'+
+						'</div>'+			    	
+			    '</div>'	
+			   ).next().show();		
 			}
+				
+
 		});
-
-
-
-
 
 
 
@@ -273,37 +308,18 @@ $(function() {
 		com1.itemPages.delegate(".itemEdit","click",function(){
 
 			var thisItEd = $(this);
-			//var thisPar = $(this).parents("div[id^='item_']");
-
-			var toIns = 
-			    		'<ul class="itEdButtons ui-widget ui-helper-clearfix">'+
-								'<li class="itemSubmit ui-state-default ui-corner-all" style="cursor: pointer;"><span class="ui-icon ui-icon-check"></span></li>'+
-								'<li class="itemCan ui-state-default ui-corner-all" style="cursor: pointer;"><span class="ui-icon ui-icon-cancel"></span></li>'+
-							'</ul>'+			
-							'<div style="padding:5px;margin-top:20px;"><textarea class="itemTextArea" name="data[itemText]" style="height: 10px;"></textarea><div><div>more</div>';
+		
+			var thisPar = thisItEd.parents(".itemViewBlock");
 			
+			thisPar.find("div.itemDataBlock").hide().end().find("div.itemEditBlock").show();
 			
-			var toAppend = thisItEd.parents(".itemEditBlock");
+			//$(toIns).appendTo(toAppend);
 			
-			toAppend.children().hide();//css({"visibility":"hidden"});
-			
-			$(toIns).appendTo(toAppend);
-			
-			var origText = toAppend.find(".origText").text();
-			toAppend.find(".origText").data("origText",origText).hide().end().find("textarea").val(origText).elastic();
+			var origText = thisPar.find(".origText").text();
+			thisPar.find("textarea").val(origText).elastic();
 			//$(".itemTextArea").elastic();
 			
 		});
-
-
-
-
-
-
-
-
-
-
 
 
 		
@@ -337,6 +353,11 @@ $(function() {
 			
 		});
 
+
+		com1.itemPages.delegate(".itemCan","click",function(){
+			var parId = $(this).parents("div.itemEditBlock");
+			parId.prev().show().end().hide().val('');
+		});
 
 
 
@@ -383,8 +404,9 @@ $(function() {
 		$(this).removeClass("activeStatusItem");	
 	});
 
-	com1.itemPages.delegate(".statusItem","click",function(){
-		
+	com1.itemPages.delegate(".statusItem","click",function(event){
+		//event.stopPropagation();
+
 		var thisIt = $(this).parents(".item");
 		//getting item id
 		var itId = parseInt( thisIt.attr("id").replace("item_","") );
@@ -403,23 +425,10 @@ $(function() {
 				newClass = "itS"+statusIt;
 				thisIt.removeClass(curClass).addClass(newClass).find(".statusItem").text(com1.itS[statusIt].t);
 				break;
-			}		
+			}	
+				
 		}
 		
-		
-		
-		/*
-		if ( thisIt.hasClass("itS0") ) {
-			thisIt.removeClass("itS0").addClass("itS1").find(".statusItem").text("closed");
-			statusIt = 1;
-		} else if (thisIt.hasClass("itS1")) {
-			thisIt.removeClass("itS1").addClass("itS2").find(".statusItem").text("hold");
-			statusIt = 2;
-		} else if(thisIt.hasClass("itS2")) {
-			thisIt.removeClass("itS2").addClass("itS0").find(".statusItem").text("opend");
-			statusIt = 0;
-		}
-		*/
 		
 		
 		clearTimeout(this.timeOut);
@@ -447,7 +456,7 @@ $(function() {
 			
 		},1000);		
 		
-		
+		return false;
 		
 	}); 
  

@@ -214,7 +214,7 @@ a.newItem:focus {
 }
 .activeItem{
 	border-color:gray;
-	background-color:Ivory;
+	background-color:Linen;
 }
 .itemToEdit{
 	background-color:Ivory;
@@ -273,7 +273,7 @@ a.newItem:focus {
 	color:DarkBlue;
 }
 
-.itemEditBlock{
+.itemViewBlock{
 	color:black;
 	float:left;
 	padding:  0;
