@@ -281,9 +281,7 @@ a.newItem:focus {
 	position:relative;
 }
 
-.itemEditControl{
-	position:relative;
-}
+
 ul.itEdButtons{
 	position:absolute;
 	list-style:none;

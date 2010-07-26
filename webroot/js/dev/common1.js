@@ -274,12 +274,12 @@ $(function() {
 				thisIt.after(
 			    '<div class="itemViewBlock hide">'+
 			    	'<div class="itemDataBlock">'+
-				    	'<div class="itemEditControl">'+				    		
+				    				    		
 				    		'<ul class="itEdButtons ui-widget ui-helper-clearfix">'+
 									'<li class="itemEdit ui-state-default ui-corner-all" style="cursor: pointer;"><span class="ui-icon ui-icon-pencil"></span></li>'+
 									'<li class="itemDel ui-state-default ui-corner-all" style="cursor: pointer;"><span class="ui-icon ui-icon-trash"></span></li>'+
 								'</ul>'+
-				    	'</div>'+
+				    	
 				    	'<div class="itemEditText">'+
 				    		'<span class="origText">'+origText+'</span>'+
 				    	'</div>'+
