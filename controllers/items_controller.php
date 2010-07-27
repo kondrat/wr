@@ -1,4 +1,5 @@
 <?php
+App::import('Sanitize');
 class ItemsController extends AppController {
 
 	var $name = 'Items';
@@ -41,6 +42,7 @@ class ItemsController extends AppController {
 		
 		$auth = false;
 		$authUserId = null;
+		$curItem = array();
 		$contents['stat'] = 0;
 		
 		//ajax preparation
@@ -59,79 +61,94 @@ class ItemsController extends AppController {
 					$authUserId = $this->Auth->user('id');
 					
 					if ( $authUserId !== null ) {
-						
-						
-
-									if( !isset($this->data['Item']['item']) || $this->data['Item']['item'] == null ) {
-										$contents['stat'] = 0;
-						        $contents = json_encode($contents);
-										$this->header('Content-Type: application/json');				
-										return ($contents);
+									
+									
+									$tempData = $this->data;
+									unset($this->data);
+									
+									if( isset($tempData['id']) && (int)$tempData['id'] > 0 ) {
+										
+											$this->data['Item']['id'] = (int)$tempData['id'];
+											//unset($tempData['id']);
+											
+											$curItem = $this->Item->find('first', array( 'conditions' => array( 'Item.id' => $this->data['Item']['id'], 'Item.user_id' => $authUserId,'Item.active' => 1), 'contain'=>false ) );											
+											if( $curItem == array() ) {
+								        $contents = json_encode($contents);
+												$this->header('Content-Type: application/json');				
+												return ($contents);																			
+											}																				
+																				
 									}
 									
-									if( isset($this->data['Item']['epoch']) && !empty($this->data['Item']['epoch']) ) {
-										$nw = $this->data['Item']['epoch'];								
+									$this->data['Item']['user_id'] = $authUserId;
+
+									
+									if( isset($tempData['prj']) && (int)$tempData['prj'] > 0 ) {
+										$this->data['Item']['project_id'] = (int)$tempData['prj'];								
+									} else {
+										if( !isset($this->data['Item']['id']) ) {
+								        $contents = json_encode($contents);
+												$this->header('Content-Type: application/json');				
+												return ($contents);												
+										}
+									}
+									
+															
+
+									if( isset($tempData['item']) ) {
+										//sanitize and test it here.
+										if( $tempData['item'] == null ) {
+								        $contents = json_encode($contents);
+												$this->header('Content-Type: application/json');				
+												return ($contents);
+										} else {											
+											$this->data['Item']['item'] = $tempData['item'];
+											$contents['word'] = $this->data["Item"]["item"];
+										}
+									} else {
+										//case when no data item, but we creating new item;
+										if( !isset($this->data['Item']['id']) ) {
+								        $contents = json_encode($contents);
+												$this->header('Content-Type: application/json');				
+												return ($contents);												
+										}
+									}
+
+
+									
+									if( isset($tempData['task']) && in_array( (int)$tempData['task'], array(0,1,2,3), true) ) {
+										$this->data['Item']['task'] = (int)$tempData['task'];	
+										$contents['task'] = $this->data["Item"]["task"];	
+									}				
+	
+	
+									if( isset($tempData['status']) && in_array( (int)$tempData['status'], array(0,1,2,3), true) ) {
+										$this->data['Item']['status'] = (int)$tempData['status'];		
+									}
+	
+
+									if( isset($tempData['target']) && !empty($tempData['target']) ) {
+										$nw = $tempData['target'];								
 										$contents['date'] = $this->data['Item']['target'] = date('Y-m-d', $nw);
-									} 
-									
-									
-									if( isset($this->data['Item']['type']) && in_array( (int)$this->data['Item']['type'], array(0,1,2,3), true) ) {
-										$this->data['Item']['task'] = (int)$this->data['Item']['type'];		
-									}	else {
-									  $this->data['Item']['task'] = 0;
-									}					
+									} 	
 										
 									/*
 									$this->data['Item']['hour'];
 									$this->data['Item']['min'];		
 									*/							
-									$this->data['Item']['user_id'] = $authUserId;
 									
 									
-									
-									
-									//$this->data['Item']['target'] = $this->data['Item']['year'].'-'.$this->data['Item']['month'].'-'.$this->data['Item']['day'];
-									//$this->data['Item']['target'] = $this->data['Item']['year'].'-'.$this->data['Item']['month'].'-'.$this->data['Item']['day'];
-										
+
 					
 					}
 					
-
-					//not reg yet. not work for a moment
-					if( !$auth  ) {
-						
-							//no data about user in db. So we reg it in.
-							$key = 'guest_'.md5(uniqid(rand(), true));
-							//$this->Cookie->write('guestKey',$key, false, '360 days');	
-							
-							//we reg the guest as a temp user
-							$this->data['User']['username'] = $key;
-							$this->data['User']['group_id'] = 2;
-							$this->data['User']['password'] = 1234;
-							
-							/*
-							if ( $this->Item->User->save($this->data, array('validate' => false) ) ) {							
-									$a = $this->Item->User->read(array('id','username','password'));															
-									$this->Auth->login($a);	
-																					
-							} else {
-								//report server problem
-							}						
-							*/
-					} 
-
-				
-				
-
-									
-				
+					$this->data = Sanitize::clean($this->data);
 
 					if( $this->Item->save($this->data) ) {
-						$contents['stat'] = 1;
-						$contents['word'] = $this->data["Item"]["item"];
-						$contents['type'] = $this->data["Item"]["task"];
+						$contents['stat'] = 1;						
 						$contents['id'] = $this->Item->id;
 					} else {
+						unset($contents);
 						$contents['stat'] = 0;
 					}
 
@@ -149,72 +166,7 @@ class ItemsController extends AppController {
 					
 	}
 	
-	function status() {
-		
-		$authUserId = null;
-		$contents['stat'] = 0;
-		
-		//ajax preparation
-		Configure::write('debug', 0);
-		$this->autoLayout = false;
-		$this->autoRender = false;
-			
-			if ( $this->RequestHandler->isAjax() ){
-				
-						//our host only
-						if (strpos(env('HTTP_REFERER'), trim(env('HTTP_HOST'), '/')) === false) {
-							$this->Security->blackHoleCallback = 'gotov';
-						}
-				
-				//main staff
-					$authUserId = $this->Auth->user('id');
-					
-					if ( $authUserId !== null ) {
-									$this->data['Item']['status'] = 0;
-									if( isset($this->data['itSt']) && in_array((int)$this->data['itSt'], array(0,1,2,3),true) ) {
-										$itemSt = $this->data['Item']['status'] = (int)$this->data['itSt'];
-									}
-						
 
-									if( isset($this->data['itId']) && (int)$this->data['itId'] !== null ) {
-										$itemId = $this->data['Item']['id'] = (int)$this->data['itId'];
-										$curItem = $this->Item->find('first', array( 'conditions' => array( 'Item.id' => $this->data['Item']['id'], 'Item.user_id' => $authUserId,'Item.active' => 1), 'contain'=>false ) );
-										
-										if( $curItem != array() ) {
-											if( $this->Item->save($this->data) ) {
-												$contents['stat'] = 1;
-											} else {
-												$contents['stat'] = 0;
-											}												
-										}
-
-
-									} else {
-										$contents['stat'] = 0;
-						        $contents = json_encode($contents);
-										$this->header('Content-Type: application/json');				
-										return ($contents);
-									}
-									
-	
-
-					
-					} else {
-						$contents['stat'] = 0;
-					}
-
-	        $contents = json_encode($contents);
-					$this->header('Content-Type: application/json');				
-					return ($contents);
-					
-								
-			} else {				
-				$this->Security->blackHoleCallback = 'gotov';		
-			}
-			
-			
-					
-	}
 	
 	function delItem() {
 		
@@ -274,11 +226,14 @@ class ItemsController extends AppController {
 			
 					
 	}
+	
+	
 				//blackhole redirection
 				//-----------------------------
 				function gotov() {	
 					$this->redirect(null, 404, true);
 				}	
+				
 //--------------------------------------------------------------------
 	function index() {
 		$this->set('title_for_layout', __('Main page',true) );		
