@@ -19,15 +19,19 @@ jQuery(document).ready(function(){
 			itemTypeList: $("#itemTypeList"),
 			itT: '',
 			itS: '',
+			itTLenght: 0,
 			itSLenght: 0
 			
+			
 		};
+
 
 		if( typeof(targetDay) !== "undefined") com1.dataPickerTip = targetDay;
 		
 		//getting item Task from view file.
 		if( typeof(itT) !== "undefined"){
 			com1.itT = itT;
+			com1.itTLenght = itT.length;
 		}
 		//getting item Status from view file.
 		if( typeof(itS) !== "undefined"){
@@ -251,9 +255,10 @@ $(function() {
 		
 		com1.itemPages.delegate(".itemHeadLine","click",function(){
 			var thisIt = $(this);
-			var origText = $.trim( thisIt.find("span.itemHead").text() );
-			var thisPar = thisIt.parent().data("origText",origText);
-			var thisItem = thisIt.next();//find("div.itemViewBlock");
+
+
+			var thisPar = thisIt.parent();
+			var thisItem = thisIt.next();
 			
 			
 			if( thisItem.length >= 1 ) {
@@ -269,6 +274,10 @@ $(function() {
 				}	
 							
 			}else{
+				
+				var origText = $.trim( thisIt.find("span.itemHead").text() );
+				thisPar.data("origText",origText);
+				//alert(origText);
 				com1.itemPages.find("div.itemViewBlock").hide();
 				com1.itemPages.find("div.item").removeClass("itemToEdit");
 				thisPar.addClass("itemToEdit");
@@ -282,7 +291,7 @@ $(function() {
 								'</ul>'+
 				    	
 				    	'<div class="itemEditText">'+
-				    		'<span class="origText">'+origText+'</span>'+
+				    		'<span class="origText"></span>'+
 				    	'</div>'+
 			    	'</div>'+
 			    	
@@ -291,10 +300,11 @@ $(function() {
 								'<li class="itemSubmit ui-state-default ui-corner-all" style="cursor: pointer;"><span class="ui-icon ui-icon-check"></span></li>'+
 								'<li class="itemCan ui-state-default ui-corner-all" style="cursor: pointer;"><span class="ui-icon ui-icon-cancel"></span></li>'+
 							'</ul>'+			
-							'<div style="padding:5px;margin-top:20px;"><textarea class="itemTextArea" name="data[itemText]" style="height: 10px;"></textarea><div><div>more</div>'+
+							'<div style="padding:5px;margin-top:20px;"><textarea class="itemTextArea" name="data[itemText]" style="height: 10px;"></textarea><div>'+
+							'<div>more</div>'+
 						'</div>'+			    	
 			    '</div>'	
-			   ).next().show();		
+			   ).next().show().find("span.origText").text(origText);		
 			}
 				
 
@@ -378,6 +388,11 @@ $(function() {
 											//parIt.data("origText",data.word);
 											parIt.data("origText",data.word).find("div.itemEditBlock").hide().prev().show().find("span.origText").text(data.word);
 											parIt.find("span.itemHead").text(data.word);
+											parIt.children(".itemViewBlock").animate(
+												{"background-color": "lightgreen"},{duration: 1000}
+											).animate(
+												{"background-color": "#fffff0"},{duration: 1000}
+											);
 										} else {
 											flash_message("Couldn't be edited", "fler" );
 										}
@@ -448,11 +463,17 @@ $(function() {
 		var thisIt = $(this).parents(".item");
 		//getting item id
 		var itId = parseInt( thisIt.attr("id").replace("item_","") );
-		
+		//finding statusItem class
+		var statIt = thisIt.find(".statusItem");
+
+		if( typeof(this.i) === "undefined" ){
+			this.i = 0;
+			statIt.data({'origClass':thisIt.attr("class"),'origText':statIt.text()});
+		}		
 		
 		var statusIt = 0;		
 		for ( var i=0; i <= com1.itSLenght; i++ ) {
-			var curClass = "itS"+i;
+			var curClass = "itS"+com1.itS[i].n;
 			var newClass;
 			if(thisIt.hasClass(curClass) ) {
 				if( (1+i) < com1.itSLenght ){
@@ -460,14 +481,13 @@ $(function() {
 				} else {
 					statusIt = 0;
 				}
-				newClass = "itS"+statusIt;
-				thisIt.removeClass(curClass).addClass(newClass).find(".statusItem").text(com1.itS[statusIt].t);
+				newClass = "itS"+com1.itS[statusIt].n;
+				thisIt.removeClass(curClass).addClass(newClass);
+				statIt.text(com1.itS[statusIt].t);
 				break;
 			}	
 				
 		}
-		
-		
 		
 		clearTimeout(this.timeOut);
 		this.timeOut = setTimeout(function(){
@@ -475,19 +495,23 @@ $(function() {
         type: "POST",
         url: path+"/items/saveItem",
         dataType: "json",
-        data: {"data[status]":statusIt,"data[id]":itId},
+        data: {"data[status]":com1.itS[statusIt].n,"data[id]":itId},
         success: function(data) {
 					
         	if ( data.stat === 1 ) {        		
 
-          	
+          	statIt.data({'origClass':thisIt.attr("class"),'origText':statIt.text()});
           } else {
           	flash_message('Status not saved','fler');
+          	thisIt.attr("class",statIt.data('origClass'));
+          	statIt.text(statIt.data('origText'));
           }
           
           
         },
         error: function(){
+          	thisIt.attr("class",statIt.data('origClass'));
+          	statIt.text(statIt.data('origText'));
             alert('Problem with the server. Try again later.');
         }
       });
@@ -498,6 +522,76 @@ $(function() {
 		
 	}); 
  
+	//task of item change "crutilca"
+
+	com1.itemPages.delegate(".itemType","click",function(event){
+
+		var thisIt = $(this);
+		var thisPar = thisIt.parents(".item");
+		//getting item id
+		var itId = parseInt( thisPar.attr("id").replace("item_","") );
+		
+		//creating this data with first click for blackup in case of falure.
+		if( typeof(this.i) === "undefined" ){
+			this.i = 0;
+			thisIt.data({'origClass':thisIt.attr("class"),'origText':thisIt.text()});
+		}
+
+		
+		var statusIt = 0;		
+		for ( var i=0; i <= com1.itTLenght; i++ ) {
+			var curClass = "itT"+com1.itT[i].n;
+			var newClass;
+			if(thisIt.hasClass(curClass) ) {
+					//alert(curClass);
+				if( (1+i) < com1.itTLenght ){
+					statusIt = 1+i;					
+				} else {
+					statusIt = 0;
+				}
+				newClass = "itT"+com1.itT[statusIt].n;
+				thisIt.removeClass(curClass).addClass(newClass).text(com1.itT[statusIt].t);
+				break;
+			}	
+				
+		}
+	
+
+		clearTimeout(this.timeOut);
+		this.timeOut = setTimeout(function(){
+      $.ajax({
+        type: "POST",
+        url: path+"/items/saveItem",
+        dataType: "json",
+        data: {"data[task]":com1.itT[statusIt].n,"data[id]":itId},
+        success: function(data) {
+					
+        	if ( data.stat === 1 ) {        		
+
+          	thisIt.data({'origClass':thisIt.attr("class"),'origText':thisIt.text()});
+          } else {
+          	flash_message('Status not saved','fler');
+          	thisIt.attr("class",thisIt.data('origClass')).text(thisIt.data('origText'));
+          	
+          }
+          
+          
+        },
+        error: function(){
+        	thisIt.attr("class",thisIt.data('origClass')).text(thisIt.data('origText'));
+          alert('Problem with the server. Try again later.');
+        }
+      });
+
+		},1000);		
+
+		return false;
+		
+	});  
+ 
+ 
+ 
+ 	//switching task type on new item editor
 	com1.itemTypeControl.click(function(){
 		var thisType = $(this);		
 		if( com1.itemTypeList.is(":hidden") ) {
