@@ -1,5 +1,5 @@
 <?php //echo $this->element('pageHead/page_head');?>
-<div style="margin-top:1em;">
+<div style="margin:1em 0 0 -35px;">
 	<?php echo $html->link($html->image('pic/index-pic.png'),array('action'=>'todo'), array('escape'=>false));?>
 </div>
 <!--

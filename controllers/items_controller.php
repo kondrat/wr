@@ -317,10 +317,7 @@ class ItemsController extends AppController {
 		if( $this->RequestHandler->isAjax() && isset($this->params['named']['page'])  ) {
 			Configure::write('debug', 0);
 			$this->autoLayout = false;
-			
-			echo 'nu';
-			
-			
+					
 			$this->render('ajax_item');
 			
 			return;
