@@ -591,17 +591,34 @@ $(function() {
  
 
 	
-http://stackoverflow.com/questions/2801986/jquery-date-picker-not-persistant-after-ajax
+//http://stackoverflow.com/questions/2801986/jquery-date-picker-not-persistant-after-ajax
 	com1.itemPages.delegate(".targetItem","click",function(event){
+	  event.preventDefault();
 		var thisIt = $(this);
 		var thisPar = thisIt.parents(".item");
-		thisIt.after('<input type="text" value="Target day" id="datepicker1" name="data[datepicker]" class="hasDatepicker" size="10">'); 
+		thisIt.after('<input type="text" value="Target day" id="datepicker1" name="data[datepicker]" class="datefield hasDatepicker" size="10">'); 
 		
-		//thisIt.datepicker();
+		thisIt.next().datepicker();
 
+    //$(createPickers());
+    return false;
 		
 	});
 
+	com1.itemPages.delegate(".datefield","focus",function(event){
+	 // alert('hi');
+	  $(this).datepicker('show');
+	});
+
+	
+function createPickers(context) {
+  $(".datefield", context || document).datepicker({
+    showAnim:'fadeIn',
+    dateFormat:'dd/mm/yy',
+    changeMonth:true,
+    changeYear:true
+  });
+}
 
  
  	//switching task type on new item editor
