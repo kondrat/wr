@@ -99,6 +99,7 @@ jQuery(document).ready(function(){
 		
 		com1.newItemForm.bind( "clickoutside", nItFormClOutSide );
 		*/
+		
 			com1.datePicker.datepicker({ 
 					
 					dateFormat: 'dd.mm.yy',
@@ -112,7 +113,7 @@ jQuery(document).ready(function(){
 					showButtonPanel: true
 					
 			});
-
+	
 
 
 
@@ -187,16 +188,19 @@ jQuery(document).ready(function(){
 						
 						com1.itemPages.prepend(						
 						  '<div id="item_'+itemId+'" class="item itS0 span-17">'+						  	
-						    '<div class="span-2 last"><div class="targetItem">'+dateFromInput+'</div></div>'+						    
-						    '<div class="span-14">'+
-						    	'<div class="textItem">'+
-						    		'<span class="'+itemTaskCl+'">'+itemTaskT+'</span>'+
-										itemVal+
-							    	'<span class="itemCrated"> 1 second ago</span>'+
-						    	'</div>'+
-						    '</div>'+					    
-						    '<div class="span-1 last"><div class="statusItem">opend</div></div>'+
-						  '</div>'												
+						    '<div class="itemHeadLine">'+						    
+						    	'<div class="targetItem">'+dateFromInput+'</div>'+							   
+						    	'<div class="textItem">'+						    	
+						    		'<span class="itemType '+itemTaskCl+'">'+itemTaskT+'</span>'+										
+							    	'<span class="itemCrated">Just now</span>'+
+							    		'<span class="itemHead">'+
+								    	itemVal+					    	
+								    	'</span>'+  							    	
+						    	'</div>'+					 				    
+						    	'<div class="statusItem">[opend]</div>'+					    
+						    '</div>'+
+						  '</div>'
+						  												
 						);
 						com1.datePicker.val('No target');
 						com1.item.val('').focus();
@@ -588,38 +592,97 @@ $(function() {
 		return false;
 		
 	});  
- 
+//---------------------------------------------------------------------------------------- 
 
-	
-//http://stackoverflow.com/questions/2801986/jquery-date-picker-not-persistant-after-ajax
 	com1.itemPages.delegate(".targetItem","click",function(event){
+
 	  event.preventDefault();
+		
+		//$(".targetItem").datepicker('destroy');
+
 		var thisIt = $(this);
 		var thisPar = thisIt.parents(".item");
-		thisIt.after('<input type="text" value="Target day" id="datepicker1" name="data[datepicker]" class="datefield hasDatepicker" size="10">'); 
-		
-		thisIt.next().datepicker();
+		var itId = parseInt( thisPar.attr("id").replace("item_","") );
+		var prevVal = thisIt.text();
+		thisIt.prepend('<input type="text" value="Target day"  name="data[datepicker]" class="datefield" size="10">').children().val(prevVal); 
 
-    //$(createPickers());
+		thisIt.children().css({"color":"red"}).datepicker(
+			{ 
+					dateFormat: 'dd.mm.yy',
+					autoSize: true,
+					showAnim: "",
+					showButtonPanel: true	,
+					
+					onSelect: function(dateText, inst) { 									
+										},
+					onClose: function(dateText, inst) {
+											
+											try{
+												var parsedDate = $.datepicker.parseDate('dd.mm.yy', dateText );
+											}
+											catch(e){
+												parsedDate = null;
+											}
+											
+											if(parsedDate) {
+								   			var tosend = new Date(parsedDate);
+								   			var epoch =  parseInt(tosend.getTime()/1000);
+								   		} else {
+								   			var epoch = '';
+								   			dateText = 'No target';
+								   		}											
+											thisIt.text(dateText);
+											$(this).hide();											
+
+
+										    var itemObj = {
+										    								"data[id]": itId,
+										    								"data[target]" : epoch
+									
+										    							};
+    				
+									      $.ajax({
+									        type: "POST",
+									        url: path+"/items/saveItem",
+									        dataType: "json",
+									        data: itemObj,
+									        success: function(data) {
+							
+									        	if ( data.stat === 1 ) {        		
+															          	
+									          } else {
+									          	flash_message('not saved','fler');
+									          }
+									          
+									          
+									        },
+									        error: function(){
+									            alert('Problem with the server. Try again later.');
+									        }
+      									});
+
+
+
+
+																		
+										}
+ 
+			}			
+		
+		
+		).focus();
+
     return false;
 		
 	});
-
-	com1.itemPages.delegate(".datefield","focus",function(event){
-	 // alert('hi');
-	  $(this).datepicker('show');
+	com1.itemPages.delegate(".datefield","click",function(event){
+		return false;
 	});
 
 	
-function createPickers(context) {
-  $(".datefield", context || document).datepicker({
-    showAnim:'fadeIn',
-    dateFormat:'dd/mm/yy',
-    changeMonth:true,
-    changeYear:true
-  });
-}
 
+
+//-----------------------------------------------------------------------------------------
  
  	//switching task type on new item editor
 	com1.itemTypeControl.click(function(){

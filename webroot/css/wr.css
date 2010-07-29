@@ -505,7 +505,14 @@ a#threeWaysHere{
 	right:3px;
 	top:0px;
 }
-
+.datefield{
+	-moz-box-shadow:2px 2px 5px gray;
+	font-size:small;
+	left:0;
+	position:absolute;
+	text-align:center;
+	top:-3px;
+}
 
 
 

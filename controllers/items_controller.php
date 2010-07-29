@@ -27,6 +27,7 @@ class ItemsController extends AppController {
 		   			$this->Security->validatePost = false;
 		   	}
 				
+				$this->disableCache();
   }
 
 //--------------------------------------------------------------------
@@ -127,9 +128,14 @@ class ItemsController extends AppController {
 									}
 	
 
-									if( isset($tempData['target']) && !empty($tempData['target']) ) {
-										$nw = $tempData['target'];								
-										$contents['date'] = $this->data['Item']['target'] = date('Y-m-d', $nw);
+									if( isset($tempData['target']) ) {
+										
+										$nw = (int)$tempData['target'];	
+										if($nw !== 0) {					
+											$contents['date'] = $this->data['Item']['target'] = date('Y-m-d', $nw);
+										}else{
+											$this->data['Item']['target'] = null;
+										}
 									} 	
 										
 									/*
@@ -312,10 +318,11 @@ class ItemsController extends AppController {
 			Configure::write('debug', 0);
 			$this->autoLayout = false;
 			
-			
+			echo 'nu';
 			
 			
 			$this->render('ajax_item');
+			
 			return;
 		}
 		
