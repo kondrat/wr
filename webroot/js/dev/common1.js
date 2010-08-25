@@ -440,6 +440,9 @@ $(function() {
 			$("#overlay").hide();
 			$(this).removeClass("logInAct");
 		}
+		//ie 7 bug fix;
+		com1.quickLogin.appendTo("body");
+		
 		com1.quickLogin.toggle();
 		$("#UserUsername").focus();
 		
