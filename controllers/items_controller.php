@@ -4,7 +4,7 @@ class ItemsController extends AppController {
 
 	var $name = 'Items';
 	var $publicActions = array('saveItem','status','delItem' );
-	var $helpers = array('Time','Timenomin','Text');
+	var $helpers = array('Time','Timenomin','Text','Tags.TagCloud');
 
 
 //--------------------------------------------------------------------
@@ -127,7 +127,15 @@ class ItemsController extends AppController {
 										$this->data['Item']['status'] = (int)$tempData['status'];		
 									}
 	
-
+									//tags data
+									if( isset($tempData['tags']) ) {
+										$tagsSetLine = Sanitize::paranoid($tempData['tags'], array(',','-','_'));
+										$this->data['Item']['tags'] = $tagsSetLine;
+										
+										$tagsSetArray = explode(',',$this->data["Item"]["tags"]);
+										$contents['tags'] = $tagsSetArray;		
+									}
+									
 									if( isset($tempData['target']) ) {
 										
 										$nw = (int)$tempData['target'];	
@@ -264,7 +272,7 @@ class ItemsController extends AppController {
 		$this->set('itemStatuses',$itemStatuses);
 						
 		$this->paginate['limit'] = 12;
-		$this->paginate['contain'] = false;
+		$this->paginate['contain'] = array('Tag'=>array( 'fields'=>array('Tag.id','Tag.name') ) );
 		
 		
 
@@ -311,6 +319,7 @@ class ItemsController extends AppController {
 		$this->paginate['conditions'] = $pagItemCond;
 		$pagItemOrder = array('Item.created' => 'DESC');
 		$this->paginate['order'] = $pagItemOrder;
+
 		
 		$this->set('todos',$this->paginate('Item') );
 
@@ -323,10 +332,10 @@ class ItemsController extends AppController {
 			return;
 		}
 		
-
+;
 		
 		$this->set('curPrj',$curPrj);		
-
+		$this->set('tags', $this->Item->Tagged->find('cloud', array('limit' => 10,'contain'=>false)));
 
 	}
 //--------------------------------------------------------------------

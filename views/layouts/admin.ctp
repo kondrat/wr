@@ -17,7 +17,7 @@
 		echo $html->css('slider');
 		//echo $html->css('cake.generic');
 		echo $javascript->codeBlock('var path = "'.Configure::read('path').'";' );
-		echo $javascript->link('jquery-1.3.2.min');
+		echo $javascript->link('jquery-1.4.4.min');
 		echo $javascript->link('jquery.form');
 		echo $javascript->link('ui.core');
 		echo $javascript->link('ui.draggable');

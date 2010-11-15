@@ -1,0 +1,24 @@
+/*
+ * ite- Item editor css
+ *
+ */
+ 
+.ite-tagsInputWrp{
+	/*background:url("../img/icons/tag_deb887_16x16.png") no-repeat scroll 0 10px transparent;*/
+	float:left;
+	margin-left:10px;
+}
+#ite-tagIcon{
+	float:left;
+	padding:10px 3px 0 0;
+}
+.ite-tagsCloud{
+	background-color:#FFFFFF;
+	border:1px dashed #CCCCCC;
+	float:left;
+	text-align:center;
+	width:640px;
+}
+.ite-tagCloudList li{
+	display:inline;
+}

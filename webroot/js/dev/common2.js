@@ -1,24 +1,24 @@
 jQuery(document).ready(function(){
 	
-		var com2 = {
-			newPrj: $("#newPr"),
-			curPrj: $("#curPrj"),
-			allPrj: $("#allPrj"),
-			projectEditor: $("#projectEditor"),
-			prjCancel: $(".prjCancel"),
-			prjEdit: $(".prjEdit"),
-			prjDel: $(".prjDel"),
-			prjSave: $(".prjSave")
-		};
+
+			var $com2_newPrj = $("#newPr");
+			var $com2_curPrj = $("#curPrj");
+			var $com2_allPrj = $("#allPrj");
+			var $com2_projectEditor = $("#projectEditor");
+			var $com2_prjCancel = $(".prjCancel");
+			var $com2_prjEdit = $(".prjEdit");
+			var $com2_prjDel = $(".prjDel");
+			var $com2_prjSave = $(".prjSave");;
+
 
 
 
 
 	//switching projects all - current
 
-	com2.allPrj.bind("click", function (event) {
+	$com2_allPrj.bind("click", function (event) {
 		
-		com2.curPrj.removeClass("actPrj");
+		$com2_curPrj.removeClass("actPrj");
 		$(this).addClass("actPrj");
 		
 		$.ajax({
@@ -33,8 +33,8 @@ jQuery(document).ready(function(){
 	});
 
 	
-	com2.curPrj.bind("click", function (event) {
-				com2.allPrj.removeClass("actPrj");
+	$com2_curPrj.bind("click", function (event) {
+				$com2_allPrj.removeClass("actPrj");
 				$(this).addClass("actPrj");
 		$.ajax({
 				dataType:"html",
@@ -65,8 +65,8 @@ jQuery(document).ready(function(){
 					$("#itemPages").html(data);
 					$("#newProject").trigger("click");
 					prjCur.parent().prependTo("#prjMainList");
-					com2.allPrj.removeClass("actPrj");
-					com2.curPrj.addClass("actPrj");
+					$com2_allPrj.removeClass("actPrj");
+					$com2_curPrj.addClass("actPrj");
 				},
 				url: path+"\/items\/todo\/prj:"+pObj.prjId+"\/page:1",
 				error:function(){
@@ -95,7 +95,7 @@ jQuery(document).ready(function(){
 		
  	
     var prjObj = {
-    								"data[Prj][name]": com2.newPrj.val()
+    								"data[Prj][name]": $com2_newPrj.val()
     							};
   							
     $.ajax({
@@ -107,7 +107,7 @@ jQuery(document).ready(function(){
 				
       	if ( data.stat === 1 ) {        		
 					pObj.prjId = data.prj.id;
-					com2.curPrj.text(data.prj.name);
+					$com2_curPrj.text(data.prj.name);
         	flash_message('saved','flok');
         	
         } else {
@@ -125,19 +125,19 @@ jQuery(document).ready(function(){
 
 
 	$("#newPrCancel").click(function(){
-		com2.newPrj.val('');
-		com2.projectEditor.hide();
+		$com2_newPrj.val('');
+		$com2_projectEditor.hide();
 	});
 
 
 	//opening projects pad	
 	
 	$("#newProject").click(function(){
-		if( com2.projectEditor.is(":hidden") ){
-			com2.projectEditor.show();
+		if( $com2_projectEditor.is(":hidden") ){
+			$com2_projectEditor.show();
 			$(this).addClass("newProjectActive");
 		} else {
-			com2.projectEditor.hide();
+			$com2_projectEditor.hide();
 			$(this).removeClass("newProjectActive");
 		}
 		//$("#overlay").show();
@@ -145,7 +145,7 @@ jQuery(document).ready(function(){
 	});	
 	
 	
-	com2.projectEditor.bind("clickoutside",function(){
+	$com2_projectEditor.bind("clickoutside",function(){
 		$(this).hide();
 		$("#newProject").removeClass("newProjectActive");
 		//return false;
@@ -162,7 +162,7 @@ jQuery(document).ready(function(){
 
 	//control of prj in the pad: editing, removing, saving, canceling	
 	
-	com2.prjDel.click(function(){
+	$com2_prjDel.click(function(){
 		
     var parentLi = $(this).parents(".prjList");
     parentLi.addClass("activePrjDel");
@@ -197,7 +197,7 @@ jQuery(document).ready(function(){
 	});
 	
 	
-	com2.prjEdit.click(function(){
+	$com2_prjEdit.click(function(){
 		
 		$(".prjInlineEdit").remove();
 		$(".prjList").css({"visibility":""});
@@ -229,14 +229,14 @@ jQuery(document).ready(function(){
 				
 	});	
  
-	com2.prjCancel.live("click",function(){
+	$com2_prjCancel.live("click",function(){
 		$(this).parents(".prjList").css({"visibility":""});
 		$(".prjInlineEdit").remove();
 		
 		//$(this).parents(".prjList").find(
 	});
  
-	com2.prjSave.live("click",function(){
+	$com2_prjSave.live("click",function(){
 		var thisClick = $(this);
 		var thisParent = thisClick.parents(".prjList");
 		var prjId = parseInt( thisParent.find("a").attr("id").replace("prj_", "") );

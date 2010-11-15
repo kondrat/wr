@@ -11,7 +11,15 @@
 
 	
 		echo $html->meta('icon');
-		echo $html->css(array('wr','wr-u','screen','jqcss/css/smoothness/jquery-ui-1.8.2.custom'));
+		echo $html->css(array(
+													'wr',
+													'wr-u',
+													'wr-ite',
+													'wr-itp',
+													'screen',
+													'jqcss/css/smoothness/jquery-ui-1.8.2.custom'
+													)
+										);
 
 		//echo $html->css('print');
 		echo '<!--[if IE]>';
@@ -24,7 +32,7 @@
 													);
 		echo $html->script(array(	
 															'dev/vars',
-															'jquery/jquery-1.4.2.min',
+															'jquery/jquery-1.4.4.min',
 															//'jquery/jquery.form',
 															//'jquery/jquery-ui-1.8.custom.min',
 															'jquery/jquery.ui.core.min',

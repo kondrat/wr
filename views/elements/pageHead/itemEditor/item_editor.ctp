@@ -7,12 +7,10 @@
       <div class="" style="float:left;">
       	<?php 
       		$targetDay = __('Target day',true);
-      		echo $html->scriptBlock(
-												'var targetDay = "'.$targetDay .'";' 
-													);
+      		echo $html->scriptBlock('var targetDay = "'.$targetDay .'";' );
 				?>
 
-      		<?php	echo $form->input('datepicker', array('label'=>false,'div'=>false, 'id'=>'datepicker','default'=> $targetDay ) );?>
+      		<?php	echo $this->Form->input('datepicker', array('label'=>false,'div'=>false, 'id'=>'datepicker','default'=> $targetDay ) );?>
 
 					
       	<!--
@@ -31,6 +29,11 @@
       	+
       	<?php echo $html->link(__("more",true), array('#'),array('onclick'=>'return false') );?>
       </div>
+			
+			<div id="ite-tagsInputWrp" class="ite-tagsInputWrp">
+				<span id="ite-tagIcon"><?php echo $this->Html->image('icons/tag_deb887_16x16.png');?></span>
+				<?php	echo $this->Form->input('tags',array('id'=>'ite-tagsInput','label'=>false,'div'=>false));?>
+			</div>
 
       <div class="" style="margin-top:4px;float:right;">
    			<ul id="icons" class="ui-widget ui-helper-clearfix">
@@ -42,11 +45,22 @@
     <div id="itemTypeList" class="hide" style="float:left;background-color:#ddd;padding:5px;">
     	<?php foreach($itemTasks as $v ):?>
 	      <span id="itT_<?php echo $v['n'];?>" class="itemType itT<?php echo $v['n'];?>"><?php echo $v['t'];?></span>
-	    <?php endforeach ?>
-      
+	    <?php endforeach ?>      
     </div>
+    
+    <div id="ite-tagsCloud" class="ite-tagsCloud hide">
+				<ul id="ite-tagCloudList" class="ite-tagCloudList">
+				<?php 
+					echo $this->TagCloud->display($tags, array(
+						'before' => '<li size="%size%" class="ite-tag">',
+						'after' => '</li>'));
+				?>
+				</ul>
+    </div>
+    
+    
     <div id="newItemFormBottom">
-      <?php echo $form->input( 'item',array('label'=>false, 'div'=>true) );?>
+      <?php echo $this->Form->input( 'item',array('label'=>false, 'div'=>true) );?>
     </div>
 	</div>  
 </div>

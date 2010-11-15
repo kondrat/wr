@@ -1,7 +1,7 @@
 <?php
 class Item extends AppModel {
 	var $name = 'Item';
-	var $actsAs = array('Containable');
+	var $actsAs = array('Containable','Tags.Taggable');
 	//var $displayField = 'id';
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
@@ -23,5 +23,7 @@ class Item extends AppModel {
 			'order' => ''
 		)
 	);
+
+	
 }
 ?>

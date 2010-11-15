@@ -3,6 +3,8 @@
 	    	'update' => '#itemPages'
 			));			
 		?>
+		
+	
 	<div id="itemPages" class="itemsWrapper span-17">
 		
 		<div class="itemPagenator">
@@ -11,7 +13,6 @@
 				echo $paginator->numbers(array('separator'=>'&nbsp;','modulus'=> 8 )).'&nbsp;';
 				echo $paginator->next('Next»', null, null, array('class' => 'disabled.'));
 			?>  
-
 		</div>	
 		
 		<?php if( $todos ): ?>
@@ -56,6 +57,14 @@
 				    	<div class="textItem">			    		
 								<span class="itemType <?php echo $taskClass;?>"><?php echo $taskText;?></span>
 								<span class="itemCrated"><?php echo ' '.$timenomin->timeAgoInWords($todo["Item"]["created"], array('format' => 'd-m-Y','end' => "+1 day") );?></span>
+								
+								
+								<?php if( isset($todo["Tag"]) && $todo["Tag"] !== array() ):?>
+									<?php foreach( $todo["Tag"] as $todoTag ):?>
+										<span class="itp-itemTag"><?php echo $todoTag["name"];?></span>
+									<?php endforeach ?>
+								<?php endif ?>
+								
 				    		<span class="itemHead">
 					    	<?php if( $todo["Item"]["item"] ){
 					    					$itemItem = $todo["Item"]["item"];		    	

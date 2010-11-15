@@ -1,16 +1,16 @@
 jQuery(document).ready( function(){
 	
-	var reg = {
-		username: $("#UserUsername"),
-		email: $("#UserEmail"),
-		token: $("input[id^='Token']"),
-		validEmail: '',
-		usercaptcha: $("#UserCaptcha"),
-		userpass: {
-								pass1: $("#UserPassword1"),
-								pass2: $("#UserPassword2")
-							}
-	}
+
+		var $reg_username = $("#UserUsername");
+		var $reg_email = $("#UserEmail");
+		var $reg_token = $("input[id^='Token']");
+		var $reg_validEmail = '';
+		var $reg_usercaptcha = $("#UserCaptcha");
+		var $reg_userpass = {
+													pass1: $("#UserPassword1"),
+													pass2: $("#UserPassword2")
+												};
+
 
 
 
@@ -39,7 +39,7 @@ jQuery(document).ready( function(){
 
 	
 	var inpStrTimer;
-	reg.username.keyup( function(e) {
+	$reg_username.keyup( function(e) {
 		
 		//alert(e.which);
 		/*
@@ -62,7 +62,7 @@ jQuery(document).ready( function(){
 					$.ajax({
 									type: "POST",
 									url: path+"/users/userNameCheck/",
-									data: {"data[User][username]": InputStr, "data[_Token][key]": reg.token.val() },
+									data: {"data[User][username]": InputStr, "data[_Token][key]": $reg_token.val() },
 									dataType: "json",
 									
 									success: function (data) {
@@ -113,25 +113,25 @@ jQuery(document).ready( function(){
 	$('#UserPassword1').passStrengthCheck(
 																					"#rPass1Check",															        		
 																        	{
-															        			username: function(){return reg.username.val();},
+															        			username: function(){return $reg_username.val();},
 															        			minlength: 4,
 															        			maxlength: 16
 															       			}																				
-																				).passIdentCheck(1,reg.userpass);
+																				).passIdentCheck(1,$reg_userpass);
 
 
 
 
 
 
-	$('#UserPassword2').passIdentCheck(2,reg.userpass);
+	$('#UserPassword2').passIdentCheck(2,$reg_userpass);
 																        	
 
 
 
 
 
-	reg.email.blur( function() {
+	$reg_email.blur( function() {
 		
 			var InputStr = $(this).val();
 		
@@ -145,16 +145,16 @@ jQuery(document).ready( function(){
 				$("#rEmail div").hide();				
 				$("#rEmailError").show().text(rErr.email.email);
 			} else {
-				 if( InputStr !== reg.validEmail ){
+				 if( InputStr !== $reg_validEmail ){
 					$.ajax({
 									type: "POST",
 									url: path+"/users/userNameCheck/",
-									data: {"data[User][email]": InputStr, "data[_Token][key]": reg.token.val() },
+									data: {"data[User][email]": InputStr, "data[_Token][key]": $reg_token.val() },
 									dataType: "json",									
 									success: function (data) {
 										  if (data.stat == 1) {
 										  	// Success!
-										  	reg.validEmail = InputStr;
+										  	$reg_validEmail = InputStr;
 										  	$('#rEmail div').hide();
 										  	$("#rEmailOk").show();
 										  } else {
@@ -187,7 +187,7 @@ jQuery(document).ready( function(){
 
 			$("form").submit(function() {
 
-			  if ( reg.usercaptcha.val() === '' || reg.usercaptcha.val().length < 5 ) {
+			  if ( $reg_usercaptcha.val() === '' || $reg_usercaptcha.val().length < 5 ) {
 			  		$("#rCap div").hide();
 						$("#rCapError").show();
 					

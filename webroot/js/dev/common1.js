@@ -1,68 +1,72 @@
 jQuery(document).ready(function(){
-		var com1 = {
-			alertMessage: $('#flashMessage'),
-			itemPages: $("#itemPages"),
-			item: $("#item"),
-			//statusItem: $("#status"),
-			targetDay: $("#targetDay"),
-			targetMonth: $("#targetMonth"),
-			targetYear: $("#targetYear"),
-			hourHour: $("#hourHour"),
-			minuteMin: $("#minuteMin"),
-			newItemForm: $("#newItemForm"),
-			newItem: $("#newItem"),
-			saveItemMain: $("#saveItemMain"),
-			quickLogin: $("#quickLogin"),
-			datePicker: $("#datepicker"),
-			dataPickerTip: '',
-			itemTypeControl: $("#itemTypeControl"),
-			itemTypeList: $("#itemTypeList"),
-			itT: '',
-			itS: '',
-			itTLenght: 0,
-			itSLenght: 0
-			
-			
-		};
 
 
-		if( typeof(targetDay) !== "undefined") com1.dataPickerTip = targetDay;
+			var $com1_alertMessage = $('#flashMessage');
+			var $com1_itemPages = $("#itemPages");
+			var $com1_item = $("#item");
+			//var $com1_statusItem = $("#status");
+			var $com1_targetDay = $("#targetDay");
+			var $com1_targetMonth = $("#targetMonth");
+			var $com1_targetYear = $("#targetYear");
+			var $com1_hourHour = $("#hourHour");
+			var $com1_minuteMin = $("#minuteMin");
+			var $com1_newItemForm = $("#newItemForm");
+			var $com1_newItem = $("#newItem");
+			var $com1_saveItemMain = $("#saveItemMain");
+			var $com1_quickLogin = $("#quickLogin");
+			var $com1_datePicker = $("#datepicker");
+			var $com1_dataPickerTip = '';
+			var $com1_itemTypeControl = $("#itemTypeControl");
+			var $com1_itemTypeList = $("#itemTypeList");
+			var $com1_itT = '';
+			var $com1_itS = '';
+			var $com1_itTLenght = 0;
+			var $com1_itSLenght = 0;
+			
+			//tags 
+			var $com1_iteTagsInput = $("#ite-tagsInput");
+			var $com1_iteTagsCloud = $("#ite-tagsCloud");
+			var $com1_iteTagIcon = $("#ite-tagIcon");
+
+
+
+		if( typeof(targetDay) !== "undefined") $com1_dataPickerTip = targetDay;
 		
 		//getting item Task from view file.
 		if( typeof(itT) !== "undefined"){
-			com1.itT = itT;
-			com1.itTLenght = itT.length;
+			$com1_itT = itT;
+			$com1_itTLenght = itT.length;
 		}
 		//getting item Status from view file.
 		if( typeof(itS) !== "undefined"){
-			com1.itS = itS;
-			com1.itSLenght = itS.length;
+			$com1_itS = itS;
+			$com1_itSLenght = itS.length;
 		}
 		
 		//flash alert message 	  
 
-		if(com1.alertMessage.length) {
+		if($com1_alertMessage.length) {
 				var alerttimer = window.setTimeout(function () {
-					com1.alertMessage.trigger('click');
+					$com1_alertMessage.trigger('click');
 				}, 4500);
-				com1.alertMessage.animate({height: [com1.alertMessage.css("line-height") || '52', 'swing']}, 400).click(function () {
+				$com1_alertMessage.animate({height: [$com1_alertMessage.css("line-height") || '52', 'swing']}, 400).click(function () {
 					window.clearTimeout(alerttimer);
-					com1.alertMessage.animate({height: '0'}, 400);
-					com1.alertMessage.css({'border':'none'});
+					$com1_alertMessage.animate({height: '0'}, 400);
+					$com1_alertMessage.css({'border':'none'});
 				});
 		}
 
 		//New item controll
 
-  	com1.newItem.click(function(e){
+  	$com1_newItem.click(function(e){
 			if(e) e.stopPropagation();
 			if(e) e.preventDefault();		
-  		if( com1.newItemForm.is(":hidden") ) {
-  			com1.newItemForm.show();
-  			com1.item.focus();
+  		if( $com1_newItemForm.is(":hidden") ) {
+  			$com1_newItemForm.show();
+  			$com1_item.focus();
   			$(this).addClass("newItemActive");
   		} else {
-  			com1.newItemForm.hide();
+  			$com1_newItemForm.hide();
   			$(this).removeClass("newItemActive");
   		}
   	});
@@ -79,7 +83,7 @@ jQuery(document).ready(function(){
 		
 			target = $(event.target);			
 			var idTarg = target.attr('id');			
-			var qlog = com1.quickLogin;
+			var qlog = $com1_quickLogin;
 
 			if ( qlog[0] !== undefined && $.contains(qlog[0], event.target) ) {	
 				return;
@@ -97,10 +101,10 @@ jQuery(document).ready(function(){
 			}			
 		};
 		
-		com1.newItemForm.bind( "clickoutside", nItFormClOutSide );
+		$com1_newItemForm.bind( "clickoutside", nItFormClOutSide );
 		*/
 		
-			com1.datePicker.datepicker({ 
+			$com1_datePicker.datepicker({ 
 					
 					dateFormat: 'dd.mm.yy',
 
@@ -117,11 +121,11 @@ jQuery(document).ready(function(){
 
 
 
-    //card Ajax save;
+    //item Ajax save;
 
     
-    com1.saveItemMain.click(function(){
-			var dateFromInput = com1.datePicker.val();
+    $com1_saveItemMain.click(function(){
+			var dateFromInput = $com1_datePicker.val();
 			try{
 				var parsedDate = $.datepicker.parseDate('dd.mm.yy', dateFromInput );
 				//return true;
@@ -140,17 +144,19 @@ jQuery(document).ready(function(){
    		//alert(tosend.getTime()+' '+(tosend.getMonth()+1)+' '+tosend.getFullYear()+' ');
    		
    		
-			var itemVal = com1.item.val();
-			var itemTask = com1.itemTypeControl.find("span:first").data("type");
+			var itemVal = $com1_item.val();
+			var itemTask = $com1_itemTypeControl.find("span:first").data("type");
+			var itemTags = $com1_iteTagsInput.val();
 			
 	    var itemObj = {
 	    								"data[item]": itemVal,
 	    								"data[prj]" : pObj.prjId,
 	    								"data[target]" : epoch,
-	    								"data[task]": itemTask
+	    								"data[task]": itemTask,
+	    								"data[tags]": itemTags
 
-	    								//"data[hour]" : com1.hourHour.val(),
-	    								//"data[min]" : com1.minuteMin.val()
+	    								//"data[hour]" : $com1_hourHour.val(),
+	    								//"data[min]" : $com1_minuteMin.val()
 	    							};
     				
       $.ajax({
@@ -169,8 +175,8 @@ jQuery(document).ready(function(){
 					
         	if ( data.stat === 1 ) {        		
 
-						if( com1.itT !== '') {
-							$.each(com1.itT, function(i,v){
+						if( $com1_itT !== '') {
+							$.each($com1_itT, function(i,v){
 								if( v.n == data.task ) { 
 
 									itemTaskT = v.t;
@@ -181,12 +187,12 @@ jQuery(document).ready(function(){
 								}
 							});	
 						} else {
-							itemTaskCl = com1.itemTypeControl.children("span:first").attr("class");
-							itemTaskT = com1.itemTypeControl.children("span:first").text();						
+							itemTaskCl = $com1_itemTypeControl.children("span:first").attr("class");
+							itemTaskT = $com1_itemTypeControl.children("span:first").text();						
 						}	
 
 						
-						com1.itemPages.prepend(						
+						$com1_itemPages.prepend(						
 						  '<div id="item_'+itemId+'" class="item itS0 span-17">'+						  	
 						    '<div class="itemHeadLine">'+						    
 						    	'<div class="targetItem">'+dateFromInput+'</div>'+							   
@@ -202,8 +208,8 @@ jQuery(document).ready(function(){
 						  '</div>'
 						  												
 						);
-						com1.datePicker.val('No target');
-						com1.item.val('').focus();
+						$com1_datePicker.val('No target');
+						$com1_item.val('').focus();
           	//flash_message('saved','flok');
           	
           } else {
@@ -222,10 +228,10 @@ jQuery(document).ready(function(){
 
 
 	//more controls
-	com1.saveItemMain.next().click(function(){
-		com1.item.val('');
-		com1.datePicker.val(com1.dataPickerTip);
-		com1.newItemForm.hide();
+	$com1_saveItemMain.next().click(function(){
+		$com1_item.val('');
+		$com1_datePicker.val($com1_dataPickerTip);
+		$com1_newItemForm.hide();
 	});
 	$("#timeToggle").click(function(){
 		$(this).next().toggle();		
@@ -257,7 +263,7 @@ $(function() {
 
 
 		
-		com1.itemPages.delegate(".itemHeadLine","click",function(){
+		$com1_itemPages.delegate(".itemHeadLine","click",function(){
 			var thisIt = $(this);
 
 
@@ -268,8 +274,8 @@ $(function() {
 			if( thisItem.length >= 1 ) {
 				
 				if(thisItem.is(":hidden")) {
-					com1.itemPages.find("div.itemViewBlock").hide();
-					com1.itemPages.find("div.item").removeClass("itemToEdit");
+					$com1_itemPages.find("div.itemViewBlock").hide();
+					$com1_itemPages.find("div.item").removeClass("itemToEdit");
 					thisPar.addClass("itemToEdit");				
 					thisItem.show();
 				} else {				
@@ -282,8 +288,8 @@ $(function() {
 				var origText = $.trim( thisIt.find("span.itemHead").text() );
 				thisPar.data("origText",origText);
 				//alert(origText);
-				com1.itemPages.find("div.itemViewBlock").hide();
-				com1.itemPages.find("div.item").removeClass("itemToEdit");
+				$com1_itemPages.find("div.itemViewBlock").hide();
+				$com1_itemPages.find("div.item").removeClass("itemToEdit");
 				thisPar.addClass("itemToEdit");
 				thisIt.after(
 			    '<div class="itemViewBlock hide">'+
@@ -320,7 +326,7 @@ $(function() {
 
 
 
-		com1.itemPages.delegate(".itemEdit","click",function(){
+		$com1_itemPages.delegate(".itemEdit","click",function(){
 
 			var thisItEd = $(this);
 		
@@ -338,7 +344,7 @@ $(function() {
 
 
 		
-		com1.itemPages.delegate(".itemDel","click",function(){		
+		$com1_itemPages.delegate(".itemDel","click",function(){		
 		
 				var parId = $(this).parents(".item");
 				
@@ -369,7 +375,7 @@ $(function() {
 		});
 
 
-		com1.itemPages.delegate(".itemSubmit","click",function(){
+		$com1_itemPages.delegate(".itemSubmit","click",function(){
 					
 					var parIt = $(this).parents(".item");
 		    	var itId = parseInt( parIt.attr("id").replace("item_", "") );
@@ -411,7 +417,7 @@ $(function() {
 		    	 
 		});
 
-		com1.itemPages.delegate(".itemCan","click",function(){
+		$com1_itemPages.delegate(".itemCan","click",function(){
 			var parId = $(this).parents("div.itemEditBlock");
 			parId.prev().show().end().hide();
 		});
@@ -432,7 +438,7 @@ $(function() {
 				if(e) e.stopPropagation();
 				if(e) e.preventDefault();		
 			
-		if ( com1.quickLogin.is(":hidden") ) {
+		if ( $com1_quickLogin.is(":hidden") ) {
 			$(this).addClass("logInAct");
 				
 			$("#overlay").show();
@@ -441,30 +447,30 @@ $(function() {
 			$(this).removeClass("logInAct");
 		}
 		//ie 7 bug fix;
-		com1.quickLogin.appendTo("body");
+		$com1_quickLogin.appendTo("body");
 		
-		com1.quickLogin.toggle();
+		$com1_quickLogin.toggle();
 		$("#UserUsername").focus();
 		
 		return false;
 	});
  	
- 	com1.quickLogin.bind('clickoutside', function(){
+ 	$com1_quickLogin.bind('clickoutside', function(){
  		$("#logInNow").removeClass("logInAct");
  		$(this).hide();
  		$("#overlay").hide();
  		
  	});
 
-	com1.itemPages.delegate(".statusItem","mouseenter",function(){
+	$com1_itemPages.delegate(".statusItem","mouseenter",function(){
 		$(this).addClass("activeStatusItem");
 	}); 
 
-	com1.itemPages.delegate(".statusItem","mouseleave",function(){
+	$com1_itemPages.delegate(".statusItem","mouseleave",function(){
 		$(this).removeClass("activeStatusItem");	
 	});
 
-	com1.itemPages.delegate(".statusItem","click",function(event){
+	$com1_itemPages.delegate(".statusItem","click",function(event){
 		//event.stopPropagation();
 
 		var thisIt = $(this).parents(".item");
@@ -479,18 +485,18 @@ $(function() {
 		}		
 		
 		var statusIt = 0;		
-		for ( var i=0; i <= com1.itSLenght; i++ ) {
-			var curClass = "itS"+com1.itS[i].n;
+		for ( var i=0; i <= $com1_itSLenght; i++ ) {
+			var curClass = "itS"+$com1_itS[i].n;
 			var newClass;
 			if(thisIt.hasClass(curClass) ) {
-				if( (1+i) < com1.itSLenght ){
+				if( (1+i) < $com1_itSLenght ){
 					statusIt = 1+i;					
 				} else {
 					statusIt = 0;
 				}
-				newClass = "itS"+com1.itS[statusIt].n;
+				newClass = "itS"+$com1_itS[statusIt].n;
 				thisIt.removeClass(curClass).addClass(newClass);
-				statIt.text(com1.itS[statusIt].t);
+				statIt.text($com1_itS[statusIt].t);
 				break;
 			}	
 				
@@ -502,7 +508,7 @@ $(function() {
         type: "POST",
         url: path+"/items/saveItem",
         dataType: "json",
-        data: {"data[status]":com1.itS[statusIt].n,"data[id]":itId},
+        data: {"data[status]":$com1_itS[statusIt].n,"data[id]":itId},
         success: function(data) {
 					
         	if ( data.stat === 1 ) {        		
@@ -531,7 +537,7 @@ $(function() {
  
 	//task of item change "crutilca"
 
-	com1.itemPages.delegate(".itemType","click",function(event){
+	$com1_itemPages.delegate(".itemType","click",function(event){
 
 		var thisIt = $(this);
 		var thisPar = thisIt.parents(".item");
@@ -546,18 +552,18 @@ $(function() {
 
 		
 		var statusIt = 0;		
-		for ( var i=0; i <= com1.itTLenght; i++ ) {
-			var curClass = "itT"+com1.itT[i].n;
+		for ( var i=0; i <= $com1_itTLenght; i++ ) {
+			var curClass = "itT"+$com1_itT[i].n;
 			var newClass;
 			if(thisIt.hasClass(curClass) ) {
 					//alert(curClass);
-				if( (1+i) < com1.itTLenght ){
+				if( (1+i) < $com1_itTLenght ){
 					statusIt = 1+i;					
 				} else {
 					statusIt = 0;
 				}
-				newClass = "itT"+com1.itT[statusIt].n;
-				thisIt.removeClass(curClass).addClass(newClass).text(com1.itT[statusIt].t);
+				newClass = "itT"+$com1_itT[statusIt].n;
+				thisIt.removeClass(curClass).addClass(newClass).text($com1_itT[statusIt].t);
 				break;
 			}	
 				
@@ -570,7 +576,7 @@ $(function() {
         type: "POST",
         url: path+"/items/saveItem",
         dataType: "json",
-        data: {"data[task]":com1.itT[statusIt].n,"data[id]":itId},
+        data: {"data[task]":$com1_itT[statusIt].n,"data[id]":itId},
         success: function(data) {
 					
         	if ( data.stat === 1 ) {        		
@@ -597,7 +603,7 @@ $(function() {
 	});  
 //---------------------------------------------------------------------------------------- 
 
-	com1.itemPages.delegate(".targetItem","click",function(event){
+	$com1_itemPages.delegate(".targetItem","click",function(event){
 
 	  event.preventDefault();
 		
@@ -678,7 +684,7 @@ $(function() {
     return false;
 		
 	});
-	com1.itemPages.delegate(".datefield","click",function(event){
+	$com1_itemPages.delegate(".datefield","click",function(event){
 		return false;
 	});
 
@@ -688,29 +694,35 @@ $(function() {
 //-----------------------------------------------------------------------------------------
  
  	//switching task type on new item editor
-	com1.itemTypeControl.click(function(){
+	$com1_itemTypeControl.click(function(){
 		var thisType = $(this);		
-		if( com1.itemTypeList.is(":hidden") ) {
-			com1.itemTypeList.show();
+		if( $com1_itemTypeList.is(":hidden") ) {
+			$com1_itemTypeList.show();
 			thisType.addClass("newItemActive");
 		} else {
-			com1.itemTypeList.hide();
+			$com1_itemTypeList.hide();
 			thisType.removeClass("newItemActive");
 		}
 
 	});
 
-	com1.itemTypeList.delegate('span','click',function() {
+	$com1_itemTypeList.delegate('span','click',function() {
 		var thisP = $(this);
 		var thisClass = thisP.attr("class");
 		var thisText = thisP.text();
 		var thisTaskId = parseInt(thisP.attr("id").replace("itT_",""));		
-		com1.itemTypeControl.children("span:first").attr("class", thisClass).text(thisText).data("type",thisTaskId);
+		$com1_itemTypeControl.children("span:first").attr("class", thisClass).text(thisText).data("type",thisTaskId);
 	});
  
 	
 
-	
+
+	$com1_iteTagsInput.focus(function(){
+		$com1_iteTagsCloud.toggle();
+	});
+	$com1_iteTagIcon.click(function(){
+		$com1_iteTagsCloud.toggle();
+	});	
 
   
 });

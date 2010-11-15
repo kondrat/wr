@@ -1,0 +1,10 @@
+/*
+ * itp- Item page css
+ *
+ */
+ 
+.itp-itemTag{
+	border-bottom:1px solid;
+	color:gray;
+	font-size:smaller;
+}
