@@ -725,18 +725,27 @@ $(function() {
  
 	
 
-
-	$com1_iteTagsInput.focus(function(){
-		$com1_iteTagsCloud.toggle();
-	});
 	$com1_iteTagIcon.click(function(){
 		$com1_iteTagsCloud.toggle();
 	});	
 
-	$(".ite-tagName").click(function(){
-		var thisName = $(this).text();
-		$com1_iteTagsToAddTmpl.tmpl( {"tag":thisName } ).appendTo($com1_iteTagsToAdd);
-	});
+  var $com1_selectTagClick = function(){
+		var thisTag = $(this);
+		var thisName = thisTag.text();
+		$com1_iteTagsToAddTmpl.tmpl( {"tag":thisName } ).appendTo($com1_iteTagsToAdd).data({tagEq: thisTag.parent().index()}).one('click',$com1_deselectTagClick);
+		thisTag.parent().addClass("ite-tagChecked");  
+  }
+
+  var $com1_deselectTagClick = function(){
+    var thisTag = $(this);
+    $(".ite-tagName").parent().eq(thisTag.data("tagEq")).removeClass("ite-tagChecked").end().one('click',$com1_selectTagClick);
+    thisTag.fadeOut().remove();
+  };
+
+	$(".ite-tagName").one('click',$com1_selectTagClick);
+
+
+
 
 
 	$com1_iteTagsCloud.tipsy({gravity: 'n',delayIn: 1000});

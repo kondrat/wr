@@ -38,6 +38,10 @@ ul.ite-tagCloudList{
 .ite-tagName{
 	color:blue;
 }
+li.ite-tagChecked span, li.ite-tagChecked{
+  color:#aaa;
+  border-color:#aaa;
+}
 #ite-tagsToAdd{
 	float:left;
 	padding-top:10px;
