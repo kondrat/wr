@@ -63,13 +63,15 @@ class ItemsController extends AppController {
 					
 					if ( $authUserId !== null ) {
 									
+
 									
 									$tempData = $this->data;
 									unset($this->data);
 									
-									if( isset($tempData['id']) && (int)$tempData['id'] > 0 ) {
+									if( isset($tempData['id']) ) {
+
 										
-											$this->data['Item']['id'] = (int)$tempData['id'];
+											$this->data['Item']['id'] = $tempData['id'];
 											//unset($tempData['id']);
 											
 											$curItem = $this->Item->find('first', array( 'conditions' => array( 'Item.id' => $this->data['Item']['id'], 'Item.user_id' => $authUserId,'Item.active' => 1), 'contain'=>false ) );											
@@ -84,8 +86,8 @@ class ItemsController extends AppController {
 									$this->data['Item']['user_id'] = $authUserId;
 
 									
-									if( isset($tempData['prj']) && (int)$tempData['prj'] > 0 ) {
-										$this->data['Item']['project_id'] = (int)$tempData['prj'];								
+									if( isset($tempData['prj'])  ) {
+										$this->data['Item']['project_id'] = $tempData['prj'];								
 									} else {
 										if( !isset($this->data['Item']['id']) ) {
 								        $contents = json_encode($contents);
@@ -164,6 +166,7 @@ class ItemsController extends AppController {
 					} else {
 						unset($contents);
 						$contents['stat'] = 0;
+						$contents['dat'] = $this->data;
 					}
 
 
@@ -208,7 +211,7 @@ class ItemsController extends AppController {
 						
 									$this->data['Item']['active'] = 0;
 									
-									$idToDel = (int)$this->data['itId'];
+									$idToDel = $this->data['itId'];
 									if( isset($idToDel) && $idToDel != null ) {
 										$this->data['Item']['id'] = $idToDel;
 										$curItem = $this->Item->find('first', array( 'conditions' => array( 'Item.id' => $this->data['Item']['id'], 'Item.user_id' => $authUserId), 'contain'=>false ) );
@@ -272,7 +275,13 @@ class ItemsController extends AppController {
 		$this->set('itemStatuses',$itemStatuses);
 						
 		$this->paginate['limit'] = 12;
-		$this->paginate['contain'] = array('Tag'=>array( 'fields'=>array('Tag.id','Tag.name') ) );
+		$this->paginate['contain'] = array(
+																				'Tag'=>array( 'fields'=>array('Tag.id','Tag.name'), 
+																											'order'=>array('Tagged.created'=>'ASC')
+																											)
+		
+		
+																			);
 		
 		
 

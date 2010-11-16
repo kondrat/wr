@@ -17,7 +17,8 @@
 													'wr-ite',
 													'wr-itp',
 													'screen',
-													'jqcss/css/smoothness/jquery-ui-1.8.2.custom'
+													'jqcss/css/smoothness/jquery-ui-1.8.2.custom',
+													'tipsy/stylesheets/tipsy'
 													)
 										);
 
@@ -33,6 +34,8 @@
 		echo $html->script(array(	
 															'dev/vars',
 															'jquery/jquery-1.4.4.min',
+															'tipsy/javascripts/jquery.tipsy',
+															'dev/jquery.tmpl.min',
 															//'jquery/jquery.form',
 															//'jquery/jquery-ui-1.8.custom.min',
 															'jquery/jquery.ui.core.min',

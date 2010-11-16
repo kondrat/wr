@@ -12,13 +12,39 @@
 	float:left;
 	padding:10px 3px 0 0;
 }
+.ite-tagsCloudWrp{
+	width:640px;
+	border-top:1px solid #ccc;
+	margin-top:5px;
+	padding-top:5px;
+	float:left;
+}
 .ite-tagsCloud{
 	background-color:#FFFFFF;
 	border:1px dashed #CCCCCC;
-	float:left;
-	text-align:center;
-	width:640px;
+	padding:5px;
+	width:400px;
+	margin:0 auto;
+}
+ul.ite-tagCloudList{
+	margin:0;
+	padding:0;
 }
 .ite-tagCloudList li{
 	display:inline;
+	border-bottom:1px dashed red;
+	margin-left:.5em;
+}
+.ite-tagName{
+	color:blue;
+}
+#ite-tagsToAdd{
+	float:left;
+	padding-top:10px;
+}
+#ite-tagsToAdd span{
+	background-color:#CCCCCC;
+	color:blue;
+	margin-left:0.5em;
+	padding:1px 3px;
 }

@@ -27,7 +27,8 @@ jQuery(document).ready(function(){
 			var $com1_iteTagsInput = $("#ite-tagsInput");
 			var $com1_iteTagsCloud = $("#ite-tagsCloud");
 			var $com1_iteTagIcon = $("#ite-tagIcon");
-
+			var $com1_iteTagsToAddTmpl = $("#ite-tagsToAddTmpl");
+			var $com1_iteTagsToAdd = $("#ite-tagsToAdd");
 
 
 		if( typeof(targetDay) !== "undefined") $com1_dataPickerTip = targetDay;
@@ -58,19 +59,24 @@ jQuery(document).ready(function(){
 
 		//New item controll
 
-  	$com1_newItem.click(function(e){
+		var $com1_newItemClick = function(e){
+			var thisClBut = $(this);
 			if(e) e.stopPropagation();
 			if(e) e.preventDefault();		
   		if( $com1_newItemForm.is(":hidden") ) {
   			$com1_newItemForm.show();
   			$com1_item.focus();
-  			$(this).addClass("newItemActive");
+  			$com1_newItem.addClass("newItemActive");
   		} else {
   			$com1_newItemForm.hide();
-  			$(this).removeClass("newItemActive");
+  			$com1_newItem.removeClass("newItemActive");
   		}
-  	});
+  		//console.log(e.target);
+		};
 
+
+  	$com1_newItem.click($com1_newItemClick);
+		//$com1_newItemForm.bind( "clickoutside", $com1_newItemClick);
   	
   	$(".ui-state-default").hover(function(){
   		$(this).addClass("ui-state-hover");
@@ -103,6 +109,7 @@ jQuery(document).ready(function(){
 		
 		$com1_newItemForm.bind( "clickoutside", nItFormClOutSide );
 		*/
+			
 		
 			$com1_datePicker.datepicker({ 
 					
@@ -349,7 +356,8 @@ $(function() {
 				var parId = $(this).parents(".item");
 				
 		    if (confirm('Are you sure to delete?')) {	
-		    	var itId = parseInt( parId.attr("id").replace("item_", "") );
+		 //to validate
+		    	var itId = parId.attr("id").replace("item_", "");
 		    	if( typeof(itId) !== "undefined" && itId !== "" ) {	    		
 							$.ajax({
 									dataType:"json",
@@ -378,7 +386,8 @@ $(function() {
 		$com1_itemPages.delegate(".itemSubmit","click",function(){
 					
 					var parIt = $(this).parents(".item");
-		    	var itId = parseInt( parIt.attr("id").replace("item_", "") );
+//to clear id.
+		    	var itId =  parIt.attr("id").replace("item_", "");
 		    	var itemVal = parIt.find(".itemTextArea").val();
 
 		    	
@@ -724,5 +733,14 @@ $(function() {
 		$com1_iteTagsCloud.toggle();
 	});	
 
+	$(".ite-tagName").click(function(){
+		var thisName = $(this).text();
+		$com1_iteTagsToAddTmpl.tmpl( {"tag":thisName } ).appendTo($com1_iteTagsToAdd);
+	});
+
+
+	$com1_iteTagsCloud.tipsy({gravity: 'n',delayIn: 1000});
+	$com1_iteTagIcon.find("img").tipsy({gravity: 's',delayIn: 1000,offset: 5});
+	$com1_newItem.tipsy({gravity: 's',delayIn: 1000});
   
 });
