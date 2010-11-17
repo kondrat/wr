@@ -89,3 +89,11 @@
 	</div>
 
 	<?php echo $this->Js->writeBuffer(); ?>
+	<div class="span-24">
+		<div class="span-4">
+			<span contenteditable="true">
+				test test
+				test
+			</span>
+		</div>
+	</div>

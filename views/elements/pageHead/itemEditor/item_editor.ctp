@@ -75,6 +75,7 @@
 							</ul>
 							
 							<?php	echo $this->Form->input('tags',array('id'=>'ite-tagsInput','label'=>false,'div'=>false));?>
+							<?php echo $this->Form->button(__('new tag',true), array('div'=>false,'id'=>'ite-tagsAdd','class'=>'ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only') );?>
 							
 			    </div>
     </div>

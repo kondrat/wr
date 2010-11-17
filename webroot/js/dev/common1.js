@@ -153,8 +153,14 @@ jQuery(document).ready(function(){
    		
 			var itemVal = $com1_item.val();
 			var itemTask = $com1_itemTypeControl.find("span:first").data("type");
-			var itemTags = $com1_iteTagsInput.val();
-			
+
+			var itemTags = new Array();
+
+			$com1_iteTagsToAdd.children().each(function(){
+				var thisTag = $(this);
+				itemTags.push(thisTag.text()); 
+			});
+
 	    var itemObj = {
 	    								"data[item]": itemVal,
 	    								"data[prj]" : pObj.prjId,
@@ -738,12 +744,24 @@ $(function() {
 
   var $com1_deselectTagClick = function(){
     var thisTag = $(this);
-    $(".ite-tagName").parent().eq(thisTag.data("tagEq")).removeClass("ite-tagChecked").end().one('click',$com1_selectTagClick);
-    thisTag.fadeOut().remove();
+    var thisTagEq = thisTag.data("tagEq");
+   	if( thisTagEq !== undefined ){
+    	$(".ite-tagName").parent().eq(thisTag.data("tagEq")).removeClass("ite-tagChecked").find(".ite-tagName").one('click',$com1_selectTagClick);
+    }
+    thisTag.fadeOut(1000, function(){
+    	$(this).remove();
+    });
   };
 
 	$(".ite-tagName").one('click',$com1_selectTagClick);
-
+	
+	$("#ite-tagsAdd").click(function(){
+		var newTag = $com1_iteTagsInput.val();
+		if(newTag.length > 0) {
+			$com1_iteTagsToAddTmpl.tmpl( {"tag":newTag } ).appendTo($com1_iteTagsToAdd).one('click',$com1_deselectTagClick);
+			$com1_iteTagsInput.val('');
+		}
+	});
 
 
 

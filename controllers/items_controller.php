@@ -68,10 +68,11 @@ class ItemsController extends AppController {
 									$tempData = $this->data;
 									unset($this->data);
 									
+									//if we set id we will update the item. if we set wrong id - finish.
 									if( isset($tempData['id']) ) {
 
 										
-											$this->data['Item']['id'] = $tempData['id'];
+											$this->data['Item']['id'] = Sanitize::paranoid($tempData['id'], array('-'));
 											//unset($tempData['id']);
 											
 											$curItem = $this->Item->find('first', array( 'conditions' => array( 'Item.id' => $this->data['Item']['id'], 'Item.user_id' => $authUserId,'Item.active' => 1), 'contain'=>false ) );											
@@ -89,10 +90,13 @@ class ItemsController extends AppController {
 									if( isset($tempData['prj'])  ) {
 										$this->data['Item']['project_id'] = $tempData['prj'];								
 									} else {
+										//if no project id specified and aciton is not updata(no item id) we finish.
 										if( !isset($this->data['Item']['id']) ) {
 								        $contents = json_encode($contents);
 												$this->header('Content-Type: application/json');				
 												return ($contents);												
+										} else {
+											$tempData['prj'] = $curItem['Item']['project_id'];
 										}
 									}
 									
@@ -130,12 +134,17 @@ class ItemsController extends AppController {
 									}
 	
 									//tags data
-									if( isset($tempData['tags']) ) {
-										$tagsSetLine = Sanitize::paranoid($tempData['tags'], array(',','-','_'));
-										$this->data['Item']['tags'] = $tagsSetLine;
-										
-										$tagsSetArray = explode(',',$this->data["Item"]["tags"]);
-										$contents['tags'] = $tagsSetArray;		
+									if( isset($tempData['tags']) && is_array($tempData['tags']) ) {
+										$tagsSet = array();
+										foreach($tempData['tags'] as $tag){
+											if( ($tag = Sanitize::paranoid($tag, array('-','_')) ) != '' ){
+												$tagsSet[] = 'prj-'.$tempData['prj'].':'.$tag;
+											}
+										}
+										if($tagsSet !== array()){										
+											$this->data['Item']['tags'] = implode(',',$tagsSet);																				
+											$contents['tags'] = $tagsSet;	
+										}	
 									}
 									
 									if( isset($tempData['target']) ) {
@@ -274,14 +283,7 @@ class ItemsController extends AppController {
 		$itemStatuses = Configure::read('itemStatuses');
 		$this->set('itemStatuses',$itemStatuses);
 						
-		$this->paginate['limit'] = 12;
-		$this->paginate['contain'] = array(
-																				'Tag'=>array( 'fields'=>array('Tag.id','Tag.name'), 
-																											'order'=>array('Tagged.created'=>'ASC')
-																											)
-		
-		
-																			);
+
 		
 		
 
@@ -328,7 +330,13 @@ class ItemsController extends AppController {
 		$this->paginate['conditions'] = $pagItemCond;
 		$pagItemOrder = array('Item.created' => 'DESC');
 		$this->paginate['order'] = $pagItemOrder;
-
+		$this->paginate['limit'] = 12;
+		$this->paginate['contain'] = array(
+																				'Tag'=>array( 'fields'=>array('Tag.id','Tag.name','Tag.identifier'), 
+																											'order'=>array('Tagged.created'=>'ASC'),
+																											'conditions'=>array('Tag.identifier'=>'prj-'.$curPrj[0]['Project']['id'])
+																											)	
+																			);
 		
 		$this->set('todos',$this->paginate('Item') );
 
@@ -344,7 +352,7 @@ class ItemsController extends AppController {
 ;
 		
 		$this->set('curPrj',$curPrj);		
-		$this->set('tags', $this->Item->Tagged->find('cloud', array('limit' => 10,'contain'=>false)));
+		$this->set('tags', $this->Item->Tagged->find('cloud', array('conditions'=> array('Tag.identifier'=> 'prj-'.$curPrj[0]['Project']['id']  ),'limit' => 10,'contain'=>false)));
 
 	}
 //--------------------------------------------------------------------
