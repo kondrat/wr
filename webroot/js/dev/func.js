@@ -20,11 +20,14 @@ function flash_message(message, classs ) {
 }
 
 
-//adding cursor pointer to all clicables elements;   
+//adding cursor pointer to all clicables elements; 
+ 
 (function($){
   $.event.special.click = {
-    setup: function() {       	
+    setup: function() { 
+      if( !$(this).hasClass("ui-draggable") ) {
       	$(this).css('cursor','pointer');
+      }     	
       return false;
     },
     teardown: function() {

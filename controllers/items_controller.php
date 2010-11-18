@@ -62,9 +62,7 @@ class ItemsController extends AppController {
 					$authUserId = $this->Auth->user('id');
 					
 					if ( $authUserId !== null ) {
-									
-
-									
+																	
 									$tempData = $this->data;
 									unset($this->data);
 									
@@ -73,10 +71,10 @@ class ItemsController extends AppController {
 
 										
 											$this->data['Item']['id'] = Sanitize::paranoid($tempData['id'], array('-'));
-											//unset($tempData['id']);
 											
 											$curItem = $this->Item->find('first', array( 'conditions' => array( 'Item.id' => $this->data['Item']['id'], 'Item.user_id' => $authUserId,'Item.active' => 1), 'contain'=>false ) );											
 											if( $curItem == array() ) {
+												$contents['piz'] = 1;
 								        $contents = json_encode($contents);
 												$this->header('Content-Type: application/json');				
 												return ($contents);																			
@@ -277,6 +275,7 @@ class ItemsController extends AppController {
 		$authUserId = $this->Auth->user('id');
 		$pagItemCond = array();
 		$curPrj = array();
+		$curPrjId = null;
 		
 		$itemTasks = Configure::read('itemTasks');
 		$this->set('itemTasks',$itemTasks);
@@ -286,27 +285,30 @@ class ItemsController extends AppController {
 
 		
 		
-
-		if ( isset($this->params['named']['prj']) && (int)$this->params['named']['prj'] != 0 ) {
+		
+		if ( isset($this->params['named']['prj']) && $this->params['named']['prj'] != null && $this->params['named']['prj'] !== 'all') {
 			
-			$pagItemCond = array('Item.user_id'=> $authUserId , 'Item.project_id'=> $this->params['named']['prj'],'Item.active' => 1 );
+			$curPrjId = $this->data['Project']['id'] = Sanitize::paranoid( $this->params['named']['prj'], array('-'));
+			//conditions for items pagination.
+			$pagItemCond = array('Item.user_id'=> $authUserId , 'Item.project_id'=> $curPrjId,'Item.active' => 1 );
+			
 			//we selected new prj, so updade the cur time
 			if(isset($this->params['url']['cur'])&&$this->params['url']['cur']==="1"){
-				$prId = $this->Item->Project->find('first',array('conditions'=> array('Project.id' => $this->params['named']['prj']),'contain'=>false) );
+				$prId = $this->Item->Project->find('first',array('conditions'=> array('Project.id' => $curPrjId),'contain'=>false) );
 				if( $prId != array() ) {
 					$this->data['Project']['current'] = time();
-					$this->data['Project']['id'] = (int)$this->params['named']['prj'];
 					$this->Item->Project->save($this->data);
 				}
 			}
-			
-			
+						
 		} else if( isset($this->params['named']['prj']) && $this->params['named']['prj'] === 'all'){
+			//condition for paginatio all the projects that user has.
 			$pagItemCond = array('Item.user_id'=> $authUserId ,'Item.active' => 1);
-		} else {
-
 			
-			$curPrj = $this->Item->Project->find('all', array(
+		} else {
+			//case when we just entered the page or we are new user without project yet.
+			
+			$curPrj = $this->Item->Project->find('first', array(
 																													'conditions'=> array('Project.user_id'=> $authUserId, 'Project.active' => 1),
 																													'fields'=> array('id','name'),
 																													'order'=> array('current'=>'DESC'),
@@ -318,12 +320,11 @@ class ItemsController extends AppController {
 				$this->data['Project']['name'] = __('Project 1',true);
 				$this->data['Project']['current'] = time();
 				$this->Item->Project->save($this->data);
-				$curPrj[0] = $this->Item->Project->read();
+				$curPrj = $this->Item->Project->read();
 			}					
-			
-			$pagItemCond = array('Item.user_id'=> $authUserId,'Item.project_id'=> $curPrj[0]['Project']['id'],'Item.active' => 1 );
-			
-			
+			$curPrjId = $curPrj['Project']['id'];
+			$pagItemCond = array('Item.user_id'=> $authUserId,'Item.project_id'=> $curPrjId,'Item.active' => 1 );
+						
 		}
 		
 		
@@ -332,10 +333,12 @@ class ItemsController extends AppController {
 		$this->paginate['order'] = $pagItemOrder;
 		$this->paginate['limit'] = 12;
 		$this->paginate['contain'] = array(
+																				
 																				'Tag'=>array( 'fields'=>array('Tag.id','Tag.name','Tag.identifier'), 
 																											'order'=>array('Tagged.created'=>'ASC'),
-																											'conditions'=>array('Tag.identifier'=>'prj-'.$curPrj[0]['Project']['id'])
+																											'conditions'=>array('Tag.identifier'=> 'prj-'.$curPrjId)
 																											)	
+																				
 																			);
 		
 		$this->set('todos',$this->paginate('Item') );
@@ -349,10 +352,10 @@ class ItemsController extends AppController {
 			return;
 		}
 		
-;
+
 		
 		$this->set('curPrj',$curPrj);		
-		$this->set('tags', $this->Item->Tagged->find('cloud', array('conditions'=> array('Tag.identifier'=> 'prj-'.$curPrj[0]['Project']['id']  ),'limit' => 10,'contain'=>false)));
+		$this->set('tags', $this->Item->Tagged->find('cloud', array('conditions'=> array('Tag.identifier'=> 'prj-'.$curPrjId  ),'limit' => 10,'contain'=>false)));
 
 	}
 //--------------------------------------------------------------------

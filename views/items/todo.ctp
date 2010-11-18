@@ -4,6 +4,8 @@
       $bObj = $js->object($itemStatuses);
 			echo $html->scriptBlock('var itT = '.$aObj.';var itS = '.$bObj.';',array('inline'=>false));	
 	?>
+
+	<?php echo $this->element('pageHead/tagCloud/tag_cloud');?>
 		
 	<?php echo $this->element('pageHead/page_head');?>
 	

@@ -56,7 +56,7 @@
   
     <div class="ite-tagsCloudWrp">
 			    <div id="ite-tagsCloud" class="ite-tagsCloud hide" title="<?php __('Click on the tag to attach to the item');?>">
-			    		<span style="color:gray;"><?php echo __('Tags for the project',true).'&nbsp;'.$curPrj[0]['Project']['name'];?></span>
+			    		<span style="color:gray;"><?php echo __('Tags for the project',true).'&nbsp;'.$curPrj['Project']['name'];?></span>
 							<ul id="ite-tagCloudList" class="ite-tagCloudList">
 								
 							<?php if( isset($tags) && $tags !== array() ): ?>

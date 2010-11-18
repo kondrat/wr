@@ -29,6 +29,7 @@ jQuery(document).ready(function(){
 			var $com1_iteTagIcon = $("#ite-tagIcon");
 			var $com1_iteTagsToAddTmpl = $("#ite-tagsToAddTmpl");
 			var $com1_iteTagsToAdd = $("#ite-tagsToAdd");
+			var $com1_iteItemViewTmpl = $("#ite-itemViewTmpl");
 
 
 		if( typeof(targetDay) !== "undefined") $com1_dataPickerTip = targetDay;
@@ -277,9 +278,8 @@ $(function() {
 
 		
 		$com1_itemPages.delegate(".itemHeadLine","click",function(){
+			
 			var thisIt = $(this);
-
-
 			var thisPar = thisIt.parent();
 			var thisItem = thisIt.next();
 			
@@ -300,34 +300,24 @@ $(function() {
 				
 				var origText = $.trim( thisIt.find("span.itemHead").text() );
 				thisPar.data("origText",origText);
-				//alert(origText);
+				
+				var $origTags = thisIt.find(".itp-itemTag");
+				
+				var origTagsToIns = new Object();
+				$origTags.each(function(i){
+					var $thisI = $(this);
+					var thisTagText = $thisI.text();
+					var thisTaggedId = $thisI.data("itemtag");
+					origTagsToIns[i] = {itemTag:thisTagText,itemId:thisTaggedId};
+				});
+				console.log(origTagsToIns);
 				$com1_itemPages.find("div.itemViewBlock").hide();
 				$com1_itemPages.find("div.item").removeClass("itemToEdit");
 				thisPar.addClass("itemToEdit");
-				thisIt.after(
-			    '<div class="itemViewBlock hide">'+
-			    	'<div class="itemDataBlock">'+
-				    				    		
-				    		'<ul class="itEdButtons ui-widget ui-helper-clearfix">'+
-									'<li class="itemEdit ui-state-default ui-corner-all" style="cursor: pointer;"><span class="ui-icon ui-icon-pencil"></span></li>'+
-									'<li class="itemDel ui-state-default ui-corner-all" style="cursor: pointer;"><span class="ui-icon ui-icon-trash"></span></li>'+
-								'</ul>'+
-				    	
-				    	'<div class="itemEditText">'+
-				    		'<span class="origText"></span>'+
-				    	'</div>'+
-			    	'</div>'+
-			    	
-						'<div class="itemEditBlock hide">'+
-			    		'<ul class="itEdButtons ui-widget ui-helper-clearfix">'+
-								'<li class="itemSubmit ui-state-default ui-corner-all" style="cursor: pointer;"><span class="ui-icon ui-icon-check"></span></li>'+
-								'<li class="itemCan ui-state-default ui-corner-all" style="cursor: pointer;"><span class="ui-icon ui-icon-cancel"></span></li>'+
-							'</ul>'+			
-							'<div style="padding:5px;margin-top:20px;"><textarea class="itemTextArea" name="data[itemText]" style="height: 10px;"></textarea><div>'+
-							'<div>more</div>'+
-						'</div>'+			    	
-			    '</div>'	
-			   ).next().show().find("span.origText").text(origText);		
+				
+				
+				//inserting view blok with full text and tags and so on after item's header.			
+				$com1_iteItemViewTmpl.tmpl({origText:origText,itemTags:origTagsToIns}).insertAfter(thisIt);		
 			}
 				
 
@@ -490,7 +480,7 @@ $(function() {
 
 		var thisIt = $(this).parents(".item");
 		//getting item id
-		var itId = parseInt( thisIt.attr("id").replace("item_","") );
+		var itId = thisIt.attr("id").replace("item_","");
 		//finding statusItem class
 		var statIt = thisIt.find(".statusItem");
 
@@ -557,7 +547,7 @@ $(function() {
 		var thisIt = $(this);
 		var thisPar = thisIt.parents(".item");
 		//getting item id
-		var itId = parseInt( thisPar.attr("id").replace("item_","") );
+		var itId = thisPar.attr("id").replace("item_","");
 		
 		//creating this data with first click for blackup in case of falure.
 		if( typeof(this.i) === "undefined" ){
@@ -626,7 +616,8 @@ $(function() {
 
 		var thisIt = $(this);
 		var thisPar = thisIt.parents(".item");
-		var itId = parseInt( thisPar.attr("id").replace("item_","") );
+		//to clean up data id
+		var itId = thisPar.attr("id").replace("item_","");
 		var prevVal = thisIt.text();
 		thisIt.prepend('<input type="text" value="Target day"  name="data[datepicker]" class="datefield" size="10">').children().val(prevVal); 
 
@@ -725,7 +716,7 @@ $(function() {
 		var thisP = $(this);
 		var thisClass = thisP.attr("class");
 		var thisText = thisP.text();
-		var thisTaskId = parseInt(thisP.attr("id").replace("itT_",""));		
+		var thisTaskId = thisP.attr("id").replace("itT_","");		
 		$com1_itemTypeControl.children("span:first").attr("class", thisClass).text(thisText).data("type",thisTaskId);
 	});
  
@@ -764,10 +755,34 @@ $(function() {
 	});
 
 
-
+	$("#tgc-tagCloudWrp").draggable( {
+																		opacity: 0.35,
+																		handle:"#tgc-tagCloudHeader"
+																		} );
 
 	$com1_iteTagsCloud.tipsy({gravity: 'n',delayIn: 1000});
 	$com1_iteTagIcon.find("img").tipsy({gravity: 's',delayIn: 1000,offset: 5});
 	$com1_newItem.tipsy({gravity: 's',delayIn: 1000});
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+ 	$("#fucusEd").click(function(){
+
+ 		$("#editable").trigger("click").css({color:"red"});
+	});
+
+ 	$("#editable").click(function(){
+ 		$(this).focus();
+ 	});
+ 
   
 });

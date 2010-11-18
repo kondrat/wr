@@ -46,13 +46,13 @@ li.ite-tagChecked span, li.ite-tagChecked{
 	float:left;
 	padding-top:10px;
 }
-#ite-tagsToAdd span{
+.ite-tagToAdd{
 	background:url("../img/icons/remove_tag.png") no-repeat scroll 100% -40px #CCCCCC;
 	color:blue;
 	margin-left:0.5em;
 	padding:1px 16px 1px 3px;
 }
-#ite-tagsToAdd span:hover{
+.ite-tagToAdd:hover{
 	/*background-position: 100% -58px;*/
 	background-position: 100% -19px;
 }

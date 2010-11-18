@@ -16,6 +16,7 @@
 													'wr-u',
 													'wr-ite',
 													'wr-itp',
+													'wr-tgc',
 													'screen',
 													'jqcss/css/smoothness/jquery-ui-1.8.2.custom',
 													'tipsy/stylesheets/tipsy'
@@ -42,8 +43,8 @@
 															'jquery/jquery.ui.widget.min',
 															'jquery/jquery.ui.datepicker.min',
 															//'jquery/jquery.ui.tabs.min',
-															//'jquery/jquery.ui.mouse.min.js',
-															//'jquery/jquery.ui.draggable.min',
+															'jquery/jquery.ui.mouse.min.js',
+															'jquery/jquery.ui.draggable.min',
 															'dev/jquery.coloranim',
 															'dev/jquery.ba-outside-events.min',
 															'dev/jquery.elastic',

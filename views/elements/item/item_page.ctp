@@ -4,6 +4,38 @@
 			));			
 		?>
 		
+		<script id="ite-itemViewTmpl" type="text/x-jquery-tmpl"> 
+			    <div class="itemViewBlock">
+			    	<div class="itemDataBlock">
+			    		<div style="color: red; float: left; width: 100%;">
+		
+			    				{{each itemTags}}
+				    				<span data-itemt="${itemId}" class="ite-tagToAdd">${itemTag}</span>	
+				    			{{/each}}
+		
+				    	</div>	    		
+				    		<ul class="itEdButtons ui-widget ui-helper-clearfix">
+									<li class="itemEdit ui-state-default ui-corner-all" style="cursor: pointer;"><span class="ui-icon ui-icon-pencil"></span></li>
+									<li class="itemDel ui-state-default ui-corner-all" style="cursor: pointer;"><span class="ui-icon ui-icon-trash"></span></li>
+								</ul>
+				    	
+					    	<div class="itemEditText">
+					    		<span class="origText">${origText}</span>
+					    	</div>
+				    	
+			    	</div>
+			    	
+						<div class="itemEditBlock hide">
+			    		<ul class="itEdButtons ui-widget ui-helper-clearfix">
+								<li class="itemSubmit ui-state-default ui-corner-all" style="cursor: pointer;"><span class="ui-icon ui-icon-check"></span></li>
+								<li class="itemCan ui-state-default ui-corner-all" style="cursor: pointer;"><span class="ui-icon ui-icon-cancel"></span></li>
+							</ul>			
+							<div style="padding:5px;margin-top:20px;"><textarea class="itemTextArea" name="data[itemText]" style="height: 10px;"></textarea><div>
+							<div>more</div>
+						</div>			    	
+			    </div>	
+		</script>		
+
 	
 	<div id="itemPages" class="itemsWrapper span-17">
 		
@@ -61,7 +93,7 @@
 								
 								<?php if( isset($todo["Tag"]) && $todo["Tag"] !== array() ):?>
 									<?php foreach( $todo["Tag"] as $todoTag ):?>
-										<span class="itp-itemTag"><?php echo $todoTag["name"];?></span>
+										<span data-itemtag="<?php echo $todoTag["Tagged"]["id"];?>" class="itp-itemTag"><?php echo $todoTag["name"];?></span>
 									<?php endforeach ?>
 								<?php endif ?>
 								
@@ -90,7 +122,8 @@
 
 	<?php echo $this->Js->writeBuffer(); ?>
 	<div class="span-24">
-		<div class="span-4">
+		<?php echo $this->Form->button('fucus',array('id'=>'fucusEd'));?>
+		<div id="editable" class="span-4">
 			<span contenteditable="true">
 				test test
 				test
