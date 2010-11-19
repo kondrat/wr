@@ -4,20 +4,22 @@
  */
  
 .tgc-tagCloudWrp{
-	background-color:rgba(0, 0, 0, 0.8);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#cc000000',endColorstr='#cc000000');
-	background-color:transparent\9;
-	
-
+	background:transparent url(../img/pic/000000_80_40x100.png) scroll 0 0;
 	left:0;
 	padding:6px;
-	position:fixed;
+	position:absolute;
 	top:0;
 	width:500px;
-	z-index:11;
+	z-index:110;
 	
-	-moz-border-radius:5px 5px 5px 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 	-moz-box-shadow:0 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.testt{
+	background:transparent url(../img/pic/000000_35_40x100.png) scroll 0 0; 
 }
 .tgc-tagCloudHeader {
 	margin:0 0 5px 0;
@@ -32,16 +34,19 @@
 	font-size:15px;
 	margin:0;
 	padding:2px 15px 7px 5px;
+	border:1px dashed transparent;
 	
-	-moz-border-radius:5px 5px 5px 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+.tgc-tagCloudHeader h3:hover{
+	border-color:#aaa;
 }
 /*.twttr-dialog-close .twttr-dialog-inside*/
-.tgc-tagCloudClose{
-	background:none repeat scroll 0 0 rgba(0, 0, 0, 0.3);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#cc000000',endColorstr='#cc000000');
-	background-color:transparent\9;
+#tgc-tagCloudClose{
+	background:transparent url(../img/pic/000000_80_40x100.png) scroll 0 0;
 	color:#FFFFFF;
-	cursor:pointer;
 	font:bold 16px/18px Tahoma,sans-serif;
 	height:20px;
 	position:absolute;
@@ -49,15 +54,45 @@
 	text-align:center;
 	top:0;
 	width:20px;
+	line-height:1em;
 	
-	-moz-border-radius:3px 3px 3px 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
 }
 
 .tgc-tagCloudInner {
 	background:none repeat scroll 0 0 #FFFFFF;
 	color:#333333;
-	padding-top:6px;
+	padding:5px;
 	
-	-moz-border-radius:4px 4px 4px 4px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
 	-moz-box-shadow:0 1px 1px rgba(0, 0, 0, 0.2);
+}
+.tgc-tags{
+	margin:0;
+	padding:3px;
+	cursor:default;
+}
+.tgc-tags li{
+	display:inline;
+	color:red;
+	font-size:large;
+	margin-right:.5em;
+}
+
+
+
+.tgc-tagName{
+	color:blue;
+}
+.tgc-occur{
+	font-size:small;
+}
+
+li.tgc-tagChecked span, li.tgc-tagChecked{
+  color:#aaa;
+  border-color:#aaa;
 }

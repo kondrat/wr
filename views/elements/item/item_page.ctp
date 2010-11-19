@@ -10,7 +10,7 @@
 			    		<div style="color: red; float: left; width: 100%;">
 		
 			    				{{each itemTags}}
-				    				<span data-itemt="${itemId}" class="ite-tagToAdd">${itemTag}</span>	
+				    				<span data-itemt="${itemId}" class="ite-tagAdded">${itemTag}</span>	
 				    			{{/each}}
 		
 				    	</div>	    		

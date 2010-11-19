@@ -3,7 +3,7 @@
  *
  */
  
-.ite-tagsInputWrp{
+.ite-tagsAddedWrp{
 	/*background:url("../img/icons/tag_deb887_16x16.png") no-repeat scroll 0 10px transparent;*/
 	float:left;
 	margin-left:10px;
@@ -12,47 +12,17 @@
 	float:left;
 	padding:10px 3px 0 0;
 }
-.ite-tagsCloudWrp{
-	width:640px;
-	border-top:1px solid #ccc;
-	margin-top:5px;
-	padding-top:5px;
-	float:left;
-}
-.ite-tagsCloud{
-	background-color:#FFFFFF;
-	border:1px dashed #CCCCCC;
-	padding:5px;
-	width:400px;
-	margin:0 auto;
-}
-ul.ite-tagCloudList{
-	margin:0;
-	padding:0;
-}
-.ite-tagCloudList li{
-	display:inline;
-	border-bottom:1px dashed red;
-	margin-left:.5em;
-}
-.ite-tagName{
-	color:blue;
-}
-li.ite-tagChecked span, li.ite-tagChecked{
-  color:#aaa;
-  border-color:#aaa;
-}
-#ite-tagsToAdd{
+#ite-tagsAdded{
 	float:left;
 	padding-top:10px;
 }
-.ite-tagToAdd{
+.ite-tagAdded{
 	background:url("../img/icons/remove_tag.png") no-repeat scroll 100% -40px #CCCCCC;
 	color:blue;
 	margin-left:0.5em;
 	padding:1px 16px 1px 3px;
 }
-.ite-tagToAdd:hover{
+.ite-tagAdded:hover{
 	/*background-position: 100% -58px;*/
 	background-position: 100% -19px;
 }

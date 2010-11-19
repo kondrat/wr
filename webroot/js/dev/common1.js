@@ -1,6 +1,6 @@
 jQuery(document).ready(function(){
 
-
+			var $com1_contentWrapper = $(".contentWrapper");
 			var $com1_alertMessage = $('#flashMessage');
 			var $com1_itemPages = $("#itemPages");
 			var $com1_item = $("#item");
@@ -24,12 +24,20 @@ jQuery(document).ready(function(){
 			var $com1_itSLenght = 0;
 			
 			//tags 
-			var $com1_iteTagsInput = $("#ite-tagsInput");
-			var $com1_iteTagsCloud = $("#ite-tagsCloud");
+			
+			//tags in editor
 			var $com1_iteTagIcon = $("#ite-tagIcon");
-			var $com1_iteTagsToAddTmpl = $("#ite-tagsToAddTmpl");
-			var $com1_iteTagsToAdd = $("#ite-tagsToAdd");
+			var $com1_iteTagsAddedTmpl = $("#ite-tagsAddedTmpl");
+			var $com1_iteTagsAdded = $("#ite-tagsAdded");
+			//May be page item?
 			var $com1_iteItemViewTmpl = $("#ite-itemViewTmpl");
+			
+			//tags in tagCloud
+			var $com1_tgcTagCloudWrp = $("#tgc-tagCloudWrp");
+			var $com1_tgcTagCloudClose = $("#tgc-tagCloudClose");
+			var $com1_tgcTagsInput = $("#tgc-tagsInput");
+			var $com1_tgcTags = $("#tgc-tags");
+			var $com1_tgcTagsCloudAddTmpl = $("#tgc-tagsCloudAddTmpl");
 
 
 		if( typeof(targetDay) !== "undefined") $com1_dataPickerTip = targetDay;
@@ -157,7 +165,7 @@ jQuery(document).ready(function(){
 
 			var itemTags = new Array();
 
-			$com1_iteTagsToAdd.children().each(function(){
+			$com1_iteTagsAdded.children().each(function(){
 				var thisTag = $(this);
 				itemTags.push(thisTag.text()); 
 			});
@@ -723,44 +731,75 @@ $(function() {
 	
 
 	$com1_iteTagIcon.click(function(){
-		$com1_iteTagsCloud.toggle();
+		$com1_tgcTagCloudWrp.toggle();
+		var tgcTagCloudIconPos = $com1_iteTagIcon.offset();	
+		var contentWrapperPos = $com1_contentWrapper.offset();
+		var setTop = tgcTagCloudIconPos.top - contentWrapperPos.top + 32;		
+		var setLeft = tgcTagCloudIconPos.left - contentWrapperPos.left - 150;									
+		$com1_tgcTagCloudWrp.css({"left":setLeft,"top":setTop});	
+		
+		if(typeof($com1_tgcTags.data("tgcObj")) !== "undefined"){			
+			$com1_tgcTagsCloudAddTmpl.tmpl( $com1_tgcTags.data("tgcObj") ).appendTo($com1_tgcTags);
+			$com1_tgcTags.removeData("tgcObj");			
+		}							
+	});	
+	
+	//clicking on tag from cloud to append to tagEditor
+	$com1_tgcTags.delegate(".tgc-tagNameCl","click",function(){
+
+		var thisTag = $(this);
+		var thisName = thisTag.data("tagn");
+		$com1_iteTagsAddedTmpl.tmpl( {"tag":thisName } ).appendTo($com1_iteTagsAdded).data({tagid: thisTag.data("tagid") });
+		thisTag.removeClass("tgc-tagNameCl").addClass("tgc-tagChecked");
 	});	
 
-  var $com1_selectTagClick = function(){
-		var thisTag = $(this);
-		var thisName = thisTag.text();
-		$com1_iteTagsToAddTmpl.tmpl( {"tag":thisName } ).appendTo($com1_iteTagsToAdd).data({tagEq: thisTag.parent().index()}).one('click',$com1_deselectTagClick);
-		thisTag.parent().addClass("ite-tagChecked");  
-  }
-
-  var $com1_deselectTagClick = function(){
+	$com1_iteTagsAdded.delegate(".ite-tagAdded","click",function(){
     var thisTag = $(this);
-    var thisTagEq = thisTag.data("tagEq");
-   	if( thisTagEq !== undefined ){
-    	$(".ite-tagName").parent().eq(thisTag.data("tagEq")).removeClass("ite-tagChecked").find(".ite-tagName").one('click',$com1_selectTagClick);
+    var thisTagId = thisTag.data("tagid");
+   	if( thisTagId !== "undefined" ){
+   		var $tagToRestore = $com1_tgcTags.find(".tgc-tag").filter(function(index){
+   			return $(this).data("tagid") === thisTagId; 
+   		});
     }
-    thisTag.fadeOut(1000, function(){
-    	$(this).remove();
-    });
-  };
-
-	$(".ite-tagName").one('click',$com1_selectTagClick);
+    thisTag.fadeOut(500, function(){
+    	thisTag.remove();
+    	$tagToRestore.removeClass("tgc-tagChecked").addClass("tgc-tagNameCl");
+    });		
+	});
 	
-	$("#ite-tagsAdd").click(function(){
-		var newTag = $com1_iteTagsInput.val();
+
+
+
+	
+	$com1_tgcTagCloudClose.click(function(){
+		$com1_tgcTagCloudWrp.hide();
+	});
+
+	//$(".tgc-tagName").one('click',$com1_selectTagClick);
+	
+	$("#tgc-tagsAdd").click(function(){
+		var newTag = $com1_tgcTagsInput.val();
 		if(newTag.length > 0) {
-			$com1_iteTagsToAddTmpl.tmpl( {"tag":newTag } ).appendTo($com1_iteTagsToAdd).one('click',$com1_deselectTagClick);
-			$com1_iteTagsInput.val('');
+			$com1_iteTagsAddedTmpl.tmpl( {"tag":newTag } ).appendTo($com1_iteTagsAdded);
+			$com1_tgcTagsInput.val('');
 		}
 	});
 
 
-	$("#tgc-tagCloudWrp").draggable( {
-																		opacity: 0.35,
+
+
+
+	$com1_tgcTagCloudWrp.draggable( {
 																		handle:"#tgc-tagCloudHeader"
 																		} );
+	$("#tgc-tagCloudHeader").mousedown(function(){
+		$com1_tgcTagCloudWrp.addClass("testt");
+	});
+	$("#tgc-tagCloudHeader").mouseup(function(){
+		$com1_tgcTagCloudWrp.removeClass("testt");
+	});
 
-	$com1_iteTagsCloud.tipsy({gravity: 'n',delayIn: 1000});
+
 	$com1_iteTagIcon.find("img").tipsy({gravity: 's',delayIn: 1000,offset: 5});
 	$com1_newItem.tipsy({gravity: 's',delayIn: 1000});
  
