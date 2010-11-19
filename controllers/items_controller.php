@@ -306,9 +306,9 @@ class ItemsController extends AppController {
 			$pagItemCond = array('Item.user_id'=> $authUserId ,'Item.active' => 1);
 			
 		} else {
-			//case when we just entered the page or we are new user without project yet.
+			//case when we just entered the page, or we are new user without project yet.
 			
-			$curPrj = $this->Item->Project->find('first', array(
+			$curPrj = $this->Item->Project->find('all', array(
 																													'conditions'=> array('Project.user_id'=> $authUserId, 'Project.active' => 1),
 																													'fields'=> array('id','name'),
 																													'order'=> array('current'=>'DESC'),
@@ -320,9 +320,9 @@ class ItemsController extends AppController {
 				$this->data['Project']['name'] = __('Project 1',true);
 				$this->data['Project']['current'] = time();
 				$this->Item->Project->save($this->data);
-				$curPrj = $this->Item->Project->read();
+				$curPrj[0] = $this->Item->Project->read();
 			}					
-			$curPrjId = $curPrj['Project']['id'];
+			$curPrjId = $curPrj[0]['Project']['id'];
 			$pagItemCond = array('Item.user_id'=> $authUserId,'Item.project_id'=> $curPrjId,'Item.active' => 1 );
 						
 		}

@@ -5,12 +5,12 @@
 				</span>&nbsp;
 				<span id="curPrj" class="actPrj" style="">
 					<?php if( isset($curPrj) ): ?>
-						<?php echo $html->link($curPrj['Project']['name'],array('controller'=>'items','action'=>'todo','prj:'.$curPrj['Project']['id']),array('id'=>'prjItems'));?>
+						<?php echo $html->link($curPrj[0]['Project']['name'],array('controller'=>'items','action'=>'todo','prj:'.$curPrj[0]['Project']['id']),array('id'=>'prjItems'));?>
 						
 						<?php $curPrjObj = $js->object(
 																array(													
-																		'prjName'=> $curPrj['Project']['name'],
-																		'prjId'=> $curPrj['Project']['id']																								
+																		'prjName'=> $curPrj[0]['Project']['name'],
+																		'prjId'=> $curPrj[0]['Project']['id']																								
 																)
 													);														
 						?>
