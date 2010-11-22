@@ -318,7 +318,7 @@ $(function() {
 					var thisTaggedId = $thisI.data("itemtag");
 					origTagsToIns[i] = {itemTag:thisTagText,itemId:thisTaggedId};
 				});
-				console.log(origTagsToIns);
+
 				$com1_itemPages.find("div.itemViewBlock").hide();
 				$com1_itemPages.find("div.item").removeClass("itemToEdit");
 				thisPar.addClass("itemToEdit");
@@ -743,6 +743,50 @@ $(function() {
 			$com1_tgcTags.removeData("tgcObj");			
 		}							
 	});	
+
+
+
+
+	$(".item").delegate(".itp-tagIcon","click",function(){
+		
+		var $thisAddIcon = $(this);
+		
+		$com1_tgcTagCloudWrp.toggle();
+		var tgcTagCloudIconPos = $thisAddIcon.offset();	
+		var contentWrapperPos = $com1_contentWrapper.offset();
+		var setTop = tgcTagCloudIconPos.top - contentWrapperPos.top + 32;		
+		var setLeft = tgcTagCloudIconPos.left - contentWrapperPos.left - 150;									
+		$com1_tgcTagCloudWrp.css({"left":setLeft,"top":setTop});
+
+		if(typeof($com1_tgcTags.data("tgcObj")) !== "undefined"){			
+			$com1_tgcTagsCloudAddTmpl.tmpl( $com1_tgcTags.data("tgcObj") ).appendTo($com1_tgcTags);
+			$com1_tgcTags.removeData("tgcObj");			
+		}			
+		
+		
+		
+		var $tagsItem = $(this).next().find(".ite-tagAdded");
+		
+		var $tagsFromCloud = $com1_tgcTags.find(".tgc-tag").removeClass("tgc-tagChecked");
+		
+		
+		$tagsItem.each(function(){
+			var thisDataTagName = $(this).text();
+			
+			$tagsFromCloud.each(function(){
+				var $thisTagCloud = $(this);
+				console.log($thisTagCloud.data("tagn"));
+				if($thisTagCloud.data("tagn") == thisDataTagName){
+					$thisTagCloud.removeClass("tgc-tagNameCl").addClass("tgc-tagChecked");					
+				}
+				
+			});
+			
+		});
+	});
+
+
+
 	
 	//clicking on tag from cloud to append to tagEditor
 	$com1_tgcTags.delegate(".tgc-tagNameCl","click",function(){

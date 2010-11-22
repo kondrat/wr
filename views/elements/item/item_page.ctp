@@ -7,11 +7,13 @@
 		<script id="ite-itemViewTmpl" type="text/x-jquery-tmpl"> 
 			    <div class="itemViewBlock">
 			    	<div class="itemDataBlock">
-			    		<div style="color: red; float: left; width: 100%;">
-		
-			    				{{each itemTags}}
-				    				<span data-itemt="${itemId}" class="ite-tagAdded">${itemTag}</span>	
-				    			{{/each}}
+			    		<div class="itp-tagsAddedWrp">
+									<span class="itp-tagIcon"><?php echo $this->Html->image('icons/tag_deb887_16x16.png',array('title'=> __('Click to add tags to the new item',true) ) );?></span>
+									<span class="itp-tagsAdded">
+				    				{{each itemTags}}
+					    				<span data-itemt="${itemId}" class="ite-tagAdded">${itemTag}</span>	
+					    			{{/each}}
+					    		</span>
 		
 				    	</div>	    		
 				    		<ul class="itEdButtons ui-widget ui-helper-clearfix">

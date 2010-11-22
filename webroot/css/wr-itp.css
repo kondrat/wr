@@ -8,3 +8,8 @@
 	color:gray;
 	font-size:smaller;
 }
+.itp-tagsAddedWrp{
+	color: red;
+	float: left;
+	width: 100%;
+}
