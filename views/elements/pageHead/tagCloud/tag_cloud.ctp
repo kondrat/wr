@@ -10,7 +10,7 @@
 
 		
 		<div class="tgc-tagCloudInner">
-			<span style="color:gray;"><?php echo __('Tags for the project',true).'&nbsp;'.$curPrj['Project']['name'];?></span>
+			<span style="color:gray;"><?php echo __('Tags for the project',true).'&nbsp;'.$curPrj[0]['Project']['name'];?></span>
 			<ul id="tgc-tags" class="tgc-tags">
 							<?php if( isset($tags) && $tags !== array() ): ?>
 							
