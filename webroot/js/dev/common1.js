@@ -2,7 +2,7 @@ jQuery(document).ready(function(){
 
 			var $com1_contentWrapper = $(".contentWrapper");
 			var $com1_alertMessage = $('#flashMessage');
-			var $com1_itemPages = $("#itemPages");
+			var $com1_itpItemPages = $("#itp-itemPages");
 			var $com1_item = $("#item");
 			//var $com1_statusItem = $("#status");
 			var $com1_targetDay = $("#targetDay");
@@ -29,6 +29,7 @@ jQuery(document).ready(function(){
 			var $com1_iteTagIcon = $("#ite-tagIcon");
 			var $com1_iteTagsAddedTmpl = $("#ite-tagsAddedTmpl");
 			var $com1_iteTagsAdded = $("#ite-tagsAdded");
+			var $curItemTagList = '';
 			//May be page item?
 			var $com1_iteItemViewTmpl = $("#ite-itemViewTmpl");
 			
@@ -214,7 +215,7 @@ jQuery(document).ready(function(){
 						}	
 
 						
-						$com1_itemPages.prepend(						
+						$com1_itpItemPages.prepend(						
 						  '<div id="item_'+itemId+'" class="item itS0 span-17">'+						  	
 						    '<div class="itemHeadLine">'+						    
 						    	'<div class="targetItem">'+dateFromInput+'</div>'+							   
@@ -275,7 +276,7 @@ $(function() {
 
   
   //more decorations
-	  $(".item").live("mouseover mouseout", function(event){
+	  $(".itp-item").live("mouseover mouseout", function(event){
 				  if (event.type == 'mouseover') {
 				    $(this).addClass("activeItem");
 				  } else if (event.type == 'mouseout' ) {
@@ -285,7 +286,7 @@ $(function() {
 
 
 		
-		$com1_itemPages.delegate(".itemHeadLine","click",function(){
+		$com1_itpItemPages.delegate(".itemHeadLine","click",function(){
 			
 			var thisIt = $(this);
 			var thisPar = thisIt.parent();
@@ -295,8 +296,8 @@ $(function() {
 			if( thisItem.length >= 1 ) {
 				
 				if(thisItem.is(":hidden")) {
-					$com1_itemPages.find("div.itemViewBlock").hide();
-					$com1_itemPages.find("div.item").removeClass("itemToEdit");
+					$com1_itpItemPages.find("div.itemViewBlock").hide();
+					$com1_itpItemPages.find("div.itp-item").removeClass("itemToEdit");
 					thisPar.addClass("itemToEdit");				
 					thisItem.show();
 				} else {				
@@ -319,8 +320,8 @@ $(function() {
 					origTagsToIns[i] = {itemTag:thisTagText,itemId:thisTaggedId};
 				});
 
-				$com1_itemPages.find("div.itemViewBlock").hide();
-				$com1_itemPages.find("div.item").removeClass("itemToEdit");
+				$com1_itpItemPages.find("div.itemViewBlock").hide();
+				$com1_itpItemPages.find("div.itp-item").removeClass("itemToEdit");
 				thisPar.addClass("itemToEdit");
 				
 				
@@ -337,7 +338,7 @@ $(function() {
 
 
 
-		$com1_itemPages.delegate(".itemEdit","click",function(){
+		$com1_itpItemPages.delegate(".itemEdit","click",function(){
 
 			var thisItEd = $(this);
 		
@@ -355,9 +356,9 @@ $(function() {
 
 
 		
-		$com1_itemPages.delegate(".itemDel","click",function(){		
+		$com1_itpItemPages.delegate(".itemDel","click",function(){		
 		
-				var parId = $(this).parents(".item");
+				var parId = $(this).parents(".itp-item");
 				
 		    if (confirm('Are you sure to delete?')) {	
 		 //to validate
@@ -387,9 +388,9 @@ $(function() {
 		});
 
 
-		$com1_itemPages.delegate(".itemSubmit","click",function(){
+		$com1_itpItemPages.delegate(".itemSubmit","click",function(){
 					
-					var parIt = $(this).parents(".item");
+					var parIt = $(this).parents(".itp-item");
 //to clear id.
 		    	var itId =  parIt.attr("id").replace("item_", "");
 		    	var itemVal = parIt.find(".itemTextArea").val();
@@ -430,7 +431,7 @@ $(function() {
 		    	 
 		});
 
-		$com1_itemPages.delegate(".itemCan","click",function(){
+		$com1_itpItemPages.delegate(".itemCan","click",function(){
 			var parId = $(this).parents("div.itemEditBlock");
 			parId.prev().show().end().hide();
 		});
@@ -475,18 +476,18 @@ $(function() {
  		
  	});
 
-	$com1_itemPages.delegate(".statusItem","mouseenter",function(){
+	$com1_itpItemPages.delegate(".statusItem","mouseenter",function(){
 		$(this).addClass("activeStatusItem");
 	}); 
 
-	$com1_itemPages.delegate(".statusItem","mouseleave",function(){
+	$com1_itpItemPages.delegate(".statusItem","mouseleave",function(){
 		$(this).removeClass("activeStatusItem");	
 	});
 
-	$com1_itemPages.delegate(".statusItem","click",function(event){
+	$com1_itpItemPages.delegate(".statusItem","click",function(event){
 		//event.stopPropagation();
 
-		var thisIt = $(this).parents(".item");
+		var thisIt = $(this).parents(".itp-item");
 		//getting item id
 		var itId = thisIt.attr("id").replace("item_","");
 		//finding statusItem class
@@ -550,10 +551,10 @@ $(function() {
  
 	//task of item change "crutilca"
 
-	$com1_itemPages.delegate(".itemType","click",function(event){
+	$com1_itpItemPages.delegate(".itemType","click",function(event){
 
 		var thisIt = $(this);
-		var thisPar = thisIt.parents(".item");
+		var thisPar = thisIt.parents(".itp-item");
 		//getting item id
 		var itId = thisPar.attr("id").replace("item_","");
 		
@@ -616,14 +617,14 @@ $(function() {
 	});  
 //---------------------------------------------------------------------------------------- 
 
-	$com1_itemPages.delegate(".targetItem","click",function(event){
+	$com1_itpItemPages.delegate(".targetItem","click",function(event){
 
 	  event.preventDefault();
 		
 		//$(".targetItem").datepicker('destroy');
 
 		var thisIt = $(this);
-		var thisPar = thisIt.parents(".item");
+		var thisPar = thisIt.parents(".itp-item");
 		//to clean up data id
 		var itId = thisPar.attr("id").replace("item_","");
 		var prevVal = thisIt.text();
@@ -698,7 +699,7 @@ $(function() {
     return false;
 		
 	});
-	$com1_itemPages.delegate(".datefield","click",function(event){
+	$com1_itpItemPages.delegate(".datefield","click",function(event){
 		return false;
 	});
 
@@ -729,7 +730,7 @@ $(function() {
 	});
  
 	
-
+	//editor only mode
 	$com1_iteTagIcon.click(function(){
 		$com1_tgcTagCloudWrp.toggle();
 		var tgcTagCloudIconPos = $com1_iteTagIcon.offset();	
@@ -746,54 +747,77 @@ $(function() {
 
 
 
-
-	$(".item").delegate(".itp-tagIcon","click",function(){
+	//all items tag Icon mode
+	$com1_itpItemPages.delegate(".itp-tagIcon","click",function(){
 		
 		var $thisAddIcon = $(this);
 		
+		//memorizing the object of the current items tags so we could append more tags to it.
+		$curItemTagList = $thisAddIcon.next();
+		
+		//toggel tag cloud window
 		$com1_tgcTagCloudWrp.toggle();
+		//position tag cloud window by the tag cloud icon. (may be item itself)
 		var tgcTagCloudIconPos = $thisAddIcon.offset();	
 		var contentWrapperPos = $com1_contentWrapper.offset();
 		var setTop = tgcTagCloudIconPos.top - contentWrapperPos.top + 32;		
 		var setLeft = tgcTagCloudIconPos.left - contentWrapperPos.left - 150;									
 		$com1_tgcTagCloudWrp.css({"left":setLeft,"top":setTop});
 
+
+		//getting tags from the dom if it's first time, or just toggling
 		if(typeof($com1_tgcTags.data("tgcObj")) !== "undefined"){			
 			$com1_tgcTagsCloudAddTmpl.tmpl( $com1_tgcTags.data("tgcObj") ).appendTo($com1_tgcTags);
 			$com1_tgcTags.removeData("tgcObj");			
 		}			
 		
 		
+		//currnt tags object for iteration
+		var $tagsItem = $curItemTagList.find(".ite-tagAdded");
 		
-		var $tagsItem = $(this).next().find(".ite-tagAdded");
+		$tagsItem.tagCloudIteration();
 		
-		var $tagsFromCloud = $com1_tgcTags.find(".tgc-tag").removeClass("tgc-tagChecked");
-		
-		
+		//restoring no tag checked mode for the tag cloud
+		var $tagsFromCloud = $com1_tgcTags.find(".tgc-tag").removeClass("tgc-tagChecked").addClass("tgc-tagNameCl");
+		//iterating throught tags cloud and item tags to identify already choosen tags and add checked class to them.
 		$tagsItem.each(function(){
-			var thisDataTagName = $(this).text();
-			
+			var thisDataTagName = $(this).text();			
 			$tagsFromCloud.each(function(){
 				var $thisTagCloud = $(this);
-				console.log($thisTagCloud.data("tagn"));
 				if($thisTagCloud.data("tagn") == thisDataTagName){
 					$thisTagCloud.removeClass("tgc-tagNameCl").addClass("tgc-tagChecked");					
-				}
-				
-			});
-			
+				}				
+			});			
 		});
+		
+		
+		
 	});
+
+
+// to finish iteration funtion
+	$.fn.tagCloudIteration = function(){
+		
+		return this.each(function(){
+			var tag = $(this);
+			tag.css({color:'green'});
+		});
+		
+	};
+
+
+
+
+
 
 
 
 	
 	//clicking on tag from cloud to append to tagEditor
 	$com1_tgcTags.delegate(".tgc-tagNameCl","click",function(){
-
 		var thisTag = $(this);
 		var thisName = thisTag.data("tagn");
-		$com1_iteTagsAddedTmpl.tmpl( {"tag":thisName } ).appendTo($com1_iteTagsAdded).data({tagid: thisTag.data("tagid") });
+		$com1_iteTagsAddedTmpl.tmpl( {"tag":thisName } ).appendTo($curItemTagList).data({tagid: thisTag.data("tagid") });
 		thisTag.removeClass("tgc-tagNameCl").addClass("tgc-tagChecked");
 	});	
 

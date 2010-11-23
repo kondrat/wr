@@ -2,7 +2,18 @@
  * itp- Item page css
  *
  */
- 
+itp-item{
+	border-bottom:1px dashed #CCCCCC;
+} 
+.itp-itemsWrp{
+	position:relative;
+	margin-bottom:1em;
+}
+.itp-itemPagenator{
+	position:absolute;
+	right:0;
+	bottom:-15px;
+}
 .itp-itemTag{
 	border-bottom:1px solid;
 	color:gray;

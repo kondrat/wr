@@ -81,7 +81,7 @@
 								echo $this->element('pageHead/topMenu/top_menu',array( 'menuType'=> $menuType  ) );
 							?>
 							
-							<div style="position: absolute;top:37px;right:8px;">
+							<div style="position: absolute;top:8px;right:300px;">
 					   		<?php __('today');?>:&nbsp;<?php echo Date('d-m-Y');?>&nbsp;|&nbsp;<?php __('Week');?>:&nbsp;<?php echo Date('W');?>
 							</div>							
 							

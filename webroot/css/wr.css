@@ -127,15 +127,8 @@ p.quickLoginForPas {
 	color:inherit;
 }
 /*main part*/
-.itemsWrapper{
-	position:relative;
-	margin-bottom:1em;
-}
-.itemPagenator{
-	position:absolute;
-	right:0;
-	bottom:-15px;
-}
+
+
 #allItems,#prjItems{
 	text-decoration:none;
 	outline:medium none;
@@ -209,9 +202,7 @@ a.newItem:focus {
 	background-position:100% 4px;
 }
 
-.item{
-	border-bottom:1px dashed #CCCCCC;
-}
+
 .activeItem{
 	border-color:gray;
 	background-color:Linen;
@@ -306,7 +297,7 @@ ul.itEdButtons{
 
 
 
-#itemTypeList .itemType,#itemPages .itemType{
+#itemTypeList .itemType,#itp-itemPages .itemType{
 	margin-right:5px;
 }
 .itT0{

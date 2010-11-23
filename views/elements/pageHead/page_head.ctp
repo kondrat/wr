@@ -1,4 +1,4 @@
-<div class="span-18" style="margin: 1em 0 .8em 0;">
+<div class="span-18" style="margin: 0 0 .5em 0;">
   	<div  class="span-5 append-1" style="margin:.6em 0 0.2em 0;">
 				<span id="allPrj" style="">
 					<?php echo $html->link( __('All',true), array('controller'=>'items','action'=>'todo'),array('id'=>'allItems') );?>

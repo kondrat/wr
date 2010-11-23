@@ -1,6 +1,6 @@
 		<?php 
 			$this->Paginator->options(array(
-	    	'update' => '#itemPages'
+	    	'update' => '#itp-itemPages'
 			));			
 		?>
 		
@@ -39,9 +39,9 @@
 		</script>		
 
 	
-	<div id="itemPages" class="itemsWrapper span-17">
+	<div id="itp-itemPages" class="itp-itemsWrp span-17">
 		
-		<div class="itemPagenator">
+		<div class="itp-itemPagenator">
 			<?php
 				echo $paginator->prev('«Prev', null, null, array('class' => 'disabled.')).'&nbsp;';
 				echo $paginator->numbers(array('separator'=>'&nbsp;','modulus'=> 8 )).'&nbsp;';
@@ -84,7 +84,7 @@
 		  	?>
 		  	
 		  						
-		  <div id="item_<?php echo $todo["Item"]["id"];?>" class="item span-17 <?php echo $statusClass;?>">
+		  <div id="item_<?php echo $todo["Item"]["id"];?>" class="itp-item span-17 <?php echo $statusClass;?>">
 
 				<div class="itemHeadLine">				
 					  	<div class="targetItem"><?php echo $formatedDate;?></div>		    	
