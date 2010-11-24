@@ -39,6 +39,7 @@ jQuery(document).ready(function(){
 			var $com1_tgcTagsInput = $("#tgc-tagsInput");
 			var $com1_tgcTags = $("#tgc-tags");
 			var $com1_tgcTagsCloudAddTmpl = $("#tgc-tagsCloudAddTmpl");
+			var $com1_tgcTagsAdd = $("#tgc-tagsAdd");
 
 
 		if( typeof(targetDay) !== "undefined") $com1_dataPickerTip = targetDay;
@@ -729,6 +730,8 @@ $(function() {
 		$com1_itemTypeControl.children("span:first").attr("class", thisClass).text(thisText).data("type",thisTaskId);
 	});
  
+//-----------------------------------------------------------------------------------------
+
 	
 	//editor only mode
 	$com1_iteTagIcon.click(function(){
@@ -774,35 +777,33 @@ $(function() {
 		
 		//currnt tags object for iteration
 		var $tagsItem = $curItemTagList.find(".ite-tagAdded");
-		
-		$tagsItem.tagCloudIteration();
-		
-		//restoring no tag checked mode for the tag cloud
-		var $tagsFromCloud = $com1_tgcTags.find(".tgc-tag").removeClass("tgc-tagChecked").addClass("tgc-tagNameCl");
 		//iterating throught tags cloud and item tags to identify already choosen tags and add checked class to them.
-		$tagsItem.each(function(){
-			var thisDataTagName = $(this).text();			
-			$tagsFromCloud.each(function(){
-				var $thisTagCloud = $(this);
-				if($thisTagCloud.data("tagn") == thisDataTagName){
-					$thisTagCloud.removeClass("tgc-tagNameCl").addClass("tgc-tagChecked");					
-				}				
-			});			
-		});
-		
-		
+		$tagsItem.tagCloudIteration($com1_tgcTags);
 		
 	});
 
 
-// to finish iteration funtion
-	$.fn.tagCloudIteration = function(){
+	//iteration through each item's tag
+	$.fn.tagCloudIteration = function( tagCloudObj ){
+		 
+		if(!tagCloudObj){
+			return;
+		}
+		
+		var $tagsFromCloud = tagCloudObj.find(".tgc-tag").removeClass("tgc-tagChecked").addClass("tgc-tagNameCl");
 		
 		return this.each(function(){
-			var tag = $(this);
-			tag.css({color:'green'});
+			var tag = $(this);	
+			var thisDataTagName = tag.text();		
+			$tagsFromCloud.each(function(){
+				var $thisTagFromCloud = $(this);				
+				if($thisTagFromCloud.data("tagn") == thisDataTagName){
+					$thisTagFromCloud.removeClass("tgc-tagNameCl").addClass("tgc-tagChecked");
+					return;					
+				}		
+			});								
 		});
-		
+				
 	};
 
 
@@ -820,19 +821,25 @@ $(function() {
 		$com1_iteTagsAddedTmpl.tmpl( {"tag":thisName } ).appendTo($curItemTagList).data({tagid: thisTag.data("tagid") });
 		thisTag.removeClass("tgc-tagNameCl").addClass("tgc-tagChecked");
 	});	
-
-	$com1_iteTagsAdded.delegate(".ite-tagAdded","click",function(){
+	
+	
+	
+	//remove tag from item tag list
+	$com1_itpItemPages.delegate(".ite-tagAdded","click",function(){
     var thisTag = $(this);
-    var thisTagId = thisTag.data("tagid");
-   	if( thisTagId !== "undefined" ){
-   		var $tagToRestore = $com1_tgcTags.find(".tgc-tag").filter(function(index){
-   			return $(this).data("tagid") === thisTagId; 
-   		});
-    }
+    var thisTagParent = thisTag.parent();
+    var thisTagItemId = thisTag.data("itemt");
+    
     thisTag.fadeOut(500, function(){
     	thisTag.remove();
-    	$tagToRestore.removeClass("tgc-tagChecked").addClass("tgc-tagNameCl");
-    });		
+    	
+    	thisTagParent.find(".ite-tagAdded").tagCloudIteration($com1_tgcTags);	
+    });
+	
+		if(thisTagItemId){
+			//ajax tag deletion to define here;
+		}
+			
 	});
 	
 
@@ -843,15 +850,16 @@ $(function() {
 		$com1_tgcTagCloudWrp.hide();
 	});
 
-	//$(".tgc-tagName").one('click',$com1_selectTagClick);
 	
-	$("#tgc-tagsAdd").click(function(){
+	//appendig to item tags list new tag
+	$com1_tgcTagsAdd.click(function(){
 		var newTag = $com1_tgcTagsInput.val();
 		if(newTag.length > 0) {
-			$com1_iteTagsAddedTmpl.tmpl( {"tag":newTag } ).appendTo($com1_iteTagsAdded);
+			$com1_iteTagsAddedTmpl.tmpl( {"tag":newTag } ).appendTo($curItemTagList);
 			$com1_tgcTagsInput.val('');
 		}
 	});
+	//remove tag from item tag list
 
 
 
@@ -881,7 +889,7 @@ $(function() {
 
 
 
-
+	//tests. Don't forget to del.
  	$("#fucusEd").click(function(){
 
  		$("#editable").trigger("click").css({color:"red"});
