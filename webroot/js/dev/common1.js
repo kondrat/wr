@@ -4,6 +4,7 @@ jQuery(document).ready(function(){
 			var $com1_alertMessage = $('#flashMessage');
 			var $com1_itpItemPages = $("#itp-itemPages");
 			var $com1_item = $("#item");
+			var $com1_itpItemTmpl = $("#itp-itemTmpl");
 			//var $com1_statusItem = $("#status");
 			var $com1_targetDay = $("#targetDay");
 			var $com1_targetMonth = $("#targetMonth");
@@ -157,7 +158,7 @@ jQuery(document).ready(function(){
    			var epoch =  parseInt(tosend.getTime()/1000);
    		} else {
    			var epoch = '';
-   			dateFromInput = 'No target';
+   			dateFromInput = '';
    		}
    		//alert(tosend.getTime()+' '+(tosend.getMonth()+1)+' '+tosend.getFullYear()+' ');
    		
@@ -215,23 +216,8 @@ jQuery(document).ready(function(){
 							itemTaskT = $com1_itemTypeControl.children("span:first").text();						
 						}	
 
-						
-						$com1_itpItemPages.prepend(						
-						  '<div id="item_'+itemId+'" class="item itS0 span-17">'+						  	
-						    '<div class="itemHeadLine">'+						    
-						    	'<div class="targetItem">'+dateFromInput+'</div>'+							   
-						    	'<div class="textItem">'+						    	
-						    		'<span class="itemType '+itemTaskCl+'">'+itemTaskT+'</span>'+										
-							    	'<span class="itemCrated">Just now</span>'+
-							    		'<span class="itemHead">'+
-								    	itemVal+					    	
-								    	'</span>'+  							    	
-						    	'</div>'+					 				    
-						    	'<div class="statusItem">[opend]</div>'+					    
-						    '</div>'+
-						  '</div>'
-						  												
-						);
+						$com1_itpItemTmpl.tmpl({itemId:itemId,dateFromInput:dateFromInput,itemTaskCl:itemTaskCl,itemTaskT:itemTaskT,itemVal:itemVal}).prependTo($com1_itpItemPages);
+
 						$com1_datePicker.val('No target');
 						$com1_item.val('').focus();
           	//flash_message('saved','flok');
@@ -279,31 +265,35 @@ $(function() {
   //more decorations
 	  $(".itp-item").live("mouseover mouseout", function(event){
 				  if (event.type == 'mouseover') {
-				    $(this).addClass("activeItem");
+				    $(this).addClass("itp-activeItem");
 				  } else if (event.type == 'mouseout' ) {
-				    $(this).removeClass("activeItem");
+				    $(this).removeClass("itp-activeItem");
 				  }	
 		});
 
 
 		
-		$com1_itpItemPages.delegate(".itemHeadLine","click",function(){
+		$com1_itpItemPages.delegate(".itp-itemHeadLine","click",function(){
 			
-			var thisIt = $(this);
-			var thisPar = thisIt.parent();
-			var thisItem = thisIt.next();
+			var $thisIt = $(this);
+			var $thisPar = $thisIt.parent();
+			var $thisItem = $thisIt.next();
 			
+			$com1_newItemForm.appendTo($thisIt).show();
+			$(".itp-item").removeClass("itp-itemToEdit");
+			$thisPar.addClass("itp-itemToEdit");
 			
+			/*
 			if( thisItem.length >= 1 ) {
 				
 				if(thisItem.is(":hidden")) {
 					$com1_itpItemPages.find("div.itemViewBlock").hide();
-					$com1_itpItemPages.find("div.itp-item").removeClass("itemToEdit");
-					thisPar.addClass("itemToEdit");				
+					$com1_itpItemPages.find("div.itp-item").removeClass("itp-itemToEdit");
+					thisPar.addClass("itp-itemToEdit");				
 					thisItem.show();
 				} else {				
 					thisItem.hide();
-					thisPar.removeClass("itemToEdit");
+					thisPar.removeClass("itp-itemToEdit");
 				}	
 							
 			}else{
@@ -322,14 +312,14 @@ $(function() {
 				});
 
 				$com1_itpItemPages.find("div.itemViewBlock").hide();
-				$com1_itpItemPages.find("div.itp-item").removeClass("itemToEdit");
-				thisPar.addClass("itemToEdit");
+				$com1_itpItemPages.find("div.itp-item").removeClass("itp-itemToEdit");
+				thisPar.addClass("itp-itemToEdit");
 				
 				
 				//inserting view blok with full text and tags and so on after item's header.			
 				$com1_iteItemViewTmpl.tmpl({origText:origText,itemTags:origTagsToIns}).insertAfter(thisIt);		
 			}
-				
+			*/
 
 		});
 
@@ -618,11 +608,11 @@ $(function() {
 	});  
 //---------------------------------------------------------------------------------------- 
 
-	$com1_itpItemPages.delegate(".targetItem","click",function(event){
+	$com1_itpItemPages.delegate(".itp-targetItem","click",function(event){
 
 	  event.preventDefault();
 		
-		//$(".targetItem").datepicker('destroy');
+		//$(".itp-targetItem").datepicker('destroy');
 
 		var thisIt = $(this);
 		var thisPar = thisIt.parents(".itp-item");
@@ -884,19 +874,37 @@ $(function() {
 
 
 
-
+		function moveToEnd(target) {
+		  var rng, sel;
+		  if ( document.createRange ) {
+	
+		    rng = document.createRange();
+	
+		    rng.selectNodeContents(target);
+		    rng.collapse(false); // схлопываем в конечную точку
+		    sel = window.getSelection();
+		    sel.removeAllRanges();
+		    sel.addRange( rng );
+		  } else { // для IE нужно использовать TextRange
+		    var rng = document.body.createTextRange();
+		    rng.moveToElementText( target );
+		    rng.collapseToEnd();
+		    rng.select();
+		  }
+		}
 
 
 
 
 	//tests. Don't forget to del.
  	$("#fucusEd").click(function(){
-
- 		$("#editable").trigger("click").css({color:"red"});
+		//alert(document.getElementById("ll"));
+ 		//$("#editable").trigger("click").css({color:"red"});
+ 		moveToEnd(document.getElementById("ll"));
 	});
 
  	$("#editable").click(function(){
- 		$(this).focus();
+ 		
  	});
  
   

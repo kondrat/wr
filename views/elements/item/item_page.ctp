@@ -38,6 +38,24 @@
 			    </div>	
 		</script>		
 
+
+		<script id="itp-itemTmpl" type="text/x-jquery-tmpl">
+							<div id="item_${itemId}" class="itp-item itS0 span-17">						  	
+						    <div class="itp-itemHeadLine">						    
+						    								   
+						    	<div class="textItem">						    	
+						    		<span class="itemType ${itemTaskCl}">${itemTaskT}</span>
+						    		<span class="itp-targetItem">${dateFromInput}</span>										
+							    	<span class="itemCrated">Just now</span>
+							    		<span class="itemHead">
+								    	${itemVal}					    	
+								    	</span>  							    	
+						    	</div>					 				    
+						    	<div class="statusItem">opend</div>					    
+						    </div>
+						  </div>
+		</script>
+
 	
 	<div id="itp-itemPages" class="itp-itemsWrp span-17">
 		
@@ -48,6 +66,10 @@
 				echo $paginator->next('Next»', null, null, array('class' => 'disabled.'));
 			?>  
 		</div>	
+
+
+
+		
 		
 		<?php if( $todos ): ?>
 			<?php foreach( $todos as $todo ): ?>
@@ -79,19 +101,19 @@
 		  			$date = new DateTime($todo["Item"]["target"]);
 		  			$formatedDate = $date->format('d.m.Y');
 		  		} else {
-		  			$formatedDate = __('No target',true);
+		  			$formatedDate = '';//__('No target',true);
 		  		}		  	
 		  	?>
 		  	
 		  						
 		  <div id="item_<?php echo $todo["Item"]["id"];?>" class="itp-item span-17 <?php echo $statusClass;?>">
 
-				<div class="itemHeadLine">				
-					  	<div class="targetItem"><?php echo $formatedDate;?></div>		    	
+				<div class="itp-itemHeadLine">				
+					  			    	
 				    	<div class="textItem">			    		
 								<span class="itemType <?php echo $taskClass;?>"><?php echo $taskText;?></span>
 								<span class="itemCrated"><?php echo ' '.$timenomin->timeAgoInWords($todo["Item"]["created"], array('format' => 'd-m-Y','end' => "+1 day") );?></span>
-								
+								<span class="itp-targetItem"><?php echo $formatedDate;?></span>
 								
 								<?php if( isset($todo["Tag"]) && $todo["Tag"] !== array() ):?>
 									<?php foreach( $todo["Tag"] as $todoTag ):?>
@@ -109,7 +131,7 @@
 					    	?>					    	
 					    	</span>    		
 				    	</div>			   			    
-				    	<div class="statusItem"><?php echo '['.$statusText.']';?></div>		    
+				    	<div class="statusItem"><?php echo $statusText;?></div>		    
 		  	</div>
 		  	
 
@@ -123,10 +145,11 @@
 	</div>
 
 	<?php echo $this->Js->writeBuffer(); ?>
+	
 	<div class="span-24">
 		<?php echo $this->Form->button('fucus',array('id'=>'fucusEd'));?>
 		<div id="editable" class="span-4">
-			<span contenteditable="true">
+			<span id="ll" contenteditable="true">
 				test test
 				test
 			</span>

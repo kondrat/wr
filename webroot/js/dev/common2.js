@@ -25,7 +25,7 @@ jQuery(document).ready(function(){
 			dataType:"html",
 			success:function (data, textStatus) {
 			
-				$("#itemPages").html(data);
+				$("#itp-itemPages").html(data);
 				},
 				 url: path+"\/items\/todo\/prj:all\/page:1"
 		});
@@ -40,7 +40,7 @@ jQuery(document).ready(function(){
 				dataType:"html",
 				success:function (data, textStatus) {
 
-				$("#itemPages").html(data);
+				$("#itp-itemPages").html(data);
 				},
 				url: path+"\/items\/todo\/prj:"+pObj.prjId+"\/page:1"
 		});
@@ -62,7 +62,7 @@ jQuery(document).ready(function(){
 				data: {"cur":"1"},
 				success:function (data, textStatus) {
 					$("#prjItems").text(prjName);
-					$("#itemPages").html(data);
+					$("#itp-itemPages").html(data);
 					$("#newProject").trigger("click");
 					prjCur.parent().prependTo("#prjMainList");
 					$com2_allPrj.removeClass("actPrj");
