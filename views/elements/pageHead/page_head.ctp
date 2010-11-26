@@ -29,8 +29,8 @@
 
 
 </div>
-<div class="span-18" style="margin-bottom:1em;">
-  		<?php echo $html->link(__('New',true).'<span class="upDownArr">'.__('task',true).'</span>', array('#'), array('onclick'=>'return false','class'=>'newItem','id'=>'newItem','title'=>'for tipsy','escape'=>false) );?> 
+<div id="ite-newItemBtnWrp">
+  		<?php echo $html->link(__('New',true).'<span class="upDownArr">'.__('task',true).'</span>', array('#'), array('onclick'=>'return false','class'=>'ite-newItemBtn','id'=>'ite-newItemBtn','title'=>'for tipsy','escape'=>false) );?> 
 </div>
 
 

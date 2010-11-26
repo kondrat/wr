@@ -3,19 +3,25 @@ jQuery(document).ready(function(){
 			var $com1_contentWrapper = $(".contentWrapper");
 			var $com1_alertMessage = $('#flashMessage');
 			var $com1_itpItemPages = $("#itp-itemPages");
-			var $com1_item = $("#item");
+	var $com1_item = $("#item");
 			var $com1_itpItemTmpl = $("#itp-itemTmpl");
 			//var $com1_statusItem = $("#status");
-			var $com1_targetDay = $("#targetDay");
+			//var $com1_targetDay = $("#targetDay");
 			var $com1_targetMonth = $("#targetMonth");
 			var $com1_targetYear = $("#targetYear");
 			var $com1_hourHour = $("#hourHour");
 			var $com1_minuteMin = $("#minuteMin");
-			var $com1_newItemForm = $("#newItemForm");
-			var $com1_newItem = $("#newItem");
-			var $com1_saveItemMain = $("#saveItemMain");
+			
+			//item editor
+			var $com1_iteItemEditorWrp = $("#ite-itemEditorWrp");
+			var $com1_iteNewItemBtnWrp = $("#ite-newItemBtnWrp");
+			var $com1_iteNewItemBtn = $("#ite-newItemBtn");
+			var $com1_iteItemEditorTmpl = $("#ite-itemEditorTmpl");
+
 			var $com1_quickLogin = $("#quickLogin");
-			var $com1_datePicker = $("#datepicker");
+			
+	var $com1_datePicker = $("#datepicker");
+			
 			var $com1_dataPickerTip = '';
 			var $com1_itemTypeControl = $("#itemTypeControl");
 			var $com1_itemTypeList = $("#itemTypeList");
@@ -27,7 +33,7 @@ jQuery(document).ready(function(){
 			//tags 
 			
 			//tags in editor
-			var $com1_iteTagIcon = $("#ite-tagIcon");
+
 			var $com1_iteTagsAddedTmpl = $("#ite-tagsAddedTmpl");
 			var $com1_iteTagsAdded = $("#ite-tagsAdded");
 			var $curItemTagList = '';
@@ -57,7 +63,6 @@ jQuery(document).ready(function(){
 		}
 		
 		//flash alert message 	  
-
 		if($com1_alertMessage.length) {
 				var alerttimer = window.setTimeout(function () {
 					$com1_alertMessage.trigger('click');
@@ -70,25 +75,48 @@ jQuery(document).ready(function(){
 		}
 
 		//New item controll
-
-		var $com1_newItemClick = function(e){
+		var f_com1_iteNewItemBtnClick = function(e){
 			var thisClBut = $(this);
+			
 			if(e) e.stopPropagation();
-			if(e) e.preventDefault();		
-  		if( $com1_newItemForm.is(":hidden") ) {
-  			$com1_newItemForm.show();
+			if(e) e.preventDefault();
+				
+			$(".itp-item").removeClass("itp-itemToEdit");
+				
+  		if( $com1_iteItemEditorWrp.is(":hidden") ) {
+  			$com1_iteItemEditorWrp.show();
+  			
+  			$com1_iteItemEditorWrp.empty().insertAfter($com1_iteNewItemBtnWrp);
+  			
+  			var $freshEditor = $com1_iteItemEditorTmpl.tmpl().appendTo($com1_iteItemEditorWrp);
+  			
+  			$freshEditor.find("#datepicker").datepicker({ 
+					
+					dateFormat: 'dd.mm.yy',
+
+					buttonImage: "../img/icons/cal.png",
+					showOn: 'both', 
+					buttonImageOnly: true,
+
+					autoSize: true,
+					showAnim: "",
+					showButtonPanel: true
+					
+			});
+  			
+  			
   			$com1_item.focus();
-  			$com1_newItem.addClass("newItemActive");
+  			$com1_iteNewItemBtn.addClass("ite-newItemBtnActive");
   		} else {
-  			$com1_newItemForm.hide();
-  			$com1_newItem.removeClass("newItemActive");
+  			$com1_iteItemEditorWrp.hide();
+  			$com1_iteNewItemBtn.removeClass("ite-newItemBtnActive");
   		}
   		//console.log(e.target);
 		};
 
 
-  	$com1_newItem.click($com1_newItemClick);
-		//$com1_newItemForm.bind( "clickoutside", $com1_newItemClick);
+  	$com1_iteNewItemBtn.click(f_com1_iteNewItemBtnClick);
+		//$com1_iteItemEditorWrp.bind( "clickoutside", f_com1_iteNewItemBtnClick);
   	
   	$(".ui-state-default").hover(function(){
   		$(this).addClass("ui-state-hover");
@@ -119,10 +147,10 @@ jQuery(document).ready(function(){
 			}			
 		};
 		
-		$com1_newItemForm.bind( "clickoutside", nItFormClOutSide );
+		$com1_iteItemEditorWrp.bind( "clickoutside", nItFormClOutSide );
 		*/
 			
-		
+//???		
 			$com1_datePicker.datepicker({ 
 					
 					dateFormat: 'dd.mm.yy',
@@ -138,16 +166,13 @@ jQuery(document).ready(function(){
 			});
 	
 
-
-
     //item Ajax save;
 
-    
-    $com1_saveItemMain.click(function(){
+   
+    $com1_iteItemEditorWrp.delegate("#ite-saveItemMain","click",function(){
 			var dateFromInput = $com1_datePicker.val();
 			try{
 				var parsedDate = $.datepicker.parseDate('dd.mm.yy', dateFromInput );
-				//return true;
 			}
 			catch(e){
 				parsedDate = null;
@@ -163,7 +188,7 @@ jQuery(document).ready(function(){
    		//alert(tosend.getTime()+' '+(tosend.getMonth()+1)+' '+tosend.getFullYear()+' ');
    		
    		
-			var itemVal = $com1_item.val();
+			var itemVal = $("#item").val();
 			var itemTask = $com1_itemTypeControl.find("span:first").data("type");
 
 			var itemTags = new Array();
@@ -173,12 +198,20 @@ jQuery(document).ready(function(){
 				itemTags.push(thisTag.text()); 
 			});
 
+						var tagObj2 = new Object();
+						$.each(itemTags,function(i,v){
+							tagObj2[i] = {'name':v, 'Tagged':{'id':'000'} };	
+						});
+
+
+
 	    var itemObj = {
 	    								"data[item]": itemVal,
 	    								"data[prj]" : pObj.prjId,
 	    								"data[target]" : epoch,
 	    								"data[task]": itemTask,
-	    								"data[tags]": itemTags
+	    								"data[tags]": itemTags,
+	    								"data[mags]": tagObj2
 
 	    								//"data[hour]" : $com1_hourHour.val(),
 	    								//"data[min]" : $com1_minuteMin.val()
@@ -190,8 +223,6 @@ jQuery(document).ready(function(){
         dataType: "json",
         data: itemObj,
         success: function(data) {
-        	
-					userReg = 1;
 					
 					var itemTaskT = 'todo';
 					var itemTaskCl = 'itemType itT0';
@@ -216,7 +247,25 @@ jQuery(document).ready(function(){
 							itemTaskT = $com1_itemTypeControl.children("span:first").text();						
 						}	
 
-						$com1_itpItemTmpl.tmpl({itemId:itemId,dateFromInput:dateFromInput,itemTaskCl:itemTaskCl,itemTaskT:itemTaskT,itemVal:itemVal}).prependTo($com1_itpItemPages);
+						var tagObj = new Object();
+						$.each(itemTags,function(i,v){
+							tagObj[i] = {'name':v, 'Tagged':{'id':'000'} };	
+						});
+
+						var newItemObj = 
+								{
+									'Item':{
+												'id':itemId,
+												'target':dateFromInput,
+												'taskClass':itemTaskCl,
+												'taskText':itemTaskT,
+												'statusClass':'itS0',
+												'statusText':'open',
+												'item':itemVal
+												},
+									'Tag':tagObj
+								};
+						$com1_itpItemTmpl.tmpl(newItemObj).prependTo($com1_itpItemPages);
 
 						$com1_datePicker.val('No target');
 						$com1_item.val('').focus();
@@ -233,32 +282,16 @@ jQuery(document).ready(function(){
         }
       });
     }); 
- 
 
-
-
-	//more controls
-	$com1_saveItemMain.next().click(function(){
+	//cancel save item
+	$com1_iteItemEditorWrp.delegate( "#ite-cancelSaveItem","click",function(){
 		$com1_item.val('');
 		$com1_datePicker.val($com1_dataPickerTip);
-		$com1_newItemForm.hide();
+		$com1_iteItemEditorWrp.hide();
 	});
-	$("#timeToggle").click(function(){
-		$(this).next().toggle();		
-	}); 
-
-
 	
-/*
-//z-index for ie7
-$(function() {
-	var zIndexNumber = 1000;
-	$('div').each(function() {
-		$(this).css('zIndex', zIndexNumber);
-		zIndexNumber -= 10;
-	});
-});
-*/
+ 
+
 	
 
   
@@ -279,7 +312,7 @@ $(function() {
 			var $thisPar = $thisIt.parent();
 			var $thisItem = $thisIt.next();
 			
-			$com1_newItemForm.appendTo($thisIt).show();
+			$com1_iteItemEditorWrp.appendTo($thisIt).show();
 			$(".itp-item").removeClass("itp-itemToEdit");
 			$thisPar.addClass("itp-itemToEdit");
 			
@@ -328,7 +361,7 @@ $(function() {
 
 
 
-
+//to del. we now have common editor
 		$com1_itpItemPages.delegate(".itemEdit","click",function(){
 
 			var thisItEd = $(this);
@@ -346,7 +379,7 @@ $(function() {
 		});
 
 
-		
+//to del. we now have common editor		
 		$com1_itpItemPages.delegate(".itemDel","click",function(){		
 		
 				var parId = $(this).parents(".itp-item");
@@ -378,7 +411,7 @@ $(function() {
 			
 		});
 
-
+//to del. we now have common editor
 		$com1_itpItemPages.delegate(".itemSubmit","click",function(){
 					
 					var parIt = $(this).parents(".itp-item");
@@ -421,7 +454,7 @@ $(function() {
 		    	}
 		    	 
 		});
-
+//to del. we now have common editor
 		$com1_itpItemPages.delegate(".itemCan","click",function(){
 			var parId = $(this).parents("div.itemEditBlock");
 			parId.prev().show().end().hide();
@@ -475,6 +508,7 @@ $(function() {
 		$(this).removeClass("activeStatusItem");	
 	});
 
+//to replace with pop-up
 	$com1_itpItemPages.delegate(".statusItem","click",function(event){
 		//event.stopPropagation();
 
@@ -540,8 +574,8 @@ $(function() {
 		
 	}); 
  
-	//task of item change "crutilca"
 
+//to replace with pop-up
 	$com1_itpItemPages.delegate(".itemType","click",function(event){
 
 		var thisIt = $(this);
@@ -606,8 +640,10 @@ $(function() {
 		return false;
 		
 	});  
-//---------------------------------------------------------------------------------------- 
 
+
+
+//to del. we now have common editor
 	$com1_itpItemPages.delegate(".itp-targetItem","click",function(event){
 
 	  event.preventDefault();
@@ -690,13 +726,8 @@ $(function() {
     return false;
 		
 	});
-	$com1_itpItemPages.delegate(".datefield","click",function(event){
-		return false;
-	});
 
 	
-
-
 //-----------------------------------------------------------------------------------------
  
  	//switching task type on new item editor
@@ -704,10 +735,10 @@ $(function() {
 		var thisType = $(this);		
 		if( $com1_itemTypeList.is(":hidden") ) {
 			$com1_itemTypeList.show();
-			thisType.addClass("newItemActive");
+			thisType.addClass("ite-newItemBtnActive");
 		} else {
 			$com1_itemTypeList.hide();
-			thisType.removeClass("newItemActive");
+			thisType.removeClass("ite-newItemBtnActive");
 		}
 
 	});
@@ -724,9 +755,10 @@ $(function() {
 
 	
 	//editor only mode
-	$com1_iteTagIcon.click(function(){
+	$com1_iteItemEditorWrp.delegate( "#ite-tagIcon","click", function(){
 		$com1_tgcTagCloudWrp.toggle();
-		var tgcTagCloudIconPos = $com1_iteTagIcon.offset();	
+		var $thisIcon = $(this);
+		var tgcTagCloudIconPos = $thisIcon.offset();	
 		var contentWrapperPos = $com1_contentWrapper.offset();
 		var setTop = tgcTagCloudIconPos.top - contentWrapperPos.top + 32;		
 		var setLeft = tgcTagCloudIconPos.left - contentWrapperPos.left - 150;									
@@ -866,8 +898,8 @@ $(function() {
 	});
 
 
-	$com1_iteTagIcon.find("img").tipsy({gravity: 's',delayIn: 1000,offset: 5});
-	$com1_newItem.tipsy({gravity: 's',delayIn: 1000});
+	$com1_iteItemEditorWrp.find("#ite-tagIcon").find("img").tipsy({live: true,gravity: 'e',delayIn: 1000,offset: 5});
+	$com1_iteNewItemBtn.tipsy({gravity: 'e',delayIn: 1000});
  
  
 
@@ -877,35 +909,40 @@ $(function() {
 		function moveToEnd(target) {
 		  var rng, sel;
 		  if ( document.createRange ) {
-	
 		    rng = document.createRange();
-	
 		    rng.selectNodeContents(target);
-		    rng.collapse(false); // схлопываем в конечную точку
+		    rng.collapse(false); // СЃС…Р»РѕРїС‹РІР°РµРј РІ РєРѕРЅРµС‡РЅСѓСЋ С‚РѕС‡РєСѓ
 		    sel = window.getSelection();
 		    sel.removeAllRanges();
 		    sel.addRange( rng );
-		  } else { // для IE нужно использовать TextRange
+		  } else { // РґР»СЏ IE РЅСѓР¶РЅРѕ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ TextRange
 		    var rng = document.body.createTextRange();
 		    rng.moveToElementText( target );
-		    rng.collapseToEnd();
+		    rng.collapse(false);
 		    rng.select();
 		  }
+		  target.focus();
 		}
 
 
-
+		function initPage() {
+		 var elEd = document.getElementById('ll');
+		 elEd.contentEditable=true;
+		 elEd.focus();
+		} 
 
 	//tests. Don't forget to del.
+	var $ll = $("#ll");
  	$("#fucusEd").click(function(){
-		//alert(document.getElementById("ll"));
- 		//$("#editable").trigger("click").css({color:"red"});
- 		moveToEnd(document.getElementById("ll"));
-	});
-
- 	$("#editable").click(function(){
+ 		//similar:
+ 		//console.log( document.getElementById("ll") );
+ 		//console.log( $("#ll").get(0) );
  		
- 	});
- 
+ 		moveToEnd($ll.get(0));
+ 		//initPage();
+ 		//$ll.focus(); 		
+	});
+	
+
   
 });

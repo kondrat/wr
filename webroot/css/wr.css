@@ -164,43 +164,7 @@ span.actPrj a{
 #ui-datepicker-div thead th{
 	background:none;
 }
-.newItem {
-	-webkit-border-radius: 7px;
-	-moz-border-radius: 7px;
-	border-radius: 7px;
-	display:block;
-	border: 1px solid burlyWood;
-	
-	padding: 3px 10px;
-	text-align:center;
-	
-	font-size: 1.2em;
-	text-decoration:none;
-	font-weight: bold;
-	background-color: #97CD39;
-	color: gray;
-	text-shadow:-1px 1px 0 #eee;
-	background:transparent url(../img/pic/reg.png) repeat-x scroll 0 0;
-	width: 85px;
-	outline:medium none;
-}
-.newItem span{
-	font-size:small;
-	vertical-align:top;
-	margin-left:0.5em;
-	font-weight:normal;
-}
-a.newItem:hover {
-	color: gray;
-	text-shadow:-1px 1px 0 #fff;
-	background-position: 0 -5px;
-}
-a.newItem:focus {
-	color: gray;
-}
-.newItemActive span.upDownArr{
-	background-position:100% 4px;
-}
+
 
 
 
@@ -346,15 +310,7 @@ position:relative;
 	background-color:#ddd;
 }
 
-.newItemForm{
-  background:url("../img/pic/form_bg.png") repeat-x scroll 0 bottom transparent;
-  border:5px solid burlyWood;
-	-moz-border-radius:10px;
-	z-index:1000;
-	margin-bottom:0.5em;
-	padding:0 10px;
-	float:left;
-}
+
 #item {
 	padding:5px;
 	width:630px;

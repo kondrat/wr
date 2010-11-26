@@ -38,6 +38,8 @@ function flash_message(message, classs ) {
 })(jQuery);
 
 
+
+
 //forms functions
 $.fn.passStrengthCheck = function(strDiv,optionsObj){
 		

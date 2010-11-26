@@ -328,20 +328,23 @@ class ItemsController extends AppController {
 		}
 		
 		
-		$this->paginate['conditions'] = $pagItemCond;
-		$pagItemOrder = array('Item.created' => 'DESC');
-		$this->paginate['order'] = $pagItemOrder;
+		$this->paginate['conditions'] = $pagItemCond; 
+		$this->paginate['order'] = array('Item.created' => 'DESC');
 		$this->paginate['limit'] = 12;
 		$this->paginate['contain'] = array(
 																				
-																				'Tag'=>array( 'fields'=>array('Tag.id','Tag.name','Tag.identifier'), 
+																				'Tag'=>array( 'fields'=>array('Tag.name'), 
 																											'order'=>array('Tagged.created'=>'ASC'),
 																											'conditions'=>array('Tag.identifier'=> 'prj-'.$curPrjId)
-																											)	
-																				
+																											)																				
 																			);
 		
 		$this->set('todos',$this->paginate('Item') );
+		
+
+		
+		//to delete later.just to watch output
+		//$this->set('parms', $this->params['paging']);
 
 		if( $this->RequestHandler->isAjax() && isset($this->params['named']['page'])  ) {
 			Configure::write('debug', 0);
