@@ -312,7 +312,23 @@ jQuery(document).ready(function(){
 			var $thisPar = $thisIt.parent();
 			var $thisItem = $thisIt.next();
 			
-			$com1_iteItemEditorWrp.appendTo($thisIt).show();
+			$com1_iteItemEditorWrp.empty().appendTo($thisIt).show();
+			var $freshEditor = $com1_iteItemEditorTmpl.tmpl().appendTo($com1_iteItemEditorWrp);
+  			
+  			$freshEditor.find("#datepicker").datepicker({ 
+					
+					dateFormat: 'dd.mm.yy',
+
+					buttonImage: "../img/icons/cal.png",
+					showOn: 'both', 
+					buttonImageOnly: true,
+
+					autoSize: true,
+					showAnim: "",
+					showButtonPanel: true
+					
+			});
+			
 			$(".itp-item").removeClass("itp-itemToEdit");
 			$thisPar.addClass("itp-itemToEdit");
 			
