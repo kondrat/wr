@@ -330,23 +330,32 @@ $com1_itpItemPages.delegate(".itp-itemHead","click",function(){
   var $thisItem = $thisIt.next();
 
   var $itemTags = $thisIt.find(".itp-itemTag");
-  var itemTagsObj = new Array;
-  //itemTagsObj = {};
+  var itemTagObj = new Object;
+
   $itemTags.each(function(index){
-    itemTagsObj.push({
-                                  name:$(this).text(),
-                                  Tagged:{
-                                    id:$(this).data("itemtagid")
-                                  }
-                                }
-                                );
+
+//    itemTagsObj.push({
+//                                  name:$(this).text(),
+//                                  Tagged:{
+//                                    id:$(this).data("itemtagid")
+//                                  }
+//                                }
+//                                );
+//    itemTagObj[index] = {name:$(this).text(),data:"dat"};
   });
-  console.log(itemTagsObj);
+
+  var itemObj = new Object;
+  itemObj = {test:"test",Tag:[{name:"nameOne",taggedid:"000"},{name:"nameTwo",taggedid:"111"}]};
+  console.log(itemObj);
+
+   //itemTagsObj = { name: "Meet Joe Black", tag: [{name:"English"},{name:"French"}] };
+
+   //console.log(itemTagsObj);
 
   //moving editor to the line we need
   $com1_iteItemEditorWrp.empty().insertAfter($thisIt).show();
   //feeding editor with the data we taken from current item, then rendering it.
-  var $freshEditor = $com1_iteItemEditorTmpl.tmpl(itemTagsObj).appendTo($com1_iteItemEditorWrp);
+  var $freshEditor = $com1_iteItemEditorTmpl.tmpl(itemObj).appendTo($com1_iteItemEditorWrp);
   //appending new datepicer to just rendered item editor.
   $freshEditor.find("#datepicker").datepicker({					
     dateFormat: 'dd.mm.yy',

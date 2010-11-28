@@ -36,7 +36,7 @@
 
 				
 				<span id="ite-tagsAdded">
-                  {{tmpl "#ite-tagsAddedTmpl"}}
+                  {{tmpl(Tag) "#ite-tagsAddedTmpl"}}
                 </span>
 			</div>
 
@@ -62,8 +62,8 @@
 	
 </script>
 
-<script id="ite-tagsAddedTmpl" type="text/x-jquery-tmpl"> 
-	<span class="ite-tagAdded">${name}</span>
+<script id="ite-tagsAddedTmpl" type="text/x-jquery-tmpl">
+	<span class="ite-tagAdded" data-itemtagid="${taggedid}">${name}</span>
 </script>
 
 <div id="ite-itemEditorWrp" class="hide"></div>
