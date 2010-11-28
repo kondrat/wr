@@ -4,15 +4,11 @@
  */
 .itp-item{
 	border-bottom:1px dashed #CCCCCC;
-	border-top:1px solid #fff;
-	border-left:1px solid #fff;
-	border-right:1px solid #fff;
-	
 } 
 .itp-activeItem{
 	border-color:gray;
 	background-color:Linen;
-	border:1px solid #ccc;
+	/*border:1px solid #ccc;*/
 }
 .itp-itemsWrp{
 	position:relative;
@@ -46,15 +42,20 @@
 
 .itp-itemToEdit{
 	background-color:#fffff0;
-	border-color:gray;
+	/*border-color:gray;*/
 }
-.itp-itemHeadLine{
+.itp-itemHead{
 	color:black;
 	float:left;
 	padding-top:5px;
 	position:relative;
 	width:100%;
 }
-.itp-itemToEdit .itp-itemHeadLine {
+.itp-itemToEdit .itp-itemHead {
 	background-color:wheat;
+}
+.itp-itemHeadActive{
+  /*background-color: #C6D880;*/
+  border:1px solid #AAAAAA;
+  margin-bottom: 5px;
 }

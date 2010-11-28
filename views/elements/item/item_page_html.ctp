@@ -58,7 +58,7 @@
 		  						
 		  <div id="item_<?php echo $todo["Item"]["id"];?>" class="itp-item span-17 <?php echo $statusClass;?>">
 
-				<div class="itp-itemHeadLine">				
+				<div class="itp-itemHead">
 					  			    	
 				    	<div class="textItem">			    		
 								<span class="itemType <?php echo $taskClass;?>"><?php echo $taskText;?></span>
