@@ -1,10 +1,9 @@
-
 <?php if (isset($todos) && $todos !== array()): ?>
 
   <div class="itp-itemPagenator">
   <?php
   $this->Paginator->options(array(
-      'update' => '#itp-itemPages'
+//      'update' => '#itp-itemPages'
   ));
   echo $this->Paginator->prev('«Prev', null, null, array('class' => 'disabled.')) . '&nbsp;';
   echo $this->Paginator->numbers(array('separator' => '&nbsp;', 'modulus' => 8)) . '&nbsp;';
