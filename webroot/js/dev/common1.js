@@ -82,19 +82,23 @@ jQuery(document).ready(function(){
 
   //New item controll
   var f_com1_iteNewItemBtnClick = function(e){
+    
     var thisClBut = $(this);
 			
     if(e) e.stopPropagation();
     if(e) e.preventDefault();
+//	to del			
+    $com1_itpItemPages.find(".itp-item").removeClass("itp-itemToEdit");
+    
+    $com1_itpItemPages.find(".itp-itemHead").show().removeClass("itp-itemHeadActive");
 				
-    $(".itp-item").removeClass("itp-itemToEdit");
-				
-    if( $com1_iteItemEditorWrp.is(":hidden") ) {
-      $com1_iteItemEditorWrp.show();
+//    if( $com1_iteItemEditorWrp.is(":hidden") ) {
+//      $com1_iteItemEditorWrp.show();
   			
       $com1_iteItemEditorWrp.empty().insertAfter($com1_iteNewItemBtnWrp);
-  			
-      var $freshEditor = $com1_iteItemEditorTmpl.tmpl().appendTo($com1_iteItemEditorWrp);
+      
+      var itemObj = {test:"test",Tag:{}};
+      var $freshEditor = $com1_iteItemEditorTmpl.tmpl(itemObj).appendTo($com1_iteItemEditorWrp);
   			
       $freshEditor.find("#datepicker").datepicker({
 					
@@ -113,10 +117,11 @@ jQuery(document).ready(function(){
   			
       $com1_item.focus();
       $com1_iteNewItemBtn.addClass("ite-newItemBtnActive");
-    } else {
-      $com1_iteItemEditorWrp.hide();
-      $com1_iteNewItemBtn.removeClass("ite-newItemBtnActive");
-    }
+      
+//    } else {
+//      $com1_iteItemEditorWrp.hide();
+//      $com1_iteNewItemBtn.removeClass("ite-newItemBtnActive");
+//    }
   //console.log(e.target);
   };
 
