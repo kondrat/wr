@@ -70,8 +70,6 @@ echo $html->scriptBlock('var itT = ' . $aObj . ';var itS = ' . $bObj . ';', arra
 
 <div id="itp-itemPages" class="itp-itemsWrp span-17">	
   <?php //echo $this->element('item/item_page'); ?>
-  
-  <ul id="itp-paginatorTest"></ul>
 </div>
    
 

@@ -343,12 +343,15 @@ $com1_itpItemPages.delegate(".itp-itemHead","click",function(){
 //    itemTagObj[index] = {name:$(this).text(),data:"dat"+index};
   });
 
+
+
+
   var itemObj = new Object;
   
   
   //itemObj = {test:"test",Tag:[{name:"nameOne",taggedid:"000"},{name:"nameTwo",taggedid:"111"}]};
   itemObj = {test:"test",Tag:itemTagObj};
-  console.log(itemObj);
+//  console.log(itemObj);
 
    //itemTagsObj = { name: "Meet Joe Black", tag: [{name:"English"},{name:"French"}] };
 
@@ -372,8 +375,8 @@ $com1_itpItemPages.delegate(".itp-itemHead","click",function(){
   
   $(".itp-item").removeClass("itp-itemToEdit");
   //to del later
-  $(".itp-itemHead").removeClass("itp-itemHeadActive");
-  $thisIt.addClass("itp-itemHeadActive");
+  $(".itp-itemHead").removeClass("itp-itemHeadActive").show();
+  $thisIt.addClass("itp-itemHeadActive").hide();
   $thisPar.addClass("itp-itemToEdit");
 			
 /*
@@ -1018,11 +1021,12 @@ $com1_iteNewItemBtn.tipsy({
 
 
 //new item paginator test   
-    $("#itp-paginatorTest").universalPaginate({
+    $com1_itpItemPages.universalPaginate({
         itemTemplate: $('#itp-itemTmpl'),
         nbItemsByPage: 12,
         nbItemsByPageOptions: [6, 12, 18, 24, 30, 60, 100],
-        dataUrl: path+"/items/todo"
+        dataUrl: path+"/items/todo",
+        controlsPosition:"bottom"
     });
 
 

@@ -6,7 +6,7 @@ class ItemsController extends AppController {
 
     var $name = 'Items';
     var $publicActions = array('saveItem', 'status', 'delItem');
-    var $helpers = array('Time', 'Timenomin', 'Text', 'Tags.TagCloud');
+    var $helpers = array( 'Text', 'Tags.TagCloud');
 
 //--------------------------------------------------------------------
 //--------------------------------------------------------------------	
@@ -249,17 +249,16 @@ class ItemsController extends AppController {
 
 //--------------------------------------------------------------------
     function todo() {
-        
+
         $todos = array();
         $authUserId = $this->Auth->user('id');
         $pagItemCond = array();
         $curPrj = array();
         $curPrjId = null;
 
-        $itemTasks = Configure::read('itemTasks');
-        $this->set('itemTasks', $itemTasks);
+        $itemTasks = Configure::read('itemTasks');       
         $itemStatuses = Configure::read('itemStatuses');
-        $this->set('itemStatuses', $itemStatuses);
+        
 
 
 
@@ -313,36 +312,81 @@ class ItemsController extends AppController {
             )
         );
 
-        
-//        $this->set('todos', $itemsToPaginate);
+
+  
+
+        if ($this->RequestHandler->isAjax() && isset($this->params['url']['startIndex']) && isset($this->params['url']['nbItemsByPage'])) {
 
 
 
-        //to delete later.just to watch output
-        //$this->set('parms', $this->params['paging']);
-        if ( $this->RequestHandler->isAjax() && isset($this->params['url']['startIndex']) && isset($this->params['url']['nbItemsByPage']) ) {
-            
-            
-            
 //            $this->params["paging"]["Item"]["options"]["page"] = $this->params['url']['startIndex']/$this->params['url']['nbItemsByPage'] + 1;
 //            $this->params["named"]["page"] = 3;
-            $this->paginate['limit'] = $this->params['url']['nbItemsByPage'];      
-            $this->paginate['page'] = $this->params['url']['startIndex']/$this->params['url']['nbItemsByPage'] + 1;
-                    
+            $this->paginate['limit'] = $this->params['url']['nbItemsByPage'];
+            $this->paginate['page'] = $this->params['url']['startIndex'] / $this->params['url']['nbItemsByPage'] + 1;
+
             Configure::write('debug', 0);
             $this->autoLayout = false;
             $this->autoRender = FALSE;
-            
-            $contents["data"] = $this->paginate('Item');
-            $contents["nbTotalItems"] = $this->params["paging"]["Item"]["count"];
-            
+      $todos = $this->paginate('Item');
+        //importing helpers to prepare date in goode format
+        App::import('Helper', 'Time');
+        App::import('Helper', 'Timenomin');
+        $Timenomin = new TimenominHelper();
+        
+        foreach ($todos as $k => $todo) {
 
-            
-            
+            //$todos[$k]['Item']['nust'] = 'cor';
+
+            $statusClass = "itS0";
+            $statusText = "opend";
+            if ($itemStatuses) {
+                foreach ($itemStatuses as $v) {
+                    if ($todo['Item']['status'] == $v['n']) {
+                        $statusClass = "itS" . $v['n'];
+                        $statusText = $v['t'];
+                    }
+                }
+
+                unset($todos[$k]['Item']['status']);
+
+                $todos[$k]['Item']['statusClass'] = $statusClass;
+                $todos[$k]['Item']['statusText'] = $statusText;
+            }
+
+            $taskClass = "itT0";
+            $taskText = "todo";
+            if ($itemTasks) {
+                foreach ($itemTasks as $v) {
+                    if ($todo['Item']['task'] == $v['n']) {
+                        $taskClass = "itT" . $v['n'];
+                        $taskText = $v['t'];
+                    }
+                }
+                unset($todos[$k]['Item']['task']);
+                $todos[$k]['Item']['taskClass'] = $taskClass;
+                $todos[$k]['Item']['taskText'] = $taskText;
+            }
+
+            $formatedDate = ''; //__('No target',true);
+            if (!empty($todo["Item"]["target"])) {
+                $date = new DateTime($todo["Item"]["target"]);
+                $formatedDate = $date->format('d.m.Y');
+            }
+            $todos[$k]['Item']['target'] = $formatedDate;
+
+            if (!empty($todo["Item"]["created"])) {
+                $todos[$k]["Item"]["created"] = $Timenomin->timeAgoInWords($todo["Item"]["created"]);
+            }
+        }
+            $contents["data"] = $todos;
+            $contents["nbTotalItems"] = $this->params["paging"]["Item"]["count"];
+
+
+
+
             $contents = json_encode($contents);
             $this->header('Content-Type: application/json');
-            return ($contents);           
-
+            return ($contents);
         }
 //        
 //        if ($this->RequestHandler->isAjax() && isset($this->params['named']['page'])) {
@@ -355,7 +399,8 @@ class ItemsController extends AppController {
 //
 //            return;
 //        }
-
+        $this->set('itemTasks', $itemTasks);
+        $this->set('itemStatuses', $itemStatuses);
         $this->set('todos', $this->paginate('Item'));
         $this->set('menuType', 'todo');
         $this->set('curPrj', $curPrj);

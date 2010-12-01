@@ -1,82 +1,85 @@
 /*
  * ite- Item editor css
  *
- */
+*/
 .ite-itemEditor{
-  background:url("../img/pic/form_bg.png") repeat-x scroll 0 bottom transparent;
-  border:5px solid burlyWood;
-	-moz-border-radius:10px;
-	z-index:1000;
-	margin-bottom:0.5em;
-	padding:0 10px;
-	float:left;
+    background:url("../img/pic/form_bg.png") repeat-x scroll 0 bottom transparent;
+    border:5px solid burlyWood;
+    z-index:1000;
+    margin:0.5em 0;
+    padding:0 10px;
+    float:left;
+    
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
 }
 
 #ite-newItemBtnWrp{
-	float:left;
-	width:710px;
-	margin-bottom:10px;
+    float:left;
+    width:710px;
+    margin-bottom:10px;
 }
- 
+
 .ite-newItemBtn {
-	display:block;
-	border: 1px solid burlyWood;
-	
-	padding: 3px 10px;
-	text-align:center;
-	
-	font-size: 1.2em;
-	text-decoration:none;
-	font-weight: bold;
-	background-color: #97CD39;
-	color: gray;
-	text-shadow:-1px 1px 0 #eee;
-	background:transparent url(../img/pic/reg.png) repeat-x scroll 0 0;
-	width: 85px;
-	outline:medium none;
-	
-	-webkit-border-radius: 7px;
-	-moz-border-radius: 7px;
-	border-radius: 7px;
+    display:block;
+    border: 1px solid burlyWood;
+
+    padding: 3px 10px;
+    text-align:center;
+
+    font-size: 1.2em;
+    text-decoration:none;
+    font-weight: bold;
+    background-color: #97CD39;
+    color: gray;
+    text-shadow:-1px 1px 0 #eee;
+    background:transparent url(../img/pic/reg.png) repeat-x scroll 0 0;
+    width: 85px;
+    outline:medium none;
+
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
 }
 .ite-newItemBtn span{
-	font-size:small;
-	vertical-align:top;
-	margin-left:0.5em;
-	font-weight:normal;
+    font-size:small;
+    vertical-align:top;
+    margin-left:0.5em;
+    font-weight:normal;
 }
 a.ite-newItemBtn:hover {
-	color: gray;
-	text-shadow:-1px 1px 0 #fff;
-	background-position: 0 -5px;
+    color: gray;
+    text-shadow:-1px 1px 0 #fff;
+    background-position: 0 -5px;
 }
 a.ite-newItemBtn:focus {
-	color: gray;
+    color: gray;
 }
 .ite-newItemBtnActive span.upDownArr{
-	background-position:100% 4px;
+    background-position:100% 4px;
 }
 
 .ite-tagsAddedWrp{
-	/*background:url("../img/icons/tag_deb887_16x16.png") no-repeat scroll 0 10px transparent;*/
-	float:left;
-	margin-left:10px;
+    /*background:url("../img/icons/tag_deb887_16x16.png") no-repeat scroll 0 10px transparent;*/
+    float:left;
+    margin-left:10px;
 }
 #ite-tagIcon{
-	float:left;
-	padding:10px 3px 0 0;
+    float:left;
+    padding:10px 3px 0 0;
 }
 #ite-tagsAdded{
-	float:left;
-	padding-top:10px;
+    float:left;
+    padding-top:10px;
 }
 .ite-tagAdded{
-	background:url("../img/icons/remove_tag.png") no-repeat scroll 100% -40px #CCCCCC;
-	color:blue;
-	margin-left:0.5em;
-	padding:1px 16px 1px 3px;
+    background:url("../img/icons/remove_tag.png") no-repeat scroll 100% -40px #CCCCCC;
+    color:blue;
+    margin-left:0.5em;
+    padding:1px 16px 1px 3px;
 }
 .ite-tagAdded:hover{
-	/*background-position: 100% -58px;*/
-	background-position: 100% -19px;
+    /*background-position: 100% -58px;*/
+    background-position: 100% -19px;
 }
