@@ -125,7 +125,7 @@ jQuery(document).ready(function(){
         var $thisEditorSaveParent = $thisEditorSave.parents(".ite-itemEditor");
         
         var dateFromInput = $thisEditorSaveParent.find(".datepicker").val();
-        var $thisTagsAdded = $thisEditorSaveParent.find("ite-tagsAdded");
+        var $thisTagsAdded = $thisEditorSaveParent.find(".ite-tagsAdded");
     
         var epoch = '';
         try{
