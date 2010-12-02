@@ -23,19 +23,15 @@ jQuery(document).ready(function(){
   var $com1_datePicker = $("#datepicker");
 			
   var $com1_dataPickerTip = '';
-  var $com1_itemTypeControl = $("#itemTypeControl");
-  var $com1_itemTypeList = $("#itemTypeList");
-  var $com1_itT = '';
-  var $com1_itS = '';
-  var $com1_itTLenght = 0;
-  var $com1_itSLenght = 0;
+  
+ 
 			
   //tags
 			
   //tags in editor
 
   var $com1_iteTagsAddedTmpl = $("#ite-tagsAddedTmpl");
-  var $com1_iteTagsAdded = $("#ite-tagsAdded");
+  
   var $curItemTagList = '';
   //May be page item?
   var $com1_iteItemViewTmpl = $("#ite-itemViewTmpl");
@@ -48,275 +44,252 @@ jQuery(document).ready(function(){
   var $com1_tgcTagsCloudAddTmpl = $("#tgc-tagsCloudAddTmpl");
   var $com1_tgcTagsAdd = $("#tgc-tagsAdd");
 
-
+//@todo check if we need this. target day comes from global vars for i10z. comes from item_editor.ctp
   if( typeof(targetDay) !== "undefined") $com1_dataPickerTip = targetDay;
 		
-  //getting item Task from view file.
-  if( typeof(itT) !== "undefined"){
-    $com1_itT = itT;
-    $com1_itTLenght = itT.length;
-  }
-  //getting item Status from view file.
-  if( typeof(itS) !== "undefined"){
-    $com1_itS = itS;
-    $com1_itSLenght = itS.length;
-  }
-		
-  //flash alert message
-  if($com1_alertMessage.length) {
-    var alerttimer = window.setTimeout(function () {
-      $com1_alertMessage.trigger('click');
-    }, 4500);
-    $com1_alertMessage.animate({
-      height: [$com1_alertMessage.css("line-height") || '52', 'swing']
-      }, 400).click(function () {
-      window.clearTimeout(alerttimer);
-      $com1_alertMessage.animate({
-        height: '0'
-      }, 400);
-      $com1_alertMessage.css({
-        'border':'none'
-      });
-    });
-  }
+//  getting item Types from view file.
+    var $com1_itT = '';
+    var $com1_itTLenght = 0;
+    if( typeof(itT) !== "undefined" && itT != null){
+        $com1_itT = itT;
+        $com1_itTLenght = itT.length;
+    }
+//  getting item Status from view file.
+    var $com1_itS = '';
+    var $com1_itSLenght = 0;
+    if( typeof(itS) !== "undefined" && itS != null){
+        $com1_itS = itS;
+        $com1_itSLenght = itS.length;
+    }
+	
 
-  //New item controll
-  var f_com1_iteNewItemBtnClick = function(e){
-    
-    var thisClBut = $(this);
-			
-    if(e) e.stopPropagation();
-    if(e) e.preventDefault();
-//	to del			
-    $com1_itpItemPages.find(".itp-item").removeClass("itp-itemToEdit");
-    
-    $com1_itpItemPages.find(".itp-itemHead").show().removeClass("itp-itemHeadActive");
-				
-//    if( $com1_iteItemEditorWrp.is(":hidden") ) {
-//      $com1_iteItemEditorWrp.show();
-  			
-      $com1_iteItemEditorWrp.empty().insertAfter($com1_iteNewItemBtnWrp);
-      
-      var itemObj = {test:"test",Tag:{}};
-      var $freshEditor = $com1_iteItemEditorTmpl.tmpl(itemObj).appendTo($com1_iteItemEditorWrp);
-  			
-      $freshEditor.find("#datepicker").datepicker({
-					
+
+//   new item editor initial randering
+    var f_com1_itemEditor = function(){
+        var itemObj = {
+            test:"test",
+            datepicker:"ite-newItemDp",
+            Tag:[]
+    };
+    var $freshEditor = $com1_iteItemEditorTmpl.tmpl(itemObj).appendTo($com1_iteItemEditorWrp);
+//    	appling ui datepicker to the new generated editor		
+    $freshEditor.find("#ite-newItemDp").datepicker({					
         dateFormat: 'dd.mm.yy',
-
         buttonImage: "../img/icons/cal.png",
         showOn: 'both',
         buttonImageOnly: true,
-
         autoSize: true,
         showAnim: "",
-        showButtonPanel: true
-					
-      });
-  			
-  			
-      $com1_item.focus();
-      $com1_iteNewItemBtn.addClass("ite-newItemBtnActive");
+        showButtonPanel: true					
+    });
+}();
+
+    var f_com1_itemEditorHide = function(){
+        $com1_iteItemEditorWrp.hide();
+        $com1_iteNewItemBtn.removeClass("ite-newItemBtnActive");      
+    }
+
+// New item controll
+    var f_com1_iteNewItemBtnClick = function(e){
+    
+        var thisClBut = $(this);
+			
+//        if(e) e.stopPropagation();
+//        if(e) e.preventDefault();
+   		
+        
+        $com1_itpItemPages.find(".itp-itemHead").show().removeClass("itp-itemHeadActive").next().remove();
+    
+				
+        if( $com1_iteItemEditorWrp.is(":hidden") ) {
+            $com1_iteItemEditorWrp.show();
+            //      @todo to change
+            $com1_item.focus();
+            $com1_iteNewItemBtn.addClass("ite-newItemBtnActive");
       
-//    } else {
-//      $com1_iteItemEditorWrp.hide();
-//      $com1_iteNewItemBtn.removeClass("ite-newItemBtnActive");
-//    }
-  //console.log(e.target);
-  };
-
-
-  $com1_iteNewItemBtn.click(f_com1_iteNewItemBtnClick);
-  //$com1_iteItemEditorWrp.bind( "clickoutside", f_com1_iteNewItemBtnClick);
-  	
-  $(".ui-state-default").hover(function(){
-    $(this).addClass("ui-state-hover");
-  },function(){
-    $(this).removeClass("ui-state-hover");
-  });
-  /*
-		//click outside canceled
-		var nItFormClOutSide = function(event){	
-		
-			target = $(event.target);			
-			var idTarg = target.attr('id');			
-			var qlog = $com1_quickLogin;
-
-			if ( qlog[0] !== undefined && $.contains(qlog[0], event.target) ) {	
-				return;
-			}
-			
-			if (  $.contains( $("#ui-datepicker-div")[0], event.target) ) {	
-				return;
-			}
-			
-			
-			//exclude some id
-			var arr = [ "overlay","headWrap" ]; 
-			if( $.inArray( idTarg, arr) === -1   ) {
-				$(this).hide();
-			}			
-		};
-		
-		$com1_iteItemEditorWrp.bind( "clickoutside", nItFormClOutSide );
-		*/
-			
-  //???
-  $com1_datePicker.datepicker({
-					
-    dateFormat: 'dd.mm.yy',
-
-    buttonImage: "../img/icons/cal.png",
-    showOn: 'both',
-    buttonImageOnly: true,
-
-    autoSize: true,
-    showAnim: "",
-    showButtonPanel: true
-					
-  });
-	
-
-  //item Ajax save;
-
-   
-  $com1_iteItemEditorWrp.delegate("#ite-saveItemMain","click",function(){
-    var dateFromInput = $com1_datePicker.val();
-    var epoch = '';
-    try{
-      var parsedDate = $.datepicker.parseDate('dd.mm.yy', dateFromInput );
-    }
-    catch(e){
-      parsedDate = null;
-    }
-			
-    if(parsedDate) {
-      var tosend = new Date(parsedDate);
-      epoch =  parseInt(tosend.getTime()/1000);
-    } else {
-   			
-      dateFromInput = '';
-    }
-    //alert(tosend.getTime()+' '+(tosend.getMonth()+1)+' '+tosend.getFullYear()+' ');
-   		
-   		
-    var itemVal = $("#item").val();
-    var itemTask = $com1_itemTypeControl.find("span:first").data("type");
-
-    var itemTags = new Array();
-
-    $com1_iteTagsAdded.children().each(function(){
-      var thisTag = $(this);
-      itemTags.push(thisTag.text());
-    });
-
-    var tagObj2 = new Object();
-    $.each(itemTags,function(i,v){
-      tagObj2[i] = {
-        'name':v,
-        'Tagged':{
-          'id':'000'
-        }
-      };
-    });
-
-
-
-  var itemObj = {
-    "data[item]": itemVal,
-    "data[prj]" : pObj.prjId,
-    "data[target]" : epoch,
-    "data[task]": itemTask,
-    "data[tags]": itemTags,
-    "data[mags]": tagObj2
-
-  //"data[hour]" : $com1_hourHour.val(),
-  //"data[min]" : $com1_minuteMin.val()
-  };
-    				
-  $.ajax({
-    type: "POST",
-    url: path+"/items/saveItem",
-    dataType: "json",
-    data: itemObj,
-    success: function(data) {
-					
-      var itemTaskT = 'todo';
-      var itemTaskCl = 'itemType itT0';
-      var itemId = 0;
-
-					
-      if ( data.stat === 1 ) {
-
-        if( $com1_itT !== '') {
-          $.each($com1_itT, function(i,v){
-            if( v.n == data.task ) {
-
-              itemTaskT = v.t;
-              itemTaskCl = 'itemType itT'+v.n;
-              itemId = data.id;
-
-              return;
-            }
-          });
         } else {
-          itemTaskCl = $com1_itemTypeControl.children("span:first").attr("class");
-          itemTaskT = $com1_itemTypeControl.children("span:first").text();
+            f_com1_itemEditorHide();
         }
+ 
+    };
 
-        var tagObj = new Object();
-        $.each(itemTags,function(i,v){
-          tagObj[i] = {
-            'name':v,
-            'Tagged':{
-              'id':'000'
-            }
-          };
+//    new item editor visability control
+    $com1_iteNewItemBtn.click(f_com1_iteNewItemBtnClick);
+
+
+//    new item save
+   
+    $com1_iteItemEditorWrp.delegate(".ite-saveItemMain","click",function(){
+      
+        var $thisEditorSave = $(this);
+        var $thisEditorSaveParent = $thisEditorSave.parents(".ite-itemEditor");
+        
+        var dateFromInput = $thisEditorSaveParent.find(".datepicker").val();
+        var $thisTagsAdded = $thisEditorSaveParent.find("ite-tagsAdded");
+    
+        var epoch = '';
+        try{
+            var parsedDate = $.datepicker.parseDate('dd.mm.yy', dateFromInput );
+        }
+        catch(e){
+            parsedDate = null;
+        }
+			
+        if(parsedDate) {
+            var tosend = new Date(parsedDate);
+            epoch =  parseInt(tosend.getTime()/1000);
+        } else {  			
+            dateFromInput = '';
+        }
+    
+   		
+   		
+        var itemVal = $thisEditorSaveParent.find(".ite-newItemText").val();
+        
+        var itemTask = $thisEditorSaveParent.find(".ite-itemTypeCtrl").find("span:first").data("type");
+
+//        tags creation
+        var itemTags = new Array();
+
+        $thisTagsAdded.children().each(function(){
+            var thisTag = $(this);
+            itemTags.push(thisTag.text());
         });
 
-      var newItemObj =
-      {
-        'Item':{
-          'id':itemId,
-          'target':dateFromInput,
-          'taskClass':itemTaskCl,
-          'taskText':itemTaskT,
-          'statusClass':'itS0',
-          'statusText':'open',
-          'item':itemVal
-        },
-        'Tag':tagObj
-      };
-      $com1_itpItemTmpl.tmpl(newItemObj).prependTo($com1_itpItemPages);
+        var tagObj2 = new Object();
+        $.each(itemTags,function(i,v){
+            tagObj2[i] = {
+                'name':v,
+                'Tagged':{
+                    'id':'000'
+                }
+            };
+        });
 
-      $com1_datePicker.val('No target');
-      $com1_item.val('').focus();
-    //flash_message('saved','flok');
+
+
+        var itemObj = {
+            "data[item]": itemVal,
+            "data[prj]" : pObj.prjId,
+            "data[target]" : epoch,
+            "data[task]": itemTask,
+            "data[tags]": itemTags,
+            "data[mags]": tagObj2
+        };
+    	console.log(itemObj);			
+        $.ajax({
+            type: "POST",
+            url: path+"/items/saveItem",
+            dataType: "json",
+            data: itemObj,
+            success: function(data) {
+					
+                var itemTaskT = 'todo';
+                var itemTaskCl = 'itemType itT0';
+                var itemId = 0;
+
+					
+                if ( data.stat === 1 ) {
+
+                    if( $com1_itT !== '') {
+                        $.each($com1_itT, function(i,v){
+                            if( v.n == data.task ) {
+
+                                itemTaskT = v.t;
+                                itemTaskCl = 'itemType itT'+v.n;
+                                itemId = data.id;
+
+                                return;
+                            }
+                        });
+                    } else {
+//                        @todo iteItemTypeList now live
+                        itemTaskCl = $com1_iteItemTypeList.children("span:first").attr("class");
+                        itemTaskT = $com1_iteItemTypeList.children("span:first").text();
+                    }
+
+                    var tagObj = new Object();
+                    $.each(itemTags,function(i,v){
+                        tagObj[i] = {
+                            'name':v,
+                            'Tagged':{
+                                'id':'000'
+                            }
+                        };
+                    });
+
+                    var newItemObj =
+                    {
+                        'Item':{
+                            'id':itemId,
+                            'target':dateFromInput,
+                            'typeClass':itemTaskCl,
+                            'typeText':itemTaskT,
+                            'statusClass':'itS0',
+                            'statusText':'open',
+                            'item':itemVal,
+                            'created':data.jn
+                        },
+                        'Tag':tagObj
+                    };
+                    $com1_itpItemTmpl.tmpl(newItemObj).prependTo($com1_itpItemPages);
+
+//                        @todo correct this. 
+//                    $com1_datePicker.val('No target');
+//                    $com1_item.val('').focus();
+                
           	
-    } else {
-      flash_message('not saved','fler');
-    }
+                } else {
+                    flash_message('not saved','fler');
+                }
           
           
-  },
-  error: function(){
-    alert('Problem with the server. Try again later.');
-  }
-  });
-}); 
+            },
+            error: function(){
+                alert('Problem with the server. Try again later.');
+            }
+        });
+    }); 
 
-//cancel save item
-$com1_iteItemEditorWrp.delegate( "#ite-cancelSaveItem","click",function(){
-  $com1_item.val('');
-  $com1_datePicker.val($com1_dataPickerTip);
-  $com1_iteItemEditorWrp.hide();
-});
+// cancel save item
+    $com1_iteItemEditorWrp.delegate( "#ite-cancelSaveItem","click",function(){
+        $com1_item.val('');
+        $com1_datePicker.val($com1_dataPickerTip);
+        $com1_iteItemEditorWrp.hide();
+    });
+
+
+// switching task type on new item editor
+    $com1_iteItemEditorWrp.delegate(".ite-itemTypeCtrl","click",function(){
+        var $thisTypeCtrl = $(this);
+        var $thisTypeList = $thisTypeCtrl.find(".ite-itemTypeList");
+        if( $thisTypeList.is(":hidden") ) {
+            $thisTypeList.show();
+            $thisTypeCtrl.addClass("ite-newItemBtnActive");
+        } else {
+            $thisTypeList.hide();
+            $thisTypeCtrl.removeClass("ite-newItemBtnActive");
+        }
+
+    });
+
+//@todo to delete the next line
+var $com1_iteItemTypeList = $(".ite-itemTypeList");
+
+    $com1_iteItemEditorWrp.delegate('.ite-itemTypeList span','click',function() {
+        var $thisType = $(this);
+        var $thisTypeCtrl = $(this).parents(".ite-itemTypeCtrl");
+        var thisTypeClass = $thisType.attr("class");
+        var thisText = $thisType.text();
+        var thisTaskId = $thisType.attr("id").replace("itT_","");
+        $thisTypeCtrl.children("span:first").attr("class", thisTypeClass).text(thisText).data("type",thisTaskId);
+    });
+
 	
+
  
 
-	
 
-  
 //more decorations
 $(".itp-item").live("mouseover mouseout", function(event){
   if (event.type == 'mouseover') {
@@ -330,11 +303,20 @@ $(".itp-item").live("mouseover mouseout", function(event){
 		
 $com1_itpItemPages.delegate(".itp-itemHead","click",function(){
 			
-  var $thisIt = $(this);
-  var $thisPar = $thisIt.parent();
-  var $thisItem = $thisIt.next();
+  var $thisItemHead = $(this);
+  
+  var $thisParent = $thisItemHead.parent();
+  var thisParentIndex = $thisParent.index();
+  
+// preparing the editor. cleaning up all prev and rendering new one
 
-  var $itemTags = $thisIt.find(".itp-itemTag");
+    $com1_itpItemPages.find(".itp-itemHead").removeClass("itp-itemHeadActive").show().next().remove();
+    $thisItemHead.addClass("itp-itemHeadActive").hide();
+//    hiding new item editor
+    f_com1_itemEditorHide();
+    
+//item tags preparation
+  var $itemTags = $thisItemHead.find(".itp-itemTag");
   var itemTagObj = [];
 
   $itemTags.each(function(index){
@@ -350,24 +332,16 @@ $com1_itpItemPages.delegate(".itp-itemHead","click",function(){
 
 
 
-
+//new item editor preparation
   var itemObj = new Object;
   
+//  @todo finish itemObj 
+  itemObj = {test:"test",datepicker:"dp-"+thisParentIndex, Tag:itemTagObj};
   
-  //itemObj = {test:"test",Tag:[{name:"nameOne",taggedid:"000"},{name:"nameTwo",taggedid:"111"}]};
-  itemObj = {test:"test",Tag:itemTagObj};
-//  console.log(itemObj);
-
-   //itemTagsObj = { name: "Meet Joe Black", tag: [{name:"English"},{name:"French"}] };
-
-   //console.log(itemTagsObj);
-
-  //moving editor to the line we need
-  $com1_iteItemEditorWrp.empty().insertAfter($thisIt).show();
   //feeding editor with the data we taken from current item, then rendering it.
-  var $freshEditor = $com1_iteItemEditorTmpl.tmpl(itemObj).appendTo($com1_iteItemEditorWrp);
+  var $freshEditor = $com1_iteItemEditorTmpl.tmpl(itemObj).appendTo($thisParent);
   //appending new datepicer to just rendered item editor.
-  $freshEditor.find("#datepicker").datepicker({					
+  $freshEditor.find("#dp-"+thisParentIndex).datepicker({					
     dateFormat: 'dd.mm.yy',
     buttonImage: "../img/icons/cal.png",
     showOn: 'both',
@@ -376,57 +350,8 @@ $com1_itpItemPages.delegate(".itp-itemHead","click",function(){
     showAnim: "",
     showButtonPanel: true					
   });
-
-  
-  $(".itp-item").removeClass("itp-itemToEdit");
-  //to del later
-  $(".itp-itemHead").removeClass("itp-itemHeadActive").show();
-  $thisIt.addClass("itp-itemHeadActive").hide();
-  $thisPar.addClass("itp-itemToEdit");
-			
-/*
-			if( thisItem.length >= 1 ) {
-				
-				if(thisItem.is(":hidden")) {
-					$com1_itpItemPages.find("div.itemViewBlock").hide();
-					$com1_itpItemPages.find("div.itp-item").removeClass("itp-itemToEdit");
-					thisPar.addClass("itp-itemToEdit");				
-					thisItem.show();
-				} else {				
-					thisItem.hide();
-					thisPar.removeClass("itp-itemToEdit");
-				}	
-							
-			}else{
-				
-				var origText = $.trim( thisIt.find("span.itemHead").text() );
-				thisPar.data("origText",origText);
-				
-				var $origTags = thisIt.find(".itp-itemTag");
-				
-				var origTagsToIns = new Object();
-				$origTags.each(function(i){
-					var $thisI = $(this);
-					var thisTagText = $thisI.text();
-					var thisTaggedId = $thisI.data("itemtag");
-					origTagsToIns[i] = {itemTag:thisTagText,itemId:thisTaggedId};
-				});
-
-				$com1_itpItemPages.find("div.itemViewBlock").hide();
-				$com1_itpItemPages.find("div.itp-item").removeClass("itp-itemToEdit");
-				thisPar.addClass("itp-itemToEdit");
-				
-				
-				//inserting view blok with full text and tags and so on after item's header.			
-				$com1_iteItemViewTmpl.tmpl({origText:origText,itemTags:origTagsToIns}).insertAfter(thisIt);		
-			}
-			*/
-
+ 
 });
-
-
-
-
 
 
 //to del. we now have common editor
@@ -547,10 +472,10 @@ $com1_itpItemPages.delegate(".itemCan","click",function(){
 //top menu decoration and control
 $("#logInNow").hover(function(){
   $(this).addClass("logInHov");
-},
-function(){
-  $(this).removeClass("logInHov");
-}
+    },
+    function(){
+      $(this).removeClass("logInHov");
+    }
 ).click(function(e){
 		
   if(e) e.stopPropagation();
@@ -664,22 +589,22 @@ $com1_itpItemPages.delegate(".statusItem","click",function(event){
 }); 
  
 
-//to replace with pop-up
-$com1_itpItemPages.delegate(".itemType","click",function(event){
+// @todo to replace with pop-up
+    $com1_itpItemPages.delegate(".itp-itemType","click",function(event){
 
-  var thisIt = $(this);
-  var thisPar = thisIt.parents(".itp-item");
-  //getting item id
-  var itId = thisPar.attr("id").replace("item_","");
+        var thisIt = $(this);
+        var thisPar = thisIt.parents(".itp-item");
+        //getting item id
+        var itId = thisPar.attr("id").replace("item_","");
 		
-  //creating this data with first click for blackup in case of falure.
-  if( typeof(this.i) === "undefined" ){
-    this.i = 0;
-    thisIt.data({
-      'origClass':thisIt.attr("class"),
-      'origText':thisIt.text()
-      });
-  }
+        //creating this data with first click for blackup in case of falure.
+        if( typeof(this.i) === "undefined" ){
+            this.i = 0;
+            thisIt.data({
+                'origClass':thisIt.attr("class"),
+                'origText':thisIt.text()
+            });
+        }
 
 		
   var statusIt = 0;
@@ -828,118 +753,97 @@ $com1_itpItemPages.delegate(".itp-targetItem","click",function(event){
 		
 });
 
-	
-//-----------------------------------------------------------------------------------------
- 
-//switching task type on new item editor
-$com1_itemTypeControl.click(function(){
-  var thisType = $(this);
-  if( $com1_itemTypeList.is(":hidden") ) {
-    $com1_itemTypeList.show();
-    thisType.addClass("ite-newItemBtnActive");
-  } else {
-    $com1_itemTypeList.hide();
-    thisType.removeClass("ite-newItemBtnActive");
-  }
-
-});
-
-$com1_itemTypeList.delegate('span','click',function() {
-  var thisP = $(this);
-  var thisClass = thisP.attr("class");
-  var thisText = thisP.text();
-  var thisTaskId = thisP.attr("id").replace("itT_","");
-  $com1_itemTypeControl.children("span:first").attr("class", thisClass).text(thisText).data("type",thisTaskId);
-});
  
 //-----------------------------------------------------------------------------------------
 
 	
-//editor only mode
-$com1_iteItemEditorWrp.delegate( "#ite-tagIcon","click", function(){
-  $com1_tgcTagCloudWrp.toggle();
-  var $thisIcon = $(this);
-  var tgcTagCloudIconPos = $thisIcon.offset();
-  var contentWrapperPos = $com1_contentWrapper.offset();
-  var setTop = tgcTagCloudIconPos.top - contentWrapperPos.top + 32;
-  var setLeft = tgcTagCloudIconPos.left - contentWrapperPos.left - 150;
-  $com1_tgcTagCloudWrp.css({
-    "left":setLeft,
-    "top":setTop
-  });
+//@todo create common funciton for both delegate
+    $com1_iteItemEditorWrp.delegate( ".ite-tagIcon","click", function(){
+  
+        var $thisAddIcon = $(this);
+  
+        //memorizing the object of the current items tags so we could append more tags to it.
+        $curItemTagList = $thisAddIcon.next();
 		
-  if(typeof($com1_tgcTags.data("tgcObj")) !== "undefined"){
-    $com1_tgcTagsCloudAddTmpl.tmpl( $com1_tgcTags.data("tgcObj") ).appendTo($com1_tgcTags);
-    $com1_tgcTags.removeData("tgcObj");
-  }
-});	
+        //toggel tag cloud window
+        $com1_tgcTagCloudWrp.toggle();
+  
+        var tgcTagCloudIconPos = $thisAddIcon.offset();
+        var contentWrapperPos = $com1_contentWrapper.offset();
+        var setTop = tgcTagCloudIconPos.top - contentWrapperPos.top + 32;
+        var setLeft = tgcTagCloudIconPos.left - contentWrapperPos.left - 150;
+        $com1_tgcTagCloudWrp.css({
+            "left":setLeft,
+            "top":setTop
+        });
+		
+        if(typeof($com1_tgcTags.data("tgcObj")) !== "undefined"){
+            $com1_tgcTagsCloudAddTmpl.tmpl( $com1_tgcTags.data("tgcObj") ).appendTo($com1_tgcTags);
+            $com1_tgcTags.removeData("tgcObj");
+        }
+  
+    });	
 
 
 
 //all items tag Icon mode
-$com1_itpItemPages.delegate(".itp-tagIcon","click",function(){
+    $com1_itpItemPages.delegate(".ite-tagIcon","click",function(){
 		
-  var $thisAddIcon = $(this);
+        var $thisAddIcon = $(this);
 		
-  //memorizing the object of the current items tags so we could append more tags to it.
-  $curItemTagList = $thisAddIcon.next();
+        //memorizing the object of the current items tags so we could append more tags to it.
+        $curItemTagList = $thisAddIcon.next();
 		
-  //toggel tag cloud window
-  $com1_tgcTagCloudWrp.toggle();
-  //position tag cloud window by the tag cloud icon. (may be item itself)
-  var tgcTagCloudIconPos = $thisAddIcon.offset();
-  var contentWrapperPos = $com1_contentWrapper.offset();
-  var setTop = tgcTagCloudIconPos.top - contentWrapperPos.top + 32;
-  var setLeft = tgcTagCloudIconPos.left - contentWrapperPos.left - 150;
-  $com1_tgcTagCloudWrp.css({
-    "left":setLeft,
-    "top":setTop
-  });
+        //toggel tag cloud window
+        $com1_tgcTagCloudWrp.toggle();
+        //position tag cloud window by the tag cloud icon. (may be item itself)
+        var tgcTagCloudIconPos = $thisAddIcon.offset();
+        var contentWrapperPos = $com1_contentWrapper.offset();
+        var setTop = tgcTagCloudIconPos.top - contentWrapperPos.top + 32;
+        var setLeft = tgcTagCloudIconPos.left - contentWrapperPos.left - 150;
+        $com1_tgcTagCloudWrp.css({
+            "left":setLeft,
+            "top":setTop
+        });
 
 
-  //getting tags from the dom if it's first time, or just toggling
-  if(typeof($com1_tgcTags.data("tgcObj")) !== "undefined"){
-    $com1_tgcTagsCloudAddTmpl.tmpl( $com1_tgcTags.data("tgcObj") ).appendTo($com1_tgcTags);
-    $com1_tgcTags.removeData("tgcObj");
-  }
+        //getting tags from the dom if it's first time, or just toggling
+        if(typeof($com1_tgcTags.data("tgcObj")) !== "undefined"){
+            $com1_tgcTagsCloudAddTmpl.tmpl( $com1_tgcTags.data("tgcObj") ).appendTo($com1_tgcTags);
+            $com1_tgcTags.removeData("tgcObj");
+        }
 		
 		
-  //currnt tags object for iteration
-  var $tagsItem = $curItemTagList.find(".ite-tagAdded");
-  //iterating throught tags cloud and item tags to identify already choosen tags and add checked class to them.
-  $tagsItem.tagCloudIteration($com1_tgcTags);
+        //currnt tags object for iteration
+        var $tagsItem = $curItemTagList.find(".ite-tagAdded");
+        //iterating throught tags cloud and item tags to identify already choosen tags and add checked class to them.
+        $tagsItem.tagCloudIteration($com1_tgcTags);
 		
-});
-
-
-//iteration through each item's tag
-$.fn.tagCloudIteration = function( tagCloudObj ){
-		 
-  if(!tagCloudObj){
-    return;
-  }
-		
-  var $tagsFromCloud = tagCloudObj.find(".tgc-tag").removeClass("tgc-tagChecked").addClass("tgc-tagNameCl");
-		
-  return this.each(function(){
-    var tag = $(this);
-    var thisDataTagName = tag.text();
-    $tagsFromCloud.each(function(){
-      var $thisTagFromCloud = $(this);
-      if($thisTagFromCloud.data("tagn") == thisDataTagName){
-        $thisTagFromCloud.removeClass("tgc-tagNameCl").addClass("tgc-tagChecked");
-        return;
-      }
     });
-  });
-				
-};
 
 
+// iteration through each item's tag
+    $.fn.tagCloudIteration = function( tagCloudObj ){
+		 
+        if(!tagCloudObj){
+            return;
+        }
+		
+        var $tagsFromCloud = tagCloudObj.find(".tgc-tag").removeClass("tgc-tagChecked").addClass("tgc-tagNameCl");
+		
+        return this.each(function(){
+            var tag = $(this);
+            var thisDataTagName = tag.text();
+            $tagsFromCloud.each(function(){
+                var $thisTagFromCloud = $(this);
+                if($thisTagFromCloud.data("tagn") == thisDataTagName){
+                    $thisTagFromCloud.removeClass("tgc-tagNameCl").addClass("tgc-tagChecked");
+                    return;
+                }
+            });
+        });
 
-
-
-
+    };
 
 
 	
@@ -948,7 +852,7 @@ $com1_tgcTags.delegate(".tgc-tagNameCl","click",function(){
   var thisTag = $(this);
   var thisName = thisTag.data("tagn");
   $com1_iteTagsAddedTmpl.tmpl( {
-    "tag":thisName
+    "name":thisName
   } ).appendTo($curItemTagList).data({
     tagid: thisTag.data("tagid")
   });
@@ -957,31 +861,34 @@ $com1_tgcTags.delegate(".tgc-tagNameCl","click",function(){
 	
 	
 	
-//remove tag from item tag list
-$com1_itpItemPages.delegate(".ite-tagAdded","click",function(){
-  var thisTag = $(this);
-  var thisTagParent = thisTag.parent();
-  var thisTagItemId = thisTag.data("itemt");
+//    remove tag from item tag list
+    var f_com1_tagToRemoveFromItem = function(){
+ 
+        var thisTag = $(this);
+        var thisTagParent = thisTag.parent();
+        var thisTagItemId = thisTag.data("itemt");
     
-  thisTag.fadeOut(500, function(){
-    thisTag.remove();
+        thisTag.fadeOut(500, function(){
+            thisTag.remove();
     	
-    thisTagParent.find(".ite-tagAdded").tagCloudIteration($com1_tgcTags);
-  });
+            thisTagParent.find(".ite-tagAdded").tagCloudIteration($com1_tgcTags);
+        });
 	
-  if(thisTagItemId){
-//ajax tag deletion to define here;
-}
-			
-});
+        if(thisTagItemId){
+         //@todo ajax tag deletion to define here;
+        }       
+    }
+    
+    $com1_itpItemPages.delegate(".ite-tagAdded","click", f_com1_tagToRemoveFromItem );
+    $com1_iteItemEditorWrp.delegate(".ite-tagAdded","click", f_com1_tagToRemoveFromItem );
 	
 
 
 
 	
-$com1_tgcTagCloudClose.click(function(){
-  $com1_tgcTagCloudWrp.hide();
-});
+    $com1_tgcTagCloudClose.click(function(){
+        $com1_tgcTagCloudWrp.hide();
+    });
 
 	
 //appendig to item tags list new tag
@@ -989,7 +896,7 @@ $com1_tgcTagsAdd.click(function(){
   var newTag = $com1_tgcTagsInput.val();
   if(newTag.length > 0) {
     $com1_iteTagsAddedTmpl.tmpl( {
-      "tag":newTag
+      "name":newTag
     } ).appendTo($curItemTagList);
     $com1_tgcTagsInput.val('');
   }
@@ -1013,9 +920,9 @@ $("#tgc-tagCloudHeader").mouseup(function(){
 
 $com1_iteItemEditorWrp.find("#ite-tagIcon").find("img").tipsy({
   live: true,
-  gravity: 'e',
+  gravity: 's',
   delayIn: 1000,
-  offset: 5
+  offset: 3
 });
 $com1_iteNewItemBtn.tipsy({
   gravity: 'e',
@@ -1025,7 +932,7 @@ $com1_iteNewItemBtn.tipsy({
  
 
 
-//new item paginator test   
+//new item paginator setting   
     $com1_itpItemPages.universalPaginate({
         itemTemplate: $('#itp-itemTmpl'),
         nbItemsByPage: 12,
@@ -1034,8 +941,33 @@ $com1_iteNewItemBtn.tipsy({
         controlsPosition:"bottom"
     });
 
+//   ui button hover decoration
+    $(".ui-state-default").hover(function(){
+        $(this).addClass("ui-state-hover");
+    },function(){
+        $(this).removeClass("ui-state-hover");
+    });
 
 
+//  flash alert message
+  if($com1_alertMessage.length) {
+    var alerttimer = window.setTimeout(function () {
+      $com1_alertMessage.trigger('click');
+    }, 4500);
+    $com1_alertMessage.animate({
+      height: [$com1_alertMessage.css("line-height") || '52', 'swing']
+      }, 400).click(function () {
+      window.clearTimeout(alerttimer);
+      $com1_alertMessage.animate({
+        height: '0'
+      }, 400);
+      $com1_alertMessage.css({
+        'border':'none'
+      });
+    });
+  }
+  
+//  @todo tests to remove
 
 function moveToEnd(target) {
   var rng, sel;

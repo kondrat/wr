@@ -168,7 +168,7 @@ class ItemsController extends AppController {
                 $contents['stat'] = 0;
                 $contents['dat'] = $this->data;
             }
-
+            $contents['jn'] = __('Just now',true);
 
             $contents = json_encode($contents);
             $this->header('Content-Type: application/json');
@@ -256,7 +256,7 @@ class ItemsController extends AppController {
         $curPrj = array();
         $curPrjId = null;
 
-        $itemTasks = Configure::read('itemTasks');       
+        $itemTypes = Configure::read('itemTypes');       
         $itemStatuses = Configure::read('itemStatuses');
         
 
@@ -327,57 +327,57 @@ class ItemsController extends AppController {
             Configure::write('debug', 0);
             $this->autoLayout = false;
             $this->autoRender = FALSE;
-      $todos = $this->paginate('Item');
-        //importing helpers to prepare date in goode format
-        App::import('Helper', 'Time');
-        App::import('Helper', 'Timenomin');
-        $Timenomin = new TimenominHelper();
-        
-        foreach ($todos as $k => $todo) {
+            $todos = $this->paginate('Item');
+            //importing helpers to prepare date in goode format
+            App::import('Helper', 'Time');
+            App::import('Helper', 'Timenomin');
+            $Timenomin = new TimenominHelper();
 
-            //$todos[$k]['Item']['nust'] = 'cor';
+            foreach ($todos as $k => $todo) {
 
-            $statusClass = "itS0";
-            $statusText = "opend";
-            if ($itemStatuses) {
-                foreach ($itemStatuses as $v) {
-                    if ($todo['Item']['status'] == $v['n']) {
-                        $statusClass = "itS" . $v['n'];
-                        $statusText = $v['t'];
+                //$todos[$k]['Item']['nust'] = 'cor';
+
+                $statusClass = "itS0";
+                $statusText = "opend";
+                if ($itemStatuses) {
+                    foreach ($itemStatuses as $v) {
+                        if ($todo['Item']['status'] == $v['n']) {
+                            $statusClass = "itS" . $v['n'];
+                            $statusText = $v['t'];
+                        }
                     }
+
+                    unset($todos[$k]['Item']['status']);
+
+                    $todos[$k]['Item']['statusClass'] = $statusClass;
+                    $todos[$k]['Item']['statusText'] = $statusText;
                 }
 
-                unset($todos[$k]['Item']['status']);
-
-                $todos[$k]['Item']['statusClass'] = $statusClass;
-                $todos[$k]['Item']['statusText'] = $statusText;
-            }
-
-            $taskClass = "itT0";
-            $taskText = "todo";
-            if ($itemTasks) {
-                foreach ($itemTasks as $v) {
-                    if ($todo['Item']['task'] == $v['n']) {
-                        $taskClass = "itT" . $v['n'];
-                        $taskText = $v['t'];
+                $itemTypeClass = "itT0";
+                $itemTypeText = "todo";
+                if ($itemTypes) {
+                    foreach ($itemTypes as $v) {
+                        if ($todo['Item']['task'] == $v['n']) {
+                            $itemTypeClass = "itT" . $v['n'];
+                            $itemTypeText = $v['t'];
+                        }
                     }
+                    unset($todos[$k]['Item']['task']);
+                    $todos[$k]['Item']['typeClass'] = $itemTypeClass;
+                    $todos[$k]['Item']['typeText'] = $itemTypeText;
                 }
-                unset($todos[$k]['Item']['task']);
-                $todos[$k]['Item']['taskClass'] = $taskClass;
-                $todos[$k]['Item']['taskText'] = $taskText;
-            }
 
-            $formatedDate = ''; //__('No target',true);
-            if (!empty($todo["Item"]["target"])) {
-                $date = new DateTime($todo["Item"]["target"]);
-                $formatedDate = $date->format('d.m.Y');
-            }
-            $todos[$k]['Item']['target'] = $formatedDate;
+                $formatedDate = ''; //__('No target',true);
+                if (!empty($todo["Item"]["target"])) {
+                    $date = new DateTime($todo["Item"]["target"]);
+                    $formatedDate = $date->format('d.m.Y');
+                }
+                $todos[$k]['Item']['target'] = $formatedDate;
 
-            if (!empty($todo["Item"]["created"])) {
-                $todos[$k]["Item"]["created"] = $Timenomin->timeAgoInWords($todo["Item"]["created"]);
+                if (!empty($todo["Item"]["created"])) {
+                    $todos[$k]["Item"]["created"] = $Timenomin->timeAgoInWords($todo["Item"]["created"]);
+                }
             }
-        }
             $contents["data"] = $todos;
             $contents["nbTotalItems"] = $this->params["paging"]["Item"]["count"];
 
@@ -388,18 +388,8 @@ class ItemsController extends AppController {
             $this->header('Content-Type: application/json');
             return ($contents);
         }
-//        
-//        if ($this->RequestHandler->isAjax() && isset($this->params['named']['page'])) {
-//            Configure::write('debug', 0);
-//            $this->autoLayout = false;
-//
-//            $contents = $this->params;                    
-//            $this->set('todos', $this->paginate('Item'));
-//            $this->render('ajax_item');
-//
-//            return;
-//        }
-        $this->set('itemTasks', $itemTasks);
+
+        $this->set('itemTypes', $itemTypes);
         $this->set('itemStatuses', $itemStatuses);
         $this->set('todos', $this->paginate('Item'));
         $this->set('menuType', 'todo');

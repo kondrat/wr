@@ -1,57 +1,57 @@
 /*header*/
 .pageheader{
-	border-bottom:3px solid #ddd;
-	background:#FCFCFC url(../img/pic/header_bg.png) repeat-x scroll 0 100%;
-	min-width:75em;
-	position: relative;
+    border-bottom:3px solid #ddd;
+    background:#FCFCFC url(../img/pic/header_bg.png) repeat-x scroll 0 100%;
+    min-width:75em;
+    position: relative;
 
 }
 
 .contentWrapper{
-	padding-bottom:1em;
-	position:relative;
-	min-height:450px;
+    padding-bottom:1em;
+    position:relative;
+    min-height:450px;
 }
 
 /*reg - login*/
 .topMenu{
-	float:left;
-	margin:0.5em 3px .5em 0;
+    float:left;
+    margin:0.5em 3px .5em 0;
 }
 
 .topMenu a {
-	font-size:110%;
-	color:gray;
-	display:block;
-	padding:0 0.4em;
-	outline : none;
-	text-decoration:none;
+    font-size:110%;
+    color:gray;
+    display:block;
+    padding:0 0.4em;
+    outline : none;
+    text-decoration:none;
 }
 .topMenu a:focus{
-	color:gray;
+    color:gray;
 }
 .topMenu:hover{
-	background-color:silver;			
+    background-color:silver;			
 }
 .topMenu:hover a {
-	color:white;
+    color:white;
 }
 .upDownArr{
-	background:url("../img/icons/up_down_arrow_small.png") no-repeat scroll 100% -15px transparent;
-	padding:3px 20px 0 0;
+    background:url("../img/icons/up_down_arrow_small.png") no-repeat scroll 100% -15px transparent;
+    padding:3px 20px 0 0;
 }
 .logInHov a span{
-	background-position: 100% -53px;
+    background-position: 100% -53px;
 }
 .logInAct {
-	background-color:silver;
+    background-color:silver;
 }
 .logInAct a,.logInAct a:focus{
-	color:white;
+    color:white;
 }
 .logInAct a span{
-	background-position: 100% -34px;
-	color:black;
+    background-position: 100% -34px;
+    color:black;
 }
 /*
 .upDownSmallArrow{
@@ -68,101 +68,101 @@
 */
 
 #quickLogin{
-	position:absolute;
-	right:75px;
-	top:26px;
-	z-index:1005;
+    position:absolute;
+    right:75px;
+    top:26px;
+    z-index:1005;
 }
 .quickLoginInner {
-	-webkit-border-radius: 7px;
-	-moz-border-radius: 7px;
-	border-radius: 7px;
-	-moz-box-shadow:0 0 6px silver;
-	float:left;
-	background-color:#eee;
-	border:3px solid silver;
-	margin:0 auto;
-	padding:5px 10px 5px 24px;
-	width:224px;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
+    -moz-box-shadow:0 0 6px silver;
+    float:left;
+    background-color:#eee;
+    border:3px solid silver;
+    margin:0 auto;
+    padding:5px 10px 5px 24px;
+    width:224px;
 }
 .quickLoginSubmit {
-	margin: 3px 0;
+    margin: 3px 0;
 }
 
 
 .quickLoginCheckbox label{
-	margin: 4px;
+    margin: 4px;
 }
 
 
 p.quickLoginForPas {
-	margin-bottom: 0;
+    margin-bottom: 0;
 }
 #overlay{
-	background-color:#ccc;
-	/*display:none;*/
-	opacity:0.5;
-	filter:alpha(opacity=50);
-	height:100%;
-	left:0;
-	position:fixed;
-	top:0;
-	width:100%;
-	z-index:1002;
+    background-color:#ccc;
+    /*display:none;*/
+    opacity:0.5;
+    filter:alpha(opacity=50);
+    height:100%;
+    left:0;
+    position:fixed;
+    top:0;
+    width:100%;
+    z-index:1002;
 }
 
 
 
 /*footer*/
 .pagefooter {
-	background:#BBCCD9 url(../img/pic/footer_bg.png) repeat-x scroll 0 0;
-	color:#CCCCCC;
-	height:808px;
-	overflow:hidden;
+    background:#BBCCD9 url(../img/pic/footer_bg.png) repeat-x scroll 0 0;
+    color:#CCCCCC;
+    height:808px;
+    overflow:hidden;
 }
 .footerNote{
-	margin-top:1em;
+    margin-top:1em;
 }
 .footerNote a{
-	color:inherit;
+    color:inherit;
 }
 /*main part*/
 
 
 #allItems,#prjItems{
-	text-decoration:none;
-	outline:medium none;
+    text-decoration:none;
+    outline:medium none;
 }
 #allPrj, #curPrj{
-	padding: 3px 7px;
+    padding: 3px 7px;
 }
 #allPrj.actPrj, #curPrj.actPrj{
-	background-color: AntiqueWhite;
+    background-color: AntiqueWhite;
 }
 span.actPrj a{
-	color:black;
-	font-weight:bold;
-		
+    color:black;
+    font-weight:bold;
+
 }
 
-#datepicker{
-	text-align:center;
-	margin-right:3px;
-	display:block;
-	float:left;
-	color:gray;
+.datepicker{
+    text-align:center;
+    margin-right:3px;
+    display:block;
+    float:left;
+    color:gray;
 }
 
 .ui-datepicker-trigger{
-	display:block;
-	float:left;
-	margin-top:9px;
+    display:block;
+    float:left;
+    margin-top:9px;
 }
 #ui-datepicker-div {
-	font-size: 85%;
+    font-size: 85%;
 }
 #ui-datepicker-div thead th{
-	background:none;
+    background:none;
 }
 
 
@@ -170,11 +170,11 @@ span.actPrj a{
 
 
 .itemCrated{
-	color:gray;
-	font-family:Georgia;
-	font-style:italic;
-	float:right;
-	margin-left:3px;
+    color:gray;
+    font-family:Georgia;
+    font-style:italic;
+    float:right;
+    margin-left:3px;
 }
 
 
@@ -185,83 +185,72 @@ span.actPrj a{
 
 
 .textItem{
-	float:left;
-	height:1.8em;
-	overflow:hidden;
-	width:550px;
+    float:left;
+    height:1.8em;
+    overflow:hidden;
+    width:550px;
 }
-.itemType{
-	margin-right:1em;
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	border-radius: 4px;
-	color:white;
-	display:block;
-	float:left;
-	text-align:center;
-	width:40px;
-	line-height:1.25em;
-}
+
 .itemHead {
-	color:DarkBlue;
+    color:DarkBlue;
 }
 
 .itemViewBlock{
-	color:black;
-	float:left;
-	padding:  0;
-	width:100%;
-	position:relative;
+    color:black;
+    float:left;
+    padding:  0;
+    width:100%;
+    position:relative;
 }
 
 
 ul.itEdButtons{
-	position:absolute;
-	list-style:none;
-	margin:0;
-	right:15px;
-	top:5px;
+    position:absolute;
+    list-style:none;
+    margin:0;
+    right:15px;
+    top:5px;
 }
 .itEdButtons li{
-	float:left;
-	margin-left:3px;
+    float:left;
+    margin-left:3px;
 }
 
 .itemEditText{
-	color:black;
-	margin:2em 1em 1em 1em;
+    color:black;
+    margin:2em 1em 1em 1em;
 }
 .itemTextArea{
-	height: 0px;
-	padding:5px 0 0 0;
-	width:100%;
+    height: 0px;
+    padding:5px 0 0 0;
+    width:100%;
 }
 
 
 
-#itemTypeList .itemType,#itp-itemPages .itemType{
-	margin-right:5px;
-}
+
 .itT0{
-	background-color:blue;
+    background-color:blue;
 }
 .itT1{
-	background-color:brown;
+    background-color:brown;
 }
 .itT2{
-	background-color:green;
+    background-color:green;
 }
 .itT3{
-	background-color:red;
+    background-color:red;
 }
-.itS1  span.itemType{
-	background-color:gray;
+
+
+.itS1  span.ite-itemType{
+    background-color:gray;
 }
-.itS3  span.itemType{
-	background-color:#ddd;
+.itS3  span.ite-itemType{
+    background-color:#ddd;
 }
 .itS1 .textItem{
-  text-decoration:none;
+    text-decoration:none;
 }
 
 
@@ -270,173 +259,158 @@ ul.itEdButtons{
 
 
 
-ul#icons{
-	margin:0;
-	padding:0;
-}
-ul#icons li {
-cursor:pointer;
-float:left;
-list-style:none outside none;
-margin:2px;
-padding:4px;
-position:relative;
-}
+
 
 
 .statusItem {
-	font-style:italic;
-	left:620px;
-	padding:1px 3px;
-	position:absolute;
+    font-style:italic;
+    left:620px;
+    padding:1px 3px;
+    position:absolute;
 }
 .itS0 .statusItem {
-	color:blue;
+    color:blue;
 }
 .itS1 .statusItem {
-	color:black;
+    color:black;
 }
 .itS2 .statusItem {
-	color:Sienna;
+    color:Sienna;
 }
 .itS3 .statusItem {
-	color:red;
+    color:red;
 }
 .itS1 .itemHead {
-	color:gray;
-	text-decoration:line-through;
+    color:gray;
+    text-decoration:line-through;
 }
 .activeStatusItem{
-	background-color:#ddd;
+    background-color:#ddd;
 }
 
 
-#item {
-	padding:5px;
-	width:630px;
-  -moz-border-radius:5px
-}
+
 #threeWays{
-	font-size:large;
-	margin-top:0.2em;
+    font-size:large;
+    margin-top:0.2em;
 }
 #threeWays a{
-	text-decoration:none;
-	border-bottom:1px dashed;
+    text-decoration:none;
+    border-bottom:1px dashed;
 }
 
 
 
 a#threeWaysHere{
-	border:none;
-	color:brown;
-	cursor:text;
+    border:none;
+    color:brown;
+    cursor:text;
 }
 .newProject{
-	position:relative;
+    position:relative;
 }
 .newProjectActive{
 
 }
 .newProjectActive span {
-	background-position:100% 4px;
-		color:red;
+    background-position:100% 4px;
+    color:red;
 }
 #newProject{
-	text-decoration:none;
-	outline:medium none;
+    text-decoration:none;
+    outline:medium none;
 }
 #newProject span:first-child {
-	border-bottom:1px dashed;
+    border-bottom:1px dashed;
 }
 
 
 .activePrj, .activePrjDel{
-	background-color:lightGray;
+    background-color:lightGray;
 }
 #projectEditor{
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	border-radius: 10px;
-	-moz-box-shadow:0 0 6px black;
-	background-color:#EEEEEE;
-	border:5px solid #C0C0C0;
-	left:100px;
-	padding:1em;
-	position:absolute;
-	top:10px;
-	width:162px;
-	z-index:1000;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -moz-box-shadow:0 0 6px black;
+    background-color:#EEEEEE;
+    border:5px solid #C0C0C0;
+    left:100px;
+    padding:1em;
+    position:absolute;
+    top:10px;
+    width:162px;
+    z-index:1000;
 }
 #projectEditor ul{
-	list-style-type:none;
-	margin:0 0 0.5em;
+    list-style-type:none;
+    margin:0 0 0.5em;
 }
 #projectEditor ul li.prjList {
-	padding: 1px 3px;
-	position:relative;
-	overflow:hidden;
+    padding: 1px 3px;
+    position:relative;
+    overflow:hidden;
 }
 #projectEditor li a{
-	border-bottom: 1px dashed;
-	text-decoration:none;
-	outline:medium none;
+    border-bottom: 1px dashed;
+    text-decoration:none;
+    outline:medium none;
 }
 .prjControl{
-	position:absolute;
-	top:1px;
-	right:1px;
+    position:absolute;
+    top:1px;
+    right:1px;
 }
 .prjUpDown{
-	cursor:n-resize;
+    cursor:n-resize;
 }
 .prjDel, .prjEdit{
-	cursor:pointer;
+    cursor:pointer;
 }
 .prjList .prjControl{
-	display:none;
+    display:none;
 }
 .activePrj .prjControl, .activePrjDel .prjControl {
-	display:block;
+    display:block;
 }
 
 .prjControl li{
-	float:left;
+    float:left;
 }
 .prjSaveControl li{
-	float:left;
+    float:left;
 }
 
 #newPr{
-	-moz-border-radius:5px;
-	padding:1px;
-	width:155px;
+    -moz-border-radius:5px;
+    padding:1px;
+    width:155px;
 }
 #prjNew	{
-	outline:medium none;
-	padding:1px 4px;
-	text-decoration:none;
+    outline:medium none;
+    padding:1px 4px;
+    text-decoration:none;
 }
 
 .prjNewActive span.upDownArr {
-	background-position:100% 4px;
-	
+    background-position:100% 4px;
+
 }
 .prjInlineEdit{
-	padding:0 42px 0 4px;
+    padding:0 42px 0 4px;
 }
 .prjSaveControl{
-	position:absolute;
-	right:3px;
-	top:0px;
+    position:absolute;
+    right:3px;
+    top:0px;
 }
 .datefield{
-	-moz-box-shadow:2px 2px 5px gray;
-	font-size:small;
-	left:0;
-	position:absolute;
-	text-align:center;
-	top:-3px;
+    -moz-box-shadow:2px 2px 5px gray;
+    font-size:small;
+    left:0;
+    position:absolute;
+    text-align:center;
+    top:-3px;
 }
 
 

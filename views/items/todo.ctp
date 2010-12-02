@@ -1,7 +1,8 @@
 <?php
-$aObj = $js->object($itemTasks);
-$bObj = $js->object($itemStatuses);
-echo $html->scriptBlock('var itT = ' . $aObj . ';var itS = ' . $bObj . ';', array('inline' => false));
+    $aObj = $js->object($itemTypes);
+    $bObj = $js->object($itemStatuses);
+//  @TODO  must be data instead of global var
+    echo $html->scriptBlock('var itT = ' . $aObj . ';var itS = ' . $bObj . ';', array('inline' => false));
 ?>
 
 <?php echo $this->element('pageHead/tagCloud/tag_cloud'); ?>
@@ -52,7 +53,7 @@ echo $html->scriptBlock('var itT = ' . $aObj . ';var itS = ' . $bObj . ';', arra
     <div class="itp-itemHead">
 
       <div class="textItem">
-        <span class="itemType ${Item.taskClass}">${Item.taskText}</span>
+        <span class="itp-itemType ${Item.typeClass}">${Item.typeText}</span>
         <span class="itemCrated">${Item.created}</span>
         <span class="itp-targetItem">${Item.target}</span>
 
