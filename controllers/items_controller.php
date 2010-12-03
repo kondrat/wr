@@ -370,7 +370,7 @@ class ItemsController extends AppController {
                 $formatedDate = ''; //__('No target',true);
                 if (!empty($todo["Item"]["target"])) {
                     $date = new DateTime($todo["Item"]["target"]);
-                    $formatedDate = $date->format('d.m.Y');
+                    $formatedDate = $date->format('d.m.y');
                 }
                 $todos[$k]['Item']['target'] = $formatedDate;
 

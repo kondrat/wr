@@ -76,11 +76,45 @@ a.ite-newItemBtn:focus {
     top: 20px;
     left: -20px;
     width: 200px;
-    background-color:#ddd;
-    padding:5px;   
+/*    background-color:#ddd;*/ 
+    background: url("../img/pic/000000_35_40x100.png") repeat scroll 0 0 transparent;
+    padding: 5px 20px 5px 5px;
+    
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -moz-box-shadow:0 3px 0 rgba(0, 0, 0, 0.1);
+}
+.ite-itemTypeListInner {
+    background:none repeat scroll 0 0 #FFFFFF;
+    color:#333333;
+    padding: 5px 5px 0;
+    float: left;
+
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -moz-box-shadow:0 1px 1px rgba(0, 0, 0, 0.2);
+}
+.ite-itemTypeListClose{
+    background:transparent url(../img/pic/000000_80_40x100.png) scroll 0 0;
+    color:#FFFFFF;
+    font:normal 12px/13px Comic Sans MS,Tahoma,sans-serif;
+    height:15px;
+    position:absolute;
+    right:7px;
+    text-align:center;
+    top:5px;
+    width:15px;
+    line-height:1em;
+
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
 }
 .ite-itemTypeList .ite-itemType{
     margin-right:5px;
+    margin-bottom: 5px;
 }
 .ite-itemTypeCtrl{
     float:left;
@@ -102,15 +136,18 @@ a.ite-newItemBtn:focus {
 .ite-datePickerWrp{
     float: left;
 }
+.ite-datePickerWrp img{
+    margin-left: 5px;
+}
 .ite-tagsAddedWrp{
     /*background:url("../img/icons/tag_deb887_16x16.png") no-repeat scroll 0 10px transparent;*/
     float:left;
-    margin-left:10px;
+    margin-left:5px;
     
 }
 .ite-tagIcon{
     float:left;
-    padding:10px 3px 0 0;
+    padding: 9px 3px 0 0;
 }
 .ite-tagsAdded{
     float:left;

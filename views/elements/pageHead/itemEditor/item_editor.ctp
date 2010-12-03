@@ -10,12 +10,17 @@
         <div class="ite-newItemFormTop">
             
             <div class="ite-itemTypeCtrl">
-                <span class="ite-itemType itT<?php echo $itemTypes[0]['n'];?>"><?php echo $itemTypes[0]['t']; ?></span><span class="upDownArr"></span>
+                <span class="ite-itemType itT<?php echo $itemTypes[0]['n'];?>"><?php echo $itemTypes[0]['t']; ?></span>
                 
                 <div  class="ite-itemTypeList hide">
-                    <?php foreach ($itemTypes as $v): ?>
-                        <span id="itT_<?php echo $v['n']; ?>" class="ite-itemType itT<?php echo $v['n']; ?>"><?php echo $v['t']; ?></span>
-                    <?php endforeach ?>      
+                    <div class="ite-itemTypeListInner">
+                        <?php foreach ($itemTypes as $v): ?>
+                            <span id="itT_<?php echo $v['n']; ?>" class="ite-itemType itT<?php echo $v['n']; ?>"><?php echo $v['t']; ?></span>
+                        <?php endforeach ?>   
+                    </div>
+                    <div class="ite-itemTypeListClose" style="cursor: pointer;">
+			x
+                    </div>
                 </div>  
                 
             </div>

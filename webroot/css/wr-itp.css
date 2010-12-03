@@ -1,63 +1,58 @@
 /*
  * itp- Item page css
  *
- */
+*/
 .itp-item{
-	border-bottom:1px dashed #CCCCCC;
+    border-bottom:1px dashed #CCCCCC;
 } 
 .itp-activeItem{
-	border-color:gray;
-	background-color:Linen;
-	/*border:1px solid #ccc;*/
+    border-color:gray;
+    background-color:Linen;
+    /*border:1px solid #ccc;*/
 }
 .itp-itemsWrp{
-	position:relative;
-	margin-bottom:1em;
+    border-top: 3px dashed #AAAAAA;
+    margin-bottom: 1em;
+    margin-top: 5px;
+    padding-top: 5px;
+    position: relative;
 }
 .itp-itemPagenator{
-	position:absolute;
-	right:0;
-	bottom:-15px;
+    position:absolute;
+    right:0;
+    bottom:-15px;
 }
 .itp-itemTag{
-	background-color:Beige;
-	border:1px solid;
-	color:gray;
-	font-size:smaller;
-	padding:0 1px;
+    background-color:Beige;
+    border:1px solid;
+    color:gray;
+    font-size:smaller;
+    padding:0 1px;
 }
-.itp-tagsAddedWrp{
-	color: red;
-	float: left;
-	width: 100%;
-}
-
 .itp-targetItem{
-	float:left;
-	font-weight:bold;
-	margin-right:7px;
-	text-align:center;
-	width:60px;
+    color: #000;
+    float: left;
+    margin-right: 3px;
+    text-align: center;
 }
-
 .itp-itemToEdit{
-	background-color:#fffff0;
-	/*border-color:gray;*/
+    background-color:#fffff0;
+    /*border-color:gray;*/
 }
 .itp-itemHead{
-	color:black;
-	float:left;
-	padding-top:5px;
-	position:relative;
-	width:100%;
+    color:black;
+    float:left;
+    padding-top:5px;
+    position:relative;
+    width:100%;
 }
 .itp-itemToEdit .itp-itemHead {
-	background-color:wheat;
+    background-color:wheat;
 }
 .itp-itemHeadActive{
-  /*background-color: #C6D880;*/
-  border:1px solid #AAAAAA;
-  margin-bottom: 5px;
+    /*background-color: #C6D880;*/
+    border:1px solid #AAAAAA;
+    margin-bottom: 5px;
 }
 .itp-itemType{
     color:white;
@@ -66,11 +61,45 @@
     text-align:center;
     width:40px;
     line-height:1.25em;
-    
+
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
 }
 #itp-itemPages .itp-itemType{
     margin-right:5px;
+}
+.itp-itemsPaginator_header{
+
+}
+#itp-paginatorWrp{
+    float: right;
+    margin-right: 50px;
+}
+.itp-itemsPaginator_nb_items_by_page{
+    float: left;
+    margin-right: 5px;
+}
+.itp-itemsPaginator_pages{
+    float: left;
+}
+.itp-itemsPaginator_nb_items_by_page_selector{
+    margin: 0;
+}
+.itp-itemsPaginator_link{
+    color: black;
+    margin-right: 3px; 
+    text-decoration: none;
+}
+.itp-itemsPaginator_pages a.active{
+    color: #000;
+    cursor: default;
+    font-weight: bold;
+}
+#itp-itemPagesWait{
+    height: 320px;
+    width: 656px;
+    float: left;
+    margin: 0 auto;
+    background: url(../img/icons/itp_load_deb887.gif) transparent no-repeat center;
 }

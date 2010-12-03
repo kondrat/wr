@@ -195,36 +195,7 @@ span.actPrj a{
     color:DarkBlue;
 }
 
-.itemViewBlock{
-    color:black;
-    float:left;
-    padding:  0;
-    width:100%;
-    position:relative;
-}
 
-
-ul.itEdButtons{
-    position:absolute;
-    list-style:none;
-    margin:0;
-    right:15px;
-    top:5px;
-}
-.itEdButtons li{
-    float:left;
-    margin-left:3px;
-}
-
-.itemEditText{
-    color:black;
-    margin:2em 1em 1em 1em;
-}
-.itemTextArea{
-    height: 0px;
-    padding:5px 0 0 0;
-    width:100%;
-}
 
 
 

@@ -1,98 +1,108 @@
 /*
  * tgc- tag cloud
  *
- */
- 
+*/
+
 .tgc-tagCloudWrp{
-	background:transparent url(../img/pic/000000_80_40x100.png) scroll 0 0;
-	left:0;
-	padding:6px;
-	position:absolute;
-	top:0;
-	width:500px;
-	z-index:110;
-	
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	-moz-box-shadow:0 3px 0 rgba(0, 0, 0, 0.1);
+    background:transparent url(../img/pic/000000_80_40x100.png) scroll 0 0;
+    left:0;
+    padding:6px;
+    position:absolute;
+    top:0;
+    width:500px;
+    z-index:110;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -moz-box-shadow:0 3px 0 rgba(0, 0, 0, 0.1);
 }
 
 .testt{
-	background:transparent url(../img/pic/000000_35_40x100.png) scroll 0 0; 
+    background:transparent url(../img/pic/000000_35_40x100.png) scroll 0 0; 
 }
 .tgc-tagCloudHeader {
-	margin:0 0 5px 0;
-	padding:0;
-	position:relative;
-	cursor:move;
-	
-	-moz-border-radius:4px;
+    margin:0 0 5px 0;
+    padding:0;
+    position:relative;
+    cursor:move;
+
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
 }
 .tgc-tagCloudHeader h3 {
-	color:#FFFFFF;
-	font-size:15px;
-	margin:0;
-	padding:2px 15px 7px 5px;
-	border:1px dashed transparent;
-	
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
+    color:#FFFFFF;
+    font-size:15px;
+    margin:0;
+    padding:2px 15px 7px 5px;
+    border:1px dashed transparent;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
 }
 .tgc-tagCloudHeader h3:hover{
-	border-color:#aaa;
+    border-color:#aaa;
 }
 /*.twttr-dialog-close .twttr-dialog-inside*/
 #tgc-tagCloudClose{
-	background:transparent url(../img/pic/000000_80_40x100.png) scroll 0 0;
-	color:#FFFFFF;
-	font:bold 16px/18px Tahoma,sans-serif;
-	height:20px;
-	position:absolute;
-	right:0;
-	text-align:center;
-	top:0;
-	width:20px;
-	line-height:1em;
-	
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
+    background:transparent url(../img/pic/000000_80_40x100.png) scroll 0 0;
+    color:#FFFFFF;
+    font:bold 16px/18px Tahoma,sans-serif;
+    height:20px;
+    position:absolute;
+    right:0;
+    text-align:center;
+    top:0;
+    width:20px;
+    line-height:1em;
+
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
 }
 
 .tgc-tagCloudInner {
-	background:none repeat scroll 0 0 #FFFFFF;
-	color:#333333;
-	padding:5px;
-	
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	border-radius: 4px;
-	-moz-box-shadow:0 1px 1px rgba(0, 0, 0, 0.2);
+    background:none repeat scroll 0 0 #FFFFFF;
+    color:#333333;
+    padding:5px;
+
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -moz-box-shadow:0 1px 1px rgba(0, 0, 0, 0.2);
 }
 .tgc-tags{
-	margin:0;
-	padding:3px;
-	cursor:default;
+    margin:0;
+    padding:3px;
+    cursor:default;
 }
 .tgc-tags li{
-	display:inline;
-	color:red;
-	font-size:large;
-	margin-right:.5em;
+    float: left;
+    list-style-type: none;
+    color:red;
+    font-size:large;
+    margin-right:.5em;
 }
 
 
 
 .tgc-tagName{
-	color:blue;
+    color:blue;
 }
 .tgc-occur{
-	font-size:small;
+    font-size:small;
 }
 
 li.tgc-tagChecked span, li.tgc-tagChecked{
-  color:#aaa;
-  border-color:#aaa;
+    color:#aaa;
+    border-color:#aaa;
+    font-size: small;
+    margin-top: 5px;
+    cursor: default;
+}
+.tgc-prName{
+    font-style: italic;
+    font-weight: bold;
 }
