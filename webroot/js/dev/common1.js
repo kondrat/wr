@@ -3,6 +3,7 @@ jQuery(document).ready(function(){
   var $com1_contentWrapper = $(".contentWrapper");
   var $com1_alertMessage = $('#flashMessage');
   var $com1_itpItemPages = $("#itp-itemPages");
+//  just to check this var
   var $com1_item = $("#item");
   var $com1_itpItemTmpl = $("#itp-itemTmpl");
 
@@ -35,9 +36,6 @@ jQuery(document).ready(function(){
   var $com1_tgcTags = $("#tgc-tags");
   var $com1_tgcTagsCloudAddTmpl = $("#tgc-tagsCloudAddTmpl");
   var $com1_tgcTagsAdd = $("#tgc-tagsAdd");
-
-//@todo check if we need this. target day comes from global vars for i10z. comes from item_editor.ctp
-  if( typeof(targetDay) !== "undefined") $com1_dataPickerTip = targetDay;
 		
 //  getting item Types from view file.
     var $com1_itT = '';
@@ -60,12 +58,16 @@ jQuery(document).ready(function(){
     var f_com1_itemEditor = function(){
         var itemObj = {
             test:"test",
-            datepicker:"ite-newItemDp",
+            Item:{
+                    id:"000",
+                    typeClass:"itT0",
+                    typeText:"ToDo"
+                },
             Tag:[]
         };
         var $freshEditor = $com1_iteItemEditorTmpl.tmpl(itemObj).appendTo($com1_iteItemEditorWrp);
         //    	appling ui datepicker to the new generated editor		
-        $freshEditor.find("#ite-newItemDp").datepicker({					
+        $freshEditor.find("#dp-000").datepicker({					
             dateFormat: 'dd.mm.yy',
             buttonImage: "../img/icons/cal_deb887.png",
             showOn: 'both',
@@ -170,7 +172,7 @@ jQuery(document).ready(function(){
             "data[tags]": itemTags,
             "data[mags]": tagObj2
         };
-    	console.log(itemObj);			
+//    	console.log(itemObj);			
         $.ajax({
             type: "POST",
             url: path+"/items/saveItem",
@@ -244,12 +246,7 @@ jQuery(document).ready(function(){
         });
     }); 
 
-// cancel save item
-    $com1_iteItemEditorWrp.delegate( "#ite-cancelSaveItem","click",function(){
-        $com1_item.val('');
-        $com1_datePicker.val($com1_dataPickerTip);
-        $com1_iteItemEditorWrp.hide();
-    });
+
 
 
 // switching task type on new item editor. 1: open taskList
@@ -282,71 +279,79 @@ jQuery(document).ready(function(){
  
 
 
-//more decorations
-$(".itp-item").live("mouseover mouseout", function(event){
-  if (event.type == 'mouseover') {
-    $(this).addClass("itp-activeItem");
-  } else if (event.type == 'mouseout' ) {
-    $(this).removeClass("itp-activeItem");
-  }
-});
+    //more decorations
+    $(".itp-item").live("mouseover mouseout", function(event){
+        if (event.type == 'mouseover') {
+            $(this).addClass("itp-activeItem");
+        } else if (event.type == 'mouseout' ) {
+            $(this).removeClass("itp-activeItem");
+        }
+    });
 
 
-		
-$com1_itpItemPages.delegate(".itp-itemHead","click",function(){
+    var selectedItem = null;		
+    $com1_itpItemPages.delegate(".itp-itemHead","click",function(){
 			
-  var $thisItemHead = $(this);
-  
-  var $thisParent = $thisItemHead.parent();
-  var thisParentIndex = $thisParent.index();
-  
-// preparing the editor. cleaning up all prev and rendering new one
-
-    $com1_itpItemPages.find(".itp-itemHead").removeClass("itp-itemHeadActive").show().next().remove();
-    $thisItemHead.addClass("itp-itemHeadActive").hide();
-//    hiding new item editor
-    f_com1_itemEditorHide();
-    
-//item tags preparation
-  var $itemTags = $thisItemHead.find(".itp-itemTag");
-  var itemTagObj = [];
-
-  $itemTags.each(function(index){
-
-    itemTagObj.push({
-                name:$(this).text(),
-                taggedid:{
-                    id:$(this).data("itemtagid")
-                }
-            });
-//    itemTagObj[index] = {name:$(this).text(),data:"dat"+index};
-  });
-
-
-
-//new item editor preparation
-  var itemObj = new Object;
-  
-//  @todo finish itemObj 
-  itemObj = {test:"test",datepicker:"dp-"+thisParentIndex, Tag:itemTagObj};
-  
-  //feeding editor with the data we taken from current item, then rendering it.
-  var $freshEditor = $com1_iteItemEditorTmpl.tmpl(itemObj).appendTo($thisParent);
-  //appending new datepicer to just rendered item editor.
-  $freshEditor.find("#dp-"+thisParentIndex).datepicker({					
-    dateFormat: 'dd.mm.yy',
-    buttonImage: "../img/icons/cal_deb887.png",
-    showOn: 'both',
-    buttonImageOnly: true,
-    autoSize: true,
-    showAnim: "",
-    showButtonPanel: true					
-  });
+        var $thisItemHead = $(this);
+        var $thisParent = $thisItemHead.parent();
  
-});
+         // preparing the editor. cleaning up all prev and rendering new one
 
+        //    hiding new item editor
+        f_com1_itemEditorHide();
+        
+        if(selectedItem){
+//            $(selectedItem.nodes).css( "backgroundColor", "" );
+                selectedItem.tmpl = $("#itp-itemTmpl").template();
+                selectedItem.update();
+        }
+        
+        selectedItem = $.tmplItem(this);
 
-		
+        selectedItem.tmpl = $("#ite-itemEditorTmpl").template();//$com1_iteItemEditorTmpl;
+        selectedItem.update();
+//  @todo create common datapicer object
+        $(selectedItem.nodes).find("input[id^='dp-']").datepicker({					
+            dateFormat: 'dd.mm.yy',
+            buttonImage: "../img/icons/cal_deb887.png",
+            showOn: 'both',
+            buttonImageOnly: true,
+            autoSize: true,
+            showAnim: "",
+            showButtonPanel: true					
+        });    
+ 
+    });
+
+// cancel save item
+    $com1_itpItemPages.delegate( ".ite-cancelSaveItem","click",function(){
+        
+        selectedItem.tmpl = $("#itp-itemTmpl").template();
+        selectedItem.update();
+        selectedItem = null;
+        
+//        $com1_item.val('');
+//        $com1_datePicker.val($com1_dataPickerTip);
+//        $com1_iteItemEditorWrp.hide();
+    });
+    
+
+    $com1_iteItemEditorWrp.delegate( ".ite-cancelSaveItem","click",function(){
+        var ttr = $.tmplItem(this);
+        ttr.update();
+        $(ttr.nodes).find("input[id^='dp-']").datepicker({					
+            dateFormat: 'dd.mm.yy',
+            buttonImage: "../img/icons/cal_deb887.png",
+            showOn: 'both',
+            buttonImageOnly: true,
+            autoSize: true,
+            showAnim: "",
+            showButtonPanel: true					
+        });
+
+       
+    });
+
 //top menu decoration and control
 $("#logInNow").hover(function(){
   $(this).addClass("logInHov");

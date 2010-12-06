@@ -1,7 +1,4 @@
-<?php
-    $targetDay = __('Target day', true);
-    echo $html->scriptBlock('var targetDay = "' . $targetDay . '";');
-?>
+<?php $targetDay = __('Target day', true);?>
 
 <script id="ite-itemEditorTmpl" type="text/x-jquery-tmpl">
 
@@ -10,7 +7,7 @@
         <div class="ite-newItemFormTop">
             
             <div class="ite-itemTypeCtrl">
-                <span class="ite-itemType itT<?php echo $itemTypes[0]['n'];?>"><?php echo $itemTypes[0]['t']; ?></span>
+                <span class="ite-itemType itT ${Item.typeClass}">${Item.typeText}</span>
                 
                 <div  class="ite-itemTypeList hide">
                     <div class="ite-itemTypeListInner">
@@ -25,7 +22,13 @@
                 
             </div>
             <div class="ite-datePickerWrp">
-                <?php echo $this->Form->input('datepicker', array('label' => false, 'div' => false, 'class' => 'datepicker', 'id' => '${datepicker}', 'default' => $targetDay)); ?>
+                <?php echo $this->Form->input('datepicker', array(
+                    'label' => false,
+                    'div' => false,
+                    'class' => 'datepicker',
+                    'id' => 'dp-${Item.id}',
+                    'default' =>'{{if Item.target}}${Item.target}{{else}}'.$targetDay.'{{/if}}'
+                )); ?>
             </div>
             <div id="ite-tagsAddedWrp" class="ite-tagsAddedWrp">              
                 <span class="ite-tagIcon"><?php echo $this->Html->image('icons/tag_deb887_16x16.png', array('title' => __('Click to add tags to the new item', true))); ?></span>
@@ -37,7 +40,7 @@
             <div class="ite-itemSaveCtrl">
                 <ul class="ite-icons ui-widget ui-helper-clearfix">
                     <li id="ite-saveItemMain" class="ite-saveItemMain ui-state-default ui-corner-all"><span class="ui-icon ui-icon-plusthick"></span></li>
-                    <li id="ite-cancelSaveItem" class="ui-state-default ui-corner-all"><span class="ui-icon ui-icon-cancel"></span></li>
+                    <li class="ite-cancelSaveItem ui-state-default ui-corner-all"><span class="ui-icon ui-icon-cancel"></span></li>
                 </ul>     
             </div>
         </div>

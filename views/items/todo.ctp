@@ -18,7 +18,7 @@
       <div class="textItem">
         <span class="itp-itemType ${Item.typeClass}">${Item.typeText}</span>
         <span class="itemCrated">${Item.created}</span>
-        <span class="itp-targetItem">${Item.target}</span>
+        <span id="dp-${Item.id}" class="itp-targetItem">${Item.target}</span>
 
         {{each Tag}}
           <span data-itemtagid="${Tagged.id}" class="itp-itemTag">${name}</span>

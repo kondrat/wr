@@ -49,11 +49,7 @@
 .itp-itemToEdit .itp-itemHead {
     background-color:wheat;
 }
-.itp-itemHeadActive{
-    /*background-color: #C6D880;*/
-    border:1px solid #AAAAAA;
-    margin-bottom: 5px;
-}
+
 .itp-itemType{
     color:white;
     display:block;
