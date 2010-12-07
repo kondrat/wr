@@ -1,25 +1,34 @@
 jQuery(document).ready(function(){
 
-  var $com1_contentWrapper = $(".contentWrapper");
-  var $com1_alertMessage = $('#flashMessage');
-  var $com1_itpItemPages = $("#itp-itemPages");
+    var $com1_contentWrapper = $(".contentWrapper");
+    var $com1_alertMessage = $('#flashMessage');
+    var $com1_itpItemPages = $("#itp-itemPages");
 //  just to check this var
-  var $com1_item = $("#item");
-  var $com1_itpItemTmpl = $("#itp-itemTmpl");
+    var $com1_item = $("#item");
+    var $com1_itpItemTmpl = $("#itp-itemTmpl");
 
 			
   //item editor
-  var $com1_iteItemEditorWrp = $("#ite-itemEditorWrp");
+    var $com1_iteItemEditorWrp = $("#ite-itemEditorWrp");
 //  var $com1_iteNewItemBtnWrp = $("#ite-newItemBtnWrp");
-  var $com1_iteNewItemBtn = $("#ite-newItemBtn");
-  var $com1_iteItemEditorTmpl = $("#ite-itemEditorTmpl");
+    var $com1_iteNewItemBtn = $("#ite-newItemBtn");
+    var $com1_iteItemEditorTmpl = $("#ite-itemEditorTmpl");
 
-  var $com1_quickLogin = $("#quickLogin");
+    var $com1_quickLogin = $("#quickLogin");
 			
-  var $com1_datePicker = $("#datepicker");
-			
-  var $com1_dataPickerTip = '';
-  
+    var $com1_dataPickerTip = '';
+//    defaults for all datapicers
+    $.datepicker.setDefaults(
+        {					
+            dateFormat: 'dd.mm.yy',
+            buttonImage: "../img/icons/cal_deb887.png",
+            showOn: 'both',
+            buttonImageOnly: true,
+            autoSize: true,
+            showAnim: "",
+            showButtonPanel: true					
+        }
+    );
  
 			
   //tags
@@ -66,16 +75,8 @@ jQuery(document).ready(function(){
             Tag:[]
         };
         var $freshEditor = $com1_iteItemEditorTmpl.tmpl(itemObj).appendTo($com1_iteItemEditorWrp);
-        //    	appling ui datepicker to the new generated editor		
-        $freshEditor.find("#dp-000").datepicker({					
-            dateFormat: 'dd.mm.yy',
-            buttonImage: "../img/icons/cal_deb887.png",
-            showOn: 'both',
-            buttonImageOnly: true,
-            autoSize: true,
-            showAnim: "",
-            showButtonPanel: true					
-        });
+//    	appling ui datepicker to the new generated editor		
+        $freshEditor.find("#dp-000").datepicker();
     };
     if($com1_iteItemEditorWrp.length > 0){
         f_com1_itemEditor();
@@ -152,15 +153,6 @@ jQuery(document).ready(function(){
             itemTags.push(thisTag.text());
         });
 
-        var tagObj2 = new Object();
-        $.each(itemTags,function(i,v){
-            tagObj2[i] = {
-                'name':v,
-                'Tagged':{
-                    'id':'000'
-                }
-            };
-        });
 
 
 
@@ -169,8 +161,8 @@ jQuery(document).ready(function(){
             "data[prj]" : pObj.prjId,
             "data[target]" : epoch,
             "data[task]": itemTask,
-            "data[tags]": itemTags,
-            "data[mags]": tagObj2
+            "data[tags]": itemTags
+         
         };
 //    	console.log(itemObj);			
         $.ajax({
@@ -208,7 +200,7 @@ jQuery(document).ready(function(){
                         tagObj[i] = {
                             'name':v,
                             'Tagged':{
-                                'id':'000'
+                                'id':'0002'
                             }
                         };
                     });
@@ -227,6 +219,7 @@ jQuery(document).ready(function(){
                         },
                         'Tag':tagObj
                     };
+                    console.log(newItemObj);
                     $com1_itpItemTmpl.tmpl(newItemObj).prependTo($com1_itpItemPages);
 
 //                        @todo correct this. 
@@ -292,8 +285,8 @@ jQuery(document).ready(function(){
     var selectedItem = null;		
     $com1_itpItemPages.delegate(".itp-itemHead","click",function(){
 			
-        var $thisItemHead = $(this);
-        var $thisParent = $thisItemHead.parent();
+//        var $thisItemHead = $(this);
+//        var $thisParent = $thisItemHead.parent();
  
          // preparing the editor. cleaning up all prev and rendering new one
 
@@ -310,16 +303,7 @@ jQuery(document).ready(function(){
 
         selectedItem.tmpl = $("#ite-itemEditorTmpl").template();//$com1_iteItemEditorTmpl;
         selectedItem.update();
-//  @todo create common datapicer object
-        $(selectedItem.nodes).find("input[id^='dp-']").datepicker({					
-            dateFormat: 'dd.mm.yy',
-            buttonImage: "../img/icons/cal_deb887.png",
-            showOn: 'both',
-            buttonImageOnly: true,
-            autoSize: true,
-            showAnim: "",
-            showButtonPanel: true					
-        });    
+        $(selectedItem.nodes).find("input[id^='dp-']").datepicker();    
  
     });
 
@@ -337,20 +321,12 @@ jQuery(document).ready(function(){
     
 
     $com1_iteItemEditorWrp.delegate( ".ite-cancelSaveItem","click",function(){
-        var ttr = $.tmplItem(this);
-        ttr.update();
-        $(ttr.nodes).find("input[id^='dp-']").datepicker({					
-            dateFormat: 'dd.mm.yy',
-            buttonImage: "../img/icons/cal_deb887.png",
-            showOn: 'both',
-            buttonImageOnly: true,
-            autoSize: true,
-            showAnim: "",
-            showButtonPanel: true					
-        });
-
-       
+        var itemObj = $.tmplItem(this);
+        itemObj.update();
+        $(itemObj.nodes).find("input[id^='dp-']").datepicker();      
     });
+    
+    
 
 //top menu decoration and control
 $("#logInNow").hover(function(){

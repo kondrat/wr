@@ -39,7 +39,7 @@
 
             <div class="ite-itemSaveCtrl">
                 <ul class="ite-icons ui-widget ui-helper-clearfix">
-                    <li id="ite-saveItemMain" class="ite-saveItemMain ui-state-default ui-corner-all"><span class="ui-icon ui-icon-plusthick"></span></li>
+                    <li class="ite-saveItemMain ui-state-default ui-corner-all"><span class="ui-icon ui-icon-plusthick"></span></li>
                     <li class="ite-cancelSaveItem ui-state-default ui-corner-all"><span class="ui-icon ui-icon-cancel"></span></li>
                 </ul>     
             </div>

@@ -85,7 +85,7 @@ class ItemsController extends AppController {
                 if (isset($tempData['prj'])) {
                     $this->data['Item']['project_id'] = $tempData['prj'];
                 } else {
-                    //if no project id specified and aciton is not updata(no item id) we finish.
+                    //if no project id specified and aciton is not "update" (no item id) we finish.
                     if (!isset($this->data['Item']['id'])) {
                         $contents = json_encode($contents);
                         $this->header('Content-Type: application/json');
@@ -105,7 +105,7 @@ class ItemsController extends AppController {
                         return ($contents);
                     } else {
                         $this->data['Item']['item'] = $tempData['item'];
-                        $contents['word'] = $this->data["Item"]["item"];
+//                        $contents['word'] = $this->data["Item"]["item"];
                     }
                 } else {
                     //case when no data item, but we creating new item;
@@ -120,7 +120,7 @@ class ItemsController extends AppController {
 
                 if (isset($tempData['task']) && in_array((int) $tempData['task'], array(0, 1, 2, 3), true)) {
                     $this->data['Item']['task'] = (int) $tempData['task'];
-                    $contents['task'] = $this->data["Item"]["task"];
+//                    $contents['task'] = $this->data["Item"]["task"];
                 }
 
 
@@ -138,7 +138,7 @@ class ItemsController extends AppController {
                     }
                     if ($tagsSet !== array()) {
                         $this->data['Item']['tags'] = implode(',', $tagsSet);
-                        $contents['tags'] = $tagsSet;
+//                        $contents['tags'] = $tagsSet;
                     }
                 }
 
@@ -146,29 +146,40 @@ class ItemsController extends AppController {
 
                     $nw = (int) $tempData['target'];
                     if ($nw !== 0) {
-                        $contents['date'] = $this->data['Item']['target'] = date('Y-m-d', $nw);
+                        $this->data['Item']['target'] = date('Y-m-d', $nw);
                     } else {
                         $this->data['Item']['target'] = null;
                     }
                 }
 
-                /*
-                  $this->data['Item']['hour'];
-                  $this->data['Item']['min'];
-                 */
+
             }
 
             $this->data = Sanitize::clean($this->data);
 
             if ($this->Item->save($this->data)) {
                 $contents['stat'] = 1;
-                $contents['id'] = $this->Item->id;
+                $savedId = $this->Item->id;
+                $savedData = $this->Item->find('first',array(
+                            'conditions'=>array('Item.id'=>$savedId),
+                            'fields'=>array('Item.id','Item.item'),
+                            'contain'=>'Tag' 
+                            )
+                        );
+                foreach ($savedData['Tag'] as $k=>$v){
+                    unset($savedData['Tag'][$k]['created']);
+                    unset($savedData['Tag'][$k]['keyname']);
+                    unset($savedData['Tag'][$k]['modified']);
+                }
+//                unset($contents['Tag']);
+                
+                
             } else {
                 unset($contents);
                 $contents['stat'] = 0;
                 $contents['dat'] = $this->data;
             }
-            $contents['jn'] = __('Just now',true);
+            $contents['jn'] = __('Just now 1',true);
 
             $contents = json_encode($contents);
             $this->header('Content-Type: application/json');
