@@ -166,12 +166,9 @@ class ItemsController extends AppController {
                             'contain'=>'Tag' 
                             )
                         );
-                foreach ($savedData['Tag'] as $k=>$v){
-                    unset($savedData['Tag'][$k]['created']);
-                    unset($savedData['Tag'][$k]['keyname']);
-                    unset($savedData['Tag'][$k]['modified']);
-                }
-//                unset($contents['Tag']);
+               
+ 
+                $contents['res'] = $this->_savedItemArray($savedData);
                 
                 
             } else {
@@ -189,6 +186,27 @@ class ItemsController extends AppController {
         }
     }
 
+    
+    private function _savedItemArray($res = array() ){
+        if(isset ($res['Tag'])) {
+                foreach ($res['Tag'] as $k=>$v){
+                    unset($res['Tag'][$k]['created']);
+                    unset($res['Tag'][$k]['keyname']);
+                    unset($res['Tag'][$k]['modified']);
+                    unset($res['Tag'][$k]['Tagged']['created']);
+                    unset($res['Tag'][$k]['Tagged']['foreign_key']);
+                    unset($res['Tag'][$k]['Tagged']['language']);
+                    unset($res['Tag'][$k]['Tagged']['model']);
+                    unset($res['Tag'][$k]['Tagged']['modified']);
+                    unset($res['Tag'][$k]['Tagged']['tag_id']);
+                    unset($res['Tag'][$k]['Tagged']['times_tagged']);
+                    unset($res['Tag'][$k]['Tagged']['test']);
+                }  
+        }
+        return $res;
+    }
+    
+    
     function delItem() {
 
         $authUserId = null;
@@ -346,8 +364,6 @@ class ItemsController extends AppController {
 
             foreach ($todos as $k => $todo) {
 
-                //$todos[$k]['Item']['nust'] = 'cor';
-
                 $statusClass = "itS0";
                 $statusText = "opend";
                 if ($itemStatuses) {
@@ -389,6 +405,9 @@ class ItemsController extends AppController {
                     $todos[$k]["Item"]["created"] = $Timenomin->timeAgoInWords($todo["Item"]["created"]);
                 }
             }
+  
+            
+            
             $contents["data"] = $todos;
             $contents["nbTotalItems"] = $this->params["paging"]["Item"]["count"];
 

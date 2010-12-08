@@ -27,6 +27,6 @@ class Item extends AppModel {
 		)
 	);
 
-	
+
 }
 ?>

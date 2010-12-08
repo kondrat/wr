@@ -172,57 +172,57 @@ jQuery(document).ready(function(){
             data: itemObj,
             success: function(data) {
 					
-                var itemTaskT = 'todo';
-                var itemTaskCl = 'itemType itT0';
-                var itemId = 0;
+//                var itemTaskT = 'todo';
+//                var itemTaskCl = 'itemType itT0';
+//                var itemId = 0;
+//
+//					
+//                if ( data.stat === 1 ) {
+//
+//                    if( $com1_itT !== '') {
+//                        $.each($com1_itT, function(i,v){
+//                            if( v.n == data.task ) {
+//
+//                                itemTaskT = v.t;
+//                                itemTaskCl = 'itemType itT'+v.n;
+//                                itemId = data.id;
+//
+//                                return;
+//                            }
+//                        });
+//                    } else {
+//                        itemTaskCl = $com1_iteItemEditorWrp.find(".ite-itemTypeList").children("span:first").attr("class");
+//                        itemTaskT = $com1_iteItemEditorWrp.find(".ite-itemTypeList").children("span:first").text();
+//                    }
 
-					
-                if ( data.stat === 1 ) {
+//                    var tagObj = new Object();
+//                    $.each(itemTags,function(i,v){
+//                        tagObj[i] = {
+//                            'name':v,
+//                            'Tagged':{
+//                                'id':'0002'
+//                            }
+//                        };
+//                    });
 
-                    if( $com1_itT !== '') {
-                        $.each($com1_itT, function(i,v){
-                            if( v.n == data.task ) {
+//                    var newItemObj =
+//                    {
+//                        'Item':{
+//                            'id':itemId,
+//                            'target':dateFromInput,
+//                            'typeClass':itemTaskCl,
+//                            'typeText':itemTaskT,
+//                            'statusClass':'itS0',
+//                            'statusText':'open',
+//                            'item':itemVal,
+//                            'created':data.jn
+//                        },
+//                        'Tag':tagObj
+//                    };
+                    console.log(data.res);
+                    $com1_itpItemTmpl.tmpl(data.res).prependTo($com1_itpItemPages);
 
-                                itemTaskT = v.t;
-                                itemTaskCl = 'itemType itT'+v.n;
-                                itemId = data.id;
-
-                                return;
-                            }
-                        });
-                    } else {
-                        itemTaskCl = $com1_iteItemEditorWrp.find(".ite-itemTypeList").children("span:first").attr("class");
-                        itemTaskT = $com1_iteItemEditorWrp.find(".ite-itemTypeList").children("span:first").text();
-                    }
-
-                    var tagObj = new Object();
-                    $.each(itemTags,function(i,v){
-                        tagObj[i] = {
-                            'name':v,
-                            'Tagged':{
-                                'id':'0002'
-                            }
-                        };
-                    });
-
-                    var newItemObj =
-                    {
-                        'Item':{
-                            'id':itemId,
-                            'target':dateFromInput,
-                            'typeClass':itemTaskCl,
-                            'typeText':itemTaskT,
-                            'statusClass':'itS0',
-                            'statusText':'open',
-                            'item':itemVal,
-                            'created':data.jn
-                        },
-                        'Tag':tagObj
-                    };
-                    console.log(newItemObj);
-                    $com1_itpItemTmpl.tmpl(newItemObj).prependTo($com1_itpItemPages);
-
-//                        @todo correct this. 
+//                        @todo : treat the editor after successful save 
 //                    $com1_datePicker.val('No target');
 //                    $com1_item.val('').focus();
                 
@@ -372,7 +372,7 @@ $com1_itpItemPages.delegate(".statusItem","mouseleave",function(){
   $(this).removeClass("activeStatusItem");
 });
 
-//to replace with pop-up
+//@todo : to replace with pop-up
 $com1_itpItemPages.delegate(".statusItem","click",function(event){
   //event.stopPropagation();
 
