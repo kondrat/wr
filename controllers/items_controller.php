@@ -160,15 +160,15 @@ class ItemsController extends AppController {
             if ($this->Item->save($this->data)) {
                 $contents['stat'] = 1;
                 $savedId = $this->Item->id;
-                $savedData = $this->Item->find('first',array(
+                $savedData[0] = $this->Item->find('first',array(
                             'conditions'=>array('Item.id'=>$savedId),
-                            'fields'=>array('Item.id','Item.item'),
+                            'fields'=>array('Item.id','Item.item','Item.status','Item.task','Item.target','Item.created'),
                             'contain'=>'Tag' 
                             )
                         );
                
  
-                $contents['res'] = $this->_savedItemArray($savedData);
+                $contents['res'] = $this->_iterateItem($savedData);
                 
                 
             } else {
@@ -187,24 +187,7 @@ class ItemsController extends AppController {
     }
 
     
-    private function _savedItemArray($res = array() ){
-        if(isset ($res['Tag'])) {
-                foreach ($res['Tag'] as $k=>$v){
-                    unset($res['Tag'][$k]['created']);
-                    unset($res['Tag'][$k]['keyname']);
-                    unset($res['Tag'][$k]['modified']);
-                    unset($res['Tag'][$k]['Tagged']['created']);
-                    unset($res['Tag'][$k]['Tagged']['foreign_key']);
-                    unset($res['Tag'][$k]['Tagged']['language']);
-                    unset($res['Tag'][$k]['Tagged']['model']);
-                    unset($res['Tag'][$k]['Tagged']['modified']);
-                    unset($res['Tag'][$k]['Tagged']['tag_id']);
-                    unset($res['Tag'][$k]['Tagged']['times_tagged']);
-                    unset($res['Tag'][$k]['Tagged']['test']);
-                }  
-        }
-        return $res;
-    }
+
     
     
     function delItem() {
@@ -276,7 +259,10 @@ class ItemsController extends AppController {
         }
     }
 
-//--------------------------------------------------------------------
+/**
+ *
+ * @return type json
+ */
     function todo() {
 
         $todos = array();
@@ -284,11 +270,6 @@ class ItemsController extends AppController {
         $pagItemCond = array();
         $curPrj = array();
         $curPrjId = null;
-
-        $itemTypes = Configure::read('itemTypes');       
-        $itemStatuses = Configure::read('itemStatuses');
-        
-
 
 
 
@@ -332,6 +313,7 @@ class ItemsController extends AppController {
 
 
         $this->paginate['conditions'] = $pagItemCond;
+        $this->paginate['fields']=array('Item.id','Item.item','Item.status','Item.task','Item.target','Item.created');
         $this->paginate['order'] = array('Item.created' => 'DESC');
         $this->paginate['limit'] = 12;
         $this->paginate['contain'] = array(
@@ -341,15 +323,8 @@ class ItemsController extends AppController {
             )
         );
 
-
-  
-
         if ($this->RequestHandler->isAjax() && isset($this->params['url']['startIndex']) && isset($this->params['url']['nbItemsByPage'])) {
 
-
-
-//            $this->params["paging"]["Item"]["options"]["page"] = $this->params['url']['startIndex']/$this->params['url']['nbItemsByPage'] + 1;
-//            $this->params["named"]["page"] = 3;
             $this->paginate['limit'] = $this->params['url']['nbItemsByPage'];
             $this->paginate['page'] = $this->params['url']['startIndex'] / $this->params['url']['nbItemsByPage'] + 1;
 
@@ -357,58 +332,9 @@ class ItemsController extends AppController {
             $this->autoLayout = false;
             $this->autoRender = FALSE;
             $todos = $this->paginate('Item');
-            //importing helpers to prepare date in goode format
-            App::import('Helper', 'Time');
-            App::import('Helper', 'Timenomin');
-            $Timenomin = new TimenominHelper();
 
-            foreach ($todos as $k => $todo) {
 
-                $statusClass = "itS0";
-                $statusText = "opend";
-                if ($itemStatuses) {
-                    foreach ($itemStatuses as $v) {
-                        if ($todo['Item']['status'] == $v['n']) {
-                            $statusClass = "itS" . $v['n'];
-                            $statusText = $v['t'];
-                        }
-                    }
-
-                    unset($todos[$k]['Item']['status']);
-
-                    $todos[$k]['Item']['statusClass'] = $statusClass;
-                    $todos[$k]['Item']['statusText'] = $statusText;
-                }
-
-                $itemTypeClass = "itT0";
-                $itemTypeText = "todo";
-                if ($itemTypes) {
-                    foreach ($itemTypes as $v) {
-                        if ($todo['Item']['task'] == $v['n']) {
-                            $itemTypeClass = "itT" . $v['n'];
-                            $itemTypeText = $v['t'];
-                        }
-                    }
-                    unset($todos[$k]['Item']['task']);
-                    $todos[$k]['Item']['typeClass'] = $itemTypeClass;
-                    $todos[$k]['Item']['typeText'] = $itemTypeText;
-                }
-
-                $formatedDate = ''; //__('No target',true);
-                if (!empty($todo["Item"]["target"])) {
-                    $date = new DateTime($todo["Item"]["target"]);
-                    $formatedDate = $date->format('d.m.y');
-                }
-                $todos[$k]['Item']['target'] = $formatedDate;
-
-                if (!empty($todo["Item"]["created"])) {
-                    $todos[$k]["Item"]["created"] = $Timenomin->timeAgoInWords($todo["Item"]["created"]);
-                }
-            }
-  
-            
-            
-            $contents["data"] = $todos;
+            $contents["data"] = $this->_iterateItem($todos);
             $contents["nbTotalItems"] = $this->params["paging"]["Item"]["count"];
 
 
@@ -419,14 +345,110 @@ class ItemsController extends AppController {
             return ($contents);
         }
 
-        $this->set('itemTypes', $itemTypes);
-        $this->set('itemStatuses', $itemStatuses);
+
         $this->set('todos', $this->paginate('Item'));
         $this->set('menuType', 'todo');
         $this->set('curPrj', $curPrj);
         $this->set('tags', $this->Item->Tagged->find('cloud', array('conditions' => array('Tag.identifier' => 'prj-' . $curPrjId), 'limit' => 10, 'contain' => false)));
     }
 
+    
+    
+/**
+ * iterating throught item data before sending to front end.
+ * @param array $items The items we a iterating to prepere output.
+ * 
+ * @return type array
+ * @access private
+ */
+    private function _iterateItem($items=array()) {
+        
+        $itemTypes = Configure::read('itemTypes');
+        $itemStatuses = Configure::read('itemStatuses');
+        
+        foreach ($items as $k => $todo) {
+  
+        
+            $statusClass = "itS0";
+            $statusText = "opend";      
+            if ($itemStatuses) {
+                foreach ($itemStatuses as $v) {
+                    if ($todo['Item']['status'] == $v['n']) {
+                        $statusClass = "itS" . $v['n'];
+                        $statusText = $v['t'];
+                    }
+                }
+
+                unset($items[$k]['Item']['status']);
+
+                $items[$k]['Item']['statusClass'] = $statusClass;
+                $items[$k]['Item']['statusText'] = $statusText;
+            }
+
+            $itemTypeClass = "itT0";
+            $itemTypeText = "todo";
+            if ($itemTypes) {
+                foreach ($itemTypes as $v) {
+                    if ($todo['Item']['task'] == $v['n']) {
+                        $itemTypeClass = "itT" . $v['n'];
+                        $itemTypeText = $v['t'];
+                    }
+                }
+                unset($items[$k]['Item']['task']);
+                $items[$k]['Item']['typeClass'] = $itemTypeClass;
+                $items[$k]['Item']['typeText'] = $itemTypeText;
+            }
+
+            $formatedDate = ''; //__('No target',true);
+            //importing helpers to prepare date in goode format
+            App::import('Helper', 'Time');
+            App::import('Helper', 'Timenomin');
+            $Timenomin = new TimenominHelper();           
+            
+            
+            
+            if (!empty($todo["Item"]["target"])) {
+                $date = new DateTime($todo["Item"]["target"]);
+                $formatedDate = $date->format('d.m.y');
+            }
+            $items[$k]['Item']['target'] = $formatedDate;
+
+            if (!empty($todo["Item"]["created"])) {
+                $items[$k]["Item"]["created"] = $Timenomin->timeAgoInWords($todo["Item"]["created"]);
+            }
+            
+            unset($items[$k]['Item']['tags']);
+            
+            $items[$k] = $this->_itemsTagsUnsetIterate($items[$k]);         
+            
+        }
+     
+        return $items;
+    }
+
+/**
+ * 
+ * @return type array
+ */
+        private function _itemsTagsUnsetIterate($res = array() ){
+        if(isset ($res['Tag'])) {
+                foreach ($res['Tag'] as $k=>$v){
+                    unset($res['Tag'][$k]['created']);
+                    unset($res['Tag'][$k]['keyname']);
+                    unset($res['Tag'][$k]['modified']);
+                    unset($res['Tag'][$k]['Tagged']['created']);
+                    unset($res['Tag'][$k]['Tagged']['foreign_key']);
+                    unset($res['Tag'][$k]['Tagged']['language']);
+                    unset($res['Tag'][$k]['Tagged']['model']);
+                    unset($res['Tag'][$k]['Tagged']['modified']);
+                    unset($res['Tag'][$k]['Tagged']['tag_id']);
+                    unset($res['Tag'][$k]['Tagged']['times_tagged']);
+                    unset($res['Tag'][$k]['Tagged']['test']);
+                }  
+        }
+        return $res;
+    }
+    
 //--------------------------------------------------------------------
     function diary() {
         

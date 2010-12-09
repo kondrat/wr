@@ -63,7 +63,7 @@ jQuery(document).ready(function(){
 	
 
 
-    //   new item editor initial randering
+//       new item editor preparation before creting of a new item
     var f_com1_itemEditor = function(){
         var itemObj = {
             test:"test",
@@ -74,14 +74,16 @@ jQuery(document).ready(function(){
                 },
             Tag:[]
         };
+        $com1_iteItemEditorWrp.empty();
         var $freshEditor = $com1_iteItemEditorTmpl.tmpl(itemObj).appendTo($com1_iteItemEditorWrp);
 //    	appling ui datepicker to the new generated editor		
         $freshEditor.find("#dp-000").datepicker();
     };
+    //   new item editor initial randering
     if($com1_iteItemEditorWrp.length > 0){
         f_com1_itemEditor();
     }
-
+//    hiding item editor new item cteation when editing existing item 
     var f_com1_itemEditorHide = function(){
         $com1_iteItemEditorWrp.hide();
         $com1_iteNewItemBtn.removeClass("ite-newItemBtnActive");      
@@ -172,60 +174,11 @@ jQuery(document).ready(function(){
             data: itemObj,
             success: function(data) {
 					
-//                var itemTaskT = 'todo';
-//                var itemTaskCl = 'itemType itT0';
-//                var itemId = 0;
-//
-//					
-//                if ( data.stat === 1 ) {
-//
-//                    if( $com1_itT !== '') {
-//                        $.each($com1_itT, function(i,v){
-//                            if( v.n == data.task ) {
-//
-//                                itemTaskT = v.t;
-//                                itemTaskCl = 'itemType itT'+v.n;
-//                                itemId = data.id;
-//
-//                                return;
-//                            }
-//                        });
-//                    } else {
-//                        itemTaskCl = $com1_iteItemEditorWrp.find(".ite-itemTypeList").children("span:first").attr("class");
-//                        itemTaskT = $com1_iteItemEditorWrp.find(".ite-itemTypeList").children("span:first").text();
-//                    }
-
-//                    var tagObj = new Object();
-//                    $.each(itemTags,function(i,v){
-//                        tagObj[i] = {
-//                            'name':v,
-//                            'Tagged':{
-//                                'id':'0002'
-//                            }
-//                        };
-//                    });
-
-//                    var newItemObj =
-//                    {
-//                        'Item':{
-//                            'id':itemId,
-//                            'target':dateFromInput,
-//                            'typeClass':itemTaskCl,
-//                            'typeText':itemTaskT,
-//                            'statusClass':'itS0',
-//                            'statusText':'open',
-//                            'item':itemVal,
-//                            'created':data.jn
-//                        },
-//                        'Tag':tagObj
-//                    };
-                    console.log(data.res);
+                if ( data.stat === 1 ) {
+//@todo go to   page one before prepend
                     $com1_itpItemTmpl.tmpl(data.res).prependTo($com1_itpItemPages);
-
-//                        @todo : treat the editor after successful save 
-//                    $com1_datePicker.val('No target');
-//                    $com1_item.val('').focus();
-                
+//                    setting fresh cleaned editor for the next task
+                    f_com1_itemEditor();
           	
                 } else {
                     flash_message('not saved','fler');

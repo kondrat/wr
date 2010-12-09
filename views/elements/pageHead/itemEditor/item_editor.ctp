@@ -11,6 +11,9 @@
                 
                 <div  class="ite-itemTypeList hide">
                     <div class="ite-itemTypeListInner">
+                        <?php
+                            $itemTypes = Configure::read('itemTypes'); 
+                        ?>
                         <?php foreach ($itemTypes as $v): ?>
                             <span id="itT_<?php echo $v['n']; ?>" class="ite-itemType itT<?php echo $v['n']; ?>"><?php echo $v['t']; ?></span>
                         <?php endforeach ?>   
@@ -48,7 +51,7 @@
 
 
         <div class="ite-newItemFormBtm">
-            <?php echo $this->Form->input('item', array('label' => false,'class'=>'ite-newItemText', 'div' => true,'id'=>false)); ?>
+            <?php echo $this->Form->input('item', array('label' => false,'class'=>'ite-newItemText', 'div' => true,'id'=>false,'value'=>'${Item.item}' ) ); ?>
         </div>
 
     </div>

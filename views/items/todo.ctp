@@ -1,4 +1,6 @@
 <?php
+    $itemTypes = Configure::read('itemTypes');       
+    $itemStatuses = Configure::read('itemStatuses');
     $aObj = $js->object($itemTypes);
     $bObj = $js->object($itemStatuses);
 //  @TODO  must be data instead of global var
