@@ -67,7 +67,6 @@ class ItemsController extends AppController {
                 //if we set id we will update the item. if we set wrong id - finish.
                 if (isset($tempData['id'])) {
 
-
                     $this->data['Item']['id'] = Sanitize::paranoid($tempData['id'], array('-'));
 
                     $curItem = $this->Item->find('first', array('conditions' => array('Item.id' => $this->data['Item']['id'], 'Item.user_id' => $authUserId, 'Item.active' => 1), 'contain' => false));
@@ -190,7 +189,7 @@ class ItemsController extends AppController {
 
     
     
-    function delItem() {
+        function delItem() {
 
         $authUserId = null;
         $contents['stat'] = 0;
@@ -222,7 +221,9 @@ class ItemsController extends AppController {
                     $curItem = $this->Item->find('first', array('conditions' => array('Item.id' => $this->data['Item']['id'], 'Item.user_id' => $authUserId), 'contain' => false));
 
                     if ($curItem != array()) {
-                        if ($this->Item->save($this->data)) {
+
+                        //                        if ($this->Item->save($this->data)) {
+                        if ($this->Item->delete($idToDel)) {
                             $contents['stat'] = 1;
                         } else {
                             $contents['stat'] = 0;
@@ -230,16 +231,16 @@ class ItemsController extends AppController {
                     } else {
                         $contents['stat'] = 0;
                     }
+                } else {
+                    $contents['stat'] = 0;
                 }
-            } else {
-                $contents['stat'] = 0;
-            }
 
-            $contents = json_encode($contents);
-            $this->header('Content-Type: application/json');
-            return ($contents);
-        } else {
-            $this->Security->blackHoleCallback = 'gotov';
+                $contents = json_encode($contents);
+                $this->header('Content-Type: application/json');
+                return ($contents);
+            } else {
+                $this->Security->blackHoleCallback = 'gotov';
+            }
         }
     }
 

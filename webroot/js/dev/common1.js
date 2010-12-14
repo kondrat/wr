@@ -117,8 +117,8 @@ jQuery(document).ready(function(){
     $com1_iteNewItemBtn.click(f_com1_iteNewItemBtnClick);
 
 
-//    new item save   
-    $com1_iteItemEditorWrp.delegate(".ite-saveItemMain","click",function(){
+
+    var f_com1_saveItem = function(){
       
         var $thisEditorSave = $(this);
         var $thisEditorSaveParent = $thisEditorSave.parents(".ite-itemEditor");
@@ -147,7 +147,7 @@ jQuery(document).ready(function(){
         
         var itemTask = $thisEditorSaveParent.find(".ite-itemTypeCtrl").find("span:first").data("type");
 
-//        tags creation
+        //        tags creation
         var itemTags = new Array();
 
         $thisTagsAdded.children().each(function(){
@@ -166,7 +166,7 @@ jQuery(document).ready(function(){
             "data[tags]": itemTags
          
         };
-//    	console.log(itemObj);			
+        //    	console.log(itemObj);			
         $.ajax({
             type: "POST",
             url: path+"/items/saveItem",
@@ -175,9 +175,9 @@ jQuery(document).ready(function(){
             success: function(data) {
 					
                 if ( data.stat === 1 ) {
-//@todo go to   page one before prepend
+                    //@todo go to   page one before prepend
                     $com1_itpItemTmpl.tmpl(data.res).prependTo($com1_itpItemPages);
-//                    setting fresh cleaned editor for the next task
+                    //                    setting fresh cleaned editor for the next task
                     f_com1_itemEditor();
           	
                 } else {
@@ -190,7 +190,16 @@ jQuery(document).ready(function(){
                 alert('Problem with the server. Try again later.');
             }
         });
-    }); 
+    };
+
+
+
+
+//    new item save   
+    $com1_iteItemEditorWrp.delegate(".ite-saveItemMain","click",f_com1_saveItem); 
+
+
+
 
 
 
@@ -757,45 +766,55 @@ $com1_iteNewItemBtn.tipsy({
     });
   }
   
- 
+
+    $com1_itpItemPages.delegate(".ite-delItem","click",function(){		
+		
+        var $parNode = $(this).parents(".ite-itemEditor");
+  
+        var $mm  = $parNode.tmplItem();
+     
+				
+        if (confirm('Are you sure to delete?')) {
+    
+            var $itemObj = $parNode.tmplItem();
+   
+            if( typeof($itemObj.data.Item.id) !== "undefined" && $itemObj.data.Item.id !== "" ) {
+                $.ajax({
+                    dataType:"json",
+                    type: "POST",
+                    data: {
+                        "data[itId]":$itemObj.data.Item.id
+                    },
+                    success:function (data, textStatus) {
+                        if( data.stat === 1) {
+                            
+                            
+                            $parNode.children().css({
+                                "background-color":"lightPink"
+                            }).end().fadeOut(600 ,function(){
+                                $(this).remove();
+                            });
+                        } else {
+                            flash_message("Couldn't be deleted", "fler" );
+                        }
+                    },
+                    url: path+"\/items\/delItem",
+                    error:function(){
+                        alert('Problem with the server. Try again later.');
+                    }
+                });
+            }
+        }
+			
+    });
+    
 });
 
 
-//@todo : to del. we now have common editor		
-//$com1_itpItemPages.delegate(".itemDel","click",function(){		
-//		
-//  var parId = $(this).parents(".itp-item");
-//				
-//  if (confirm('Are you sure to delete?')) {
-//    //to validate
-//    var itId = parId.attr("id").replace("item_", "");
-//    if( typeof(itId) !== "undefined" && itId !== "" ) {
-//      $.ajax({
-//        dataType:"json",
-//        type: "POST",
-//        data: {
-//          "data[itId]":itId
-//        },
-//        success:function (data, textStatus) {
-//          if( data.stat === 1) {
-//            parId.children().css({
-//              "background-color":"lightPink"
-//            }).end().fadeOut(600 ,function(){
-//              $(this).remove();
-//            });
-//          } else {
-//            flash_message("Couldn't be deleted", "fler" );
-//          }
-//        },
-//        url: path+"\/items\/delItem",
-//        error:function(){
-//          alert('Problem with the server. Try again later.');
-//        }
-//      });
-//    }
-//  }
-//			
-//});
+	
+
+
+//
 //@todo :to del. we now have common editor
 //$com1_itpItemPages.delegate(".itemSubmit","click",function(){
 //					
