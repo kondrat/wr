@@ -33,16 +33,20 @@ class ItemsController extends AppController {
 
 //--------------------------------------------------------------------
 //--------------------------------------------------------------------
-//--------------------------------------------------------------------
-    //ajax staff
-    //----------------------------------------------------------------
+
+
+ /**
+  * saving/editing of the items
+  * 
+  * @return type json
+  */   
 
     function saveItem() {
 
         $auth = false;
         $authUserId = null;
         $curItem = array();
-        $contents['stat'] = 0;
+        $contents['stat'] = 1;
 
         //ajax preparation
         Configure::write('debug', 0);
@@ -65,13 +69,28 @@ class ItemsController extends AppController {
                 unset($this->data);
 
                 //if we set id we will update the item. if we set wrong id - finish.
-                if (isset($tempData['id'])) {
+                if (isset($tempData['id']) && $tempData['id'] !== "000" ) {
 
                     $this->data['Item']['id'] = Sanitize::paranoid($tempData['id'], array('-'));
 
                     $curItem = $this->Item->find('first', array('conditions' => array('Item.id' => $this->data['Item']['id'], 'Item.user_id' => $authUserId, 'Item.active' => 1), 'contain' => false));
+                   //status "2" - editing item, not saving a new one.
+                    $contents['stat'] = 2;
+                    
+//                   @todo to del temp solution since tags com doesn't delete the last tag
+                    if(isset($tempData['tags']) && $tempData['tags'] == '' ){
+                        
+                        $taggedItem = $this->Item->Tagged->find('all',array('conditions'=>array('Tagged.foreign_key'=>$curItem['Item']['id']),'contain'=>false  ) );
+                        $taggedItem = Set::extract('/Tagged/id', $taggedItem);
+                        $this->Item->Tagged->delete( $taggedItem );
+                    }
+                    
+                    
+                    
+                    
+                    //if we havn't found item for provided id we finish
                     if ($curItem == array()) {
-                        $contents['piz'] = 1;
+                        $contents['stat'] = 0;
                         $contents = json_encode($contents);
                         $this->header('Content-Type: application/json');
                         return ($contents);
@@ -86,6 +105,7 @@ class ItemsController extends AppController {
                 } else {
                     //if no project id specified and aciton is not "update" (no item id) we finish.
                     if (!isset($this->data['Item']['id'])) {
+                        $contents['stat'] = 0;
                         $contents = json_encode($contents);
                         $this->header('Content-Type: application/json');
                         return ($contents);
@@ -109,6 +129,7 @@ class ItemsController extends AppController {
                 } else {
                     //case when no data item, but we creating new item;
                     if (!isset($this->data['Item']['id'])) {
+                        $contents['stat'] = 0;
                         $contents = json_encode($contents);
                         $this->header('Content-Type: application/json');
                         return ($contents);
@@ -129,6 +150,9 @@ class ItemsController extends AppController {
 
                 //tags data
                 if (isset($tempData['tags']) && is_array($tempData['tags'])) {
+                    
+           
+                    
                     $tagsSet = array();
                     foreach ($tempData['tags'] as $tag) {
                         if (($tag = Sanitize::paranoid($tag, array('-', '_')) ) != '') {
@@ -139,7 +163,8 @@ class ItemsController extends AppController {
                         $this->data['Item']['tags'] = implode(',', $tagsSet);
 //                        $contents['tags'] = $tagsSet;
                     }
-                }
+                } 
+                
 
                 if (isset($tempData['target'])) {
 
@@ -150,32 +175,28 @@ class ItemsController extends AppController {
                         $this->data['Item']['target'] = null;
                     }
                 }
-
-
             }
 
             $this->data = Sanitize::clean($this->data);
 
             if ($this->Item->save($this->data)) {
-                $contents['stat'] = 1;
-                $savedId = $this->Item->id;
-                $savedData[0] = $this->Item->find('first',array(
-                            'conditions'=>array('Item.id'=>$savedId),
-                            'fields'=>array('Item.id','Item.item','Item.status','Item.task','Item.target','Item.created'),
-                            'contain'=>'Tag' 
-                            )
-                        );
                
- 
+                $savedId = $this->Item->id;
+                $savedData[0] = $this->Item->find('first', array(
+                            'conditions' => array('Item.id' => $savedId),
+                            'fields' => array('Item.id', 'Item.item', 'Item.status', 'Item.task', 'Item.target', 'Item.created'),
+                            'contain' => 'Tag'
+                                )
+                );
+
+
                 $contents['res'] = $this->_iterateItem($savedData);
-                
-                
             } else {
                 unset($contents);
                 $contents['stat'] = 0;
                 $contents['dat'] = $this->data;
             }
-            $contents['jn'] = __('Just now 1',true);
+//            $contents['jn'] = __('Just now 1', true);
 
             $contents = json_encode($contents);
             $this->header('Content-Type: application/json');
@@ -185,11 +206,12 @@ class ItemsController extends AppController {
         }
     }
 
-    
-
-    
-    
-        function delItem() {
+/**
+ * deleting of the item from the list
+ * 
+ * @return type json
+ */    
+    function delItem() {
 
         $authUserId = null;
         $contents['stat'] = 0;
@@ -244,13 +266,20 @@ class ItemsController extends AppController {
         }
     }
 
-    //blackhole redirection
-    //-----------------------------
+
+/**
+ * blackhole redirection
+ * 
+ * @return type
+ */
     function gotov() {
         $this->redirect(null, 404, true);
     }
 
-//--------------------------------------------------------------------
+/**
+ * @return type
+ * 
+ */
     function index() {
         $this->set('title_for_layout', __('Main page', true));
         $this->set('menuType', 'index');
@@ -350,7 +379,7 @@ class ItemsController extends AppController {
         $this->set('todos', $this->paginate('Item'));
         $this->set('menuType', 'todo');
         $this->set('curPrj', $curPrj);
-        $this->set('tags', $this->Item->Tagged->find('cloud', array('conditions' => array('Tag.identifier' => 'prj-' . $curPrjId), 'limit' => 10, 'contain' => false)));
+        $this->set('tags', $this->Item->Tagged->find('cloud', array('conditions' => array('Tag.identifier' => 'prj-' . $curPrjId), 'limit' => 15, 'contain' => false)));
     }
 
     

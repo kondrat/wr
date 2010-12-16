@@ -117,11 +117,20 @@ jQuery(document).ready(function(){
     $com1_iteNewItemBtn.click(f_com1_iteNewItemBtnClick);
 
 
+//    save item function
 
     var f_com1_saveItem = function(){
       
         var $thisEditorSave = $(this);
         var $thisEditorSaveParent = $thisEditorSave.parents(".ite-itemEditor");
+        
+        //finding an id of the item.
+        var thisItemData = $thisEditorSaveParent.tmplItem();
+        var thisItemId = '000';
+        if( typeof(thisItemData.data.Item.id) !== "undefined" ){
+            thisItemId = thisItemData.data.Item.id;
+        } 
+        
         
         var dateFromInput = $thisEditorSaveParent.find(".datepicker").val();
         var $thisTagsAdded = $thisEditorSaveParent.find(".ite-tagsAdded");
@@ -159,6 +168,7 @@ jQuery(document).ready(function(){
 
 
         var itemObj = {
+            "data[id]": thisItemId,
             "data[item]": itemVal,
             "data[prj]" : pObj.prjId,
             "data[target]" : epoch,
@@ -180,6 +190,17 @@ jQuery(document).ready(function(){
                     //                    setting fresh cleaned editor for the next task
                     f_com1_itemEditor();
           	
+                } else if( data.stat === 2){
+                    
+//                    console.log(selectedItem1);
+                    selectedItem.tmpl = $("#itp-itemTmpl").template();
+                    
+                    selectedItem.data = data.res[0];
+                    
+                    selectedItem.update();
+                    
+                    selectedItem = null;
+                    
                 } else {
                     flash_message('not saved','fler');
                 }
@@ -197,6 +218,9 @@ jQuery(document).ready(function(){
 
 //    new item save   
     $com1_iteItemEditorWrp.delegate(".ite-saveItemMain","click",f_com1_saveItem); 
+    
+//    existing item edit 
+    $com1_itpItemPages.delegate(".ite-saveItemMain","click",f_com1_saveItem);
 
 
 
@@ -382,7 +406,7 @@ $com1_itpItemPages.delegate(".statusItem","click",function(event){
       },
       success: function(data) {
 					
-        if ( data.stat === 1 ) {
+        if ( data.stat === 2 ) {
 
           statIt.data({
             'origClass':thisIt.attr("class"),
@@ -459,7 +483,7 @@ $com1_itpItemPages.delegate(".statusItem","click",function(event){
       },
       success: function(data) {
 					
-        if ( data.stat === 1 ) {
+        if ( data.stat === 2 ) {
 
           thisIt.data({
             'origClass':thisIt.attr("class"),
