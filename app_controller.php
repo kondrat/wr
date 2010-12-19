@@ -3,7 +3,7 @@ class AppController extends Controller {
 	var $components = array( 
 				'Security',
 				'Cookie','Session','Auth',
-				'AutoLogin',
+//				'AutoLogin',
 				'RequestHandler', 'Email',
 				'DebugKit.Toolbar'
 			);
