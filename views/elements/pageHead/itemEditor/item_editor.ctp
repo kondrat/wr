@@ -42,7 +42,9 @@
 
             <div class="ite-itemSaveCtrl">
                 <ul class="ite-icons ui-widget ui-helper-clearfix">
-                    <li class="ite-delItem"><?php __('delete');?></li>
+                    {{if Item.id != '000'}}
+                        <li class="ite-delItem"><?php __('delete');?></li>
+                    {{/if}}
                     <li class="ite-saveItemMain ui-state-default ui-corner-all"><span class="ui-icon ui-icon-plusthick"></span></li>
                     <li class="ite-cancelSaveItem ui-state-default ui-corner-all"><span class="ui-icon ui-icon-cancel"></span></li>
                 </ul>     
