@@ -69,7 +69,7 @@
 <?php
 echo $html->link($html->image(
                 'pic/wr-logo-24-dev.png'
-        ), array('controller' => 'items', 'action' => 'index'), array('escape' => false));
+        ), array('plugin'=>false, 'controller' => 'items', 'action' => 'index'), array('escape' => false));
 ?> 
                         </div>
                     </div>
