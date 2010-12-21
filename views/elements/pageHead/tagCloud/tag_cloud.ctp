@@ -15,7 +15,7 @@
                     <?php $tagsObj = $js->object($tags); ?>														
                     <?php echo $html->scriptBlock('jQuery(document).ready(function(){ $("#tgc-tags").data("tgcObj",' . $tagsObj . '); });', array('inline' => false)); ?>								
                     <script id="tgc-tagsCloudAddTmpl" type="text/x-jquery-tmpl"> 
-                        <li class="tgc-tag tgc-tagNameCl" data-tagn="${Tag.name}" data-tagid="${Tag.id}"><span class="tgc-tagName">${Tag.name}</span><span class="tgc-occur">(${Tag.occurrence})</span>;</li>
+                        <li class="tgc-tag tgc-tagNameCl" data-tagn="${Tag.name}" ><span class="tgc-tagName">${Tag.name}</span><span class="tgc-occur">(${Tag.occurrence})</span>;</li>
                     </script>										
                         
                 <?php endif ?>
