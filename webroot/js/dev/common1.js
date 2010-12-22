@@ -3,57 +3,57 @@ jQuery(document).ready(function(){
     var $com1_contentWrapper = $(".contentWrapper");
     var $com1_alertMessage = $('#flashMessage');
     var $com1_itpItemPages = $("#itp-itemPages");
-//  just to check this var
+    //  just to check this var
     var $com1_item = $("#item");
     var $com1_itpItemTmpl = $("#itp-itemTmpl");
 
 			
-  //item editor
+    //item editor
     var $com1_iteItemEditorWrp = $("#ite-itemEditorWrp");
-//  var $com1_iteNewItemBtnWrp = $("#ite-newItemBtnWrp");
+    //  var $com1_iteNewItemBtnWrp = $("#ite-newItemBtnWrp");
     var $com1_iteNewItemBtn = $("#ite-newItemBtn");
     var $com1_iteItemEditorTmpl = $("#ite-itemEditorTmpl");
 
     var $com1_quickLogin = $("#quickLogin");
 			
     var $com1_dataPickerTip = '';
-//    defaults for all datapicers
+    //    defaults for all datapicers
     $.datepicker.setDefaults(
-        {					
-            dateFormat: 'dd.mm.yy',
-            buttonImage: "../img/icons/cal_deb887.png",
-            showOn: 'both',
-            buttonImageOnly: true,
-            autoSize: true,
-            showAnim: "",
-            showButtonPanel: true					
-        }
+    {					
+        dateFormat: 'dd.mm.yy',
+        buttonImage: "../img/icons/cal_deb887.png",
+        showOn: 'both',
+        buttonImageOnly: true,
+        autoSize: true,
+        showAnim: "",
+        showButtonPanel: true					
+    }
     );
  
 			
-  //tags
+    //tags
 			
-  //tags in editor
+    //tags in editor
 
-  var $com1_iteTagsAddedTmpl = $("#ite-tagsAddedTmpl");
+    var $com1_iteTagsAddedTmpl = $("#ite-tagsAddedTmpl");
 			
-  //tags in tagCloud
-  var $com1_tgcTagCloudWrp = $("#tgc-tagCloudWrp");
-  $com1_tgcTagCloudWrp.data("curEditTagLis",'');
-  var $com1_tgcTagCloudClose = $("#tgc-tagCloudClose");
-  var $com1_tgcTagsInput = $("#tgc-tagsInput");
-  var $com1_tgcTags = $("#tgc-tags");
-  var $com1_tgcTagsCloudAddTmpl = $("#tgc-tagsCloudAddTmpl");
-  var $com1_tgcTagsAdd = $("#tgc-tagsAdd");
+    //tags in tagCloud
+    var $com1_tgcTagCloudWrp = $("#tgc-tagCloudWrp");
+    $com1_tgcTagCloudWrp.data("curEditTagLis",'');
+    var $com1_tgcTagCloudClose = $("#tgc-tagCloudClose");
+    var $com1_tgcTagsInput = $("#tgc-tagsInput");
+    var $com1_tgcTags = $("#tgc-tags");
+    var $com1_tgcTagsCloudAddTmpl = $("#tgc-tagsCloudAddTmpl");
+    var $com1_tgcTagsAdd = $("#tgc-tagsAdd");
 		
-//  getting item Types from view file.
+    //  getting item Types from view file.
     var $com1_itT = '';
     var $com1_itTLenght = 0;
     if( typeof(itT) !== "undefined" && itT != null){
         $com1_itT = itT;
         $com1_itTLenght = itT.length;
     }
-//  getting item Status from view file.
+    //  getting item Status from view file.
     var $com1_itS = '';
     var $com1_itSLenght = 0;
     if( typeof(itS) !== "undefined" && itS != null){
@@ -62,31 +62,31 @@ jQuery(document).ready(function(){
     }
 	
 
-//    item which we a going to edit
+    // item which we a going to edit
     var selectedItem = null;
 
-//    hiding tag cloud popUp
+    // hiding tag cloud popUp
     var f_com1_tagCloudClose = function(){
         $com1_tgcTagCloudWrp.hide();
     };	
     $com1_tgcTagCloudClose.click(f_com1_tagCloudClose);
 
 
-//       new item editor preparation before creting of a new item
+    //new item editor preparation before creting of a new item
     var f_com1_itemEditor = function(){
         var itemObj = {
             
             Item:{
-                    id:"000",
-                    item:"",
-                    typeClass:"itT0",
-                    typeText:"ToDo"
-                },
+                id:"000",
+                item:"",
+                typeClass:"itT0",
+                typeText:"ToDo"
+            },
             Tag:[]
         };
         $com1_iteItemEditorWrp.empty();
         var $freshEditor = $com1_iteItemEditorTmpl.tmpl(itemObj).appendTo($com1_iteItemEditorWrp);
-//    	appling ui datepicker to the new generated editor		
+        //    	appling ui datepicker to the new generated editor		
         $freshEditor.find("#dp-000").datepicker();
         //close tagCloud popUp 
         f_com1_tagCloudClose();
@@ -95,14 +95,14 @@ jQuery(document).ready(function(){
     if($com1_iteItemEditorWrp.length > 0){
         f_com1_itemEditor();
     }
-//    hiding item editor new item cteation when editing existing item 
+    //    hiding item editor new item cteation when editing existing item 
     var f_com1_itemEditorHide = function(){
         $com1_iteItemEditorWrp.hide();
         $com1_iteNewItemBtn.removeClass("ite-newItemBtnActive");
         f_com1_tagCloudClose();
     }
 
-// New item controll
+    // New item controll
     var f_com1_iteNewItemBtnClick = function(e){
    
         $com1_itpItemPages.find(".itp-itemHead").show().removeClass("itp-itemHeadActive").next().remove();   
@@ -119,11 +119,11 @@ jQuery(document).ready(function(){
         f_com1_canselSaveItme();
         
     };
-//    new item editor visability control
+    //    new item editor visability control
     $com1_iteNewItemBtn.click(f_com1_iteNewItemBtnClick);
 
 
-//    save item (or edit) function
+    //    save item (or edit) function
 
     var f_com1_saveItem = function(){
       
@@ -229,9 +229,9 @@ jQuery(document).ready(function(){
         }
     };
 
-//    new item save   
+    //    new item save   
     $com1_iteItemEditorWrp.delegate(".ite-saveItemMain","click",f_com1_saveItem);     
-//    existing item edit 
+    //    existing item edit 
     $com1_itpItemPages.delegate(".ite-saveItemMain","click",f_com1_saveItem);
 
 
@@ -240,9 +240,9 @@ jQuery(document).ready(function(){
 
 
 
-// switching task type on new item editor. 1: open taskList
+    // switching task type on new item editor. 1: open taskList
     var f_com1_itemTypeCtrl = function(){
-         var $thisTypeCtrl = $(this);
+        var $thisTypeCtrl = $(this);
         var $thisTypeList = $thisTypeCtrl.find(".ite-itemTypeList");
         if( $thisTypeList.is(":hidden") ) {
             $thisTypeList.show();           
@@ -254,7 +254,7 @@ jQuery(document).ready(function(){
     $com1_itpItemPages.delegate(".ite-itemTypeCtrl","click",f_com1_itemTypeCtrl);
 
 
-//    2: close the list and take new task
+    //    2: close the list and take new task
     var f_com1_itemTypeChange = function(){
         var $thisType = $(this);
         var $thisTypeCtrl = $(this).parents(".ite-itemTypeCtrl");
@@ -283,19 +283,19 @@ jQuery(document).ready(function(){
     		
     $com1_itpItemPages.delegate(".itp-itemHead","click",function(){
 			
-//        var $thisItemHead = $(this);
-//        var $thisParent = $thisItemHead.parent();
+        //        var $thisItemHead = $(this);
+        //        var $thisParent = $thisItemHead.parent();
  
-         // preparing the editor. cleaning up all prev and rendering new one
+        // preparing the editor. cleaning up all prev and rendering new one
 
         //    hiding new item editor and tags editor
         f_com1_itemEditorHide();
 
         
         if(selectedItem){
-//            $(selectedItem.nodes).css( "backgroundColor", "" );
-                selectedItem.tmpl = $("#itp-itemTmpl").template();
-                selectedItem.update();
+            //            $(selectedItem.nodes).css( "backgroundColor", "" );
+            selectedItem.tmpl = $("#itp-itemTmpl").template();
+            selectedItem.update();
         }
         
         selectedItem = $.tmplItem(this);
@@ -306,7 +306,7 @@ jQuery(document).ready(function(){
  
     });
 
-// cancel save item
+    // cancel save item
     var f_com1_canselSaveItme = function(){
         if(selectedItem){
             selectedItem.tmpl = $("#itp-itemTmpl").template();
@@ -327,127 +327,127 @@ jQuery(document).ready(function(){
     
     
 
-//top menu decoration and control
-$("#logInNow").hover(function(){
-  $(this).addClass("logInHov");
+    //top menu decoration and control
+    $("#logInNow").hover(function(){
+        $(this).addClass("logInHov");
     },
     function(){
-      $(this).removeClass("logInHov");
+        $(this).removeClass("logInHov");
     }
-).click(function(e){
+    ).click(function(e){
 		
-  if(e) e.stopPropagation();
-  if(e) e.preventDefault();
+        if(e) e.stopPropagation();
+        if(e) e.preventDefault();
 			
-  if ( $com1_quickLogin.is(":hidden") ) {
-    $(this).addClass("logInAct");
+        if ( $com1_quickLogin.is(":hidden") ) {
+            $(this).addClass("logInAct");
 				
-    $("#overlay").show();
-  } else {
-    $("#overlay").hide();
-    $(this).removeClass("logInAct");
-  }
-  //ie 7 bug fix;
-  $com1_quickLogin.appendTo("body");
-		
-  $com1_quickLogin.toggle();
-  $("#UserUsername").focus();
-		
-  return false;
-});
- 	
-$com1_quickLogin.bind('clickoutside', function(){
-  $("#logInNow").removeClass("logInAct");
-  $(this).hide();
-  $("#overlay").hide();
- 		
-});
-
-$com1_itpItemPages.delegate(".statusItem","mouseenter",function(){
-  $(this).addClass("activeStatusItem");
-}); 
-
-$com1_itpItemPages.delegate(".statusItem","mouseleave",function(){
-  $(this).removeClass("activeStatusItem");
-});
-
-//@todo : to replace with pop-up
-$com1_itpItemPages.delegate(".statusItem","click",function(event){
-  //event.stopPropagation();
-
-  var thisIt = $(this).parents(".itp-item");
-  //getting item id
-  var itId = thisIt.attr("id").replace("item_","");
-  //finding statusItem class
-  var statIt = thisIt.find(".statusItem");
-
-  if( typeof(this.i) === "undefined" ){
-    this.i = 0;
-    statIt.data({
-      'origClass':thisIt.attr("class"),
-      'origText':statIt.text()
-      });
-  }
-		
-  var statusIt = 0;
-  for ( var i=0; i <= $com1_itSLenght; i++ ) {
-    var curClass = "itS"+$com1_itS[i].n;
-    var newClass;
-    if(thisIt.hasClass(curClass) ) {
-      if( (1+i) < $com1_itSLenght ){
-        statusIt = 1+i;
-      } else {
-        statusIt = 0;
-      }
-      newClass = "itS"+$com1_itS[statusIt].n;
-      thisIt.removeClass(curClass).addClass(newClass);
-      statIt.text($com1_itS[statusIt].t);
-      break;
-    }
-				
-  }
-		
-  clearTimeout(this.timeOut);
-  this.timeOut = setTimeout(function(){
-    $.ajax({
-      type: "POST",
-      url: path+"/items/saveItem",
-      dataType: "json",
-      data: {
-        "data[status]":$com1_itS[statusIt].n,
-        "data[id]":itId
-      },
-      success: function(data) {
-					
-        if ( data.stat === 2 ) {
-
-          statIt.data({
-            'origClass':thisIt.attr("class"),
-            'origText':statIt.text()
-            });
+            $("#overlay").show();
         } else {
-          flash_message('Status not saved','fler');
-          thisIt.attr("class",statIt.data('origClass'));
-          statIt.text(statIt.data('origText'));
+            $("#overlay").hide();
+            $(this).removeClass("logInAct");
         }
-          
-          
-      },
-      error: function(){
-        thisIt.attr("class",statIt.data('origClass'));
-        statIt.text(statIt.data('origText'));
-        alert('Problem with the server. Try again later.');
-      }
+        //ie 7 bug fix;
+        $com1_quickLogin.appendTo("body");
+		
+        $com1_quickLogin.toggle();
+        $("#UserUsername").focus();
+		
+        return false;
     });
+ 	
+    $com1_quickLogin.bind('clickoutside', function(){
+        $("#logInNow").removeClass("logInAct");
+        $(this).hide();
+        $("#overlay").hide();
+ 		
+    });
+
+    $com1_itpItemPages.delegate(".statusItem","mouseenter",function(){
+        $(this).addClass("activeStatusItem");
+    }); 
+
+    $com1_itpItemPages.delegate(".statusItem","mouseleave",function(){
+        $(this).removeClass("activeStatusItem");
+    });
+
+    //@todo : to replace with pop-up
+    $com1_itpItemPages.delegate(".statusItem","click",function(event){
+        //event.stopPropagation();
+
+        var thisIt = $(this).parents(".itp-item");
+        //getting item id
+        var itId = thisIt.attr("id").replace("item_","");
+        //finding statusItem class
+        var statIt = thisIt.find(".statusItem");
+
+        if( typeof(this.i) === "undefined" ){
+            this.i = 0;
+            statIt.data({
+                'origClass':thisIt.attr("class"),
+                'origText':statIt.text()
+            });
+        }
+		
+        var statusIt = 0;
+        for ( var i=0; i <= $com1_itSLenght; i++ ) {
+            var curClass = "itS"+$com1_itS[i].n;
+            var newClass;
+            if(thisIt.hasClass(curClass) ) {
+                if( (1+i) < $com1_itSLenght ){
+                    statusIt = 1+i;
+                } else {
+                    statusIt = 0;
+                }
+                newClass = "itS"+$com1_itS[statusIt].n;
+                thisIt.removeClass(curClass).addClass(newClass);
+                statIt.text($com1_itS[statusIt].t);
+                break;
+            }
+				
+        }
+		
+        clearTimeout(this.timeOut);
+        this.timeOut = setTimeout(function(){
+            $.ajax({
+                type: "POST",
+                url: path+"/items/saveItem",
+                dataType: "json",
+                data: {
+                    "data[status]":$com1_itS[statusIt].n,
+                    "data[id]":itId
+                },
+                success: function(data) {
+					
+                    if ( data.stat === 2 ) {
+
+                        statIt.data({
+                            'origClass':thisIt.attr("class"),
+                            'origText':statIt.text()
+                        });
+                    } else {
+                        flash_message('Status not saved','fler');
+                        thisIt.attr("class",statIt.data('origClass'));
+                        statIt.text(statIt.data('origText'));
+                    }
+          
+          
+                },
+                error: function(){
+                    thisIt.attr("class",statIt.data('origClass'));
+                    statIt.text(statIt.data('origText'));
+                    alert('Problem with the server. Try again later.');
+                }
+            });
 			
-  },1000);
+        },1000);
 		
-  return false;
+        return false;
 		
-}); 
+    }); 
  
 
-// @todo to replace with pop-up
+    // @todo to replace with pop-up
     $com1_itpItemPages.delegate(".itp-itemType","click",function(event){
 
         var thisIt = $(this);
@@ -465,157 +465,157 @@ $com1_itpItemPages.delegate(".statusItem","click",function(event){
         }
 
 		
-  var statusIt = 0;
-  for ( var i=0; i <= $com1_itTLenght; i++ ) {
-    var curClass = "itT"+$com1_itT[i].n;
-    var newClass;
-    if(thisIt.hasClass(curClass) ) {
-      //alert(curClass);
-      if( (1+i) < $com1_itTLenght ){
-        statusIt = 1+i;
-      } else {
-        statusIt = 0;
-      }
-      newClass = "itT"+$com1_itT[statusIt].n;
-      thisIt.removeClass(curClass).addClass(newClass).text($com1_itT[statusIt].t);
-      break;
-    }
+        var statusIt = 0;
+        for ( var i=0; i <= $com1_itTLenght; i++ ) {
+            var curClass = "itT"+$com1_itT[i].n;
+            var newClass;
+            if(thisIt.hasClass(curClass) ) {
+                //alert(curClass);
+                if( (1+i) < $com1_itTLenght ){
+                    statusIt = 1+i;
+                } else {
+                    statusIt = 0;
+                }
+                newClass = "itT"+$com1_itT[statusIt].n;
+                thisIt.removeClass(curClass).addClass(newClass).text($com1_itT[statusIt].t);
+                break;
+            }
 				
-  }
+        }
 	
 
-  clearTimeout(this.timeOut);
-  this.timeOut = setTimeout(function(){
-    $.ajax({
-      type: "POST",
-      url: path+"/items/saveItem",
-      dataType: "json",
-      data: {
-        "data[task]":$com1_itT[statusIt].n,
-        "data[id]":itId
-      },
-      success: function(data) {
+        clearTimeout(this.timeOut);
+        this.timeOut = setTimeout(function(){
+            $.ajax({
+                type: "POST",
+                url: path+"/items/saveItem",
+                dataType: "json",
+                data: {
+                    "data[task]":$com1_itT[statusIt].n,
+                    "data[id]":itId
+                },
+                success: function(data) {
 					
-        if ( data.stat === 2 ) {
+                    if ( data.stat === 2 ) {
 
-          thisIt.data({
-            'origClass':thisIt.attr("class"),
-            'origText':thisIt.text()
-            });
-        } else {
-          flash_message('Status not saved','fler');
-          thisIt.attr("class",thisIt.data('origClass')).text(thisIt.data('origText'));
+                        thisIt.data({
+                            'origClass':thisIt.attr("class"),
+                            'origText':thisIt.text()
+                        });
+                    } else {
+                        flash_message('Status not saved','fler');
+                        thisIt.attr("class",thisIt.data('origClass')).text(thisIt.data('origText'));
           	
-        }
+                    }
           
           
-      },
-      error: function(){
-        thisIt.attr("class",thisIt.data('origClass')).text(thisIt.data('origText'));
-        alert('Problem with the server. Try again later.');
-      }
-    });
+                },
+                error: function(){
+                    thisIt.attr("class",thisIt.data('origClass')).text(thisIt.data('origText'));
+                    alert('Problem with the server. Try again later.');
+                }
+            });
 
-  },1000);
+        },1000);
 
-  return false;
+        return false;
 		
-});  
+    });  
 
 
 
-//to del. we now have common editor
-$com1_itpItemPages.delegate(".itp-targetItem","click",function(event){
+    //to del. we now have common editor
+    $com1_itpItemPages.delegate(".itp-targetItem","click",function(event){
 
-  event.preventDefault();
+        event.preventDefault();
 		
-  //$(".itp-targetItem").datepicker('destroy');
+        //$(".itp-targetItem").datepicker('destroy');
 
-  var thisIt = $(this);
-  var thisPar = thisIt.parents(".itp-item");
-  //to clean up data id
-  var itId = thisPar.attr("id").replace("item_","");
-  var prevVal = thisIt.text();
-  thisIt.prepend('<input type="text" value="Target day"  name="data[datepicker]" class="datefield" size="10">').children().val(prevVal);
+        var thisIt = $(this);
+        var thisPar = thisIt.parents(".itp-item");
+        //to clean up data id
+        var itId = thisPar.attr("id").replace("item_","");
+        var prevVal = thisIt.text();
+        thisIt.prepend('<input type="text" value="Target day"  name="data[datepicker]" class="datefield" size="10">').children().val(prevVal);
 
-  thisIt.children().css({
-    "color":"red"
-  }).datepicker(
+        thisIt.children().css({
+            "color":"red"
+        }).datepicker(
 
-  {
-    dateFormat: 'dd.mm.yy',
-    autoSize: true,
-    showAnim: "",
-    showButtonPanel: true	,
+        {
+                dateFormat: 'dd.mm.yy',
+                autoSize: true,
+                showAnim: "",
+                showButtonPanel: true	,
 					
-    onSelect: function(dateText, inst) {
-    },
-    onClose: function(dateText, inst) {
+                onSelect: function(dateText, inst) {
+                },
+                onClose: function(dateText, inst) {
 											
-      try{
-        var parsedDate = $.datepicker.parseDate('dd.mm.yy', dateText );
-      }
-      catch(e){
-        parsedDate = null;
-      }
+                    try{
+                        var parsedDate = $.datepicker.parseDate('dd.mm.yy', dateText );
+                    }
+                    catch(e){
+                        parsedDate = null;
+                    }
 											
-      if(parsedDate) {
-        var tosend = new Date(parsedDate);
-        var epoch =  parseInt(tosend.getTime()/1000);
-      } else {
-        var epoch = '';
-        dateText = 'No target';
-      }
-      thisIt.text(dateText);
-      $(this).hide();
+                    if(parsedDate) {
+                        var tosend = new Date(parsedDate);
+                        var epoch =  parseInt(tosend.getTime()/1000);
+                    } else {
+                        var epoch = '';
+                        dateText = 'No target';
+                    }
+                    thisIt.text(dateText);
+                    $(this).hide();
 
 
-      var itemObj = {
-        "data[id]": itId,
-        "data[target]" : epoch
+                    var itemObj = {
+                        "data[id]": itId,
+                        "data[target]" : epoch
 									
-      };
+                    };
     				
-      $.ajax({
-        type: "POST",
-        url: path+"/items/saveItem",
-        dataType: "json",
-        data: itemObj,
-        success: function(data) {
+                    $.ajax({
+                        type: "POST",
+                        url: path+"/items/saveItem",
+                        dataType: "json",
+                        data: itemObj,
+                        success: function(data) {
 							
-          if ( data.stat === 1 ) {
+                            if ( data.stat === 1 ) {
 															          	
-          } else {
-            flash_message('not saved','fler');
-          }
+                            } else {
+                                flash_message('not saved','fler');
+                            }
 									          
 									          
-        },
-        error: function(){
-          alert('Problem with the server. Try again later.');
-        }
-      });
+                        },
+                        error: function(){
+                            alert('Problem with the server. Try again later.');
+                        }
+                    });
 
 
 
 
 																		
-    }
+                }
  
-  }
+            }
 		
 		
-  ).focus();
+            ).focus();
 
-  return false;
+        return false;
 		
-});
+    });
 
  
-//-----------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------
 
 	
-//        control of the tags cloud: toggling and iterating throught the tags
+    //control of the tags cloud: toggling and iterating throught the tags
     var f_com1_tagsCloudCtrl = function(){
         var $thisAddIcon = $(this);
 		
@@ -651,7 +651,7 @@ $com1_itpItemPages.delegate(".itp-targetItem","click",function(event){
         //iterating throught tags cloud and item tags to identify already choosen tags and add checked class to them.
         $tagsItem.tagCloudIteration($com1_tgcTags);  
     };
-// iteration through each item's tag
+    // iteration through each item's tag
     $.fn.tagCloudIteration = function( tagCloudObj ){
 		 
         if(!tagCloudObj){
@@ -659,8 +659,8 @@ $com1_itpItemPages.delegate(".itp-targetItem","click",function(event){
         }
 		
         var $tagsFromCloud = tagCloudObj.find(".tgc-tag").removeClass("tgc-tagChecked").addClass("tgc-tagNameCl");
-//        @todo understend why output 2 times
-	console.log(this.length);	
+        //        @todo understend why output 2 times
+        console.log(this.length);	
         return this.each(function(){
             var $tag = $(this);
             var thisTagName = $tag.text();
@@ -693,7 +693,7 @@ $com1_itpItemPages.delegate(".itp-targetItem","click",function(event){
 	
 	
 	
-//    remove tag from item tag list
+    //    remove tag from item tag list
     var f_com1_tagToRemoveFromItem = function(){
  
         var $thisTag = $(this);
@@ -707,8 +707,8 @@ $com1_itpItemPages.delegate(".itp-targetItem","click",function(event){
         });
 	
         if(thisTagItemId){
-         //@todo ajax tag deletion to define here;
-        }       
+    //@todo ajax tag deletion to define here;
+    }       
     }
     
     $com1_itpItemPages.delegate(".ite-tagAdded","click", f_com1_tagToRemoveFromItem );
@@ -731,32 +731,32 @@ $com1_itpItemPages.delegate(".itp-targetItem","click",function(event){
 
 
 
-$com1_tgcTagCloudWrp.draggable( {
-  handle:"#tgc-tagCloudHeader"
-} );
-$("#tgc-tagCloudHeader").mousedown(function(){
-  $com1_tgcTagCloudWrp.addClass("testt");
-});
-$("#tgc-tagCloudHeader").mouseup(function(){
-  $com1_tgcTagCloudWrp.removeClass("testt");
-});
+    $com1_tgcTagCloudWrp.draggable( {
+        handle:"#tgc-tagCloudHeader"
+    } );
+    $("#tgc-tagCloudHeader").mousedown(function(){
+        $com1_tgcTagCloudWrp.addClass("testt");
+    });
+    $("#tgc-tagCloudHeader").mouseup(function(){
+        $com1_tgcTagCloudWrp.removeClass("testt");
+    });
 
 
-$com1_iteItemEditorWrp.find("#ite-tagIcon").find("img").tipsy({
-  live: true,
-  gravity: 's',
-  delayIn: 1000,
-  offset: 3
-});
-$com1_iteNewItemBtn.tipsy({
-  gravity: 'e',
-  delayIn: 1000
-});
+    $com1_iteItemEditorWrp.find("#ite-tagIcon").find("img").tipsy({
+        live: true,
+        gravity: 's',
+        delayIn: 1000,
+        offset: 3
+    });
+    $com1_iteNewItemBtn.tipsy({
+        gravity: 'e',
+        delayIn: 1000
+    });
  
  
 
 
-//new item paginator setting   
+    //new item paginator setting   
     $com1_itpItemPages.universalPaginate({
         itemTemplate: $com1_itpItemTmpl,
         nbItemsByPage: 12,
@@ -767,10 +767,10 @@ $com1_iteNewItemBtn.tipsy({
         headerElement: $("#itp-paginatorWrp"),
         pageText:null,
         itemsByPageText:null
-//        onDataUpdate: function(data) {}
+    //        onDataUpdate: function(data) {}
     });
 
-//   ui button hover decoration
+    //   ui button hover decoration
     $(".ui-state-default").hover(function(){
         $(this).addClass("ui-state-hover");
     },function(){
@@ -778,31 +778,28 @@ $com1_iteNewItemBtn.tipsy({
     });
 
 
-//  flash alert message
-  if($com1_alertMessage.length) {
-    var alerttimer = window.setTimeout(function () {
-      $com1_alertMessage.trigger('click');
-    }, 4500);
-    $com1_alertMessage.animate({
-      height: [$com1_alertMessage.css("line-height") || '52', 'swing']
-      }, 400).click(function () {
-      window.clearTimeout(alerttimer);
-      $com1_alertMessage.animate({
-        height: '0'
-      }, 400);
-      $com1_alertMessage.css({
-        'border':'none'
-      });
-    });
-  }
+    //  flash alert message
+    if($com1_alertMessage.length) {
+        var alerttimer = window.setTimeout(function () {
+            $com1_alertMessage.trigger('click');
+        }, 4500);
+        $com1_alertMessage.animate({
+            height: [$com1_alertMessage.css("line-height") || '52', 'swing']
+        }, 400).click(function () {
+            window.clearTimeout(alerttimer);
+            $com1_alertMessage.animate({
+                height: '0'
+            }, 400);
+            $com1_alertMessage.css({
+                'border':'none'
+            });
+        });
+    }
   
 
     $com1_itpItemPages.delegate(".ite-delItem","click",function(){		
 		
         var $parNode = $(this).parents(".ite-itemEditor");
-  
-        var $mm  = $parNode.tmplItem();
-     
 				
         if (confirm('Are you sure to delete?')) {
     
@@ -813,17 +810,22 @@ $com1_iteNewItemBtn.tipsy({
                     dataType:"json",
                     type: "POST",
                     data: {
-                        "data[itId]":$itemObj.data.Item.id
+                        "data[itId]":$itemObj.data.Item.id                      
                     },
                     success:function (data, textStatus) {
                         if( data.stat === 1) {
-                            
-                            
+                                                     
                             $parNode.children().css({
                                 "background-color":"lightPink"
                             }).end().fadeOut(600 ,function(){
                                 $(this).remove();
                             });
+  
+                            if(data.tags){
+                                $com1_tgcTags.data("tgcObj", data.tags);
+                            }
+                            
+                            
                         } else {
                             flash_message("Couldn't be deleted", "fler" );
                         }

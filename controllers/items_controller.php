@@ -79,10 +79,11 @@ class ItemsController extends AppController {
                     
 //                   @todo to del temp solution since tags component doesn't delete the last tag
                     if(isset($tempData['tags']) && $tempData['tags'] == '' ){
-                        
+                        $this->data['Item']['tags'] = '';
                         $taggedItem = $this->Item->Tagged->find('all',array('conditions'=>array('Tagged.foreign_key'=>$curItem['Item']['id']),'contain'=>false  ) );
                         $taggedItem = Set::extract('/Tagged/id', $taggedItem);
                         $this->Item->Tagged->delete( $taggedItem );
+                        
                     }
                     
                     
@@ -97,6 +98,7 @@ class ItemsController extends AppController {
                     }
                 }
 
+                
                 $this->data['Item']['user_id'] = $authUserId;
 
 
@@ -237,21 +239,28 @@ class ItemsController extends AppController {
 
             //main staff
             $authUserId = $this->Auth->user('id');
-
+          
             if ($authUserId !== null) {
+                
+                //prev from soft delete. now conceled
+                //$this->data['Item']['active'] = 0;
 
-                $this->data['Item']['active'] = 0;
-
-                $idToDel = $this->data['itId'];
+                $idToDel = Sanitize::paranoid($this->data['itId'], array('-'));
                 if (isset($idToDel) && $idToDel != null) {
+                    
                     $this->data['Item']['id'] = $idToDel;
+                    
                     $curItem = $this->Item->find('first', array('conditions' => array('Item.id' => $this->data['Item']['id'], 'Item.user_id' => $authUserId), 'contain' => false));
 
                     if ($curItem != array()) {
 
-                        //                        if ($this->Item->save($this->data)) {
+
                         if ($this->Item->delete($idToDel)) {
                             $contents['stat'] = 1;
+                          
+                            $tagCloud = $this->Item->Tagged->find('cloud', array('conditions' => array('Tag.identifier' => 'prj-' . $this->data['Item']['project_id']), 'limit' => 15, 'contain' => false));    
+                            $contents['tags'] = $this->_tagCloudIteration($tagCloud);
+                            
                         } else {
                             $contents['stat'] = 0;
                         }
@@ -306,6 +315,19 @@ class ItemsController extends AppController {
         $curPrj = array();
         $curPrjId = null;
 
+       if (isset($this->params['url']['cur'])) {
+            if ($this->RequestHandler->isAjax()) {
+                Configure::write('debug', 0);
+                $this->autoLayout = false;
+                $this->autoRender = FALSE;
+
+                $contents['cur01'] = $this->params['url']['cur'];
+                $contents["nbTotalItems"] = 18;
+                $contents = json_encode($contents);
+                $this->header('Content-Type: application/json');
+                return ($contents);
+            }
+        }
 
 
 
@@ -327,6 +349,7 @@ class ItemsController extends AppController {
             //condition for paginatio all the projects that user has.
             $pagItemCond = array('Item.user_id' => $authUserId, 'Item.active' => 1);
         } else {
+            
             //case when we just entered the page, or we are new user without project yet.
             $curPrj = $this->Item->Project->find('all', array(
                         'conditions' => array('Project.user_id' => $authUserId, 'Project.active' => 1),
@@ -358,8 +381,11 @@ class ItemsController extends AppController {
             )
         );
 
+        
+        
         if ($this->RequestHandler->isAjax() && isset($this->params['url']['startIndex']) && isset($this->params['url']['nbItemsByPage'])) {
 
+            
             $this->paginate['limit'] = $this->params['url']['nbItemsByPage'];
             $this->paginate['page'] = $this->params['url']['startIndex'] / $this->params['url']['nbItemsByPage'] + 1;
 
@@ -372,16 +398,18 @@ class ItemsController extends AppController {
             $contents["data"] = $this->_iterateItem($todos);
             $contents["nbTotalItems"] = $this->params["paging"]["Item"]["count"];
 
-
-
+            
 
             $contents = json_encode($contents);
             $this->header('Content-Type: application/json');
             return ($contents);
         }
 
+ 
+ 
 
-        $this->set('todos', $this->paginate('Item'));
+
+        //$this->set('todos', $this->paginate('Item'));
         $this->set('menuType', 'todo');
         $this->set('curPrj', $curPrj);
         $tagCloud = $this->_tagCloudIteration($this->Item->Tagged->find('cloud', array('conditions' => array('Tag.identifier' => 'prj-' . $curPrjId), 'limit' => 15, 'contain' => false)) );

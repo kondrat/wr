@@ -8,7 +8,7 @@
     <div class="tgc-tagCloud">
      
         <div class="tgc-tagCloudInner">
-            <span style="color:gray;"><?php echo __('Tags for the project', true) . '&nbsp;<span class="tgc-prName">' . $curPrj[0]['Project']['name'].'</spna>'; ?></span>
+            <span style="color:gray;"><?php //echo __('Tags for the project', true) . '&nbsp;<span class="tgc-prName">' . $curPrj[0]['Project']['name'].'</spna>'; ?></span>
             <ul id="tgc-tags" class="tgc-tags">
                 <?php if (isset($tags) && $tags !== array()): ?>
                         
