@@ -1,0 +1,116 @@
+/* 
+    Document   : wr-prj
+    Created on : 23.12.2010, 13:39:21
+    Author     : akv
+    Description:
+        stylesheet of the project part
+*/
+#prj-projectEditor ul li.prj-prjList {
+    padding: 1px 3px;
+    position:relative;
+    overflow:hidden;
+}
+.prj-prjList .prj-prjControl{
+    display:none;
+}
+
+.prj-newProject{
+    position:relative;
+}
+.newProjectActive{
+
+}
+.newProjectActive span {
+    background-position:100% 4px;
+    color:red;
+}
+#prj-newProject{
+    text-decoration:none;
+    outline:medium none;
+}
+#prj-newProject span:first-child {
+    border-bottom:1px dashed;
+}
+
+
+.activePrj, .activePrjDel{
+    background-color:lightGray;
+}
+#prj-projectEditor{
+    -moz-box-shadow:0 0 6px black;
+    background-color:#EEEEEE;
+    border:5px solid #C0C0C0;
+    left:100px;
+    padding:1em;
+    position:absolute;
+    top:10px;
+    width:162px;
+    z-index:1000;
+    
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+#prj-projectEditor ul{
+    list-style-type:none;
+    margin:0 0 0.5em;
+}
+
+#prj-projectEditor li a{
+    border-bottom: 1px dashed;
+    text-decoration:none;
+    outline:medium none;
+}
+.prj-prjControl{
+    position:absolute;
+    top:1px;
+    right:1px;
+}
+.prjUpDown{
+    cursor:n-resize;
+}
+.prj-prjDel, .prj-prjEdit{
+    cursor:pointer;
+}
+
+.activePrj .prj-prjControl, .activePrjDel .prj-prjControl {
+    display:block;
+}
+
+.prj-prjControl li{
+    float:left;
+}
+.prjSaveControl li{
+    float:left;
+}
+
+#newPr{
+    -moz-border-radius:5px;
+    padding:1px;
+    width:155px;
+}
+#prjNew	{
+    outline:medium none;
+    padding:1px 4px;
+    text-decoration:none;
+}
+
+.prjNewActive span.upDownArr {
+    background-position:100% 4px;
+
+}
+.prjInlineEdit{
+    padding:0 42px 0 4px;
+}
+.prjSaveControl{
+    position:absolute;
+    right:3px;
+    top:0px;
+}
+#allItems,#prj-prjItems{
+    text-decoration:none;
+    outline:medium none;
+}
+
+
+

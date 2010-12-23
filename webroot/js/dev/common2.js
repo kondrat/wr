@@ -4,11 +4,14 @@ jQuery(document).ready(function(){
     var $com2_newPrj = $("#newPr");
     var $com2_curPrj = $("#curPrj");
     var $com2_allPrj = $("#allPrj");
-    var $com2_projectEditor = $("#projectEditor");
+    var $com2_projectEditor = $("#prj-projectEditor");
     var $com2_prjCancel = $(".prjCancel");
-    var $com2_prjEdit = $(".prjEdit");
-    var $com2_prjDel = $(".prjDel");
+    var $com2_prjEdit = $(".prj-prjEdit");
+    var $com2_prjDel = $(".prj-prjDel");
     var $com2_prjSave = $(".prjSave");
+    var $com2_prjNewProject = $("#prj-newProject");
+    var $com2_prjPrjTmpl = $("#prj-prjTmpl");
+    var $com2_prjPrjItems = $("#prj-prjItems");
     
 
 
@@ -51,28 +54,59 @@ jQuery(document).ready(function(){
 
 
     //selecting new current prj from the list and setting it current.
-
-    $(".prjList a").bind("click", function(){
+    $com2_projectEditor.delegate(".prj-prjList a", "click", function(){
 		
         pObj.prjId = parseInt( $(this).attr("id").replace("prj_", "") );
         
         var prjCur = $(this);
         var prjName = $(this).text();
+        var prjCurId = prjCur.data("prjid");
+        
+        
+
+ 
         $.ajax({
             dataType:"json",
             //type: "POST",
-            data: {
-                "cur":"1"
-            },
+            url: path+"\/projects\/setPrj\/prj:"+prjCurId,
+            
             success:function (data, textStatus) {
-                $("#prjItems").text(prjName);
-                $("#itp-itemPages").html(data);
-                $("#newProject").trigger("click");
-                prjCur.parent().prependTo("#prjMainList");
-                $com2_allPrj.removeClass("actPrj");
-                $com2_curPrj.addClass("actPrj");
+                if(data.stat == 1){
+                    //changing the name of current project
+                    $com2_prjPrjItems.text(prjName);
+                    //closing project pad
+                    $com2_prjNewProject.trigger("click");
+                
+                    
+                    
+                    prjCur.parent().css({
+                        color:'red'
+                    }).prependTo("#prj-prjMainList");
+                
+                    $com2_allPrj.removeClass("actPrj");
+                    $com2_curPrj.addClass("actPrj");
+                
+                    $("#itp-paginatorWrp").empty(); 
+                    $("#itp-itemPages").universalPaginate({
+                        itemTemplate: $("#itp-itemTmpl"),
+                        nbItemsByPage: 12,
+            
+                        nbItemsByPageOptions: [6, 12, 18, 24, 30, 60, 100],
+                        dataUrl: path+"\/items\/todo\/prj:"+prjCurId,
+                        controlsPosition:"bottom",
+                        universalPaginateClass: "itp-itemsPaginator",
+                        headerElement: $("#itp-paginatorWrp"),
+                        pageText:null,
+                        itemsByPageText:null,
+                        noDataText:"sorry"
+                    //        onDataUpdate: function(data) {}
+                    });
+                } else {
+                    alert('er');
+                }
+
             },
-            url: path+"\/items\/todo\/prj:"+pObj.prjId+"\/page:1",
+            
             error:function(){
                 alert('er');
             }
@@ -135,8 +169,20 @@ jQuery(document).ready(function(){
 
 
     //opening projects pad	
-	
-    $("#newProject").click(function(){
+    
+    
+//    @todo : prework deleting of the initial prj list. when apply pagination or the prj
+    $com2_prjNewProject.click(function(){
+        
+        var usrPrjData = $com2_projectEditor.data("uPrObj");
+        
+        if( typeof(usrPrjData) !== "undefined" ){
+            $com2_projectEditor.find("#prj-prjMainList").remove();
+            $com2_prjPrjTmpl.tmpl(usrPrjData).prependTo($com2_projectEditor);
+            $com2_projectEditor.removeData("uPrObj");
+        }      
+        
+        
         if( $com2_projectEditor.is(":hidden") ){
             $com2_projectEditor.show();
             $(this).addClass("newProjectActive");
@@ -151,12 +197,12 @@ jQuery(document).ready(function(){
 	
     $com2_projectEditor.bind("clickoutside",function(){
         $(this).hide();
-        $("#newProject").removeClass("newProjectActive");
+        $com2_prjNewProject.removeClass("newProjectActive");
     //return false;
     });
 
 
-    $("#projectEditor li").hover(function(){
+    $("#prj-projectEditor li").hover(function(){
         $(this).addClass("activePrj");
     },function(){
         $(this).removeClass("activePrj");
@@ -168,7 +214,7 @@ jQuery(document).ready(function(){
 	
     $com2_prjDel.click(function(){
 		
-        var parentLi = $(this).parents(".prjList");
+        var parentLi = $(this).parents(".prj-prjList");
         parentLi.addClass("activePrjDel");
     		
         if (confirm('Are you sure to delete?')) {
@@ -206,11 +252,11 @@ jQuery(document).ready(function(){
     $com2_prjEdit.click(function(){
 		
         $(".prjInlineEdit").remove();
-        $(".prjList").css({
+        $(".prj-prjList").css({
             "visibility":""
         });
-        var curPrjName = $(this).parents(".prjList").find("a").text();
-        $(this).parents(".prjList").css({
+        var curPrjName = $(this).parents(".prj-prjList").find("a").text();
+        $(this).parents(".prj-prjList").css({
             "visibility":"hidden"
         }).append(
             "<div class='prjInlineEdit' style='position:absolute;top:2px;left:0;visibility:visible;'>"+
@@ -228,8 +274,8 @@ jQuery(document).ready(function(){
 		
         $(".prjInlineEdit").bind("clickoutside",function(event){
 
-            if( $(event.target).parents(".prjControl").next().attr("class") !== "prjInlineEdit" ) {				
-                $(".prjList").css({
+            if( $(event.target).parents(".prj-prjControl").next().attr("class") !== "prjInlineEdit" ) {				
+                $(".prj-prjList").css({
                     "visibility":""
                 });
                 $(this).hide();	
@@ -242,17 +288,17 @@ jQuery(document).ready(function(){
     });	
  
     $com2_prjCancel.live("click",function(){
-        $(this).parents(".prjList").css({
+        $(this).parents(".prj-prjList").css({
             "visibility":""
         });
         $(".prjInlineEdit").remove();
 		
-    //$(this).parents(".prjList").find(
+    //$(this).parents(".prj-prjList").find(
     });
  
     $com2_prjSave.live("click",function(){
         var thisClick = $(this);
-        var thisParent = thisClick.parents(".prjList");
+        var thisParent = thisClick.parents(".prj-prjList");
         var prjId = parseInt( thisParent.find("a").attr("id").replace("prj_", "") );
 		
         var newName = $("#prjEditInput").val();

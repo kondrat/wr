@@ -4,29 +4,29 @@
             <?php echo $html->link(__('All', true), array('controller' => 'items', 'action' => 'todo'), array('id' => 'allItems')); ?>
         </span>&nbsp;
         <span id="curPrj" class="actPrj" style="">
-            <?php if (isset($curPrj)): ?>
-                <?php echo $html->link($curPrj[0]['Project']['name'], array('controller' => 'items', 'action' => 'todo', 'prj:' . $curPrj[0]['Project']['id']), array('id' => 'prjItems')); ?>
+            <?php if (isset($userPrj)): ?>
+                <?php echo $html->link($userPrj[0]['Project']['name'], array('controller' => 'items', 'action' => 'todo', 'prj:' . $userPrj[0]['Project']['id']), array('id' => 'prj-prjItems')); ?>
 
                 <?php
                 $curPrjObj = $js->object(
                                 array(
-                                    'prjName' => $curPrj[0]['Project']['name'],
-                                    'prjId' => $curPrj[0]['Project']['id']
+                                    'prjName' => $userPrj[0]['Project']['name'],
+                                    'prjId' => $userPrj[0]['Project']['id']
                                 )
                 );
                 ?>
-    <?php echo $html->scriptBlock('var pObj = ' . $curPrjObj . ';', array('inline' => false)); ?>			
+                <?php echo $html->scriptBlock('var pObj = ' . $curPrjObj . ';', array('inline' => false)); ?>			
 
 
             <?php else: ?>
-                <?php echo $html->link(__('My project', true), array('controller' => 'items', 'action' => 'todo'), array('id' => 'prjItems')); ?>
-<?php endif ?>
+                <?php echo $html->link(__('My project', true), array('controller' => 'items', 'action' => 'todo'), array('id' => 'prj-prjItems')); ?>
+            <?php endif ?>
         </span>&nbsp;
 
-        <?php echo $html->link('<span>' . __('projects', true) . '</span><span class="upDownArr"></span>', array('#'), array('id' => 'newProject', 'escape' => false)); ?>
-    <?php echo $this->element('pageHead/projectEditor/project_editor'); ?> 		   	
+        <?php echo $html->link('<span>' . __('projects', true) . '</span><span class="upDownArr"></span>', array('#'), array('id' => 'prj-newProject', 'escape' => false)); ?>
+        <?php echo $this->element('pageHead/projectEditor/project_editor'); ?> 		   	
     </div>
-<?php echo $this->element('pageHead/threeWaysMenu/three_ways_menu'); ?>
+    <?php echo $this->element('pageHead/threeWaysMenu/three_ways_menu'); ?>
 
 
 </div>

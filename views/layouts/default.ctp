@@ -15,6 +15,7 @@
             'wr-ite',
             'wr-itp',
             'wr-tgc',
+            'wr-prj',
             'screen',
             'jqcss/css/smoothness/jquery-ui-1.8.2.custom',
             'tipsy/stylesheets/tipsy'

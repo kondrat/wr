@@ -15,5 +15,7 @@ class Project extends AppModel {
 			'order' => ''
 		)
 	);
+        var $hasMany = 'Item';
+
 }
 ?>

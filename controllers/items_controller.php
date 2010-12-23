@@ -6,9 +6,9 @@ class ItemsController extends AppController {
 
     var $name = 'Items';
     var $publicActions = array('saveItem', 'status', 'delItem');
-    var $helpers = array( 'Text', 'Tags.TagCloud');
+    var $helpers = array('Text', 'Tags.TagCloud');
 
-//--------------------------------------------------------------------
+
 //--------------------------------------------------------------------	
     function beforeFilter() {
 
@@ -34,13 +34,11 @@ class ItemsController extends AppController {
 //--------------------------------------------------------------------
 //--------------------------------------------------------------------
 
-
- /**
-  * saving/editing of the items
-  * 
-  * @return type json
-  */   
-
+    /**
+     * saving/editing of the items
+     * 
+     * @return type json
+     */
     function saveItem() {
 
         $auth = false;
@@ -69,26 +67,25 @@ class ItemsController extends AppController {
                 unset($this->data);
 
                 //if we set id we will update the item. if we set wrong id - finish.
-                if (isset($tempData['id']) && $tempData['id'] !== "000" ) {
+                if (isset($tempData['id']) && $tempData['id'] !== "000") {
 
                     $this->data['Item']['id'] = Sanitize::paranoid($tempData['id'], array('-'));
 
                     $curItem = $this->Item->find('first', array('conditions' => array('Item.id' => $this->data['Item']['id'], 'Item.user_id' => $authUserId, 'Item.active' => 1), 'contain' => false));
-                   //status "2" - editing item, not saving a new one.
+                    //status "2" - editing item, not saving a new one.
                     $contents['stat'] = 2;
-                    
+
 //                   @todo to del temp solution since tags component doesn't delete the last tag
-                    if(isset($tempData['tags']) && $tempData['tags'] == '' ){
+                    if (isset($tempData['tags']) && $tempData['tags'] == '') {
                         $this->data['Item']['tags'] = '';
-                        $taggedItem = $this->Item->Tagged->find('all',array('conditions'=>array('Tagged.foreign_key'=>$curItem['Item']['id']),'contain'=>false  ) );
+                        $taggedItem = $this->Item->Tagged->find('all', array('conditions' => array('Tagged.foreign_key' => $curItem['Item']['id']), 'contain' => false));
                         $taggedItem = Set::extract('/Tagged/id', $taggedItem);
-                        $this->Item->Tagged->delete( $taggedItem );
-                        
+                        $this->Item->Tagged->delete($taggedItem);
                     }
-                    
-                    
-                    
-                    
+
+
+
+
                     //if we havn't found item for provided id we finish
                     if ($curItem == array()) {
                         $contents['stat'] = 0;
@@ -98,7 +95,7 @@ class ItemsController extends AppController {
                     }
                 }
 
-                
+
                 $this->data['Item']['user_id'] = $authUserId;
 
 
@@ -152,9 +149,9 @@ class ItemsController extends AppController {
 
                 //tags data
                 if (isset($tempData['tags']) && is_array($tempData['tags'])) {
-                    
-           
-                    
+
+
+
                     $tagsSet = array();
                     foreach ($tempData['tags'] as $tag) {
                         if (($tag = Sanitize::paranoid($tag, array('-', '_')) ) != '') {
@@ -165,8 +162,8 @@ class ItemsController extends AppController {
                         $this->data['Item']['tags'] = implode(',', $tagsSet);
 //                        $contents['tags'] = $tagsSet;
                     }
-                } 
-                
+                }
+
 
                 if (isset($tempData['target'])) {
 
@@ -182,7 +179,7 @@ class ItemsController extends AppController {
             $this->data = Sanitize::clean($this->data);
 
             if ($this->Item->save($this->data)) {
-               
+
                 $savedId = $this->Item->id;
                 $savedData[0] = $this->Item->find('first', array(
                             'conditions' => array('Item.id' => $savedId),
@@ -193,11 +190,10 @@ class ItemsController extends AppController {
 
 
                 $contents['res'] = $this->_iterateItem($savedData);
-                if(isset ($this->data['Item']['tags'])){
-                    $tagCloud = $this->Item->Tagged->find('cloud', array('conditions' => array('Tag.identifier' => 'prj-' . $this->data['Item']['project_id']), 'limit' => 15, 'contain' => false));    
+                if (isset($this->data['Item']['tags'])) {
+                    $tagCloud = $this->Item->Tagged->find('cloud', array('conditions' => array('Tag.identifier' => 'prj-' . $this->data['Item']['project_id']), 'limit' => 15, 'contain' => false));
                     $contents['tags'] = $this->_tagCloudIteration($tagCloud);
                 }
-                 
             } else {
                 unset($contents);
                 $contents['stat'] = 0;
@@ -213,11 +209,11 @@ class ItemsController extends AppController {
         }
     }
 
-/**
- * deleting of the item from the list
- * 
- * @return type json
- */    
+    /**
+     * deleting of the item from the list
+     * 
+     * @return type json
+     */
     function delItem() {
 
         $authUserId = null;
@@ -239,17 +235,17 @@ class ItemsController extends AppController {
 
             //main staff
             $authUserId = $this->Auth->user('id');
-          
+
             if ($authUserId !== null) {
-                
+
                 //prev from soft delete. now conceled
                 //$this->data['Item']['active'] = 0;
 
                 $idToDel = Sanitize::paranoid($this->data['itId'], array('-'));
                 if (isset($idToDel) && $idToDel != null) {
-                    
+
                     $this->data['Item']['id'] = $idToDel;
-                    
+
                     $curItem = $this->Item->find('first', array('conditions' => array('Item.id' => $this->data['Item']['id'], 'Item.user_id' => $authUserId), 'contain' => false));
 
                     if ($curItem != array()) {
@@ -257,10 +253,9 @@ class ItemsController extends AppController {
 
                         if ($this->Item->delete($idToDel)) {
                             $contents['stat'] = 1;
-                          
-                            $tagCloud = $this->Item->Tagged->find('cloud', array('conditions' => array('Tag.identifier' => 'prj-' . $this->data['Item']['project_id']), 'limit' => 15, 'contain' => false));    
+
+                            $tagCloud = $this->Item->Tagged->find('cloud', array('conditions' => array('Tag.identifier' => 'prj-' . $this->data['Item']['project_id']), 'limit' => 15, 'contain' => false));
                             $contents['tags'] = $this->_tagCloudIteration($tagCloud);
-                            
                         } else {
                             $contents['stat'] = 0;
                         }
@@ -280,20 +275,19 @@ class ItemsController extends AppController {
         }
     }
 
-
-/**
- * blackhole redirection
- * 
- * @return type
- */
+    /**
+     * blackhole redirection
+     * 
+     * @return type
+     */
     function gotov() {
         $this->redirect(null, 404, true);
     }
 
-/**
- * @return type
- * 
- */
+    /**
+     * @return type
+     * 
+     */
     function index() {
         $this->set('title_for_layout', __('Main page', true));
         $this->set('menuType', 'index');
@@ -303,31 +297,19 @@ class ItemsController extends AppController {
         }
     }
 
-/**
- *
- * @return type json
- */
+    /**
+     *
+     * @return type json
+     */
     function todo() {
 
         $todos = array();
         $authUserId = $this->Auth->user('id');
         $pagItemCond = array();
-        $curPrj = array();
+        $userPrj = array();
         $curPrjId = null;
 
-       if (isset($this->params['url']['cur'])) {
-            if ($this->RequestHandler->isAjax()) {
-                Configure::write('debug', 0);
-                $this->autoLayout = false;
-                $this->autoRender = FALSE;
 
-                $contents['cur01'] = $this->params['url']['cur'];
-                $contents["nbTotalItems"] = 18;
-                $contents = json_encode($contents);
-                $this->header('Content-Type: application/json');
-                return ($contents);
-            }
-        }
 
 
 
@@ -336,42 +318,35 @@ class ItemsController extends AppController {
             $curPrjId = $this->data['Project']['id'] = Sanitize::paranoid($this->params['named']['prj'], array('-'));
             //conditions for items pagination.
             $pagItemCond = array('Item.user_id' => $authUserId, 'Item.project_id' => $curPrjId, 'Item.active' => 1);
+            
 
-            //we selected new prj, so updade the cur time
-            if (isset($this->params['url']['cur']) && $this->params['url']['cur'] === "1") {
-                $prId = $this->Item->Project->find('first', array('conditions' => array('Project.id' => $curPrjId), 'contain' => false));
-                if ($prId != array()) {
-                    $this->data['Project']['current'] = time();
-                    $this->Item->Project->save($this->data);
-                }
-            }
         } else if (isset($this->params['named']['prj']) && $this->params['named']['prj'] === 'all') {
             //condition for paginatio all the projects that user has.
             $pagItemCond = array('Item.user_id' => $authUserId, 'Item.active' => 1);
         } else {
-            
+
             //case when we just entered the page, or we are new user without project yet.
-            $curPrj = $this->Item->Project->find('all', array(
+            $userPrj = $this->Item->Project->find('all', array(
                         'conditions' => array('Project.user_id' => $authUserId, 'Project.active' => 1),
                         'fields' => array('id', 'name'),
                         'order' => array('current' => 'DESC'),
                         'contain' => false)
             );
             //check if this user is new, or has current project he whorks on.																		
-            if ($curPrj == array()) {
+            if ($userPrj == array()) {
                 $this->data['Project']['user_id'] = $authUserId;
                 $this->data['Project']['name'] = __('Project 1', true);
                 $this->data['Project']['current'] = time();
                 $this->Item->Project->save($this->data);
-                $curPrj[0] = $this->Item->Project->read();
+                $userPrj[0] = $this->Item->Project->read();
             }
-            $curPrjId = $curPrj[0]['Project']['id'];
+            $curPrjId = $userPrj[0]['Project']['id'];
             $pagItemCond = array('Item.user_id' => $authUserId, 'Item.project_id' => $curPrjId, 'Item.active' => 1);
         }
 
 
         $this->paginate['conditions'] = $pagItemCond;
-        $this->paginate['fields']=array('Item.id','Item.item','Item.status','Item.task','Item.target','Item.created');
+        $this->paginate['fields'] = array('Item.id', 'Item.item', 'Item.status', 'Item.task', 'Item.target', 'Item.created');
         $this->paginate['order'] = array('Item.created' => 'DESC');
         $this->paginate['limit'] = 12;
         $this->paginate['contain'] = array(
@@ -381,11 +356,11 @@ class ItemsController extends AppController {
             )
         );
 
-        
-        
+
+//        we are asked by universal pagiane query plugin
         if ($this->RequestHandler->isAjax() && isset($this->params['url']['startIndex']) && isset($this->params['url']['nbItemsByPage'])) {
 
-            
+
             $this->paginate['limit'] = $this->params['url']['nbItemsByPage'];
             $this->paginate['page'] = $this->params['url']['startIndex'] / $this->params['url']['nbItemsByPage'] + 1;
 
@@ -398,43 +373,56 @@ class ItemsController extends AppController {
             $contents["data"] = $this->_iterateItem($todos);
             $contents["nbTotalItems"] = $this->params["paging"]["Item"]["count"];
 
-            
 
+
+            $contents = json_encode($contents);
+            $this->header('Content-Type: application/json');
+            return ($contents);
+            
+        } else if ($this->RequestHandler->isAjax()) {
+
+              
+            
+            Configure::write('debug', 0);
+            $this->autoLayout = false;
+            $this->autoRender = FALSE;
+            $todos = $this->paginate('Item');
+
+
+            $contents["stat"] = 0;
             $contents = json_encode($contents);
             $this->header('Content-Type: application/json');
             return ($contents);
         }
 
- 
- 
+
+
 
 
         //$this->set('todos', $this->paginate('Item'));
         $this->set('menuType', 'todo');
-        $this->set('curPrj', $curPrj);
-        $tagCloud = $this->_tagCloudIteration($this->Item->Tagged->find('cloud', array('conditions' => array('Tag.identifier' => 'prj-' . $curPrjId), 'limit' => 15, 'contain' => false)) );
+        $this->set('userPrj', $userPrj);
+        $tagCloud = $this->_tagCloudIteration($this->Item->Tagged->find('cloud', array('conditions' => array('Tag.identifier' => 'prj-' . $curPrjId), 'limit' => 15, 'contain' => false)));
         $this->set('tags', $tagCloud);
     }
 
-    
-    
-/**
- * iterating throught item data before sending to front end.
- * @param array $items The items we a iterating to prepere output.
- * 
- * @return type array
- * @access private
- */
+    /**
+     * iterating throught item data before sending to front end.
+     * @param array $items The items we a iterating to prepere output.
+     * 
+     * @return type array
+     * @access private
+     */
     private function _iterateItem($items=array()) {
-        
+
         $itemTypes = Configure::read('itemTypes');
         $itemStatuses = Configure::read('itemStatuses');
-        
+
         foreach ($items as $k => $todo) {
-  
-        
+
+
             $statusClass = "itS0";
-            $statusText = "opend";      
+            $statusText = "opend";
             if ($itemStatuses) {
                 foreach ($itemStatuses as $v) {
                     if ($todo['Item']['status'] == $v['n']) {
@@ -467,10 +455,10 @@ class ItemsController extends AppController {
             //importing helpers to prepare date in goode format
             App::import('Helper', 'Time');
             App::import('Helper', 'Timenomin');
-            $Timenomin = new TimenominHelper();           
-            
-            
-            
+            $Timenomin = new TimenominHelper();
+
+
+
             if (!empty($todo["Item"]["target"])) {
                 $date = new DateTime($todo["Item"]["target"]);
                 $formatedDate = $date->format('d.m.y');
@@ -480,53 +468,52 @@ class ItemsController extends AppController {
             if (!empty($todo["Item"]["created"])) {
                 $items[$k]["Item"]["created"] = $Timenomin->timeAgoInWords($todo["Item"]["created"]);
             }
-            
+
             unset($items[$k]['Item']['tags']);
-            
-            $items[$k] = $this->_itemsTagsUnsetIterate($items[$k]);         
-            
+
+            $items[$k] = $this->_itemsTagsUnsetIterate($items[$k]);
         }
-     
+
         return $items;
     }
 
-/**
- * 
- * @return type array
- */
-        private function _itemsTagsUnsetIterate($res = array() ){
-        if(isset ($res['Tag'])) {
-                foreach ($res['Tag'] as $k=>$v){
-                    unset($res['Tag'][$k]['created']);
-                    unset($res['Tag'][$k]['keyname']);
-                    unset($res['Tag'][$k]['modified']);
-                    unset($res['Tag'][$k]['Tagged']['created']);
-                    unset($res['Tag'][$k]['Tagged']['foreign_key']);
-                    unset($res['Tag'][$k]['Tagged']['language']);
-                    unset($res['Tag'][$k]['Tagged']['model']);
-                    unset($res['Tag'][$k]['Tagged']['modified']);
-                    unset($res['Tag'][$k]['Tagged']['tag_id']);
-                    unset($res['Tag'][$k]['Tagged']['times_tagged']);
-                    unset($res['Tag'][$k]['Tagged']['test']);
-                }  
+    /**
+     * 
+     * @return type array
+     */
+    private function _itemsTagsUnsetIterate($res = array()) {
+        if (isset($res['Tag'])) {
+            foreach ($res['Tag'] as $k => $v) {
+                unset($res['Tag'][$k]['created']);
+                unset($res['Tag'][$k]['keyname']);
+                unset($res['Tag'][$k]['modified']);
+                unset($res['Tag'][$k]['Tagged']['created']);
+                unset($res['Tag'][$k]['Tagged']['foreign_key']);
+                unset($res['Tag'][$k]['Tagged']['language']);
+                unset($res['Tag'][$k]['Tagged']['model']);
+                unset($res['Tag'][$k]['Tagged']['modified']);
+                unset($res['Tag'][$k]['Tagged']['tag_id']);
+                unset($res['Tag'][$k]['Tagged']['times_tagged']);
+                unset($res['Tag'][$k]['Tagged']['test']);
+            }
         }
         return $res;
     }
-/**
- * iterating throught tag cloud, removing unneseassary data
- * 
- * @return type array
- */    
+
+    /**
+     * iterating throught tag cloud, removing unneseassary data
+     * 
+     * @return type array
+     */
     private function _tagCloudIteration($res = array()) {
-        if(isset ($res)){
-            foreach ($res as $k => $v ){
+        if (isset($res)) {
+            foreach ($res as $k => $v) {
                 unset($res[$k][0]);
                 unset($res[$k]['Tagged']);
                 unset($res[$k]['Tag']['created']);
                 unset($res[$k]['Tag']['id']);
                 unset($res[$k]['Tag']['keyname']);
                 unset($res[$k]['Tag']['modified']);
-                
             }
         }
         return $res;

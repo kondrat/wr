@@ -757,6 +757,7 @@ jQuery(document).ready(function(){
 
 
     //new item paginator setting   
+    
     $com1_itpItemPages.universalPaginate({
         itemTemplate: $com1_itpItemTmpl,
         nbItemsByPage: 12,

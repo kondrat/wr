@@ -129,10 +129,6 @@ p.quickLoginForPas {
 /*main part*/
 
 
-#allItems,#prjItems{
-    text-decoration:none;
-    outline:medium none;
-}
 #allPrj, #curPrj{
     padding: 3px 7px;
 }
@@ -277,104 +273,7 @@ a#threeWaysHere{
     color:brown;
     cursor:text;
 }
-.newProject{
-    position:relative;
-}
-.newProjectActive{
 
-}
-.newProjectActive span {
-    background-position:100% 4px;
-    color:red;
-}
-#newProject{
-    text-decoration:none;
-    outline:medium none;
-}
-#newProject span:first-child {
-    border-bottom:1px dashed;
-}
-
-
-.activePrj, .activePrjDel{
-    background-color:lightGray;
-}
-#projectEditor{
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
-    -moz-box-shadow:0 0 6px black;
-    background-color:#EEEEEE;
-    border:5px solid #C0C0C0;
-    left:100px;
-    padding:1em;
-    position:absolute;
-    top:10px;
-    width:162px;
-    z-index:1000;
-}
-#projectEditor ul{
-    list-style-type:none;
-    margin:0 0 0.5em;
-}
-#projectEditor ul li.prjList {
-    padding: 1px 3px;
-    position:relative;
-    overflow:hidden;
-}
-#projectEditor li a{
-    border-bottom: 1px dashed;
-    text-decoration:none;
-    outline:medium none;
-}
-.prjControl{
-    position:absolute;
-    top:1px;
-    right:1px;
-}
-.prjUpDown{
-    cursor:n-resize;
-}
-.prjDel, .prjEdit{
-    cursor:pointer;
-}
-.prjList .prjControl{
-    display:none;
-}
-.activePrj .prjControl, .activePrjDel .prjControl {
-    display:block;
-}
-
-.prjControl li{
-    float:left;
-}
-.prjSaveControl li{
-    float:left;
-}
-
-#newPr{
-    -moz-border-radius:5px;
-    padding:1px;
-    width:155px;
-}
-#prjNew	{
-    outline:medium none;
-    padding:1px 4px;
-    text-decoration:none;
-}
-
-.prjNewActive span.upDownArr {
-    background-position:100% 4px;
-
-}
-.prjInlineEdit{
-    padding:0 42px 0 4px;
-}
-.prjSaveControl{
-    position:absolute;
-    right:3px;
-    top:0px;
-}
 .datefield{
     -moz-box-shadow:2px 2px 5px gray;
     font-size:small;
