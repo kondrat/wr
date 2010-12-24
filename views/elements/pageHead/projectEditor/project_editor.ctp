@@ -1,11 +1,11 @@
 <div class="prj-newProject">
     <div id="prj-projectEditor" class="hide"> 
 
-        <?php echo $html->link('<span class="upDownArr">' . __('New', true) . '</span>', array('#'), array('id' => 'prjNew', 'escape' => false, 'class' => 'ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only')); ?>
+        <?php echo $html->link('<span class="upDownArr">' . __('New', true) . '</span>', array('#'), array('id' => 'prj-prjNew', 'escape' => false, 'class' => 'ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only')); ?>
 
-        <div id="prjNewInput" class="hide">
-            <?php echo $form->input('newPr', array('label' => false, 'div' => false)); ?>
-            <?php echo $form->button('save', array('id' => 'newPrSave', 'class' => 'ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only')); ?>
+        <div id="prj-prjNewInput" class="hide">
+            <?php echo $form->input('prj-newPr', array('label' => false, 'div' => false)); ?>
+            <?php echo $form->button('save', array('id' => 'prj-newPrSave', 'class' => 'ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only')); ?>
             <?php echo $form->button('cancel', array('id' => 'newPrCancel', 'class' => 'ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only')); ?> 
         </div>
 

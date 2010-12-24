@@ -7,6 +7,7 @@ class ItemsController extends AppController {
     var $name = 'Items';
     var $publicActions = array('saveItem', 'status', 'delItem');
     var $helpers = array('Text', 'Tags.TagCloud');
+    var $components = array('TagCloudIteration');
 
 
 //--------------------------------------------------------------------	
@@ -192,7 +193,7 @@ class ItemsController extends AppController {
                 $contents['res'] = $this->_iterateItem($savedData);
                 if (isset($this->data['Item']['tags'])) {
                     $tagCloud = $this->Item->Tagged->find('cloud', array('conditions' => array('Tag.identifier' => 'prj-' . $this->data['Item']['project_id']), 'limit' => 15, 'contain' => false));
-                    $contents['tags'] = $this->_tagCloudIteration($tagCloud);
+                    $contents['tags'] = $this->TagCloudIteration->iterate($tagCloud);
                 }
             } else {
                 unset($contents);
@@ -255,7 +256,7 @@ class ItemsController extends AppController {
                             $contents['stat'] = 1;
 
                             $tagCloud = $this->Item->Tagged->find('cloud', array('conditions' => array('Tag.identifier' => 'prj-' . $this->data['Item']['project_id']), 'limit' => 15, 'contain' => false));
-                            $contents['tags'] = $this->_tagCloudIteration($tagCloud);
+                            $contents['tags'] = $this->TagCloudIteration->iterate($tagCloud);
                         } else {
                             $contents['stat'] = 0;
                         }
@@ -402,7 +403,7 @@ class ItemsController extends AppController {
         //$this->set('todos', $this->paginate('Item'));
         $this->set('menuType', 'todo');
         $this->set('userPrj', $userPrj);
-        $tagCloud = $this->_tagCloudIteration($this->Item->Tagged->find('cloud', array('conditions' => array('Tag.identifier' => 'prj-' . $curPrjId), 'limit' => 15, 'contain' => false)));
+        $tagCloud = $this->TagCloudIteration->iterate($this->Item->Tagged->find('cloud', array('conditions' => array('Tag.identifier' => 'prj-' . $curPrjId), 'limit' => 15, 'contain' => false)));
         $this->set('tags', $tagCloud);
     }
 
@@ -500,24 +501,6 @@ class ItemsController extends AppController {
         return $res;
     }
 
-    /**
-     * iterating throught tag cloud, removing unneseassary data
-     * 
-     * @return type array
-     */
-    private function _tagCloudIteration($res = array()) {
-        if (isset($res)) {
-            foreach ($res as $k => $v) {
-                unset($res[$k][0]);
-                unset($res[$k]['Tagged']);
-                unset($res[$k]['Tag']['created']);
-                unset($res[$k]['Tag']['id']);
-                unset($res[$k]['Tag']['keyname']);
-                unset($res[$k]['Tag']['modified']);
-            }
-        }
-        return $res;
-    }
 
 //--------------------------------------------------------------------
     function diary() {

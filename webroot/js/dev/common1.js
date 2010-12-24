@@ -176,7 +176,9 @@ jQuery(document).ready(function(){
         var itemObj = {
             "data[id]": thisItemId,
             "data[item]": itemVal,
+            
             "data[prj]" : pObj.prjId,
+            
             "data[target]" : epoch,
             "data[task]": itemTask,
             "data[tags]": itemTags
@@ -641,8 +643,7 @@ jQuery(document).ready(function(){
         //getting tags from the dom if it's first time, or just toggling
         if(typeof($com1_tgcTags.data("tgcObj")) !== "undefined"){
             $com1_tgcTags.empty();
-            $com1_tgcTagsCloudAddTmpl.tmpl( $com1_tgcTags.data("tgcObj") ).appendTo($com1_tgcTags);
-            
+            $com1_tgcTagsCloudAddTmpl.tmpl( $com1_tgcTags.data("tgcObj") ).appendTo($com1_tgcTags);           
         }
 		
 		

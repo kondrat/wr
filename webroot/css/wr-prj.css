@@ -84,18 +84,18 @@
     float:left;
 }
 
-#newPr{
+#prj-newPr{
     -moz-border-radius:5px;
     padding:1px;
     width:155px;
 }
-#prjNew	{
+#prj-prjNew	{
     outline:medium none;
     padding:1px 4px;
     text-decoration:none;
 }
 
-.prjNewActive span.upDownArr {
+.prj-prjNewActive span.upDownArr {
     background-position:100% 4px;
 
 }

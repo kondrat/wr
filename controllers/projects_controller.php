@@ -6,6 +6,7 @@ class ProjectsController extends AppController {
 
     var $name = 'Projects';
     var $publicActions = array('savePrj', 'delPrj');
+    var $components = array('TagCloudIteration');
 
 //--------------------------------------------------------------------
 //--------------------------------------------------------------------	
@@ -130,8 +131,7 @@ class ProjectsController extends AppController {
                         $contents['stat'] = 1;
                         
                         $tagCloud = $this->Project->Item->Tagged->find('cloud', array('conditions' => array('Tag.identifier' => 'prj-' .$curPrjId ), 'limit' => 15, 'contain' => false));
-                        //$contents['tags'] = $this->_tagCloudIteration($tagCloud);
-                        $contents['tags'] = $tagCloud;
+                        $contents['tags'] = $this->TagCloudIteration->iterate($tagCloud);
                          
                     } else {
                         $contents['stat'] = 0;

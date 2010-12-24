@@ -1,7 +1,7 @@
 jQuery(document).ready(function(){
 	
 
-    var $com2_newPrj = $("#newPr");
+    
     var $com2_curPrj = $("#curPrj");
     var $com2_allPrj = $("#allPrj");
     var $com2_projectEditor = $("#prj-projectEditor");
@@ -12,6 +12,10 @@ jQuery(document).ready(function(){
     var $com2_prjNewProject = $("#prj-newProject");
     var $com2_prjPrjTmpl = $("#prj-prjTmpl");
     var $com2_prjPrjItems = $("#prj-prjItems");
+    var $com2_prjPrjNew = $("#prj-prjNew");
+    var $com2_prjNewInput = $("#prj-prjNewInput");
+    var $com2_prjNewPr = $("#prj-newPr");
+    var $com2_prjNewPrSave = $("#prj-newPrSave");
     
 
 
@@ -98,9 +102,15 @@ jQuery(document).ready(function(){
                         headerElement: $("#itp-paginatorWrp"),
                         pageText:null,
                         itemsByPageText:null,
-                        noDataText:"sorry"
+                        noDataText:"No data to display"
                     //        onDataUpdate: function(data) {}
                     });
+                    
+                    if(data.tags){
+                        //@todo replace $("#tgc-tags") with $com1_tgcTags after com1 com2 merging
+                        $("#tgc-tags").data("tgcObj", data.tags);
+                    }
+                    
                 } else {
                     alert('er');
                 }
@@ -117,23 +127,23 @@ jQuery(document).ready(function(){
 
 
     //creating new Prj
-    $("#prjNew").click(function(){
-        if( $("#prjNewInput").is(":hidden") ) {
-            $("#prjNewInput").show();
-            $(this).addClass("prjNewActive");
-            $("#newPr").focus();
+    $com2_prjPrjNew.click(function(){
+        if( $com2_prjNewInput.is(":hidden") ) {
+            $com2_prjNewInput.show();
+            $(this).addClass("prj-prjNewActive");
+            $com2_prjNewPr.focus();
         }else{
-            $("#prjNewInput").hide();
-            $(this).removeClass("prjNewActive");
+            $com2_prjNewInput.hide();
+            $(this).removeClass("prj-prjNewActive");
         }
         return false;
     });
 
-    $("#newPrSave").click(function(){
+    $com2_prjNewPrSave.click(function(){
 		
  	
         var prjObj = {
-            "data[Prj][name]": $com2_newPrj.val()
+            "data[Prj][name]": $com2_prjNewPr.val()
         };
   							
         $.ajax({
@@ -144,7 +154,10 @@ jQuery(document).ready(function(){
             success: function(data) {
 				
                 if ( data.stat === 1 ) {        		
-                    prjList.prjId = data.prj.id;
+//                    prjList.prjId = data.prj.id;
+                    pObj = data.prj;
+//                    @todo insert just created prj object in the objects list
+//                    @todo tags update after saving
                     $com2_curPrj.text(data.prj.name);
                     flash_message('saved','flok');
         	
@@ -163,15 +176,14 @@ jQuery(document).ready(function(){
 
 
     $("#newPrCancel").click(function(){
-        $com2_newPrj.val('');
+        $com2_prjNewPr.val('');
         $com2_projectEditor.hide();
     });
 
 
-    //opening projects pad	
+    //opening projects pad	   
     
-    
-//    @todo : prework deleting of the initial prj list. when apply pagination or the prj
+//    @todo : rework deleting of the initial prj list. when apply pagination or the prj
     $com2_prjNewProject.click(function(){
         
         var usrPrjData = $com2_projectEditor.data("uPrObj");
