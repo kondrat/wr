@@ -32,8 +32,7 @@ class ItemsController extends AppController {
         $this->disableCache();
     }
 
-//--------------------------------------------------------------------
-//--------------------------------------------------------------------
+//-------------------------------------------------------------------
 
     /**
      * saving/editing of the items
@@ -68,8 +67,10 @@ class ItemsController extends AppController {
                 unset($this->data);
 
                 //if we set id we will update the item. if we set wrong id - finish.
+                
                 if (isset($tempData['id']) && $tempData['id'] !== "000") {
-
+                    //edit mode
+                    
                     $this->data['Item']['id'] = Sanitize::paranoid($tempData['id'], array('-'));
 
                     $curItem = $this->Item->find('first', array('conditions' => array('Item.id' => $this->data['Item']['id'], 'Item.user_id' => $authUserId, 'Item.active' => 1), 'contain' => false));
@@ -85,8 +86,6 @@ class ItemsController extends AppController {
                     }
 
 
-
-
                     //if we havn't found item for provided id we finish
                     if ($curItem == array()) {
                         $contents['stat'] = 0;
@@ -94,26 +93,22 @@ class ItemsController extends AppController {
                         $this->header('Content-Type: application/json');
                         return ($contents);
                     }
+                    
+                } else if(isset($tempData['id']) && $tempData['id'] === "000"){
+                   //create mode. only in this mode we check if prject already exists. if not - finish.
+                    $curPrj = $this->Item->Project->find('first',array('conditions'=>array('Project.user_id'=>$authUserId),'order'=>array('Project.current'=>'DESC') ) );
+                    if($curPrj != array() ) {
+                        $this->data['Item']['project_id'] = $curPrj['Project']['id'];
+                    } else {
+                        $contents['stat'] = 0;
+                        $contents = json_encode($contents);
+                        $this->header('Content-Type: application/json');
+                        return ($contents);                       
+                    }
                 }
 
 
                 $this->data['Item']['user_id'] = $authUserId;
-
-
-                if (isset($tempData['prj'])) {
-                    $this->data['Item']['project_id'] = $tempData['prj'];
-                } else {
-                    //if no project id specified and aciton is not "update" (no item id) we finish.
-                    if (!isset($this->data['Item']['id'])) {
-                        $contents['stat'] = 0;
-                        $contents = json_encode($contents);
-                        $this->header('Content-Type: application/json');
-                        return ($contents);
-                    } else {
-                        $this->data['Item']['project_id'] = $tempData['prj'] = $curItem['Item']['project_id'];
-                    }
-                }
-
 
 
                 if (isset($tempData['item'])) {
@@ -124,7 +119,6 @@ class ItemsController extends AppController {
                         return ($contents);
                     } else {
                         $this->data['Item']['item'] = $tempData['item'];
-//                        $contents['word'] = $this->data["Item"]["item"];
                     }
                 } else {
                     //case when no data item, but we creating new item;
@@ -150,8 +144,6 @@ class ItemsController extends AppController {
 
                 //tags data
                 if (isset($tempData['tags']) && is_array($tempData['tags'])) {
-
-
 
                     $tagsSet = array();
                     foreach ($tempData['tags'] as $tag) {

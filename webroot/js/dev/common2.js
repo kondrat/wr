@@ -4,6 +4,9 @@ jQuery(document).ready(function(){
     
     var $com2_curPrj = $("#curPrj");
     var $com2_allPrj = $("#allPrj");
+    
+    var $com2_prjPrjMainList = $("#prj-prjMainList");
+    
     var $com2_projectEditor = $("#prj-projectEditor");
     var $com2_prjCancel = $(".prjCancel");
     var $com2_prjEdit = $(".prj-prjEdit");
@@ -63,12 +66,14 @@ jQuery(document).ready(function(){
         pObj.prjId = parseInt( $(this).attr("id").replace("prj_", "") );
         
         var prjCur = $(this);
+        
+        //$com2_prjPrjTmpl.tmpl(usrPrjData).prependTo($com2_prjPrjMainList);
+        var prjCurData = prjCur.tmplItem().data;
+       
+        
         var prjName = $(this).text();
         var prjCurId = prjCur.data("prjid");
-        
-        
 
- 
         $.ajax({
             dataType:"json",
             //type: "POST",
@@ -83,14 +88,18 @@ jQuery(document).ready(function(){
                 
                     
                     
-                    prjCur.parent().css({
-                        color:'red'
-                    }).prependTo("#prj-prjMainList");
+//                    prjCur.parent().css({
+//                        color:'red'
+//                    }).prependTo("#prj-prjMainList");
+                    prjCur.remove();
+                    $com2_prjPrjTmpl.tmpl(prjCurData).prependTo($com2_prjPrjMainList);
                 
                     $com2_allPrj.removeClass("actPrj");
                     $com2_curPrj.addClass("actPrj");
                 
-                    $("#itp-paginatorWrp").empty(); 
+                     
+                    //@todo make common function
+                    $("#itp-paginatorWrp").empty();
                     $("#itp-itemPages").universalPaginate({
                         itemTemplate: $("#itp-itemTmpl"),
                         nbItemsByPage: 12,
@@ -139,6 +148,8 @@ jQuery(document).ready(function(){
         return false;
     });
 
+
+
     $com2_prjNewPrSave.click(function(){
 		
  	
@@ -154,10 +165,33 @@ jQuery(document).ready(function(){
             success: function(data) {
 				
                 if ( data.stat === 1 ) {        		
-//                    prjList.prjId = data.prj.id;
+                    // prjList.prjId = data.prj.id;
                     pObj = data.prj;
-//                    @todo insert just created prj object in the objects list
-//                    @todo tags update after saving
+                    var justSavedPrjData = {"Project":data.prj};
+                    $com2_prjPrjTmpl.tmpl(justSavedPrjData).prependTo($com2_prjPrjMainList);
+                    
+                    //@todo insert just created prj object in the objects list
+
+                    $("#itp-paginatorWrp").empty();
+                    $("#itp-itemPages").universalPaginate({
+                        itemTemplate: $("#itp-itemTmpl"),
+                        nbItemsByPage: 12,
+
+                        nbItemsByPageOptions: [6, 12, 18, 24, 30, 60, 100],
+                        dataUrl: path+"\/items\/todo\/prj:"+data.prj.id,
+                        controlsPosition:"bottom",
+                        universalPaginateClass: "itp-itemsPaginator",
+                        headerElement: $("#itp-paginatorWrp"),
+                        pageText:null,
+                        itemsByPageText:null,
+                        noDataText:"No data to display"
+                    //  onDataUpdate: function(data) {}
+                    });
+                    
+                    //@todo replace $("#tgc-tags") with $com1_tgcTags after com1 com2 merging
+                    $("#tgc-tags").data("tgcObj", {});
+                    
+                    
                     $com2_curPrj.text(data.prj.name);
                     flash_message('saved','flok');
         	
@@ -189,8 +223,8 @@ jQuery(document).ready(function(){
         var usrPrjData = $com2_projectEditor.data("uPrObj");
         
         if( typeof(usrPrjData) !== "undefined" ){
-            $com2_projectEditor.find("#prj-prjMainList").remove();
-            $com2_prjPrjTmpl.tmpl(usrPrjData).prependTo($com2_projectEditor);
+            $com2_projectEditor.find("#prj-prjMainList").empty();
+            $com2_prjPrjTmpl.tmpl(usrPrjData).prependTo($com2_prjPrjMainList);
             $com2_projectEditor.removeData("uPrObj");
         }      
         

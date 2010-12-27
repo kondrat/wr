@@ -6,7 +6,7 @@
         <span id="curPrj" class="actPrj" style="">
             <?php if (isset($userPrj)): ?>
                 <?php echo $html->link($userPrj[0]['Project']['name'], array('controller' => 'items', 'action' => 'todo', 'prj:' . $userPrj[0]['Project']['id']), array('id' => 'prj-prjItems')); ?>
-
+<!-- @todo to remove this -->
                 <?php
                 $curPrjObj = $js->object(
                                 array(

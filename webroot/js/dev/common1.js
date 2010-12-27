@@ -170,14 +170,14 @@ jQuery(document).ready(function(){
             itemTags.push(thisTag.text());
         });
 
-
-
-
+        //@todo replace with $com2_prjPrjMainList after com1 com1 merging
+        var curPrjId = $("#prj-prjMainList").find("a:first").data("prjid");
+        alert(curPrjId);
         var itemObj = {
             "data[id]": thisItemId,
             "data[item]": itemVal,
             
-            "data[prj]" : pObj.prjId,
+            "data[prj]" : curPrjId,
             
             "data[target]" : epoch,
             "data[task]": itemTask,
@@ -641,6 +641,7 @@ jQuery(document).ready(function(){
 
 
         //getting tags from the dom if it's first time, or just toggling
+        
         if(typeof($com1_tgcTags.data("tgcObj")) !== "undefined"){
             $com1_tgcTags.empty();
             $com1_tgcTagsCloudAddTmpl.tmpl( $com1_tgcTags.data("tgcObj") ).appendTo($com1_tgcTags);           
