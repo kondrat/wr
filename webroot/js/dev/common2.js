@@ -98,7 +98,7 @@ jQuery(document).ready(function(){
                     $com2_curPrj.addClass("actPrj");
                 
                      
-                    //@todo make common function
+                    //@todo create common universalPginate after merging com1 and com2.
                     $("#itp-paginatorWrp").empty();
                     $("#itp-itemPages").universalPaginate({
                         itemTemplate: $("#itp-itemTmpl"),
@@ -111,7 +111,7 @@ jQuery(document).ready(function(){
                         headerElement: $("#itp-paginatorWrp"),
                         pageText:null,
                         itemsByPageText:null,
-                        noDataText:"No data to display"
+                        noDataText:"<div class='itp-noDataToDispl'>No data to display</div>"
                     //        onDataUpdate: function(data) {}
                     });
                     
@@ -151,8 +151,7 @@ jQuery(document).ready(function(){
 
 
     $com2_prjNewPrSave.click(function(){
-		
- 	
+		 	
         var prjObj = {
             "data[Prj][name]": $com2_prjNewPr.val()
         };
@@ -165,13 +164,11 @@ jQuery(document).ready(function(){
             success: function(data) {
 				
                 if ( data.stat === 1 ) {        		
-                    // prjList.prjId = data.prj.id;
-                    pObj = data.prj;
+
                     var justSavedPrjData = {"Project":data.prj};
                     $com2_prjPrjTmpl.tmpl(justSavedPrjData).prependTo($com2_prjPrjMainList);
                     
-                    //@todo insert just created prj object in the objects list
-
+                    //@todo create common universalPginate after merging com1 and com2.
                     $("#itp-paginatorWrp").empty();
                     $("#itp-itemPages").universalPaginate({
                         itemTemplate: $("#itp-itemTmpl"),
@@ -184,12 +181,13 @@ jQuery(document).ready(function(){
                         headerElement: $("#itp-paginatorWrp"),
                         pageText:null,
                         itemsByPageText:null,
-                        noDataText:"No data to display"
+                        noDataText:"<div class='itp-noDataToDispl'>No data to display</div>"
                     //  onDataUpdate: function(data) {}
                     });
                     
                     //@todo replace $("#tgc-tags") with $com1_tgcTags after com1 com2 merging
-                    $("#tgc-tags").data("tgcObj", {});
+                    $("#tgc-tags").empty();
+                    $("#tgc-tags").removeData("tgcObj");
                     
                     
                     $com2_curPrj.text(data.prj.name);

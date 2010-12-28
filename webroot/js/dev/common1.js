@@ -123,8 +123,9 @@ jQuery(document).ready(function(){
     $com1_iteNewItemBtn.click(f_com1_iteNewItemBtnClick);
 
 
-    //    save item (or edit) function
 
+
+    //    save item (or edit) function
     var f_com1_saveItem = function(){
       
         var $thisEditorSave = $(this);
@@ -204,8 +205,7 @@ jQuery(document).ready(function(){
                         if(data.tags){
                             $com1_tgcTags.data("tgcObj", data.tags);
                         }
-                    } else if( data.stat === 2){
-                    
+                    } else if( data.stat === 2){                 
                         selectedItem.tmpl = $("#itp-itemTmpl").template();                   
                         selectedItem.data = data.res[0];                   
                         selectedItem.update();                   
@@ -214,8 +214,7 @@ jQuery(document).ready(function(){
                         //refreshing tag Cloud data due to possible change of tags.
                         if(data.tags){
                             $com1_tgcTags.data("tgcObj", data.tags);
-                        }
-                        
+                        }                    
                     } else {
                         flash_message('not saved','fler');
                     }
@@ -641,10 +640,11 @@ jQuery(document).ready(function(){
 
 
         //getting tags from the dom if it's first time, or just toggling
-        
+        console.log($com1_tgcTags.data("tgcObj"));
         if(typeof($com1_tgcTags.data("tgcObj")) !== "undefined"){
             $com1_tgcTags.empty();
-            $com1_tgcTagsCloudAddTmpl.tmpl( $com1_tgcTags.data("tgcObj") ).appendTo($com1_tgcTags);           
+            var $mmV = $com1_tgcTagsCloudAddTmpl.tmpl( $com1_tgcTags.data("tgcObj") );//.appendTo($com1_tgcTags);
+            $mmV.appendTo($com1_tgcTags);
         }
 		
 		
@@ -769,7 +769,8 @@ jQuery(document).ready(function(){
         universalPaginateClass: "itp-itemsPaginator",
         headerElement: $("#itp-paginatorWrp"),
         pageText:null,
-        itemsByPageText:null
+        itemsByPageText:null,
+        noDataText:"<div class='itp-noDataToDispl'>No data to display</div>"
     //        onDataUpdate: function(data) {}
     });
 

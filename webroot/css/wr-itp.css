@@ -99,3 +99,6 @@
     margin: 0 auto;
     background: url(../img/icons/itp_load_deb887.gif) transparent no-repeat center;
 }
+.itp-noDataToDispl{
+    color:blue;
+}

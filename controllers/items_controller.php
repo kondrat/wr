@@ -65,6 +65,17 @@ class ItemsController extends AppController {
 
                 $tempData = $this->data;
                 unset($this->data);
+                
+                //getting info about current user's project
+                $curPrj = $this->Item->Project->find('first', array('conditions' => array('Project.user_id' => $authUserId), 'order' => array('Project.current' => 'DESC')));
+                if ($curPrj !== array()) {
+                    $this->data['Item']['project_id'] = $curPrj['Project']['id'];
+                } else {
+                    $contents['stat'] = 0;
+                    $contents = json_encode($contents);
+                    $this->header('Content-Type: application/json');
+                    return ($contents);
+                }
 
                 //if we set id we will update the item. if we set wrong id - finish.
                 
@@ -94,18 +105,7 @@ class ItemsController extends AppController {
                         return ($contents);
                     }
                     
-                } else if(isset($tempData['id']) && $tempData['id'] === "000"){
-                   //create mode. only in this mode we check if prject already exists. if not - finish.
-                    $curPrj = $this->Item->Project->find('first',array('conditions'=>array('Project.user_id'=>$authUserId),'order'=>array('Project.current'=>'DESC') ) );
-                    if($curPrj != array() ) {
-                        $this->data['Item']['project_id'] = $curPrj['Project']['id'];
-                    } else {
-                        $contents['stat'] = 0;
-                        $contents = json_encode($contents);
-                        $this->header('Content-Type: application/json');
-                        return ($contents);                       
-                    }
-                }
+                } 
 
 
                 $this->data['Item']['user_id'] = $authUserId;
@@ -148,7 +148,7 @@ class ItemsController extends AppController {
                     $tagsSet = array();
                     foreach ($tempData['tags'] as $tag) {
                         if (($tag = Sanitize::paranoid($tag, array('-', '_')) ) != '') {
-                            $tagsSet[] = 'prj-' . $tempData['prj'] . ':' . $tag;
+                            $tagsSet[] = 'prj-' . $curPrj['Project']['id'] . ':' . $tag;
                         }
                     }
                     if ($tagsSet !== array()) {
@@ -170,7 +170,7 @@ class ItemsController extends AppController {
             }
 
             $this->data = Sanitize::clean($this->data);
-
+            
             if ($this->Item->save($this->data)) {
 
                 $savedId = $this->Item->id;
@@ -184,7 +184,7 @@ class ItemsController extends AppController {
 
                 $contents['res'] = $this->_iterateItem($savedData);
                 if (isset($this->data['Item']['tags'])) {
-                    $tagCloud = $this->Item->Tagged->find('cloud', array('conditions' => array('Tag.identifier' => 'prj-' . $this->data['Item']['project_id']), 'limit' => 15, 'contain' => false));
+                    $tagCloud = $this->Item->Tagged->find('cloud', array('conditions' => array('Tag.identifier' => 'prj-'.$this->data['Item']['project_id']), 'limit' => 15, 'contain' => false));
                     $contents['tags'] = $this->TagCloudIteration->iterate($tagCloud);
                 }
             } else {
@@ -243,11 +243,9 @@ class ItemsController extends AppController {
 
                     if ($curItem != array()) {
 
-
                         if ($this->Item->delete($idToDel)) {
                             $contents['stat'] = 1;
-
-                            $tagCloud = $this->Item->Tagged->find('cloud', array('conditions' => array('Tag.identifier' => 'prj-' . $this->data['Item']['project_id']), 'limit' => 15, 'contain' => false));
+                            $tagCloud = $this->Item->Tagged->find('cloud', array('conditions' => array('Tag.identifier' => 'prj-'.$curItem['Item']['project_id']), 'limit' => 15, 'contain' => false));
                             $contents['tags'] = $this->TagCloudIteration->iterate($tagCloud);
                         } else {
                             $contents['stat'] = 0;
@@ -345,7 +343,7 @@ class ItemsController extends AppController {
         $this->paginate['contain'] = array(
             'Tag' => array('fields' => array('Tag.name'),
                 'order' => array('Tagged.created' => 'ASC'),
-                'conditions' => array('Tag.identifier' => 'prj-' . $curPrjId)
+                'conditions' => array('Tag.identifier' => 'prj-'.$curPrjId)
             )
         );
 
@@ -373,14 +371,11 @@ class ItemsController extends AppController {
             return ($contents);
             
         } else if ($this->RequestHandler->isAjax()) {
-
-              
-            
-            Configure::write('debug', 0);
-            $this->autoLayout = false;
-            $this->autoRender = FALSE;
-            $todos = $this->paginate('Item');
-
+           
+//            Configure::write('debug', 0);
+//            $this->autoLayout = false;
+//            $this->autoRender = FALSE;
+//            $todos = $this->paginate('Item');
 
             $contents["stat"] = 0;
             $contents = json_encode($contents);
@@ -493,6 +488,8 @@ class ItemsController extends AppController {
         return $res;
     }
 
+
+ 
 
 //--------------------------------------------------------------------
     function diary() {
