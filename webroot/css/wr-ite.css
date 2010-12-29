@@ -150,11 +150,12 @@ a.ite-newItemBtn:focus {
     padding: 9px 3px 0 0;
 }
 .ite-tagsAdded{
+    background: url("../img/icons/tag_simbol.png") no-repeat scroll 0 0 transparent;
     float:left;
-    padding-top:10px;
+    margin-top:10px;
 }
 .ite-tagAdded{
-    background:url("../img/icons/remove_tag.png") no-repeat scroll 100% -40px #CCCCCC;
+    background:url("../img/icons/remove_tag.png") no-repeat scroll 100% -40px transparent;
     color:blue;
     margin-left:0.5em;
     padding:1px 16px 1px 3px;

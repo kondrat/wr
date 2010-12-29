@@ -205,6 +205,9 @@ jQuery(document).ready(function(){
                         if(data.tags){
                             $com1_tgcTags.data("tgcObj", data.tags);
                         }
+                        
+                        //@todo tem solution to remove "no data to display" message.
+                        $(".itp-noDataToDispl").remove();
                     } else if( data.stat === 2){                 
                         selectedItem.tmpl = $("#itp-itemTmpl").template();                   
                         selectedItem.data = data.res[0];                   
