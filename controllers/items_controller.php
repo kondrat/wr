@@ -339,13 +339,18 @@ class ItemsController extends AppController {
         $this->paginate['conditions'] = $pagItemCond;
         $this->paginate['fields'] = array('Item.id', 'Item.item', 'Item.status', 'Item.task', 'Item.target', 'Item.created');
         $this->paginate['order'] = array('Item.created' => 'DESC');
-        $this->paginate['limit'] = 12;
-        $this->paginate['contain'] = array(
-            'Tag' => array('fields' => array('Tag.name'),
-                'order' => array('Tagged.created' => 'ASC'),
-                'conditions' => array('Tag.identifier' => 'prj-'.$curPrjId)
-            )
-        );
+        $this->paginate['contain'] = array('Tag'=>array(
+            'fields' => array('Tag.name'),
+            'order' => array('Tagged.created' => 'ASC'),
+            'conditions' => array('Tag.identifier' => 'prj-'.$curPrjId)
+        ));
+        
+//        $this->paginate['contain'] = array(
+//            'Tag' => array('fields' => array('Tag.name'),
+//                'order' => array('Tagged.created' => 'ASC'),
+//                'conditions' => array('Tag.identifier' => 'prj-'.$curPrjId)
+//            )
+//        );
 
 
 //        we are asked by universal pagiane query plugin

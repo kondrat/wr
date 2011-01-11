@@ -643,11 +643,10 @@ jQuery(document).ready(function(){
 
 
         //getting tags from the dom if it's first time, or just toggling
-        console.log($com1_tgcTags.data("tgcObj"));
         if(typeof($com1_tgcTags.data("tgcObj")) !== "undefined"){
             $com1_tgcTags.empty();
-            var $mmV = $com1_tgcTagsCloudAddTmpl.tmpl( $com1_tgcTags.data("tgcObj") );//.appendTo($com1_tgcTags);
-            $mmV.appendTo($com1_tgcTags);
+            $com1_tgcTagsCloudAddTmpl.tmpl( $com1_tgcTags.data("tgcObj") ).appendTo($com1_tgcTags);
+            //$mmV.appendTo($com1_tgcTags);
         }
 		
 		
