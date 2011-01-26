@@ -177,15 +177,24 @@ class ItemsController extends AppController {
                 $savedData[0] = $this->Item->find('first', array(
                             'conditions' => array('Item.id' => $savedId),
                             'fields' => array('Item.id', 'Item.item', 'Item.status', 'Item.task', 'Item.target', 'Item.created'),
-                            'contain' => 'Tag'
+                            'contain' => array('Tag'=>array('conditions'=>array('Tag.identifier' => 'prj-'.$this->data['Item']['project_id'])))
                                 )
                 );
 
 
                 $contents['res'] = $this->_iterateItem($savedData);
                 if (isset($this->data['Item']['tags'])) {
-                    $tagCloud = $this->Item->Tagged->find('cloud', array('conditions' => array('Tag.identifier' => 'prj-'.$this->data['Item']['project_id']), 'limit' => 15, 'contain' => false));
+                    $tagCloud = $this->Item->Tagged->find(
+                            'cloud', 
+                            array(
+                                'conditions' => array('Tag.identifier' => 'prj-'.$this->data['Item']['project_id']),
+                                'limit' => 15,
+                                'contain' => false
+                                )
+                            );
+                    
                     $contents['tags'] = $this->TagCloudIteration->iterate($tagCloud);
+                    
                 }
             } else {
                 unset($contents);
@@ -392,11 +401,47 @@ class ItemsController extends AppController {
 
 
 
-        //$this->set('todos', $this->paginate('Item'));
+        $this->set('toM', $this->paginate('Item'));
         $this->set('menuType', 'todo');
         $this->set('userPrj', $userPrj);
-        $tagCloud = $this->TagCloudIteration->iterate($this->Item->Tagged->find('cloud', array('conditions' => array('Tag.identifier' => 'prj-' . $curPrjId), 'limit' => 15, 'contain' => false)));
+
+        $tagCloudOld = //$this->TagCloudIteration->iterate(
+                $this->Item->Tagged->find(
+                        'cloud', array(
+                    'conditions' => array('Tag.identifier' => 'prj-' . $curPrjId),
+                    'fields' => 'Tag.*, Tagged.tag_id',
+                    'limit' => 15,
+                    'contain' => false)
+                        //        )
+        );
+        
+        $tagCloudOld = Set::extract($tagCloudOld,'{n}/Tag/id');
+        
+        $countTest = $this->Item->Tagged->find(
+                'all',
+                array(
+                    'conditions'=>array('Tagged.tag_id' => $tagCloudOld),
+                    'fields'=>array('Tag.id, Tag.name, COUNT(*) AS occurrence'),
+                    'group' => 'Tag.id'
+                )
+            );
+        
+        foreach ($tagCloudOld as $singleTag) {
+            
+        }
+        
+        $tagCloud = $this->Item->Tagged->find(
+                'cloud',
+                array(
+                    'conditions' => array('Tag.identifier' => 'prj-' . $curPrjId),
+                    'fields'=>'Tag.*, Tagged.tag_id, COUNT(*) AS occurrence',
+                    'limit' => 15,
+                    'contain' => false
+                    )
+                );
         $this->set('tags', $tagCloud);
+        $this->set('tagsOld', $tagCloudOld);
+        $this->set('countTest', $countTest);
     }
 
     /**

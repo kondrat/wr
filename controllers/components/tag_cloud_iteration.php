@@ -1,5 +1,5 @@
 <?php
-
+// @TODO remove this function. Ajust naitive tag componect instead
 /**
  * Iterates throught tag cloud taken from CakeDC tags plugin to remove unnessesary 
  * data

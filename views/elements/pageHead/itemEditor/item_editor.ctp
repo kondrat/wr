@@ -62,7 +62,7 @@
 </script>
 
 <script id="ite-tagsAddedTmpl" type="text/x-jquery-tmpl">
-    <span class="ite-tagAdded" data-itemtagid="${taggedid}">${name}</span>
+    <span class="ite-tagAdded" data-ittaggedid="${taggedid}">${name}</span>
 </script>
 
 <div id="ite-itemEditorWrp" class="hide"></div>

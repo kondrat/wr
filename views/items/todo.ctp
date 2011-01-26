@@ -23,7 +23,7 @@
         <span id="dp-${Item.id}" class="itp-targetItem">${Item.target}</span>
 
         {{each Tag}}
-          <span data-itemtagid="${Tagged.id}" class="itp-itemTag">${name}</span>
+          <span data-ittaggedid="${Tagged.id}" class="itp-itemTag">${name}</span>
 	{{/each}}
 
         <span class="itemHead">${Item.item}</span>

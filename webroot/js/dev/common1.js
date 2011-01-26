@@ -599,10 +599,6 @@ jQuery(document).ready(function(){
                             alert('Problem with the server. Try again later.');
                         }
                     });
-
-
-
-
 																		
                 }
  
@@ -621,13 +617,13 @@ jQuery(document).ready(function(){
 	
     //control of the tags cloud: toggling and iterating throught the tags
     var f_com1_tagsCloudCtrl = function(){
+        
         var $thisAddIcon = $(this);
 		
         //memorizing the object of the current items tags so we could append more tags to it.
        
         var $thisCurEditTagList = $thisAddIcon.next();
-        $com1_tgcTagCloudWrp.data("curEditTagLis",$thisCurEditTagList);
-        
+        $com1_tgcTagCloudWrp.data("curEditTagLis",$thisCurEditTagList);       
 		
         //toggel tag cloud window
         $com1_tgcTagCloudWrp.toggle();
@@ -644,6 +640,7 @@ jQuery(document).ready(function(){
 
         //getting tags from the dom if it's first time, or just toggling
         if(typeof($com1_tgcTags.data("tgcObj")) !== "undefined"){
+            //console.log($com1_tgcTags.data("tgcObj"));
             $com1_tgcTags.empty();
             $com1_tgcTagsCloudAddTmpl.tmpl( $com1_tgcTags.data("tgcObj") ).appendTo($com1_tgcTags);
             //$mmV.appendTo($com1_tgcTags);
@@ -663,8 +660,7 @@ jQuery(document).ready(function(){
         }
 		
         var $tagsFromCloud = tagCloudObj.find(".tgc-tag").removeClass("tgc-tagChecked").addClass("tgc-tagNameCl");
-        //        @todo understend why output 2 times
-        console.log(this.length);	
+	
         return this.each(function(){
             var $tag = $(this);
             var thisTagName = $tag.text();
@@ -678,6 +674,7 @@ jQuery(document).ready(function(){
 
     };
 
+    //tag cloud manipulation
     $com1_iteItemEditorWrp.delegate( ".ite-tagIcon","click", f_com1_tagsCloudCtrl);	
     $com1_itpItemPages.delegate(".ite-tagIcon","click",f_com1_tagsCloudCtrl);
 
