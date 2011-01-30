@@ -149,10 +149,17 @@ a.ite-newItemBtn:focus {
     float:left;
     padding: 9px 3px 0 0;
 }
+.ite-tagsAddedWrp .ite-tagsAdded{
+    margin-top: 10px;
+}
 .ite-tagsAdded{
     background: url("../img/icons/tag_simbol.png") no-repeat scroll 0 0 transparent;
     float:left;
-    margin-top:10px;
+    
+    /*margin-top:10px;*/
+    
+    border-right: 1px solid #C4C252;
+    padding: 0 0 2px 10px;
 }
 .ite-tagAdded{
     background:url("../img/icons/remove_tag.png") no-repeat scroll 100% -40px transparent;
