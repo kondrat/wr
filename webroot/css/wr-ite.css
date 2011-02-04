@@ -139,6 +139,11 @@ a.ite-newItemBtn:focus {
 .ite-datePickerWrp img{
     margin-left: 5px;
 }
+.ite-tagsAddedSet{
+    margin-top: 10px;
+    display: block;
+    float: left;
+}
 .ite-tagsAddedWrp{
     /*background:url("../img/icons/tag_deb887_16x16.png") no-repeat scroll 0 10px transparent;*/
     float:left;
@@ -149,17 +154,19 @@ a.ite-newItemBtn:focus {
     float:left;
     padding: 9px 3px 0 0;
 }
-.ite-tagsAddedWrp .ite-tagsAdded{
+.ite-tagAddedWrp .ite-tagAdded{
     margin-top: 10px;
+    margin-right: 5px;
 }
-.ite-tagsAdded{
+.ite-tagAddedWrp{ 
     background: url("../img/icons/tag_simbol.png") no-repeat scroll 0 0 transparent;
     float:left;
     
     /*margin-top:10px;*/
     
     border-right: 1px solid #C4C252;
-    padding: 0 0 2px 10px;
+    padding: 0 0 1px 10px;
+    margin-right: 5px;
 }
 .ite-tagAdded{
     background:url("../img/icons/remove_tag.png") no-repeat scroll 100% -40px transparent;

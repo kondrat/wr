@@ -140,8 +140,8 @@ jQuery(document).ready(function(){
         
         
         var dateFromInput = $thisEditorSaveParent.find(".datepicker").val();
-        var $thisTagsAdded = $thisEditorSaveParent.find(".ite-tagsAdded");
-    
+        var $thisTagsAdded = $thisEditorSaveParent.find(".ite-tagsAddedSet");
+        
         var epoch = '';
         try{
             var parsedDate = $.datepicker.parseDate('dd.mm.yy', dateFromInput );
@@ -166,14 +166,14 @@ jQuery(document).ready(function(){
         //tags creation
         var itemTags = new Array();
 
-        $thisTagsAdded.children().each(function(){
+        $thisTagsAdded.find(".ite-tagAdded").each(function(){
             var thisTag = $(this);
             itemTags.push(thisTag.text());
         });
 
         //@todo replace with $com2_prjPrjMainList after com1 com1 merging
         var curPrjId = $("#prj-prjMainList").find("a:first").data("prjid");
-        alert(curPrjId);
+        //alert(curPrjId);
         var itemObj = {
             "data[id]": thisItemId,
             "data[item]": itemVal,
@@ -694,26 +694,24 @@ jQuery(document).ready(function(){
 	
 	
 	
-    //    remove tag from item tag list
+    //remove tag from item tag list
     var f_com1_tagToRemoveFromItem = function(){
  
         var $thisTag = $(this);
         var $thisTagParent = $thisTag.parent();
-        var thisTagItemId = $thisTag.data("itemt");
+        // @todo: remove this: var thisTagItemId = $thisTag.data("itemt");
     
         $thisTag.fadeOut(500, function(){
             $thisTag.remove();
     	
             $thisTagParent.find(".ite-tagAdded").tagCloudIteration($com1_tgcTags);
         });
-	
-        if(thisTagItemId){
-    //@todo ajax tag deletion to define here;
-    }       
+	//@todo ajax tag deletion to define here;
+        //if(thisTagItemId){}       
     }
     
-    $com1_itpItemPages.delegate(".ite-tagAdded","click", f_com1_tagToRemoveFromItem );
-    $com1_iteItemEditorWrp.delegate(".ite-tagAdded","click", f_com1_tagToRemoveFromItem );
+    $com1_itpItemPages.delegate(".ite-tagAddedWrp","click", f_com1_tagToRemoveFromItem );
+    $com1_iteItemEditorWrp.delegate(".ite-tagAddedWrp","click", f_com1_tagToRemoveFromItem );
 
 	
     //appendig to item tags list new tag

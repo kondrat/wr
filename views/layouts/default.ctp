@@ -33,7 +33,7 @@
         );
         echo $html->script(array(
             'dev/vars',
-            'jquery/jquery-1.4.4.min',
+            'jquery/jquery-1.5.min',
             'tipsy/javascripts/jquery.tipsy',
             'dev/jquery.tmpl.min',
             'dev/jquery.universalpaginate',

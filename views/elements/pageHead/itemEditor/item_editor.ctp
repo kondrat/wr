@@ -35,7 +35,7 @@
             </div>
             <div id="ite-tagsAddedWrp" class="ite-tagsAddedWrp">              
                 <span class="ite-tagIcon"><?php echo $this->Html->image('icons/tag_deb887_16x16.png', array('title' => __('Click to add tags to the new item', true))); ?></span>
-                <span class="ite-tagsAdded">
+                <span class="ite-tagsAddedSet">
                     {{tmpl(Tag) "#ite-tagsAddedTmpl"}}
                 </span>             
             </div>
@@ -62,7 +62,9 @@
 </script>
 
 <script id="ite-tagsAddedTmpl" type="text/x-jquery-tmpl">
-    <span class="ite-tagAdded" data-ittaggedid="${taggedid}">${name}</span>
+    <span class="ite-tagAddedWrp">
+        <span class="ite-tagAdded" data-ittaggedid="${taggedid}">${name}</span>
+    </span>
 </script>
 
 <div id="ite-itemEditorWrp" class="hide"></div>
