@@ -1,15 +1,19 @@
 <div class="prj-newProject">
     <div id="prj-projectEditor" class="hide"> 
-
-        <ul id="prj-prjMainList">logo</ul>
-        
-        <?php echo $html->link('<span class="upDownArr">' . __('New', true) . '</span>', array('#'), array('id' => 'prj-prjNew', 'escape' => false, 'class' => 'ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only')); ?>
-       
+        <div style="float: left;">
+            <div style="float: left;"><?php echo __('Edit',true);?></div>
+            <div id="prj-prjNew" style="float:left;"><?php echo __('New',true);?></div>
+            <div id="prj-prjClose" style="float:right;">x</div>
+        </div>
         <div id="prj-prjNewInput" class="hide">
             <?php echo $form->input('prj-newPr', array('label' => false, 'div' => false)); ?>
             <?php echo $form->button('save', array('id' => 'prj-newPrSave', 'class' => 'ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only')); ?>
             <?php echo $form->button('cancel', array('id' => 'newPrCancel', 'class' => 'ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only')); ?> 
         </div>
+        <div style="float:left;">
+            <ul id="prj-prjMainList">logo</ul>
+        </div>
+        <?php //echo $html->link('<span class="upDownArr">' . __('New', true) . '</span>', array('#'), array('id' => 'prj-prjNew', 'escape' => false, 'class' => 'ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only')); ?>
 
     </div>   
 </div>

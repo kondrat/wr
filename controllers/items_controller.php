@@ -317,7 +317,7 @@ class ItemsController extends AppController {
 
             $curPrjId = $this->data['Project']['id'] = Sanitize::paranoid($this->params['named']['prj'], array('-'));
             //conditions for items pagination.
-            $pagItemCond = array('Item.user_id' => $authUserId, 'Item.project_id' => $curPrjId, 'Item.active' => 1);
+            $pagItemCond = array('Item.user_id' => $authUserId, 'Item.project_id' => $curPrjId, 'Item.status' =>0, 'Item.active' => 1);
             
 
         } else if (isset($this->params['named']['prj']) && $this->params['named']['prj'] === 'all') {
@@ -341,7 +341,7 @@ class ItemsController extends AppController {
                 $userPrj[0] = $this->Item->Project->read();
             }
             $curPrjId = $userPrj[0]['Project']['id'];
-            $pagItemCond = array('Item.user_id' => $authUserId, 'Item.project_id' => $curPrjId, 'Item.active' => 1);
+            $pagItemCond = array('Item.user_id' => $authUserId, 'Item.project_id' => $curPrjId, 'Item.status' =>0, 'Item.active' => 1);
         }
 
 

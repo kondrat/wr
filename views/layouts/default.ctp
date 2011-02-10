@@ -51,7 +51,7 @@
             'dev/func',
             'dev/common1',
             'dev/common2',
-            //'dev/common3',
+                //'dev/common3',
         ));
 
         echo $scripts_for_layout;
@@ -67,13 +67,14 @@
                 <div id="headWrap" class="span-18">
                     <div class="span-5 prepend-1">
                         <div style="float:left;margin:5px 0 5px 1em;">
-<?php
-echo $html->link($html->image(
-                'pic/wr-logo-24-dev.png'
-        ), array('plugin'=>false, 'controller' => 'items', 'action' => 'index'), array('escape' => false));
-?> 
+                            <?php
+                            echo $html->link($html->image(
+                                            'pic/wr-logo-24-dev.png'
+                                    ), array('plugin' => false, 'controller' => 'items', 'action' => 'index'), array('escape' => false));
+                            ?> 
                         </div>
                     </div>
+                    <?php echo $this->element('pageHead/threeWaysMenu/three_ways_menu'); ?>
                     <div class="" style="position:relative; float:right;">						
                         <?php
                         if (!isset($menuType) || !in_array($menuType, array('reg', 'login', 'index', 'todo'), true)) {
@@ -81,12 +82,6 @@ echo $html->link($html->image(
                         }
                         echo $this->element('pageHead/topMenu/top_menu', array('menuType' => $menuType));
                         ?>
-
-                        <div style="position: absolute;top:8px;right:300px;">
-                            <?php __('today'); ?>:&nbsp;<?php echo Date('d-m-Y'); ?>&nbsp;|&nbsp;<?php __('Week'); ?>:&nbsp;<?php echo Date('W'); ?>
-                        </div>							
-
-
                     </div>
 
                 </div>

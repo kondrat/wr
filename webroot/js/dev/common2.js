@@ -3,7 +3,6 @@ jQuery(document).ready(function(){
 
     
     var $com2_curPrj = $("#curPrj");
-    var $com2_allPrj = $("#allPrj");
     
     var $com2_prjPrjMainList = $("#prj-prjMainList");
     
@@ -20,43 +19,6 @@ jQuery(document).ready(function(){
     var $com2_prjNewPr = $("#prj-newPr");
     var $com2_prjNewPrSave = $("#prj-newPrSave");
     
-
-
-
-
-
-    //switching projects all - current
-
-    $com2_allPrj.bind("click", function (event) {
-		
-        $com2_curPrj.removeClass("actPrj");
-        $(this).addClass("actPrj");
-		
-        $.ajax({
-            dataType:"json",
-            success:function (data, textStatus) {
-			
-                $("#itp-itemPages").html(data);
-            },
-            url: path+"\/items\/todo\/prj:all\/page:1"
-        });
-        return false;
-    });
-
-	
-    $com2_curPrj.bind("click", function (event) {
-        $com2_allPrj.removeClass("actPrj");
-        $(this).addClass("actPrj");
-        $.ajax({
-            dataType:"json",
-            success:function (data, textStatus) {
-
-                $("#itp-itemPages").html(data);
-            },
-            url: path+"\/items\/todo\/prj:"+pObj.prjId+"\/page:1"
-        });
-        return false;
-    });
 
 
 
@@ -94,7 +56,7 @@ jQuery(document).ready(function(){
                     prjCur.remove();
                     $com2_prjPrjTmpl.tmpl(prjCurData).prependTo($com2_prjPrjMainList);
                 
-                    $com2_allPrj.removeClass("actPrj");
+                    
                     $com2_curPrj.addClass("actPrj");
                 
                      
@@ -190,7 +152,7 @@ jQuery(document).ready(function(){
                     $("#tgc-tags").removeData("tgcObj");
                     
                     
-                    $com2_curPrj.text(data.prj.name);
+                    prj-prjItems.text(data.prj.name);
                     flash_message('saved','flok');
         	
                 } else {

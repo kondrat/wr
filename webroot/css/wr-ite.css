@@ -19,6 +19,7 @@
     float:left;
     width:710px;
     margin-bottom:10px;
+    margin-top: 10px;
 }
 
 .ite-newItemBtn {
@@ -34,9 +35,10 @@
     background-color: #97CD39;
     color: gray;
     text-shadow:-1px 1px 0 #eee;
-    background:transparent url(../img/pic/reg.png) repeat-x scroll 0 0;
+    background: transparent url(../img/pic/reg.png) repeat-x scroll 0 0;
     width: 85px;
     outline:medium none;
+    float: left;
 
     -webkit-border-radius: 7px;
     -moz-border-radius: 7px;

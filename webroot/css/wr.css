@@ -129,10 +129,10 @@ p.quickLoginForPas {
 /*main part*/
 
 
-#allPrj, #curPrj{
+#curPrj{
     padding: 3px 7px;
 }
-#allPrj.actPrj, #curPrj.actPrj{
+#curPrj.actPrj{
     background-color: AntiqueWhite;
 }
 span.actPrj a{
